@@ -12,10 +12,11 @@ gem 'haml-rails'
 gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
+
 gem 'therubyracer'
+gem 'uglifier'
 
 # Gems used only for assets and not required
 # in production environments by default.
