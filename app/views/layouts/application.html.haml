@@ -1,0 +1,67 @@
+!!!html
+%html{lang: "en"}
+  %head
+    %meta(charset="utf-8")
+    %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
+    %meta(name="viewport" content="width=device-width, initial=scale=1.0")
+    %title= content_for?(:title) ? yield(:title) : "Rareshare"
+    = csrf_meta_tags
+    = stylesheet_link_tag "application", media: "all"
+    %link(href='http://fonts.googleapis.com/css?family=Share+Tech' rel='stylesheet' type='text/css')
+
+
+    / For third-generation iPad with high-resolution Retina display:
+    = favicon_link_tag 'images/apple-touch-icon-144x144-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '144x144'
+
+    / For iPhone with high-resolution Retina display:
+    = favicon_link_tag 'images/apple-touch-icon-114x114-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '114x114'
+
+    / For first- and second-generation iPad:
+    = favicon_link_tag 'images/apple-touch-icon-72x72-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '72x72'
+
+    / For non-Retina iPhone, iPod Touch, and Android 2.1+ devices (57x57):
+    = favicon_link_tag 'images/apple-touch-icon-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png'
+    
+    / For all other devices (32x32):    
+    = favicon_link_tag 'images/favicon.ico', rel: 'shortcut icon'
+
+  %body{id: controller.controller_name}
+    %div.rareshare.navbar.navbar-fluid-top
+      %div.navbar-inner
+        %div.container-fluid
+          %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.brand(href="#") Rareshare
+          %div.container-fluid.nav-collapse
+            %ul.nav
+              %li= link_to "Learn More", "#"
+              %li= link_to "Sign Up", "#"
+              %li= link_to "Log In", "#"
+
+    %div.container-root
+      %div.container-fluid
+        - if content_for?(:sidebar)
+          %div.row-fluid
+            %div.span3
+              / %div.well.sidebar-nav
+              /   %ul.nav.nav-list
+              /     %li.nav-header Sidebar
+              /     %li= link_to "Link1", "#"
+              /     %li= link_to "Link2", "#"
+              /     %li= link_to "Link3", "#"
+              = yield :sidebar
+
+            %div.span9
+              = bootstrap_flash
+              = yield
+        - else
+          %div.span12
+            = yield
+
+    %div.container-fluid
+      %footer.span12
+        %p &copy; Rareshare 2012
+
+    = javascript_include_tag "application"

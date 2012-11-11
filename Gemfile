@@ -8,8 +8,14 @@ gem 'rails', '3.2.8'
 gem 'pg'
 gem 'simple_form'
 
+gem 'haml-rails'
+gem 'coffee-rails'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
+gem 'therubyracer'
 
 # Gems used only for assets and not required
 # in production environments by default.
