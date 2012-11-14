@@ -42,7 +42,7 @@
 
     %div.container-root
       %div.container-fluid
-        - if content_for?(:sidebar)
+        - if content_for? :sidebar
           %div.row-fluid
             %div.span3
               / %div.well.sidebar-nav
@@ -56,6 +56,8 @@
             %div.span9
               = bootstrap_flash
               = yield
+        - elsif content_for? :banner
+          = yield :banner
         - else
           %div.span12
             = yield
