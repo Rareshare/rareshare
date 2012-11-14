@@ -8,13 +8,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rareshare.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
   box-shadow: 0 0.1em 2em 0.1em black;
-  overflow: scroll;
+  width: 100%;
   .nav { float: right; }
 
   .navbar-inner {
     border-radius: 0;
-    border-bottom: 1px solid #333B42;
+    border: 0;
+    border-bottom: 1px solid #4A555E;
   }
 
   .brand {
@@ -24,7 +29,12 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.container-root {
+  margin-top: 40px;
+}
+
 .ui-datepicker {
   background: white;
   padding: 0.5em;
+  display: none;
 }
