@@ -40,29 +40,27 @@
               %li= link_to "Sign Up", new_user_registration_path
               %li= link_to "Log In", new_user_session_path
 
-    %div.container-root
-      %div.container-fluid
-        - if content_for? :sidebar
-          %div.row-fluid
-            %div.span3
-              / %div.well.sidebar-nav
-              /   %ul.nav.nav-list
-              /     %li.nav-header Sidebar
-              /     %li= link_to "Link1", "#"
-              /     %li= link_to "Link2", "#"
-              /     %li= link_to "Link3", "#"
-              = yield :sidebar
-
-            %div.span9
-              = bootstrap_flash
-              = yield
-        - elsif content_for? :banner
-          = yield :banner
-        - else
-          %div.span12
-            = yield
-
     %div.container-fluid
+      - if content_for? :sidebar
+        %div.row-fluid
+          %div.span3
+            / %div.well.sidebar-nav
+            /   %ul.nav.nav-list
+            /     %li.nav-header Sidebar
+            /     %li= link_to "Link1", "#"
+            /     %li= link_to "Link2", "#"
+            /     %li= link_to "Link3", "#"
+            = yield :sidebar
+
+          %div.span9
+            = bootstrap_flash
+            = yield
+      - elsif content_for? :banner
+        = yield :banner
+      - else
+        %div.span12
+          = yield
+
       %footer.span12
         %p &copy; Rareshare 2012
 
