@@ -1,4 +1,4 @@
 class Role < ActiveRecord::Base
   has_and_belongs_to_many :users
-  validates_presence_of :name
+  validates :name, presence: true, uniqueness: true
 end

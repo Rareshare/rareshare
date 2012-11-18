@@ -5,3 +5,14 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Role.create([{ name: 'admin' }, { name: 'lessor' }, { name: 'lessee' }])
+Manufacturer.create([{ name: "Wayne Enterprises" }])
+wayne = Manufacturer.first
+
+Model.create([
+  { name: "Particle Plus EH1P", id: wayne.id }, 
+  { name: "Mega Microscope MM3H", id: wayne.id},
+  { name: "Seek Sequencer MSSDN4", id: wayne.id}
+])
+

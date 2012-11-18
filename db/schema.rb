@@ -11,7 +11,31 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121114130555) do
+ActiveRecord::Schema.define(:version => 20121118182604) do
+
+  create_table "leases", :force => true do |t|
+    t.integer  "lessor_id"
+    t.integer  "lessee_id"
+    t.integer  "tool_id"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.datetime "cancelled_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "manufacturers", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "models", :force => true do |t|
+    t.string   "name"
+    t.integer  "manufacturer_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -22,6 +46,17 @@ ActiveRecord::Schema.define(:version => 20121114130555) do
   create_table "roles_users", :id => false, :force => true do |t|
     t.integer "role_id"
     t.integer "user_id"
+  end
+
+  create_table "tools", :force => true do |t|
+    t.integer  "owner_id"
+    t.integer  "model_id"
+    t.string   "resolution"
+    t.string   "sample_size"
+    t.boolean  "technician_required"
+    t.integer  "price_per_hour"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "users", :force => true do |t|
