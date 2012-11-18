@@ -36,10 +36,16 @@
           %a.brand(href="/") Rareshare
           %div.container-fluid.nav-collapse
             %ul.nav
-              %li= link_to "Learn More", "#"
-              %li= link_to "Sign Up", new_user_registration_path
-              %li= link_to "Log In", new_user_session_path
+              - if signed_in?
+                %li 
+                  %span.navbar-text Welcome, #{current_user.email}
+                %li= link_to "Sign Out", destroy_user_session_path, method: :delete
+              - else
+                %li= link_to "Learn More", "#"
+                %li= link_to "Sign Up", new_user_registration_path
+                %li= link_to "Log In", new_user_session_path
 
+  %div.content-root
     %div.container-fluid
       - if content_for? :sidebar
         %div.row-fluid
@@ -59,6 +65,7 @@
         = yield :banner
       - else
         %div.span12
+          = bootstrap_flash
           = yield
 
       %footer.span12
