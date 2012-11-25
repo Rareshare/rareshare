@@ -14,7 +14,7 @@
       %textarea(rows=8 style="width: 98%")
         I hereby promise to abide by the terms of this agreement (to show up on time, pay the full amount, and not break anything) or to be cast into the darkness for all eternity. Amen.
 
-  = f.input :tos_accepted, label: "I have read and agree to the Terms of Service for this lease."
+  = f.input :tos_accepted, label: false, inline_label: "I have read and agree to the Terms of Service for this lease."
 
   = f.submit "Reserve", class: "btn btn-primary"
   = link_to "Cancel", :back, class: "btn"

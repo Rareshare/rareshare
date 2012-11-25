@@ -6,7 +6,7 @@
     = f.input :resolution
     = f.input :sample_size
     = f.input :price_per_hour, hint: "Per day: $<span class='price_per_day'>0</span>"
-    = f.input :technician_required
+    = f.input :technician_required, as: :boolean, label: false, inline_label: "Technician required"
 
   .form-actions
     = f.button :submit, class: "btn btn-primary"
