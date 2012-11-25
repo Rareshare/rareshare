@@ -1,16 +1,13 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.8'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-gem 'pg'
-gem 'devise'
-gem 'cancan'
+gem 'pg' # Basic Postgres driver.
+gem 'devise' # A set of tools for user authentication.
+gem 'cancan' # A small set of tools for defining user permissions.
 gem 'simple_form', git: "https://github.com/plataformatec/simple_form.git" # Riding master for bootstrap integration.
-gem 'seed-fu'
-gem 'texticle', require: 'texticle/rails'
+gem 'seed-fu' # Seed test data.
+gem 'texticle', require: 'texticle/rails' # Postgres full-text searching.
+gem 'active_attr'
 
 gem 'haml-rails'
 gem 'coffee-rails'

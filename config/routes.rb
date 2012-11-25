@@ -6,4 +6,5 @@ Rareshare::Application.routes.draw do
   match "search", to: "searches#show", as: :search
 
   resources :tools
+  resources :leases
 end

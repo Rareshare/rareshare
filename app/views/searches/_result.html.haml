@@ -1,19 +1,38 @@
 %div.result
   %div.row
-    %span.span12
-      %h4.title
-        = link_to result.display_name, tool_path(result.id)
+    %span.span2
+      %div.well.reserve_now
+        %span.price_per_hour= number_to_currency result.price_per_hour_adjusted
+        %span.muted dollars per hour
+        - if logged_in?
+          %div
+            = link_to "Reserve", new_lease_path(tool_id: result.id, date: @query.on), class: "btn btn-primary"
+          %div.small.muted on 
+          %span.label.label-success= @query.on
+        - else
+          %div
+            = link_to "Log In", new_lease_path(tool_id: result.id, date: @query.on), class: "btn"
+          %div.small.muted to reserve 
+          %span.label.label-success= @query.on
 
-  %div.row
-    %span.span2.price_per_hour
-      = number_to_currency result.price_per_hour_adjusted
-    - if result.technician_required?
-      %span.label.label-info Requires technician
-    - else
-      %span.label.label-default Self-service
 
-  %div.row
-    %span.span2 Resolution:
-    %span.span2= result.resolution
-    %span.span2 Sample size:
-    %span.span2= result.sample_size
+    %span.span10
+      %div.row
+        %span.span10
+          %h3.title
+            = link_to result.display_name, tool_path(result.id)      
+      %div.row
+        %span.span9
+          %table.table
+            %tr
+              %td Resolution
+              %td= result.resolution
+              %td Sample size
+              %td= result.sample_size
+
+      %div.row
+        %span.span2
+          - if result.technician_required?
+            %span.label.label-info Requires technician
+          - else
+            %span.label.label-default Self-service

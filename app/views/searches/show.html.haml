@@ -1,6 +1,6 @@
 = render partial: "shared/search"
 
-- if @tools.any?
-  = render collection: @tools, partial: 'result'
+- if @results.any?
+  = render collection: @results, partial: 'result'
 - else
   %p No results found.
