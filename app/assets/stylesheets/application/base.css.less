@@ -16,6 +16,10 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   .nav { float: right; }
 
+  .container {
+    width: 940px;
+  }
+
   .navbar-inner {
     border-radius: 0;
     border: 0;
@@ -30,7 +34,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .content-root {
-  margin-top: 60px;
+  > .container {
+    padding: 60px 20px 20px 20px;
+    padding-top: 60px;
+    background: rgba(255, 255, 255, 0.5);
+  }
 }
 
 .ui-datepicker {
