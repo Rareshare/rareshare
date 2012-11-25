@@ -4,7 +4,7 @@
       %div.well.reserve_now
         %span.price_per_hour= number_to_currency result.price_per_hour_adjusted
         %span.muted dollars per hour
-        - if logged_in?
+        - if user_signed_in?
           %div
             = link_to "Reserve", new_lease_path(tool_id: result.id, date: @query.on), class: "btn btn-primary"
           %div.small.muted on 
