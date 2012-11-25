@@ -8,7 +8,7 @@ gem 'rails', '3.2.8'
 gem 'pg'
 gem 'devise'
 gem 'cancan'
-gem 'simple_form'
+gem 'simple_form', git: "https://github.com/plataformatec/simple_form.git" # Riding master for bootstrap integration.
 gem 'seed-fu'
 gem 'texticle', require: 'texticle/rails'
 

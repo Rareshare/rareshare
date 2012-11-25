@@ -3,4 +3,5 @@ Rareshare::Application.routes.draw do
   devise_for :users
 
   match "dashboard", to: "users#dashboard", as: :dashboard
+  match "search", to: "searches#show", as: :search
 end

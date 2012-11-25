@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/plataformatec/simple_form.git
+  revision: c931e682b15caf234586e0e02151a6efcb61681b
+  specs:
+    simple_form (2.1.0.dev)
+      actionpack (~> 3.0)
+      activemodel (~> 3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -125,9 +133,6 @@ GEM
     seed-fu (2.2.0)
       activerecord (~> 3.1)
       activesupport (~> 3.1)
-    simple_form (2.0.4)
-      actionpack (~> 3.0)
-      activemodel (~> 3.0)
     sprockets (2.1.3)
       hike (~> 1.2)
       rack (~> 1.0)
@@ -173,7 +178,7 @@ DEPENDENCIES
   rails (= 3.2.8)
   rspec-rails
   seed-fu
-  simple_form
+  simple_form!
   texticle
   therubyracer
   twitter-bootstrap-rails

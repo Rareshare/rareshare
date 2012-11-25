@@ -1,0 +1,7 @@
+= render partial: "shared/search"
+
+- if @tools.any?
+  - @tools.each do |tool|
+    = link_to tool.display_name, "#"
+- else
+  %p No results found.

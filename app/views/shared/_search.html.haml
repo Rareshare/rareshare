@@ -1,0 +1,8 @@
+= form_tag search_url, method: "get" do |f|
+  %label I need 
+  %input(name="q" type="text" placeholder="a transmogrifier") 
+  %label on 
+  %input(name="on" type="text" class="date" placeholder="11/06/2731") 
+  %label near 
+  %input(name="loc" type="text" placeholder="Stanford, MIT, Mars")
+  %input(name="submit" type="submit" value="Go")

@@ -3,7 +3,7 @@ class Search < ActiveRecord::Base
   attr_accessible :searchable_id, :searchable_type, :document
   # default_scope include: :searchable
 
-  def self.search(query)
+  def self.search_with_fuzzy_query_matching(query)
     return [] if query.blank? || query[:document].blank?
 
     if query.is_a?(Hash)

@@ -3,11 +3,4 @@
   %div.search
     %h1.tag No science friction.
     %p Lease the most advanced scientific and medical equipment in the world.
-    %form
-      %label I need 
-      %input(name="q" type="text" placeholder="a transmogrifier") 
-      %label on 
-      %input(name="on" type="text" class="date" placeholder="11/06/2731") 
-      %label near 
-      %input(name="location" type="text" placeholder="Stanford, MIT, Mars")
-      %input(name="submit" type="button" value="Go")
+    = render partial: "shared/search"
