@@ -10,6 +10,7 @@ gem 'devise'
 gem 'cancan'
 gem 'simple_form'
 gem 'seed-fu'
+gem 'texticle', require: 'texticle/rails'
 
 gem 'haml-rails'
 gem 'coffee-rails'
@@ -24,6 +25,11 @@ gem 'unicorn'
 
 group :development do
   gem 'foreman'
+end
+
+group :test do
+  gem 'factory_girl'
+  gem 'rspec-rails'
 end
 
 # Gems used only for assets and not required
