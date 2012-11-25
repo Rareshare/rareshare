@@ -1,0 +1,13 @@
+= simple_form_for @tool do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.association :model
+    = f.input :resolution
+    = f.input :sample_size
+    = f.input :price_per_hour, hint: "Per day: $<span class='price_per_day'>0</span>"
+    = f.input :technician_required
+
+  .form-actions
+    = f.button :submit, class: "btn btn-primary"
+    = link_to "Cancel", dashboard_path, class: "btn btn-default"

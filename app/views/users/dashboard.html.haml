@@ -1,19 +1,39 @@
-= render partial: "shared/search"
+%ul.nav.nav-tabs
+  %li.active= link_to "My Leases", "#leases", data: { toggle: "tab" }
+  %li= link_to "My Tools", "#tools", data: { toggle: "tab" }
 
-%div.well
-  %h4 Current Leases
-  %table.table
-    %thead
-      %tr
-        %th Dates
-        %th Item description
-        %th Price
-        %th Options
-    %tbody
-      - current_user.leases.active.each do |l|
+%div.tab-content
+  %div.tab-pane.active#leases
+    %h4 Lease a tool
+    = render partial: "shared/search"
+    %h4 Current Leases
+    %table.table
+      %thead
         %tr
-          %td= l.duration_text
-          %td= l.tool.display_name
-          %td= number_to_currency l.total_cost
-          %td
-            = simple_form_for(l, method: :delete) { |f| f.submit "Cancel", class: "btn btn-danger" }
+          %th Dates
+          %th Item description
+          %th Price
+          %th Options
+      %tbody
+        - current_user.leases.active.each do |l|
+          %tr
+            %td= l.duration_text
+            %td= l.tool.display_name
+            %td= number_to_currency l.total_cost
+            %td= simple_form_for(l, method: :delete) { |f| f.submit "Cancel", class: "btn btn-danger" }
+  %div.tab-pane#tools
+    %h4 Share a tool
+    = link_to "Share a tool now", new_tool_path, class: "btn btn-primary"
+    %h4 Leaseable tools
+    %table.table
+      %thead
+        %tr
+          %th Item description
+          %th Price
+          %th Options
+      %tbody
+        - current_user.tools.each do |t|
+          %tr
+            %td= link_to t.display_name, tool_path(t)
+            %td= number_to_currency t.price_per_hour_adjusted
+            %td= simple_form_for(t, method: :delete) { |f| f.submit "Delete", class: "btn btn-danger" }

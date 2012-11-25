@@ -1,10 +1,11 @@
 class Tool < ActiveRecord::Base
   has_many :leases
-  has_one :search, as: :searchable, dependent: :destroy
+  has_one :search, as: :searchable
   belongs_to :owner, class_name: "User"
   belongs_to :model
 
   after_save :update_search_document
+  before_destroy :remove_search_document
 
   def manufacturer_name
     model.try(:manufacturer).try(:name)
@@ -32,9 +33,13 @@ class Tool < ActiveRecord::Base
     terms = [ self.sample_size, self.resolution, self.model_name, self.manufacturer_name ].compact.join(" ")
     
     if search.present?
-      search.update(document: terms)
+      search.update_attributes(document: terms)
     else
       Search.create(searchable_id: self.id, searchable_type: self.class.name, document: terms)
     end
+  end
+
+  def remove_search_document
+    Search.where(searchable_id: self.id, searchable_type: self.class.name).destroy
   end
 end

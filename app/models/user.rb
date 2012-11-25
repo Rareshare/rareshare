@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :roles
 
   has_many :leases, foreign_key: :lessee_id
+  has_many :tools, foreign_key: :owner_id
 
   def reserve(params={})
     leases.build.tap do |l|
