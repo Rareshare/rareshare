@@ -17,7 +17,7 @@ class ToolsController < ApplicationController
       t.model_id = params[:tool][:model_id]
       t.resolution = params[:tool][:resolution]
       t.sample_size = params[:tool][:sample_size]
-      t.price_per_hour = params[:tool][:price_per_hour]
+      t.price_per_hour = (Float(params[:tool][:price_per_hour]) * 100).to_i
       t.technician_required = params[:tool][:technician_required]
     end
 
