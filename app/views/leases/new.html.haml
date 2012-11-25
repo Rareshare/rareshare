@@ -8,7 +8,7 @@
   = f.input :ended_at, as: :hidden
   = f.input :lessor_id, as: :hidden
   = f.input :lessee_id, as: :hidden
-  
+
   %div.row
     %span.span12
       %textarea(rows=8 style="width: 98%")
@@ -16,4 +16,5 @@
 
   = f.input :tos_accepted, label: "I have read and agree to the Terms of Service for this lease."
 
-  = f.submit "Reserve"
+  = f.submit "Reserve", class: "btn btn-primary"
+  = link_to "Cancel", :back, class: "btn"

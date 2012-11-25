@@ -17,23 +17,26 @@ class LeasesController < ApplicationController
 
   def create
     add_breadcrumb "New Lease", new_lease_path(params)
-    lp = params[:lease]
 
-    @lease = Lease.new.tap do |l|
-      l.lessor_id    = lp[:lessor_id]
-      l.lessee_id    = lp[:lessee_id]
-      l.tool_id      = lp[:tool_id]
-      l.started_at   = lp[:started_at]
-      l.ended_at     = lp[:ended_at]
-      l.tos_accepted = lp[:tos_accepted]
-    end
-
+    @lease = current_user.reserve(params[:lease])
     @tool = @lease.tool
 
     if @lease.valid?
+      @lease.save!
       redirect_to dashboard_path, flash: { notice: "Lease successful!" }
     else
       render 'leases/new'
+    end
+  end
+
+  def destroy
+    @lease = Lease.find(params[:id])
+
+    if @lease.reserved_by?(current_user)
+      @lease.cancel!
+      redirect_to dashboard_path, flash: { notice: "Lease successfully cancelled." }
+    else
+      redirect_to dashboard_path, flash: { error: "You do not have permission to cancel this lease." }
     end
   end
 end

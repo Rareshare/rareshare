@@ -1,1 +1,19 @@
 = render partial: "shared/search"
+
+%div.well
+  %h4 Current Leases
+  %table.table
+    %thead
+      %tr
+        %th Dates
+        %th Item description
+        %th Price
+        %th Options
+    %tbody
+      - current_user.leases.active.each do |l|
+        %tr
+          %td= l.duration_text
+          %td= l.tool.display_name
+          %td= number_to_currency l.total_cost
+          %td
+            = simple_form_for(l, method: :delete) { |f| f.submit "Cancel", class: "btn btn-danger" }
