@@ -12,7 +12,7 @@ class Search < ActiveRecord::Base
       query = "#{query}:*"
     end
 
-    super(query).map(&:searchable)
+    super(query)
   end
 
   # Our table doesn't have primary keys, so we need

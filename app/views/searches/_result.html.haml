@@ -1,0 +1,19 @@
+%div.result
+  %div.row
+    %span.span12
+      %h4.title
+        = link_to result.display_name, tool_path(result.id)
+
+  %div.row
+    %span.span2.price_per_hour
+      = number_to_currency result.price_per_hour_adjusted
+    - if result.technician_required?
+      %span.label.label-info Requires technician
+    - else
+      %span.label.label-default Self-service
+
+  %div.row
+    %span.span2 Resolution:
+    %span.span2= result.resolution
+    %span.span2 Sample size:
+    %span.span2= result.sample_size

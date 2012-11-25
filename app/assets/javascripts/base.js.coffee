@@ -1,2 +1,2 @@
 jQuery ->
-  $("input.date").pickadate()
+  $("input.date").pickadate(date_min: true)

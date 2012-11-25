@@ -15,7 +15,15 @@ class Tool < ActiveRecord::Base
   end
 
   def self.search(query)
-    Search.search(searchable_type: self.name, document: query)
+    Search.search(searchable_type: self.name, document: query).map(&:searchable)
+  end
+
+  def display_name
+    "#{manufacturer_name} #{model_name}"
+  end
+
+  def price_per_hour_adjusted
+    self.price_per_hour / 100.0
   end
 
   private

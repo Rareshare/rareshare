@@ -2,9 +2,9 @@ body {
   background: image-url('bg.png');
 }
 
-h1, h2, h3, h4, h5, h6 {
-   font-family: 'Share Tech', sans-serif;
+h1, h2, h3, h4, h5, h6 {  
   text-transform: uppercase;
+  a:hover { text-decoration: none; }
 }
 
 .rareshare.navbar {
@@ -12,7 +12,7 @@ h1, h2, h3, h4, h5, h6 {
   top: 0;
   left: 0;
   z-index: 1;
-  box-shadow: 0 0.1em 2em 0.1em black;
+  box-shadow: 0 0 1em 0.04em black;
   width: 100%;
   .nav { float: right; }
 
@@ -53,4 +53,9 @@ form {
   }
 
   input[readonly] { cursor: default; }
+}
+
+ul.breadcrumb {
+  background-color: #CFCFCF;
+  .active { color: #333333; }
 }

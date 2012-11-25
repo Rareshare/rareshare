@@ -46,27 +46,29 @@
 
   %div.content-root
     %div.container
-      - if content_for? :sidebar
-        %div.row
-          %div.span3
-            / %div.well.sidebar-nav
-            /   %ul.nav.nav-list
-            /     %li.nav-header Sidebar
-            /     %li= link_to "Link1", "#"
-            /     %li= link_to "Link2", "#"
-            /     %li= link_to "Link3", "#"
-            = yield :sidebar
-
-          %div.span9
-            = bootstrap_flash
-            = yield
-      - elsif content_for? :banner
+      - if content_for? :banner
         = yield :banner
       - else
         %div.row
-          %div.span12
-            = bootstrap_flash
-            = yield
+          %span.span12= render_breadcrumbs
+        %div.row
+          - if content_for? :sidebar
+            %div.span3
+              / %div.well.sidebar-nav
+              /   %ul.nav.nav-list
+              /     %li.nav-header Sidebar
+              /     %li= link_to "Link1", "#"
+              /     %li= link_to "Link2", "#"
+              /     %li= link_to "Link3", "#"
+              = yield :sidebar
+
+            %div.span9
+              = bootstrap_flash
+              = yield
+          - else
+            %div.span12
+              = bootstrap_flash
+              = yield
 
       %div.row
         %footer.span12

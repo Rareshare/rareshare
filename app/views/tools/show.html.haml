@@ -1,0 +1,15 @@
+%h1= @tool.display_name
+
+%div.row
+  %span.span3.toolbar
+    %div.well.sidebar-nav
+      %ul.nav.nav-list
+        %li.nav-header More options
+        %li= link_to "Reserve Now", "#"
+  %span.span9.price_per_hour
+    %row
+      = number_to_currency @tool.price_per_hour_adjusted
+      - if @tool.technician_required?
+        %span.label.label-info Requires technician
+      - else
+        %span.label.label-default Self-service

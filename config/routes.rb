@@ -4,4 +4,6 @@ Rareshare::Application.routes.draw do
 
   match "dashboard", to: "users#dashboard", as: :dashboard
   match "search", to: "searches#show", as: :search
+
+  resources :tools
 end
