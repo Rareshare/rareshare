@@ -40,6 +40,6 @@ class Tool < ActiveRecord::Base
   end
 
   def remove_search_document
-    Search.where(searchable_id: self.id, searchable_type: self.class.name).destroy
+    Search.where(searchable_id: self.id, searchable_type: self.class.name).destroy_all
   end
 end

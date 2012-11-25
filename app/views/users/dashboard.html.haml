@@ -1,6 +1,10 @@
 %ul.nav.nav-tabs
   %li.active= link_to "My Leases", "#leases", data: { toggle: "tab" }
   %li= link_to "My Tools", "#tools", data: { toggle: "tab" }
+  %li
+    = link_to "#inbox", data: { toggle: "tab" } do
+      Inbox
+      %span.badge.badge-info= current_user.unread_message_count
 
 %div.tab-content
   %div.tab-pane.active#leases
@@ -37,3 +41,17 @@
             %td= link_to t.display_name, tool_path(t)
             %td= number_to_currency t.price_per_hour_adjusted
             %td= simple_form_for(t, method: :delete) { |f| f.submit "Delete", class: "btn btn-danger" }
+  %div.tab-pane#inbox
+    %h4 Inbox
+    %table.table
+      %thead
+        %tr
+          %th Time
+          %th From
+          %th Body
+      %tbody
+        - current_user.received_messages.each do |m|
+          %tr
+            %td= m.created_at
+            %td= m.sender.email
+            %td= truncate m.body, length: 20

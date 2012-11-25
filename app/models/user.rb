@@ -12,6 +12,12 @@ class User < ActiveRecord::Base
 
   has_many :leases, foreign_key: :lessee_id
   has_many :tools, foreign_key: :owner_id
+  has_many :received_messages, foreign_key: :receiver_id, class_name: "UserMessage"
+  has_many :sent_messages, foreign_key: :sender_id, class_name: "UserMessage"
+
+  def unread_message_count
+    received_messages.unread.count
+  end
 
   def reserve(params={})
     leases.build.tap do |l|
