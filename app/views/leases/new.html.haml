@@ -1,6 +1,6 @@
 %h3 Please Confirm
 
-%p Reserve #{@tool.display_name} from #{@lease.started_at} to #{@lease.ended_at} (a term of #{pluralize @lease.duration_in_days, 'day'}). The total cost for this lease will be #{number_to_currency @lease.total_cost}.
+%p Reserve #{@tool.display_name} from #{@lease.started_at.to_date.to_s(:long)} to #{@lease.ended_at.to_date.to_s(:long)} (a term of #{pluralize @lease.duration_in_days, 'day'}). The total cost for this lease will be #{number_to_currency @lease.total_cost}.
 
 = simple_form_for @lease do |f|
   = f.input :tool_id, as: :hidden
