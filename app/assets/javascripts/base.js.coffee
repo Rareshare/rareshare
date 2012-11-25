@@ -1,2 +1,2 @@
 jQuery ->
-  $("input.date").datepicker()
+  $("input.date").pickadate()

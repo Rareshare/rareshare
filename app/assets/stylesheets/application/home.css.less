@@ -52,13 +52,15 @@
         font-size: 160%;
       }
 
+      .datepicker--holder {
+        left: 412px;
+      }
+
       label {
         display: inline-block;
         line-height: 20px;
         vertical-align: middle;
         padding-top: 4px;
-        // margin-top: 0.4em;
-        // margin-bottom: -5em;
       }
 
       input[type=text], input[type=date] {
@@ -66,6 +68,9 @@
         color: #eee;
         border: none;
         margin: 0;
+        position: relative;
+
+        &[readonly] { cursor: default; }
       }
 
       input[type=button] {
