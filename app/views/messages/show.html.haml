@@ -1,0 +1,12 @@
+%div.row
+  %span.span2 From
+  %span.span10= @message.sender.email
+
+%div.row
+  %span.span2 Regarding
+  %span.span10= @message.messageable.description
+
+%div.row
+  %span.span2 Body
+  %span.span10
+    %p= @message.body

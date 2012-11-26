@@ -19,6 +19,12 @@ class User < ActiveRecord::Base
     received_messages.unread.count
   end
 
+  def read_message(id)
+    received_messages.find(id).tap do |m|
+      m.update_attributes! acknowledged: true
+    end
+  end
+
   def request_reservation!(params={})
     leases.build.tap do |l|
       l.lessor_id    = params[:lessor_id]

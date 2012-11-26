@@ -7,4 +7,5 @@ Rareshare::Application.routes.draw do
 
   resources :tools
   resources :leases
+  resources :messages
 end

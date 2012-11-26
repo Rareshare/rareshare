@@ -3,9 +3,11 @@ class UserMessage < ActiveRecord::Base
   belongs_to :sender, class_name: "User"
   belongs_to :receiver, class_name: "User"
 
+  default_scope order("created_at DESC")
+
   scope :unread, where(acknowledged: false)
 
-  attr_accessible :sender_id, :sender, :receiver_id, :receiver, :body, :messageable_id, :messageable_type
+  attr_accessible :sender_id, :sender, :receiver_id, :receiver, :body, :messageable_id, :messageable_type, :acknowledged
 
   belongs_to :messageable, polymorphic: true
 

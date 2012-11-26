@@ -32,6 +32,7 @@ class LeasesController < ApplicationController
 
     if @lease.reserved_by?(current_user)
       @lease.cancel!
+      @lease.save!
       redirect_to dashboard_path, flash: { notice: "Lease successfully cancelled." }
     else
       redirect_to dashboard_path, flash: { error: "You do not have permission to cancel this lease." }

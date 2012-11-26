@@ -59,6 +59,10 @@ class Lease < ActiveRecord::Base
     self.lessee == user
   end
 
+  def description
+    "#{self.tool.display_name} (#{self.duration_text})"
+  end
+
   protected
 
   def set_cancelled_timestamp
