@@ -1,12 +1,16 @@
-%div.row
-  %span.span2 From
-  %span.span10= @message.sender.email
+%span= @message.sender.email
+%span= @message.messageable.description
+
+- @message.message_chain.each do |message|
+  %div.row
+    %span.span8.offset2
+      %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
+        %p= message.body
 
 %div.row
-  %span.span2 Regarding
-  %span.span10= @message.messageable.description
-
-%div.row
-  %span.span2 Body
-  %span.span10
-    %p= @message.body
+  %span.span8.offset2
+    = simple_form_for UserMessage.new, as: :message, url: reply_message_path(@message) do |f|
+      .form-inputs
+        = f.input :body, label: false, input_html: { rows: 4, cols: nil }
+      .form-actions
+        = f.button :submit, "Reply", class: "btn btn-primary"

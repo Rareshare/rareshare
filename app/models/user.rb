@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   
   has_and_belongs_to_many :roles
 
+  validates :first_name, :last_name, presence: true
+
   has_many :leases, foreign_key: :lessee_id
   has_many :tools, foreign_key: :owner_id
   has_many :received_messages, foreign_key: :receiver_id, class_name: "UserMessage"
@@ -21,8 +23,16 @@ class User < ActiveRecord::Base
 
   def read_message(id)
     received_messages.find(id).tap do |m|
-      m.update_attributes! acknowledged: true
+      m.acknowledge!
     end
+  end
+
+  def can_read?(message)
+    message.sender == self || message.receiver == self
+  end
+
+  def display_name
+    "#{first_name} #{last_name}"
   end
 
   def request_reservation!(params={})

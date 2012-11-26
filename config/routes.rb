@@ -7,5 +7,7 @@ Rareshare::Application.routes.draw do
 
   resources :tools
   resources :leases
-  resources :messages
+  resources :messages do
+    member { post :reply }
+  end
 end

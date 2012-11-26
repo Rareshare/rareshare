@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121125232133) do
+ActiveRecord::Schema.define(:version => 20121126063316) do
 
   create_table "leases", :force => true do |t|
     t.integer  "lessor_id"
@@ -20,10 +20,10 @@ ActiveRecord::Schema.define(:version => 20121125232133) do
     t.datetime "started_at"
     t.datetime "ended_at"
     t.datetime "cancelled_at"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
     t.boolean  "tos_accepted"
-    t.string   "state"
+    t.string   "state",        :default => "pending"
     t.text     "description"
   end
 
@@ -72,12 +72,13 @@ ActiveRecord::Schema.define(:version => 20121125232133) do
     t.integer  "sender_id"
     t.integer  "receiver_id"
     t.integer  "reply_to_id"
-    t.boolean  "acknowledged",     :default => false
+    t.boolean  "acknowledged",           :default => false
     t.text     "body"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
     t.integer  "messageable_id"
     t.string   "messageable_type"
+    t.integer  "originating_message_id"
   end
 
   create_table "users", :force => true do |t|

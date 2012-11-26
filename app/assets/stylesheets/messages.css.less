@@ -1,0 +1,20 @@
+@emailSentColor: #E0E8FF;
+@emailReceivedColor: #FFF0C4;
+
+#messages {
+  .email {
+    &.email-received {
+      background-color: @emailReceivedColor;
+      border: 1px solid darken(@emailReceivedColor, 10%);
+    }
+
+    &.email-sent {
+      background-color: @emailSentColor;
+      border: 1px solid darken(@emailSentColor, 10%);
+    }
+  }
+
+  form.new_message {
+    textarea { width: 606px; }
+  }
+}

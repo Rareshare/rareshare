@@ -6,6 +6,24 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @message = current_user.read_message(params[:id])
+    @message = UserMessage.find(params[:id])
+
+    if current_user.can_read?(@message)
+      unless @message.first?
+        @message.acknowledge!
+        redirect_to message_path(@message.originating_message_id, anchor: "message-#{@message.id}")
+      end
+    else
+      redirect_to :back, flash: { error: "You do not have permission to read this message." }
+    end
+  end
+
+  def create
+  end
+
+  def reply
+    @message = current_user.received_messages.find(params[:id])
+    @message.reply! params[:message][:body]
+    redirect_to message_path(@message)
   end
 end

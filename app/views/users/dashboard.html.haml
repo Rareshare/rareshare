@@ -17,7 +17,7 @@
           %th State
           %th Dates
           %th Item description
-          %th Price
+          %th Cost
           %th Options
       %tbody
         - current_user.leases.active.each do |l|
@@ -36,13 +36,15 @@
       %thead
         %tr
           %th Item description
-          %th Price
+          %th Cost
           %th Options
       %tbody
         - current_user.tools.each do |t|
           %tr
             %td= link_to t.display_name, tool_path(t)
-            %td= number_to_currency t.price_per_hour_adjusted
+            %td
+              = number_to_currency t.price_per_hour_adjusted
+              %span.muted per hour
             %td= simple_form_for(t, method: :delete) { |f| f.submit "Delete", class: "btn btn-danger" }
   %div.tab-pane#inbox
     %h4 Inbox
