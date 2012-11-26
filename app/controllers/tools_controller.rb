@@ -19,6 +19,7 @@ class ToolsController < ApplicationController
       t.sample_size = params[:tool][:sample_size]
       t.price_per_hour = (Float(params[:tool][:price_per_hour]) * 100).to_i
       t.technician_required = params[:tool][:technician_required]
+      t.owner_id = current_user.id
     end
 
     if @tool.valid?

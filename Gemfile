@@ -8,6 +8,7 @@ gem 'simple_form', git: "https://github.com/plataformatec/simple_form.git" # Rid
 gem 'seed-fu' # Seed test data.
 gem 'texticle', require: 'texticle/rails' # Postgres full-text searching.
 gem 'active_attr'
+gem 'aasm'
 
 gem 'haml-rails'
 gem 'coffee-rails'

@@ -5,6 +5,10 @@ class UserMessage < ActiveRecord::Base
 
   scope :unread, where(acknowledged: false)
 
+  attr_accessible :sender_id, :sender, :receiver_id, :receiver, :body, :messageable_id, :messageable_type
+
+  belongs_to :messageable, polymorphic: true
+
   def first?
     self.prev.blank?
   end

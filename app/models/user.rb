@@ -19,13 +19,16 @@ class User < ActiveRecord::Base
     received_messages.unread.count
   end
 
-  def reserve(params={})
+  def request_reservation!(params={})
     leases.build.tap do |l|
       l.lessor_id    = params[:lessor_id]
       l.tool_id      = params[:tool_id]
       l.started_at   = params[:started_at]
       l.ended_at     = params[:ended_at]
       l.tos_accepted = params[:tos_accepted]
+      l.description  = params[:description]
+
+      l.save
     end
   end
 end

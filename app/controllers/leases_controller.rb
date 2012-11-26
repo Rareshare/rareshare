@@ -3,26 +3,24 @@ class LeasesController < ApplicationController
 
   def new
     add_breadcrumb "New Lease", new_lease_path(params)
-    @tool = Tool.find(params[:tool_id])
+
+    tool = Tool.find(params[:tool_id])
 
     @lease = Lease.new.tap do |l|
-      l.lessor_id  = @tool.owner_id
+      l.lessor_id  = tool.owner_id
       l.lessee_id  = current_user.id
-      l.tool_id    = @tool.id
+      l.tool_id    = tool.id
       l.started_at = params[:date]
       l.ended_at   = params[:date]
     end
-
   end
 
   def create
     add_breadcrumb "New Lease", new_lease_path(params)
 
-    @lease = current_user.reserve(params[:lease])
-    @tool = @lease.tool
+    @lease = current_user.request_reservation!(params[:lease])
 
     if @lease.valid?
-      @lease.save!
       redirect_to dashboard_path, flash: { notice: "Lease successful!" }
     else
       render 'leases/new'

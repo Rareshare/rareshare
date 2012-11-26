@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121125192732) do
+ActiveRecord::Schema.define(:version => 20121125232133) do
 
   create_table "leases", :force => true do |t|
     t.integer  "lessor_id"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(:version => 20121125192732) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.boolean  "tos_accepted"
+    t.string   "state"
+    t.text     "description"
   end
 
   create_table "manufacturers", :force => true do |t|
@@ -70,11 +72,12 @@ ActiveRecord::Schema.define(:version => 20121125192732) do
     t.integer  "sender_id"
     t.integer  "receiver_id"
     t.integer  "reply_to_id"
-    t.integer  "tool_id"
-    t.boolean  "acknowledged", :default => false
+    t.boolean  "acknowledged",     :default => false
     t.text     "body"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.integer  "messageable_id"
+    t.string   "messageable_type"
   end
 
   create_table "users", :force => true do |t|

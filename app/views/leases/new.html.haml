@@ -1,6 +1,6 @@
 %h3 Please Confirm
 
-%p Reserve #{@tool.display_name} from #{@lease.started_at.to_date.to_s(:long)} to #{@lease.ended_at.to_date.to_s(:long)} (a term of #{pluralize @lease.duration_in_days, 'day'}). The total cost for this lease will be #{number_to_currency @lease.total_cost}.
+%p Reserve #{@lease.tool.display_name} from #{@lease.started_at.to_date.to_s(:long)} to #{@lease.ended_at.to_date.to_s(:long)} (a term of #{pluralize @lease.duration_in_days, 'day'}). The total cost for this lease will be #{number_to_currency @lease.total_cost}.
 
 = simple_form_for @lease do |f|
   = f.input :tool_id, as: :hidden
@@ -8,10 +8,11 @@
   = f.input :ended_at, as: :hidden
   = f.input :lessor_id, as: :hidden
   = f.input :lessee_id, as: :hidden
+  = f.input :description
 
   %div.row
     %span.span12
-      %textarea(rows=8 style="width: 98%")
+      %textarea(rows=8 style="width: 98%" readonly)
         I hereby promise to abide by the terms of this agreement (to show up on time, pay the full amount, and not break anything) or to be cast into the darkness for all eternity. Amen.
 
   = f.input :tos_accepted, label: false, inline_label: "I have read and agree to the Terms of Service for this lease."
