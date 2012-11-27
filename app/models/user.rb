@@ -1,12 +1,12 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
-  # :token_authenticatable, :lockable, :timeoutable and :omniauthable
+  # :token_authenticatable, :lockable, and :timeoutable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable
+         :confirmable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :provider, :uid
   
   has_and_belongs_to_many :roles
 
@@ -44,5 +44,38 @@ class User < ActiveRecord::Base
 
       l.save
     end
+  end
+
+  def link_profile(auth)
+    self.provider = auth.provider
+    self.uid = auth.uid
+    self.linkedin_profile_url = auth.urls.public_profile
+    self.image_url ||= auth.info.image
+  end
+
+  def provider_linked?
+    self.provider.blank?
+  end
+
+  def self.find_for_linkedin_oauth(auth, signed_in_resource=nil)
+    if user = User.where(email: auth.info.email).first
+      user.link_profile(auth) unless user.provider_linked?
+    elsif user = User.where(:provider => auth.provider, :uid => auth.uid).first
+      user.email = auth.info.email # We have the user, but they've changed addresses in LinkedIn.
+    else
+      user = User.new(
+        first_name: auth.info.first_name,
+        last_name: auth.info.last_name,
+        provider: auth.provider,
+        uid: auth.uid,
+        email: auth.info.email,
+        password: Devise.friendly_token[0,20],
+        image_url: auth.info.image,
+        linkedin_profile_url: auth.urls.public_profile
+      )
+    end
+
+    user.save
+    user
   end
 end

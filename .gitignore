@@ -16,3 +16,6 @@
 
 # Ignore Gem files.
 /vendor/bundle
+
+# Ignore Foreman .env file.
+/.env
