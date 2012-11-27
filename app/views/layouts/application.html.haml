@@ -9,48 +9,34 @@
     = stylesheet_link_tag "application", media: "all"
     %link(href='http://fonts.googleapis.com/css?family=Share+Tech' rel='stylesheet' type='text/css')
 
-    / For third-generation iPad with high-resolution Retina display:
-    / = favicon_link_tag 'images/apple-touch-icon-144x144-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '144x144'
-
-    / For iPhone with high-resolution Retina display:
-    / = favicon_link_tag 'images/apple-touch-icon-114x114-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '114x114'
-
-    / For first- and second-generation iPad:
-    / = favicon_link_tag 'images/apple-touch-icon-72x72-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '72x72'
-
-    / For non-Retina iPhone, iPod Touch, and Android 2.1+ devices (57x57):
-    / = favicon_link_tag 'images/apple-touch-icon-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png'
-    
-    / For all other devices (32x32):    
-    / = favicon_link_tag 'images/favicon.ico', rel: 'shortcut icon'
-
   %body{id: controller.controller_name}
     %div.rareshare.navbar.navbar-top
       %div.navbar-inner
         %div.container
-          %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          %a.brand(href="/") Rareshare
-          %div.nav-collapse
-            %ul.nav
-              - if signed_in?
-                %li 
-                  %span.navbar-text Welcome, #{current_user.email}
-                %li= link_to "Sign Out", destroy_user_session_path, method: :delete
-              - else
-                %li= link_to "Learn More", "#"
-                %li= link_to "Sign Up", new_user_registration_path
-                %li= link_to "Log In", new_user_session_path
+          %a.brand(href="/") Rareshare    
+          %ul.nav.pull-right
+            - if signed_in?
+              %li 
+                %span.muted.navbar-text.welcome-message Welcome, #{current_user.first_name}
+              %li{class: current_page?(dashboard_path) ? "active" : ""}
+                = link_to "Dashboard", dashboard_path
+              %li{class: current_page?(messages_path) ? "active" : ""}
+                = link_to messages_path(anchor: "inbox") do
+                  Inbox
+                  %span.badge.badge-info= current_user.unread_message_count  
+              %li= link_to "Sign Out", destroy_user_session_path, method: :delete
+            - else
+              %li= link_to "Learn More", "#"
+              %li{class: current_page?(new_user_registration_path) ? "active" : ""}
+                = link_to "Sign Up", new_user_registration_path
+              %li{class: current_page?(new_user_session_path) ? "active" : ""}
+                = link_to "Log In", new_user_session_path
 
   %div.content-root
     %div.container
       - if content_for? :banner
         = yield :banner
       - else
-        %div.row
-          %span.span12= render_breadcrumbs
         %div.row
           - if content_for? :sidebar
             %div.span3

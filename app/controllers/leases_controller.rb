@@ -2,8 +2,6 @@ class LeasesController < ApplicationController
   before_filter :authenticate_user!
 
   def new
-    add_breadcrumb "New Lease", new_lease_path(params)
-
     tool = Tool.find(params[:tool_id])
 
     @lease = Lease.new.tap do |l|
@@ -16,8 +14,6 @@ class LeasesController < ApplicationController
   end
 
   def create
-    add_breadcrumb "New Lease", new_lease_path(params)
-
     @lease = current_user.request_reservation!(params[:lease])
 
     if @lease.valid?

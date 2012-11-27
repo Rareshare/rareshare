@@ -9,21 +9,14 @@ class UserMessage < ActiveRecord::Base
 
   attr_accessible :body
   belongs_to :messageable, polymorphic: true
+  after_create :make_self_originator_if_first
 
   def first?
-    self.originating_message_id.blank?
+    self.originating_message_id == self.id
   end
 
   def message_chain
-    UserMessage.where("id = ? OR originating_message_id = ?", self.id, self.id)
-  end
-
-  def acknowledge!
-    unless self.acknowledged?
-      self.acknowledged = true
-      self.save!
-    end
-    self
+    UserMessage.where(originating_message_id: self.originating_message_id)
   end
 
   def reply!(body)
@@ -35,6 +28,13 @@ class UserMessage < ActiveRecord::Base
       um.originating_message_id = self.originating_message_id || self.id
       um.save!
     end
+  end
+
+  private
+
+  def make_self_originator_if_first
+    self.originating_message_id = self.id if self.originating_message_id.blank?
+    save!
   end
 
 end

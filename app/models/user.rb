@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
          :confirmable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
   
   has_and_belongs_to_many :roles
 
@@ -21,10 +21,8 @@ class User < ActiveRecord::Base
     received_messages.unread.count
   end
 
-  def read_message(id)
-    received_messages.find(id).tap do |m|
-      m.acknowledge!
-    end
+  def acknowledge_message!(message)
+    received_messages.unread.where(originating_message_id: message.originating_message_id).update_all(acknowledged: true)
   end
 
   def can_read?(message)

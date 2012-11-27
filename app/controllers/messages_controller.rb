@@ -9,8 +9,8 @@ class MessagesController < ApplicationController
     @message = UserMessage.find(params[:id])
 
     if current_user.can_read?(@message)
+      current_user.acknowledge_message!(@message)
       unless @message.first?
-        @message.acknowledge!
         redirect_to message_path(@message.originating_message_id, anchor: "message-#{@message.id}")
       end
     else
