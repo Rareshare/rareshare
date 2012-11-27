@@ -20,10 +20,10 @@ ActiveRecord::Schema.define(:version => 20121126063316) do
     t.datetime "started_at"
     t.datetime "ended_at"
     t.datetime "cancelled_at"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.boolean  "tos_accepted"
-    t.string   "state",        :default => "pending"
+    t.string   "state"
     t.text     "description"
   end
 
