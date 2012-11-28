@@ -1,44 +1,66 @@
+%div.row.profile
+  %div.span.span12.profile-header
+    %div.row
+      %span.span2{style: "text-align: center"}
+        %img{src: current_user.image_url}
+      %span.span10
+        %h1= current_user.display_name
+        %span.muted
+          Joined on
+          = current_user.confirmed_at.to_date.to_s(:long)
+
 %ul.nav.nav-tabs
-  %li.active= link_to "My Leases", "#leases", data: { toggle: "tab" }
-  %li= link_to "My Tools", "#tools", data: { toggle: "tab" }
+  %li.active
+    %a(href="#leases" data-toggle="tab") Find a Tool
+  %li
+    %a(href="#tools" data-toggle="tab") Share a Tool
 
 %div.tab-content
   %div.tab-pane.active#leases
-    %h4 Lease a tool
-    = render partial: "shared/search"
-    %h4 Current Leases
-    %table.table
-      %thead
-        %tr
-          %th State
-          %th Dates
-          %th Item description
-          %th Cost
-          %th Options
-      %tbody
-        - current_user.leases.active.each do |l|
+    %div.well.well-small
+      = render 'shared/search'
+    - if current_user.leases.active.any?
+      %table.table
+        %thead
           %tr
-            %td
-              %span.label{class: "label-#{label_class_for(l)}"}= l.state
-            %td= l.duration_text
-            %td= l.tool.display_name
-            %td= number_to_currency l.total_cost
-            %td= simple_form_for(l, method: :delete) { |f| f.submit "Cancel", class: "btn btn-danger" } unless l.cancelled?
+            %th State
+            %th Dates
+            %th Item description
+            %th Cost
+            %th Options
+        %tbody
+          - current_user.leases.active.each do |l|
+            %tr
+              %td
+                %span.label{class: "label-#{label_class_for(l)}"}= l.state
+              %td= l.duration_text
+              %td= l.tool.display_name
+              %td= number_to_currency l.total_cost
+              %td= simple_form_for(l, method: :delete) { |f| f.submit "Cancel", class: "btn btn-danger" } unless l.cancelled?
+
   %div.tab-pane#tools
-    %h4 Share a tool
-    = link_to "Share a tool now", new_tool_path, class: "btn btn-primary"
-    %h4 Leaseable tools
-    %table.table
-      %thead
-        %tr
-          %th Item description
-          %th Cost
-          %th Options
-      %tbody
-        - current_user.tools.each do |t|
+    %div.well.well-small
+      = form_tag new_tool_path, method: "get", class: "form-inline share-tools no-margin" do
+        %label I have
+        %input{name: "model", type: "text", placeholder: "a death ray"}
+        %label made by
+        %input{name: "manufacturer", type: "text", placeholder: "Dr Horrible"}
+        %label near 
+        %input{name: "loc", type: "text", placeholder: "me"}
+        %input(name="submit" type="submit" value="Go" class="btn btn-default")
+
+    - if current_user.tools.any?
+      %table.table
+        %thead
           %tr
-            %td= link_to t.display_name, tool_path(t)
-            %td
-              = number_to_currency t.price_per_hour_adjusted
-              %span.muted per hour
-            %td= simple_form_for(t, method: :delete) { |f| f.submit "Delete", class: "btn btn-danger" }
+            %th Item description
+            %th Cost
+            %th Options
+        %tbody
+          - current_user.tools.each do |t|
+            %tr
+              %td= link_to t.display_name, tool_path(t)
+              %td
+                = number_to_currency t.price_per_hour_adjusted
+                %span.muted per hour
+              %td= simple_form_for(t, method: :delete) { |f| f.submit "Delete", class: "btn btn-danger" }

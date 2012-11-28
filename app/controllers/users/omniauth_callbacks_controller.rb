@@ -3,6 +3,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user = User.find_for_linkedin_oauth(request.env["omniauth.auth"], current_user)
 
     if @user.persisted? && @user.valid?
+      logger.info "(linkedin) debug: we are persisted, redirecting to #{after_sign_in_path_for(@user)}"
       sign_in_and_redirect @user, :event => :authentication
       set_flash_message(:notice, :success, :kind => "LinkedIn") if is_navigational_format?
     else

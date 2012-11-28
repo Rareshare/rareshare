@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
          :confirmable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :provider, :uid
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :provider, :uid, :image_url, :linkedin_profile_url
   
   has_and_belongs_to_many :roles
 
@@ -49,12 +49,12 @@ class User < ActiveRecord::Base
   def link_profile(auth)
     self.provider = auth.provider
     self.uid = auth.uid
-    self.linkedin_profile_url = auth.urls.public_profile
+    self.linkedin_profile_url = auth.info.urls.public_profile
     self.image_url ||= auth.info.image
   end
 
   def provider_linked?
-    self.provider.blank?
+    self.provider.present?
   end
 
   def self.find_for_linkedin_oauth(auth, signed_in_resource=nil)
@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
         email: auth.info.email,
         password: Devise.friendly_token[0,20],
         image_url: auth.info.image,
-        linkedin_profile_url: auth.urls.public_profile
+        linkedin_profile_url: auth.info.urls.public_profile
       )
     end
 

@@ -8,6 +8,11 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource_or_scope)
-    session[:user_return_to] || dashboard_path
+    return_to = session[:user_return_to]
+    if return_to && !return_to.match(user_omniauth_callback_path(:linkedin))
+      return_to
+    else
+      dashboard_path
+    end
   end
 end
