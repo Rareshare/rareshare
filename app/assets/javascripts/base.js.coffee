@@ -7,3 +7,9 @@ jQuery ->
   tabs = $('.nav-tabs')
   if window.location.hash and tabs.length > 0
     tabs.find("a[href='#{window.location.hash}']").tab('show')
+
+  $("input[data-provide='typeahead']").typeahead
+    source: (query, process) ->
+      typeaheadPath = this.$element.data("lookup")
+      $.get typeaheadPath, q: query, (resp) ->
+        process(resp)

@@ -12,7 +12,8 @@ class ToolsController < ApplicationController
 
   def create
     @tool = current_user.tools.build.tap do |t|
-      t.model_id = params[:tool][:model_id]
+      t.model_name = params[:tool][:model_name]
+      t.manufacturer_name = params[:tool][:manufacturer_name]
       t.resolution = params[:tool][:resolution]
       t.sample_size = params[:tool][:sample_size]
       t.price_per_hour = (Float(params[:tool][:price_per_hour]) * 100).to_i

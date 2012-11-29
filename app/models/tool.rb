@@ -3,16 +3,25 @@ class Tool < ActiveRecord::Base
   has_one :search, as: :searchable
   belongs_to :owner, class_name: "User"
   belongs_to :model
+  belongs_to :manufacturer
 
   after_save :update_search_document
   before_destroy :remove_search_document
 
   def manufacturer_name
-    model.try(:manufacturer).try(:name)
+    manufacturer.try(:name)
   end
 
   def model_name
     model.try(:name)
+  end
+
+  def model_name=(name)
+    self.model = Model.where(name: name).first || Model.create(name: name)
+  end
+
+  def manufacturer_name=(name)
+    self.manufacturer = Manufacturer.where(name: name).first || Manufacturer.create(name: name)
   end
 
   def self.search(query)

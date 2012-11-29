@@ -4,6 +4,7 @@ Rareshare::Application.routes.draw do
 
   match "dashboard", to: "users#dashboard", as: :dashboard
   match "search", to: "searches#show", as: :search
+  match "typeahead/:id", to: "typeahead#show", as: :typeahead
 
   resources :tools
   resources :leases
