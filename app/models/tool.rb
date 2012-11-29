@@ -8,6 +8,11 @@ class Tool < ActiveRecord::Base
   after_save :update_search_document
   before_destroy :remove_search_document
 
+  validates :model_id, :manufacturer_id, :price_per_hour, :owner, presence: true
+  attr_accessible :manufacturer, :manufacturer_id, :manufacturer_name
+  attr_accessible :model, :model_id, :model_name
+  attr_accessible :description, :price_per_hour, :sample_size, :resolution, :technician_required
+
   def manufacturer_name
     manufacturer.try(:name)
   end
@@ -34,6 +39,16 @@ class Tool < ActiveRecord::Base
 
   def price_per_hour_adjusted
     self.price_per_hour / 100.0
+  end
+
+  def price_per_hour=(price)
+    return if price.blank?
+
+    if price.is_a?(String)
+      price = Float(price) * 100
+    end
+
+    super(price)
   end
 
   private

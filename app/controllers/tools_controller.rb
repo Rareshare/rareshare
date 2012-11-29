@@ -11,18 +11,9 @@ class ToolsController < ApplicationController
   end
 
   def create
-    @tool = current_user.tools.build.tap do |t|
-      t.model_name = params[:tool][:model_name]
-      t.manufacturer_name = params[:tool][:manufacturer_name]
-      t.resolution = params[:tool][:resolution]
-      t.sample_size = params[:tool][:sample_size]
-      t.price_per_hour = (Float(params[:tool][:price_per_hour]) * 100).to_i
-      t.technician_required = params[:tool][:technician_required]
-      t.owner_id = current_user.id
-    end
+    @tool = current_user.tools.create params[:tool]
 
     if @tool.valid?
-      @tool.save!
       redirect_to dashboard_path(anchor: "tools", flash: { notify: "Tool successfully created!"})
     else
       render 'tools/new'
