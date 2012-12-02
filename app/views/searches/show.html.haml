@@ -1,4 +1,5 @@
-= render partial: "shared/search"
+%div.well.well-small
+  = render partial: "shared/search"
 
 - if @results.any?
   = render collection: @results, partial: 'result'
