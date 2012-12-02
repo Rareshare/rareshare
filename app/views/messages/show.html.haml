@@ -1,11 +1,13 @@
-%span= @message.sender.email
-%span= @message.messageable.description
-
 - @message.message_chain.each do |message|
   %div.row
-    %span.span8.offset2
+    %span.span2{style: "text-align: center"}
+      %img{src: message.sender.image_url}
+    %span.span8
       %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
-        %p= message.body
+        %p= message.body.html_safe
+        %p
+          %small.muted.pull-right.clearfix
+            #{message.sender.display_name} at #{message.created_at}
 
 %div.row
   %span.span8.offset2

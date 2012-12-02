@@ -59,10 +59,6 @@ class Lease < ActiveRecord::Base
     self.lessee == user
   end
 
-  def description
-    "#{self.tool.display_name} (#{self.duration_text})"
-  end
-
   protected
 
   def set_cancelled_timestamp
@@ -73,7 +69,7 @@ class Lease < ActiveRecord::Base
     user_messages.build.tap do |m|
       m.receiver = self.lessor
       m.sender = self.lessee
-      m.body = "Hi there! This is an automated message to let you know that I'd like to lease your tool for #{duration_text}. Please reply back to this message with any questions and I'll get back to you as soon as I can."
+      m.body = "You've received a request to lease your tool #{tool.display_name} from #{self.lessee.display_name}. Here's what they'd like to do with it: <blockquote>#{self.description}</blockquote> Please reply back with any questions you have for them, or click Approve to approve the lease.".html_safe
     end.save!
   end
 
