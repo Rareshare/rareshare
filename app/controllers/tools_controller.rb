@@ -7,7 +7,7 @@ class ToolsController < ApplicationController
   end
 
   def new
-    @tool = current_user.tools.build
+    @tool = current_user.tools.build(params[:tool] || {})
   end
 
   def create

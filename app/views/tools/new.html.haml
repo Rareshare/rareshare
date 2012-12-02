@@ -1,11 +1,16 @@
-= simple_form_for @tool do |f|
+= simple_form_for @tool, html: { class: "form-horizontal" } do |f|
   = f.error_notification
 
   .form-inputs
     = f.input :manufacturer_name, required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:manufacturer) } }
     = f.input :model_name, required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }
     = f.input :resolution
-    = f.input :sample_size
+
+    = f.input :sample_size, hint: sample_size_text(@tool) do
+      = f.hidden_field :sample_size_min
+      = f.hidden_field :sample_size_max
+      %div.slider-input{data: { max: max_possible_sample_size } }
+
     = f.input :description
     = f.input :price_per_hour, hint: "Per day: $<span class='price_per_day'>0</span>", input_html: { min: 0 }
     = f.input :technician_required, as: :boolean, label: false, inline_label: "Technician required"

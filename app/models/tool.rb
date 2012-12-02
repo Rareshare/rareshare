@@ -11,7 +11,10 @@ class Tool < ActiveRecord::Base
   validates :model_id, :manufacturer_id, :price_per_hour, :owner, presence: true
   attr_accessible :manufacturer, :manufacturer_id, :manufacturer_name
   attr_accessible :model, :model_id, :model_name
-  attr_accessible :description, :price_per_hour, :sample_size, :resolution, :technician_required
+  attr_accessible :description, :price_per_hour, :sample_size, :resolution, :technician_required, :sample_size_min, :sample_size_max
+
+  DEFAULT_SAMPLE_SIZE = [ -4, 4 ]
+  after_initialize :set_default_sample_size
 
   def manufacturer_name
     manufacturer.try(:name)
@@ -54,7 +57,7 @@ class Tool < ActiveRecord::Base
   private
 
   def update_search_document
-    terms = [ self.sample_size, self.resolution, self.model_name, self.manufacturer_name ].compact.join(" ")
+    terms = [ self.resolution, self.model_name, self.manufacturer_name ].compact.join(" ")
     
     if search.present?
       search.update_attributes(document: terms)
@@ -65,5 +68,11 @@ class Tool < ActiveRecord::Base
 
   def remove_search_document
     Search.delete_all(searchable_id: self.id, searchable_type: self.class.name)
+  end
+
+  def set_default_sample_size
+    min, max = DEFAULT_SAMPLE_SIZE
+    self.sample_size_min ||= min
+    self.sample_size_max ||= max
   end
 end

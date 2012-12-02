@@ -61,13 +61,14 @@ ActiveRecord::Schema.define(:version => 20121128035215) do
     t.integer  "owner_id"
     t.integer  "model_id"
     t.string   "resolution"
-    t.string   "sample_size"
     t.boolean  "technician_required"
     t.integer  "price_per_hour"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.text     "description"
     t.integer  "manufacturer_id"
+    t.integer  "sample_size_min"
+    t.integer  "sample_size_max"
   end
 
   create_table "user_messages", :force => true do |t|

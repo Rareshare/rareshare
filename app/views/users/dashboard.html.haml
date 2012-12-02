@@ -42,9 +42,9 @@
     %div.well.well-small
       = form_tag new_tool_path, method: "get", class: "form-inline share-tools no-margin" do
         %label I have
-        %input{name: "model", type: "text", placeholder: "a death ray"}
+        %input{name: "tool[model_name]", type: "text", placeholder: "a death ray"}
         %label made by
-        %input{name: "manufacturer", type: "text", placeholder: "Dr Horrible"}
+        %input{name: "tool[manufacturer_name]", type: "text", placeholder: "Dr Horrible"}
         %label near 
         %input{name: "loc", type: "text", placeholder: "me"}
         %input(name="submit" type="submit" value="Go" class="btn btn-default")

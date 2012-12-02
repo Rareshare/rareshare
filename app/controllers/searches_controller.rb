@@ -1,4 +1,5 @@
 class SearchesController < ApplicationController
+  helper :tools
   def show
     @query = SearchQuery.new(params)
     @results = @query.results
