@@ -7,6 +7,7 @@ gem 'therubyracer' # Javascript integration from within Ruby
 gem 'uglifier' # JS asset compression
 gem 'unicorn' # High-performance Ruby web server
 gem 'seed-fu' # Seed test data
+gem 'redis-rails' # Store sessions in Redis
 
 # User management
 gem 'devise' # A set of tools for user authentication

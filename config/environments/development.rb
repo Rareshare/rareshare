@@ -35,5 +35,8 @@ Rareshare::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
+  # Sets a cache store (mostly unneeded except for testing).
+  config.cache_store = :redis_store, ENV['REDISTOGO_URL']
+
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 end
