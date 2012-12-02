@@ -19,3 +19,6 @@
 
 # Ignore Foreman .env file.
 /.env
+
+# Ignore Redis dump database.
+/dump.rdb
