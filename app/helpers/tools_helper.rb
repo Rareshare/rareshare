@@ -9,7 +9,7 @@ module ToolsHelper
 
   def sample_size_text(tool)
     <<-HTML.html_safe
-      <span class="exponent">10<sup class="text-min">#{tool.sample_size_min}</sup> - <span class="exponent">10<sup class="text-max">#{tool.sample_size_max}</sup></span>
+      <span class="exponent">10<sup class="text-min">#{tool.sample_size_min}</sup>m - <span class="exponent">10<sup class="text-max">#{tool.sample_size_max}</sup>m</span>
     HTML
   end
 end

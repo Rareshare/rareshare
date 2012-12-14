@@ -63,4 +63,8 @@
               %td
                 = number_to_currency t.price_per_hour_adjusted
                 %span.muted per hour
-              %td= simple_form_for(t, method: :delete) { |f| f.submit "Delete", class: "btn btn-danger" }
+              %td
+                = simple_form_for(t, method: :delete) do |f| 
+                  .form-actions
+                    = link_to "Edit", edit_tool_path(t), class: "btn btn-info"
+                    = f.submit "Delete", class: "btn btn-danger"

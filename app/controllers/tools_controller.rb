@@ -8,6 +8,12 @@ class ToolsController < ApplicationController
 
   def new
     @tool = current_user.tools.build(params[:tool] || {})
+    add_breadcrumb "New " + @tool.display_name, tool_path(@tool)
+  end
+
+  def edit
+    @tool = Tool.find(params[:id])
+    add_breadcrumb "Edit " + @tool.display_name, edit_tool_path(@tool)
   end
 
   def create
