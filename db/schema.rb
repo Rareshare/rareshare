@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121128035215) do
+ActiveRecord::Schema.define(:version => 20121209200927) do
 
   create_table "leases", :force => true do |t|
     t.integer  "lessor_id"
@@ -55,6 +55,12 @@ ActiveRecord::Schema.define(:version => 20121128035215) do
     t.text    "document"
     t.integer "searchable_id"
     t.string  "searchable_type"
+  end
+
+  create_table "tool_categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "tools", :force => true do |t|

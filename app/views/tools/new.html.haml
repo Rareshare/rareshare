@@ -2,6 +2,7 @@
   = f.error_notification
 
   .form-inputs
+    = f.input :tool_category_name, required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:tool_category) } }
     = f.input :manufacturer_name, required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:manufacturer) } }
     = f.input :model_name, required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }
     = f.input :resolution
