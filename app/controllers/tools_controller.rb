@@ -8,7 +8,7 @@ class ToolsController < ApplicationController
 
   def new
     @tool = current_user.tools.build(params[:tool] || {})
-    add_breadcrumb "New " + @tool.display_name, tool_path(@tool)
+    add_breadcrumb "New " + @tool.display_name, new_tool_path
   end
 
   def edit

@@ -2,7 +2,8 @@ Rareshare::Application.routes.draw do
   root to: "home#index"
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
-  match "dashboard", to: "users#dashboard", as: :dashboard
+  match "profile", to: "users#profile", as: :profile
+
   match "search", to: "searches#show", as: :search
   match "typeahead/:id", to: "typeahead#show", as: :typeahead
 

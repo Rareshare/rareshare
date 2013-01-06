@@ -4,4 +4,11 @@ module ApplicationHelper
       content_tag(:i, "", class: "icon-linkedin") + " Sign in with LinkedIn"
     end
   end
+
+  def nav_link(name, url, opts={})
+    content_tag(:li, class: current_page?(url) ? "active" : "") do
+      icon = opts[:icon] ? content_tag(:i, "", class: "icon-#{opts[:icon]}") : ""
+      link_to icon + name, url
+    end
+  end
 end

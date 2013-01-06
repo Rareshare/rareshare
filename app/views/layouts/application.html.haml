@@ -13,20 +13,16 @@
     %div.rareshare.navbar.navbar-top
       %div.navbar-inner
         %div.container
-          %a.brand(href="/") Rareshare    
+          %a.brand(href="/") Rareshare
+          = form_tag search_url, method: "get", class: "navbar-search" do
+            %div(class="input-append")
+              %input(type="text" name="q" placeholder="What do you need?")
+              %button(type="submit" class="btn")
+                %i(class="icon-search" style="color: black")
           %ul.nav.pull-right
             - if signed_in?
               %li 
                 %span.muted.navbar-text.welcome-message Welcome, #{current_user.first_name}
-              %li{class: current_page?(dashboard_path) ? "active" : ""}
-                = link_to dashboard_path do
-                  %i.icon.icon-home
-                  Dashboard
-              %li{class: current_page?(messages_path) ? "active" : ""}
-                = link_to messages_path(anchor: "inbox") do
-                  %i.icon.icon-inbox
-                  Inbox
-                  %span.badge.badge-info= current_user.unread_message_count  
               %li= link_to "Sign Out", destroy_user_session_path, method: :delete
             - else
               %li= link_to "Learn More", "#"
@@ -36,19 +32,13 @@
                 = link_to "Log In", new_user_session_path
 
   %div.content-root
-    %div.container
+    %div.content.container
       - if content_for? :banner
         = yield :banner
       - else
         %div.row
           - if content_for? :sidebar
             %div.span3
-              / %div.well.sidebar-nav
-              /   %ul.nav.nav-list
-              /     %li.nav-header Sidebar
-              /     %li= link_to "Link1", "#"
-              /     %li= link_to "Link2", "#"
-              /     %li= link_to "Link3", "#"
               = yield :sidebar
 
             %div.span9
@@ -59,8 +49,9 @@
               = bootstrap_flash
               = yield
 
+    %footer.container
       %div.row
-        %footer.span12
+        %div.span12
           %p &copy; Rareshare 2012
 
     = javascript_include_tag "application"

@@ -1,0 +1,13 @@
+%div.navbar.alt-navbar
+  %div.navbar-inner
+    %ul.nav
+      = nav_link "My Profile", profile_path, icon: "user-md"
+      = nav_link "Find a Tool", search_path, icon: "search"
+      = nav_link "Share a Tool", new_tool_path, icon: "beaker"
+      = nav_link "Calendar", "", icon: "time"
+      %li{class: current_page?(messages_path) ? "active" : ""}
+        = link_to messages_path do
+          %i.icon-inbox
+          Messages
+          - count = current_user.unread_message_count
+          %span.badge{class: count > 0 ? "badge-info" : "badge-default"}= count

@@ -1,7 +1,9 @@
+= render "shared/navbar"
+
 %h4 Inbox
 - if @messages.empty?
   %p 
-    You haven't received any messages yet!
+    You haven't received any messages yet.
     = link_to "Search for a lease", search_path
     to get started with RareShare.
 - else
