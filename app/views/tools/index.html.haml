@@ -1,0 +1,20 @@
+= render layout: 'shared/navbar' do
+  - if current_user.tools.any?
+    %table.table
+      %thead
+        %tr
+          %th Item description
+          %th Cost
+          %th Options
+      %tbody
+        - current_user.tools.each do |t|
+          %tr
+            %td= link_to t.display_name, tool_path(t)
+            %td
+              = number_to_currency t.price_per_hour_adjusted
+              %span.muted per hour
+            %td
+              = simple_form_for(t, method: :delete) do |f| 
+                .form-actions
+                  = link_to "Edit", edit_tool_path(t), class: "btn btn-info"
+                  = f.submit "Delete", class: "btn btn-danger"

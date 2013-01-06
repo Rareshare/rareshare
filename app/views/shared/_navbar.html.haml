@@ -2,9 +2,9 @@
 %div.navbar.alt-navbar
   %div.navbar-inner
     %ul.nav
-      = nav_link "Profile", profile_path, icon: "user-md"
-      = nav_link "Find a Tool", search_path, icon: "search"
-      = nav_link "Share a Tool", new_tool_path, icon: "beaker"
+      = nav_link "Profile", profile_path, icon: "user-md", controller: "profile"
+      = nav_link "Find a Tool", search_path, icon: "search", controller: "searches"
+      = nav_link "Share a Tool", tools_path, icon: "beaker", controller: "tools"
       = nav_link "Calendar", "", icon: "time"
       %li{class: current_page?(messages_path) ? "active" : ""}
         = link_to messages_path do

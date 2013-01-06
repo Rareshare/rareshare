@@ -1,4 +1,7 @@
 = render layout: 'shared/navbar' do
+  = link_to tools_path do
+    %i.icon.icon-chevron-left
+    All my tools
   = simple_form_for @tool, html: { class: "form-horizontal" } do |f|
     = f.error_notification
 
@@ -21,7 +24,9 @@
         = f.input :description, hint: "Please list any additional distinguishing characteristics of the tool, e.g. customizations."
 
       %fieldset
-        %legend Only visible to lessors
+        %legend
+          %i.icon.icon-lock.icon-large
+          Only visible to lessors
         %p We keep this information hidden from users until they've confirmed a reservation with you.
         = f.simple_fields_for :address do |a|
           = a.input :address_line_1
