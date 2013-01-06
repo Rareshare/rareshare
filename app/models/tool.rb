@@ -1,18 +1,24 @@
 class Tool < ActiveRecord::Base
   has_many :leases
   has_one :search, as: :searchable
+  has_one :address, as: :addressable
+
   belongs_to :owner, class_name: "User"
   belongs_to :model
   belongs_to :manufacturer
   belongs_to :tool_category
 
+  after_initialize :build_address
   after_save :update_search_document
   before_destroy :remove_search_document
 
   validates :model_id, :manufacturer_id, :price_per_hour, :owner, presence: true
+
   attr_accessible :manufacturer, :manufacturer_id
   attr_accessible :model, :model_id
   attr_accessible :description, :price_per_hour, :sample_size, :resolution, :technician_required, :sample_size_min, :sample_size_max
+  accepts_nested_attributes_for :address, allow_destroy: true
+  attr_accessible :address
 
   DEFAULT_SAMPLE_SIZE = [ -4, 4 ]
   after_initialize :set_default_sample_size

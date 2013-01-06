@@ -20,7 +20,7 @@ class ToolsController < ApplicationController
     @tool = current_user.tools.create params[:tool]
 
     if @tool.valid?
-      redirect_to dashboard_path(anchor: "tools", flash: { notify: "Tool successfully created!"})
+      redirect_to profile_path(anchor: "tools", flash: { notify: "Tool successfully created!"})
     else
       render 'tools/new'
     end

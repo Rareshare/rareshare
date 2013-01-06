@@ -17,7 +17,7 @@ class LeasesController < ApplicationController
     @lease = current_user.request_reservation!(params[:lease])
 
     if @lease.valid?
-      redirect_to dashboard_path, flash: { notice: "Lease successful!" }
+      redirect_to profile_path, flash: { notice: "Lease successful!" }
     else
       render 'leases/new'
     end
@@ -29,9 +29,9 @@ class LeasesController < ApplicationController
     if @lease.reserved_by?(current_user)
       @lease.cancel!
       @lease.save!
-      redirect_to dashboard_path, flash: { notice: "Lease successfully cancelled." }
+      redirect_to profile_path, flash: { notice: "Lease successfully cancelled." }
     else
-      redirect_to dashboard_path, flash: { error: "You do not have permission to cancel this lease." }
+      redirect_to profile_path, flash: { error: "You do not have permission to cancel this lease." }
     end
   end
 end

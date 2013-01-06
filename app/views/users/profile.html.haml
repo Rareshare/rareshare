@@ -13,8 +13,6 @@
 
 %div.tab-content
   %div.tab-pane.active#leases
-    %div.well.well-small
-      = render 'shared/search'
     - if current_user.leases.active.any?
       %table.table
         %thead

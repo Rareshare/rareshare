@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     if return_to && !return_to.match(user_omniauth_callback_path(:linkedin))
       return_to
     else
-      dashboard_path
+      profile_path
     end
   end
 end

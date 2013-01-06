@@ -65,6 +65,7 @@ GEM
       activesupport (>= 3.0.0)
     foreman (0.60.2)
       thor (>= 0.13.6)
+    geocoder (1.1.6)
     haml (3.1.7)
     haml-rails (0.3.5)
       actionpack (>= 3.1, < 4.1)
@@ -203,6 +204,7 @@ DEPENDENCIES
   devise
   factory_girl
   foreman
+  geocoder
   haml-rails
   jquery-rails
   jquery-ui-rails

@@ -68,6 +68,10 @@ form {
     height: 200px;
     width: 400px;
   }
+
+  legend {
+    border-bottom: 1px solid @defaultBorderColor;
+  }
 }
 
 ul.breadcrumb {
@@ -80,6 +84,9 @@ ul.breadcrumb {
 }
 
 .alt-navbar.navbar {
+  font-weight: 100;
+  font-size: 16px;
+
   .navbar-inner {
     border: none;
     #gradient > .vertical(@altNavbarBackgroundHighlight, @altNavbarBackground);

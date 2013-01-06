@@ -16,9 +16,10 @@ gem 'texticle', require: 'texticle/rails' # Postgres full-text searching
 gem 'omniauth' # Integrate Devise with OAuth providers
 gem 'omniauth-linkedin'
 
-# Code organization
+# Support and extensions
 gem 'active_attr' # Treat basic Ruby objects like models
 gem 'aasm' # Add a state pattern to models
+gem 'geocoder' # Geocoding support
 
 # Rendering and style
 gem 'simple_form', git: "https://github.com/plataformatec/simple_form.git" # Riding master for bootstrap integration.
