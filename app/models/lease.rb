@@ -39,8 +39,12 @@ class Lease < ActiveRecord::Base
     end
   end
 
+  def duration
+    started_at..ended_at
+  end
+
   def duration_in_days
-    (( ( ended_at - started_at ) + 1.day ) / 1.day.to_i).to_i
+    duration.length
   end
 
   def duration_text
