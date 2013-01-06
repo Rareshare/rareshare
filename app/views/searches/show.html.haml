@@ -1,10 +1,18 @@
 - if signed_in?
-  = render 'shared/navbar'
+  = render layout: 'shared/navbar' do
+    %div.well.well-small
+      = render partial: "shared/search"
 
-%div.well.well-small
-  = render partial: "shared/search"
+    - if @results.any?
+      = render collection: @results, partial: 'result'
+    - elsif @query.valid?
+      %p No results found.
+- else
+  %div.well.well-small
+    = render partial: "shared/search"
 
-- if @results.any?
-  = render collection: @results, partial: 'result'
-- elsif @query.valid?
-  %p No results found.
+  - if @results.any?
+    = render collection: @results, partial: 'result'
+  - elsif @query.valid?
+    %p No results found.
+

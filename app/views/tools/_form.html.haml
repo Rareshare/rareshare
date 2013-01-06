@@ -1,36 +1,35 @@
-= render 'shared/navbar'
+= render layout: 'shared/navbar' do
+  = simple_form_for @tool, html: { class: "form-horizontal" } do |f|
+    = f.error_notification
 
-= simple_form_for @tool, html: { class: "form-horizontal" } do |f|
-  = f.error_notification
+    %div.form-inputs
+      %fieldset
+        %legend About the tool
+        %p Please describe the instrument you'd like to share.
+        = f.input :tool_category_name, label: "Category", hint: "e.g. microscope, centrifuge, scanner", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:tool_category) } }
+        = f.input :manufacturer_name, label: "Manufacturer", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:manufacturer) } }
+        = f.input :model_name, label: "Model", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }
+        = f.input :resolution, hint: ""
 
-  %div.form-inputs
-    %fieldset
-      %legend About the tool
-      %p Please describe the instrument you'd like to share.
-      = f.input :tool_category_name, label: "Category", hint: "e.g. microscope, centrifuge, scanner", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:tool_category) } }
-      = f.input :manufacturer_name, label: "Manufacturer", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:manufacturer) } }
-      = f.input :model_name, label: "Model", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }
-      = f.input :resolution, hint: ""
+        = f.input :sample_size, hint: sample_size_text(@tool) do
+          = f.hidden_field :sample_size_min
+          = f.hidden_field :sample_size_max
+          %div.slider-input{data: { max: max_possible_sample_size } }
 
-      = f.input :sample_size, hint: sample_size_text(@tool) do
-        = f.hidden_field :sample_size_min
-        = f.hidden_field :sample_size_max
-        %div.slider-input{data: { max: max_possible_sample_size } }
+        = f.input :price_per_hour, hint: "Per day: $<span class='price_per_day'>0</span>", input_html: { min: 0 }
+        = f.input :technician_required, as: :boolean, label: false, inline_label: "Technician required"
+        = f.input :description, hint: "Please list any additional distinguishing characteristics of the tool, e.g. customizations."
 
-      = f.input :price_per_hour, hint: "Per day: $<span class='price_per_day'>0</span>", input_html: { min: 0 }
-      = f.input :technician_required, as: :boolean, label: false, inline_label: "Technician required"
-      = f.input :description, hint: "Please list any additional distinguishing characteristics of the tool, e.g. customizations."
+      %fieldset
+        %legend Only visible to lessors
+        %p We keep this information hidden from users until they've confirmed a reservation with you.
+        = f.simple_fields_for :address do |a|
+          = a.input :address_line_1
+          = a.input :address_line_2
+          = a.input :city
+          = a.input :state
+          = a.input :zip_code
 
-    %fieldset
-      %legend Only visible to lessors
-      %p We keep this information hidden from users until they've confirmed a reservation with you.
-      = f.simple_fields_for :address do |a|
-        = a.input :address_line_1
-        = a.input :address_line_2
-        = a.input :city
-        = a.input :state
-        = a.input :zip_code
-
-  .form-actions
-    = f.button :submit, class: "btn btn-primary"
-    = link_to "Cancel", profile_path, class: "btn btn-default"
+    .form-actions
+      = f.button :submit, class: "btn btn-primary"
+      = link_to "Cancel", profile_path, class: "btn btn-default"

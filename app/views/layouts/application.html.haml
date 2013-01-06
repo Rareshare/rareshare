@@ -36,18 +36,7 @@
       - if content_for? :banner
         = yield :banner
       - else
-        %div.row
-          - if content_for? :sidebar
-            %div.span3
-              = yield :sidebar
-
-            %div.span9
-              = bootstrap_flash
-              = yield
-          - else
-            %div.span12
-              = bootstrap_flash
-              = yield
+        = yield
 
     %footer.container
       %div.row

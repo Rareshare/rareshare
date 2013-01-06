@@ -1,18 +1,19 @@
-- @message.message_chain.each do |message|
-  %div.row
-    %span.span2{style: "text-align: center"}
-      %img{src: message.sender.image_url}
-    %span.span8
-      %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
-        %p= message.body.html_safe
-        %p
-          %small.muted.pull-right.clearfix
-            #{message.sender.display_name} at #{message.created_at}
+= render layout: 'shared/navbar' do
+  - @message.message_chain.each do |message|
+    %div.row
+      %span.span2{style: "text-align: center"}
+        %img{src: message.sender.image_url}
+      %span.span8
+        %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
+          %p= message.body.html_safe
+          %p
+            %small.muted.pull-right.clearfix
+              #{message.sender.display_name} at #{message.created_at}
 
-%div.row
-  %span.span8.offset2
-    = simple_form_for UserMessage.new, as: :message, url: reply_message_path(@message) do |f|
-      .form-inputs
-        = f.input :body, label: false, input_html: { rows: 4, cols: nil }
-      .form-actions
-        = f.button :submit, "Reply", class: "btn btn-primary"
+  %div.row
+    %span.span8.offset2
+      = simple_form_for UserMessage.new, as: :message, url: reply_message_path(@message) do |f|
+        .form-inputs
+          = f.input :body, label: false, input_html: { rows: 4, cols: nil }
+        .form-actions
+          = f.button :submit, "Reply", class: "btn btn-primary"

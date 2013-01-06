@@ -11,4 +11,8 @@ module ApplicationHelper
       link_to icon + name, url
     end
   end
+
+  def with_navbar(category, &block)
+    
+  end
 end
