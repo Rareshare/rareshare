@@ -16,11 +16,21 @@ class ToolsController < ApplicationController
     add_breadcrumb "Edit " + @tool.display_name, edit_tool_path(@tool)
   end
 
+  def update
+    @tool = Tool.find(params[:id])
+
+    if @tool.update_attributes(params[:tool])
+      redirect_to tools_path(flash: { notify: "Tool saved."})
+    else
+      render 'tools/edit'
+    end
+  end
+
   def create
     @tool = current_user.tools.create params[:tool]
 
     if @tool.valid?
-      redirect_to profile_path(anchor: "tools", flash: { notify: "Tool successfully created!"})
+      redirect_to tools_path(flash: { notify: "Tool created."})
     else
       render 'tools/new'
     end

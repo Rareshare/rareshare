@@ -1,4 +1,10 @@
 = render layout: 'shared/navbar' do
+  %h1 
+    Tools
+    %small
+      = link_to new_tool_path do
+        Add a tool
+        %i.icon.icon-chevron-right
   - if current_user.tools.any?
     %table.table
       %thead

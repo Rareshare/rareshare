@@ -18,7 +18,7 @@ class Tool < ActiveRecord::Base
   attr_accessible :model, :model_id
   attr_accessible :description, :price_per_hour, :sample_size, :resolution, :technician_required, :sample_size_min, :sample_size_max
   accepts_nested_attributes_for :address, allow_destroy: true
-  attr_accessible :address
+  attr_accessible :address_attributes
 
   DEFAULT_SAMPLE_SIZE = [ -4, 4 ]
   after_initialize :set_default_sample_size

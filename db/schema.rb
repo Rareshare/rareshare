@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130106164258) do
+ActiveRecord::Schema.define(:version => 20130106214054) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_line_1"
@@ -127,6 +127,13 @@ ActiveRecord::Schema.define(:version => 20130106164258) do
     t.string   "uid"
     t.string   "image_url"
     t.string   "linkedin_profile_url"
+    t.string   "title"
+    t.string   "organization"
+    t.string   "education"
+    t.text     "bio"
+    t.string   "primary_phone"
+    t.string   "secondary_phone"
+    t.text     "qualifications"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
