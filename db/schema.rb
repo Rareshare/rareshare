@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130106214054) do
+ActiveRecord::Schema.define(:version => 20130119175020) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_line_1"
@@ -25,6 +25,21 @@ ActiveRecord::Schema.define(:version => 20130106214054) do
     t.integer  "addressable_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+  end
+
+  create_table "helpers", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "zip"
+    t.string   "phone"
+    t.string   "blog"
+    t.string   "listserv"
+    t.string   "twitter"
+    t.text     "groups"
+    t.text     "other"
+    t.text     "memories"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "leases", :force => true do |t|
@@ -134,6 +149,7 @@ ActiveRecord::Schema.define(:version => 20130106214054) do
     t.string   "primary_phone"
     t.string   "secondary_phone"
     t.text     "qualifications"
+    t.integer  "tools_count",            :default => 0
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

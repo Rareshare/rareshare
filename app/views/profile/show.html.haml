@@ -1,18 +1,29 @@
 = render layout: 'shared/navbar' do
   %div.row.profile
-    %div.span.span12.profile-header
+    %div.span.span12
       %div.row
-        %span.span2
+        %span.span2.profile-sidebar
           %img{src: current_user.image_url, style: "width: 100%;"}
           %ul.nav.nav-list
+            %li.nav-header
+              Quick Links
             %li
-              = link_to "Edit my profile", edit_profile_path
+              = link_to edit_profile_path do
+                %i.icon-edit 
+                Edit my profile
             %li
-              = link_to "Add a Tool", new_tool_path
+              = link_to new_tool_path do
+                %i.icon-beaker
+                Add a Tool
             %li
-              = link_to "My Messages", messages_path
-            %li Upload a photo
-        %span.span10
+              = link_to messages_path do
+                %i.icon-envelope
+                My Messages
+            %li
+              = link_to "#" do
+                %i.icon-picture
+                Upload a photo
+        %span.span10.profile-main
           %h1= current_user.display_name
           %span.muted
             Joined on

@@ -4,7 +4,7 @@
     %ul.nav
       = nav_link "Profile", profile_path, icon: "user-md", controller: "profile"
       = nav_link "Find a Tool", search_path, icon: "search", controller: "searches"
-      = nav_link "Share a Tool", tools_path, icon: "beaker", controller: "tools"
+      = nav_link "Share a Tool", share_a_tool_path, icon: "beaker", controller: "tools"
       = nav_link "Calendar", calendar_path, icon: "time"
       %li{class: current_page?(messages_path) ? "active" : ""}
         = link_to messages_path do

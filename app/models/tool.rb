@@ -7,6 +7,7 @@ class Tool < ActiveRecord::Base
   belongs_to :model
   belongs_to :manufacturer
   belongs_to :tool_category
+  belongs_to :user, counter_cache: true
 
   after_initialize :build_address
   after_save :update_search_document

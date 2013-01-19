@@ -14,7 +14,7 @@ module ApplicationHelper
     end
   end
 
-  def with_navbar(category, &block)
-    
+  def share_a_tool_path(params={})
+    current_user.tools_count > 0 ? tools_path(params) : new_tool_path(params)
   end
 end
