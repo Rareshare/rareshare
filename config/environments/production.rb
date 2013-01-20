@@ -75,7 +75,7 @@ Rareshare::Application.configure do
     :authentication => :plain,
     :address => "smtp.mailgun.org",
     :port => ENV["MAILGUN_SMTP_PORT"],
-    :domain => ENV["MAILGUN_SMTP_LOGIN"].split("@").last,
+    :domain => ( ENV["MAILGUN_SMTP_LOGIN"] || "" ).split("@").last,
     :user_name => ENV["MAILGUN_SMTP_LOGIN"],
     :password => ENV["MAILGUN_SMTP_PASSWORD"]
   }
