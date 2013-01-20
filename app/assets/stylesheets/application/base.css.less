@@ -78,12 +78,12 @@ form {
       font-size: 14px;
     }
 
-    > .span1 { > .control-group { .string, .text, .numeric { .input-width(1); } } }
-    > .span2 { > .control-group { .string, .text, .numeric { .input-width(2); } } }
-    > .span3 { > .control-group { .string, .text, .numeric { .input-width(3); } } }
-    > .span4 { > .control-group { .string, .text, .numeric { .input-width(4); } } }
-    > .span5 { > .control-group { .string, .text, .numeric { .input-width(5); } } }
-    > .span6 { > .control-group { .string, .text, .numeric { .input-width(6); } } }
+    > .span1 { > .control-group { select, .string, .text, .numeric { .input-width(1); } } }
+    > .span2 { > .control-group { select, .string, .text, .numeric { .input-width(2); } } }
+    > .span3 { > .control-group { select, .string, .text, .numeric { .input-width(3); } } }
+    > .span4 { > .control-group { select, .string, .text, .numeric { .input-width(4); } } }
+    > .span5 { > .control-group { select, .string, .text, .numeric { .input-width(5); } } }
+    > .span6 { > .control-group { select, .string, .text, .numeric { .input-width(6); } } }
   }
 }
 
@@ -143,4 +143,9 @@ h1, h2, h3, h4, h5, h6 { &.pull-up { margin-top: 0; } }
     margin-bottom: 10px;
     border-bottom: 1px solid @defaultBorderColor;
   }
+}
+
+.typeahead {
+  max-height: 300px;
+  overflow: auto;
 }

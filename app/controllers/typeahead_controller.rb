@@ -2,7 +2,12 @@ class TypeaheadController < ApplicationController
 
   def show
     model_class = params[:id].classify.constantize
-    names = model_class.select("name").search(name: "#{params[:q]}:*").limit(self.limit).map(&:name)
+
+    names = if params[:q] == "*"
+      model_class.select("name").map(&:name)
+    else
+      model_class.select("name").search(name: "#{params[:q]}:*").limit(self.limit).map(&:name)
+    end
     render json: names
   rescue => e
     Rails.logger.error e

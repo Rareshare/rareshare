@@ -65,6 +65,10 @@ class Tool < ActiveRecord::Base
     super(price)
   end
 
+  def possible_years
+    Date.today.year.downto(1970).to_a
+  end
+
   private
 
   def update_search_document

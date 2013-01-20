@@ -26,3 +26,16 @@ $ ->
     })
 
     updateVisualRange()
+
+  $(".input-append").each ->
+    input = $(this).find("input")
+    button = $(this).find("button")
+    
+    button.click (evt) ->
+      evt.preventDefault()
+      typeahead = input.data("typeahead")
+
+      if typeahead
+        typeahead.query = ""
+        items = typeahead.source("*", $.proxy(typeahead.process, typeahead))
+        typeahead.process(items) if items?
