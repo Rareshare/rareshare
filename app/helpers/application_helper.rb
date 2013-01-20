@@ -15,6 +15,6 @@ module ApplicationHelper
   end
 
   def share_a_tool_path(params={})
-    current_user.tools_count > 0 ? tools_path(params) : new_tool_path(params)
+    current_user.tools_count.to_i > 0 ? tools_path(params) : new_tool_path(params)
   end
 end
