@@ -13,18 +13,24 @@
             %p Please describe the instrument you'd like to share.
           %span.span9
             %div.row
-              %span.span3= f.input :tool_category_name, label: "Category", hint: "e.g. microscope, centrifuge, scanner", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:tool_category) } }
+              %span.span4= f.input :tool_category_name, label: "Category", hint: "e.g. microscope, centrifuge, scanner", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:tool_category) } }
+
+            %div.row
+              %span.span2= f.input :year_manufactured, hint: "Approximate"
               %span.span3= f.input :manufacturer_name, label: "Manufacturer", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:manufacturer) } }
               %span.span3= f.input :model_name, label: "Model", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }
+              
             %div.row
               %span.span5= f.input :resolution, hint: "The smallest amount of input signal change that the instrument can detect reliably."
 
-            = f.input :sample_size, hint: sample_size_text(@tool) do
-              = f.hidden_field :sample_size_min
-              = f.hidden_field :sample_size_max
-              %div.slider-input{data: { max: max_possible_sample_size } }
+            = f.input :sample_size, hint: sample_size_text(@tool), wrapper_html: { data: { bind: 'with: resolution'} } do
+              = f.hidden_field :sample_size_min#, data: { bind: 'value: minActual' }
+              = f.hidden_field :sample_size_max, data: { bind: 'value: maxActual' }
+              = hidden_field_tag :sample_size_min_possible, min_possible_sample_size, data: { bind: 'value: minPossible' }
+              = hidden_field_tag :sample_size_max_possible, max_possible_sample_size, data: { bind: 'value: maxPossible' }
+              %div.slider-input{ data: { bind: 'slider: $parent.resolution'} }
 
-            = f.input :price_per_hour, hint: "Per day: $<span class='price_per_day'>0</span>", input_html: { min: 0 }
+            = f.input :price_per_hour, hint: "Per day: <span data-bind='text: pricePerDay'></span>", input_html: { min: 0, data: { bind: 'value: pricePerHour' } }
             = f.input :technician_required, as: :boolean, label: false, inline_label: "Technician required"
             = f.input :description, hint: "Please list any additional distinguishing characteristics of the tool, e.g. customizations."
 
@@ -36,6 +42,8 @@
           %span.span3
             %p We keep this information hidden from users until they've confirmed a reservation with you.
           %span.span9
+            %div.row
+              %span.span5= f.input :serial_number
             = f.simple_fields_for :address do |a|
               %div.row
                 %span.span6= a.input :address_line_1

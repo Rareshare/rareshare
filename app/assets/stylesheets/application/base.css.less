@@ -74,12 +74,16 @@ form {
       width: (@gridColumnWidth * @column) + (@gridGutterWidth * (@column - 2) + 6px);
     }
 
-    > .span1 { > .control-group { .string, .text { .input-width(1); } } }
-    > .span2 { > .control-group { .string, .text { .input-width(2); } } }
-    > .span3 { > .control-group { .string, .text { .input-width(3); } } }
-    > .span4 { > .control-group { .string, .text { .input-width(4); } } }
-    > .span5 { > .control-group { .string, .text { .input-width(5); } } }
-    > .span6 { > .control-group { .string, .text { .input-width(6); } } }
+    p.help-block {
+      font-size: 14px;
+    }
+
+    > .span1 { > .control-group { .string, .text, .numeric { .input-width(1); } } }
+    > .span2 { > .control-group { .string, .text, .numeric { .input-width(2); } } }
+    > .span3 { > .control-group { .string, .text, .numeric { .input-width(3); } } }
+    > .span4 { > .control-group { .string, .text, .numeric { .input-width(4); } } }
+    > .span5 { > .control-group { .string, .text, .numeric { .input-width(5); } } }
+    > .span6 { > .control-group { .string, .text, .numeric { .input-width(6); } } }
   }
 }
 
