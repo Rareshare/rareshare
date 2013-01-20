@@ -1,2 +1,28 @@
 = render layout: 'shared/navbar' do
-  %h1 Calendar
+  %div.row.row-header
+    %span.span12
+      %h1 Calendar
+      %span.muted= @calendar.title
+      
+  %div.row
+    %span.span2
+      %table.calendar
+        %thead
+          %tr
+            %th S
+            %th M
+            %th Tu
+            %th W
+            %th Th
+            %th F
+            %th S
+        %tbody
+          - @calendar.weeks.each do |week|
+            %tr
+              - week.each do |date|
+                %td{class: date_class_for(@calendar, date)}= date.day
+
+    %span.span10
+      %h3.pull-up Leases
+      - if @calendar.leases.empty?
+        %p You have no leases this month.
