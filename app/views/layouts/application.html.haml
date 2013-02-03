@@ -15,11 +15,10 @@
       %div.navbar-inner
         %div.container
           %a.brand(href="/") Rareshare
-          = form_tag search_url, method: "get", class: "navbar-search" do
-            %div(class="input-append")
-              %input(type="text" name="q" placeholder="What do you need?")
-              %button(type="submit" class="btn")
-                %i(class="icon-search" style="color: black")
+          = form_tag search_url, method: "get", class: "navbar-search", id: "navbar-search", style: "position: relative" do
+            %input(type="text" name="q" placeholder="What do you need?" style="border-right: none")
+            %span(style="margin-left: -30px; position: absolute; top: 5px; right: 10px")
+              %i(class="icon-search" style="color: black")
           %ul.nav.pull-right
             - if signed_in?
               %li 
