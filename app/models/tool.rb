@@ -73,6 +73,10 @@ class Tool < ActiveRecord::Base
     build_address if self.address.blank?
   end
 
+  def leaseable_by?(user)
+    user.id != self.owner_id
+  end
+
   private
 
   def update_search_document

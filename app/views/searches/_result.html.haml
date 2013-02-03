@@ -5,10 +5,15 @@
         %span.price_per_hour= number_to_currency result.price_per_hour_adjusted
         %span.muted dollars per hour
         - if user_signed_in?
-          %div
-            = link_to "Reserve", new_lease_path(tool_id: result.id, date: @query.on), class: "btn btn-primary"
-          %div.small.muted on 
-          %span.label.label-success= @query.on
+          - if result.leaseable_by?(current_user)
+            %div
+              = link_to "Reserve", new_lease_path(tool_id: result.id, date: @query.on), class: "btn btn-primary"
+            %div.small.muted on 
+            %span.label.label-success= @query.on
+          - else
+            %div
+              Owner
+              = link_to "Edit", edit_tool_path(result), class: "btn"
         - else
           %div
             = link_to "Log In", new_lease_path(tool_id: result.id, date: @query.on), class: "btn"

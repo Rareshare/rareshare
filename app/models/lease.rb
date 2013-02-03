@@ -9,6 +9,7 @@ class Lease < ActiveRecord::Base
 
   validates_presence_of :lessor_id, :lessee_id, :tool_id, :description
   validates_inclusion_of :tos_accepted, in: [ "1", 1, true ], message: "Please accept the Terms of Service."
+  validate :lessee_cannot_be_lessor
 
   scope :active, where(cancelled_at: nil)
 
@@ -83,6 +84,12 @@ class Lease < ActiveRecord::Base
 
   def set_initial_state
     self.state = "pending"
+  end
+
+  def lessee_cannot_be_lessor
+    if self.lessee_id == self.lessor_id
+      errors.add "lessee_id", "You cannot lease your own tool."
+    end
   end
 
 end

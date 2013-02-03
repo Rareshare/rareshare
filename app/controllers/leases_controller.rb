@@ -11,6 +11,10 @@ class LeasesController < ApplicationController
       l.started_at = params[:date]
       l.ended_at   = params[:date]
     end
+
+    if @lease.lessor_id == @lease.lessee_id
+      redirect_to :back, error: "You cannot lease your own tool."
+    end
   end
 
   def create

@@ -8,6 +8,7 @@ class SearchQuery
   validates_presence_of :q
 
   def results
+    self.on ||= Date.today
     bad_leases = Lease.select("tool_id").where(started_at: on).active.map(&:tool_id)
     @tools = Search.search(q).where("searchable_id NOT IN (?)", bad_leases.any? ? bad_leases : -1).map(&:searchable)
   end
