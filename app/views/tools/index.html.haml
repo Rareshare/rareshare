@@ -5,7 +5,7 @@
       = link_to new_tool_path do
         Add a tool
         %i.icon.icon-chevron-right
-  - if current_user.tools.any?
+  - if @tools.any?
     %table.table
       %thead
         %tr
@@ -13,7 +13,7 @@
           %th Cost
           %th Options
       %tbody
-        - current_user.tools.each do |t|
+        - @tools.each do |t|
           %tr
             %td= link_to t.display_name, tool_path(t)
             %td

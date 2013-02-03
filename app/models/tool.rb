@@ -9,13 +9,13 @@ class Tool < ActiveRecord::Base
   belongs_to :tool_category
   belongs_to :user, counter_cache: true
 
-  after_initialize :build_address
+  after_initialize :build_address_if_blank
   after_save :update_search_document
   before_destroy :remove_search_document
 
-  validates :model_id, :manufacturer_id, :price_per_hour, :owner, presence: true
+  validates :model_name, :manufacturer_name, :tool_category_name, :price_per_hour, :owner, presence: true
 
-  attr_accessible :manufacturer, :manufacturer_id
+  attr_accessible :manufacturer, :manufacturer_id, :year_manufactured, :serial_number
   attr_accessible :model, :model_id
   attr_accessible :description, :price_per_hour, :sample_size, :resolution, :technician_required, :sample_size_min, :sample_size_max
   accepts_nested_attributes_for :address, allow_destroy: true
@@ -69,13 +69,18 @@ class Tool < ActiveRecord::Base
     Date.today.year.downto(1970).to_a
   end
 
+  def build_address_if_blank
+    build_address if self.address.blank?
+  end
+
   private
 
   def update_search_document
-    terms = [ self.resolution, self.model_name, self.manufacturer_name, self.tool_category_name ].compact.join(" ")
+    terms = [ self.tool_category_name, self.manufacturer_name, self.model_name, self.description ].compact.join(" ")
     
     if search.present?
-      search.update_attributes(document: terms)
+      # search.update_attributes(document: terms)
+      Search.where(searchable_id: self.id, searchable_type: self.class.name).update_all(document: terms)
     else
       Search.create(searchable_id: self.id, searchable_type: self.class.name, document: terms)
     end

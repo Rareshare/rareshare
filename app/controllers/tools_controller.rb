@@ -1,6 +1,10 @@
 class ToolsController < ApplicationController
   before_filter :authenticate_user!
 
+  def index
+    @tools = current_user.tools.all
+  end
+
   def show
     @tool = Tool.find(params[:id])
     add_breadcrumb @tool.display_name, tool_path(@tool)

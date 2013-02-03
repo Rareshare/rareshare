@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130119175738) do
+ActiveRecord::Schema.define(:version => 20130203181207) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_line_1"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(:version => 20130119175738) do
     t.integer  "sample_size_max"
     t.integer  "year_manufactured"
     t.string   "serial_number"
+    t.integer  "tool_category_id"
   end
 
   create_table "user_messages", :force => true do |t|

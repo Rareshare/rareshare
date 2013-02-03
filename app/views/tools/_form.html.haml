@@ -58,6 +58,7 @@
             %div.row
               %span.span5= f.input :serial_number
             = f.simple_fields_for :address do |a|
+              = a.hidden_field :id
               %div.row
                 %span.span6= a.input :address_line_1
               %div.row
