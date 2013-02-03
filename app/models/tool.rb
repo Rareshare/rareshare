@@ -7,7 +7,7 @@ class Tool < ActiveRecord::Base
   belongs_to :model
   belongs_to :manufacturer
   belongs_to :tool_category
-  belongs_to :user, counter_cache: true
+  belongs_to :user, counter_cache: true, foreign_key: :owner_id
 
   after_initialize :build_address_if_blank
   after_save :update_search_document
@@ -76,10 +76,9 @@ class Tool < ActiveRecord::Base
   private
 
   def update_search_document
-    terms = [ self.tool_category_name, self.manufacturer_name, self.model_name, self.description ].compact.join(" ")
+    terms = [ self.tool_category_name, self.manufacturer_name, self.model_name, self.description, self.serial_number ].compact.join(" ")
     
     if search.present?
-      # search.update_attributes(document: terms)
       Search.where(searchable_id: self.id, searchable_type: self.class.name).update_all(document: terms)
     else
       Search.create(searchable_id: self.id, searchable_type: self.class.name, document: terms)

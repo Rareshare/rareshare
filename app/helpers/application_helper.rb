@@ -5,8 +5,12 @@ module ApplicationHelper
     end
   end
 
+  def nav_category(nav_category)
+    @nav_category = nav_category
+  end
+
   def nav_link(name, url, opts={})
-    active = opts[:active] || opts[:controller] == self.controller.controller_name || current_page?(url)
+    active = @nav_category == name || opts[:controller] == self.controller.controller_name || current_page?(url)
 
     content_tag(:li, class: active ? "active" : "") do
       icon = opts[:icon] ? content_tag(:i, "", class: "icon-#{opts[:icon]}") : ""
