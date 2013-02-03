@@ -39,6 +39,10 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
+  def actionable_leases
+    Lease.where(lessor_id: self.id, state: :pending)
+  end
+
   def request_reservation!(params={})
     leases.build.tap do |l|
       l.lessor_id    = params[:lessor_id]

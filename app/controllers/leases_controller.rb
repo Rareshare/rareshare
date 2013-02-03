@@ -34,4 +34,22 @@ class LeasesController < ApplicationController
       redirect_to profile_path, flash: { error: "You do not have permission to cancel this lease." }
     end
   end
+
+  def update
+    @lease = Lease.find(params[:id])
+
+    if current_user.id = @lease.lessor_id
+      case params[:commit]
+      when /confirm/i
+        @lease.confirm!
+        redirect_to profile_path, info: "Successfully confirmed lease."
+      when /deny/i
+        @lease.deny!
+        redirect_to profile_path, info: "Lease was denied."
+      else
+        redirect_to profile_path, error: "Unrecognized lease operation."
+      end
+    else
+    end
+  end
 end
