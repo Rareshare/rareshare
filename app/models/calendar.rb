@@ -36,6 +36,10 @@ class Calendar
     @leases ||= @user.leases
   end
 
+  def days_of_week
+    %w{S M Tu W Th F S}
+  end
+
   def leases_by_date
     @leases_by_date ||= leases.inject({}) do |h, lease|
       lease.duration.each do |d|

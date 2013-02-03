@@ -74,16 +74,32 @@ form {
       width: (@gridColumnWidth * @column) + (@gridGutterWidth * (@column - 2) + 6px);
     }
 
+    .input-append-width(@column) {
+      width: (@gridColumnWidth * @column) + (@gridGutterWidth * (@column - 2) - 32px);
+    }
+
     p.help-block {
       font-size: 14px;
     }
 
-    > .span1 { > .control-group { select, .string, .text, .numeric { .input-width(1); } } }
-    > .span2 { > .control-group { select, .string, .text, .numeric { .input-width(2); } } }
-    > .span3 { > .control-group { select, .string, .text, .numeric { .input-width(3); } } }
-    > .span4 { > .control-group { select, .string, .text, .numeric { .input-width(4); } } }
-    > .span5 { > .control-group { select, .string, .text, .numeric { .input-width(5); } } }
-    > .span6 { > .control-group { select, .string, .text, .numeric { .input-width(6); } } }
+    > .span1 { > .control-group {                 select, .string, .text, .numeric { .input-width(1); } } }
+    > .span1 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(1); } } } }
+    > .span2 { > .control-group {                 select, .string, .text, .numeric { .input-width(2); } } }
+    > .span2 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(2); } } } }
+    > .span3 { > .control-group {                 select, .string, .text, .numeric { .input-width(3); } } }
+    > .span3 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(3); } } } }
+    > .span4 { > .control-group {                 select, .string, .text, .numeric { .input-width(4); } } }
+    > .span4 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(4); } } } }
+    > .span5 { > .control-group {                 select, .string, .text, .numeric { .input-width(5); } } }
+    > .span5 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(5); } } } }
+    > .span6 { > .control-group {                 select, .string, .text, .numeric { .input-width(6); } } }
+    > .span6 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(6); } } } }
+    > .span7 { > .control-group {                 select, .string, .text, .numeric { .input-width(7); } } }
+    > .span7 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(7); } } } }
+    > .span8 { > .control-group {                 select, .string, .text, .numeric { .input-width(8); } } }
+    > .span8 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(8); } } } }
+    > .span9 { > .control-group {                 select, .string, .text, .numeric { .input-width(9); } } }
+    > .span9 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(9); } } } }
   }
 }
 

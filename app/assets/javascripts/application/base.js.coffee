@@ -14,3 +14,7 @@ jQuery ->
       typeaheadPath = this.$element.data("lookup")
       $.get typeaheadPath, q: query, (resp) ->
         process(resp)
+
+  $("body").click (evt) ->
+    $("input[data-provide='typeahead']").each ->
+      $(this).data('typeahead').hide()

@@ -9,13 +9,8 @@
       %table.calendar
         %thead
           %tr
-            %th S
-            %th M
-            %th Tu
-            %th W
-            %th Th
-            %th F
-            %th S
+            - @calendar.days_of_week.each do |d|
+              %th= d
         %tbody
           - @calendar.weeks.each do |week|
             %tr

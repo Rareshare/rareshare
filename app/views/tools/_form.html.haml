@@ -13,7 +13,7 @@
             %p Please describe the instrument you'd like to share.
           %span.span9
             %div.row
-              %span.span6
+              %span.span8
                 = f.input :tool_category_name, label: "Category", required: true, wrapper: :append do
                   = f.input_field :tool_category_name, autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:tool_category) }
                   %button.btn
@@ -26,7 +26,7 @@
                   %button.btn
                     %i.icon-chevron-down
 
-              %span.span3.offset1
+              %span.span3
                 = f.input :model_name, label: "Model", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }
               
             %div.row
@@ -38,9 +38,14 @@
               = f.hidden_field :sample_size_max
               %div.slider-input{ data: { min: min_possible_sample_size, max: max_possible_sample_size } }
 
-            = f.input :price_per_hour, hint: "Per day: <span data-bind='text: pricePerDay'></span>", input_html: { min: 0, data: { bind: 'value: pricePerHour' } }
-            = f.input :technician_required, as: :boolean, label: false, inline_label: "Technician required"
-            = f.input :description, hint: "Please list any additional distinguishing characteristics of the tool, e.g. customizations."
+            %div.row
+              %span.span4
+                = f.input :price_per_hour, hint: "Per day: <span data-bind='text: pricePerDay'></span>", input_html: { min: 0, data: { bind: 'value: pricePerHour' } }
+                = f.input :technician_required, as: :boolean, label: false, inline_label: "Technician required"
+
+            %div.row
+              %span.span7
+                = f.input :description, hint: "Please list any additional distinguishing characteristics of the tool, e.g. customizations."
 
       %fieldset
         %legend
