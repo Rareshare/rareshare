@@ -3,11 +3,13 @@
     %legend Messages
     %div.row
       %span.span3
-        - current_user.actionable_leases.each do |l|
-          %p #{l.tool.display_name} from #{l.started_at.to_date.to_s(:long)} to #{l.ended_at.to_date.to_s(:long)} (#{number_to_currency l.total_cost}).
-          = simple_form_for l do |f|
-            = f.button :submit, value: "Confirm"
-            = f.button :submit, value: "Deny"
+        %div.well.well-small
+          %h4 Pending Leases
+          - current_user.actionable_leases.each do |l|
+            %p #{l.tool.display_name} from #{l.started_at.to_date.to_s(:long)} to #{l.ended_at.to_date.to_s(:long)} (#{number_to_currency l.total_cost}).
+            = simple_form_for l, html: { style: "margin-bottom: 0" } do |f|
+              = f.button :submit, value: "Confirm", class: "btn btn-success"
+              = f.button :submit, value: "Deny", class: "btn btn-danger"
       %span.span9
         - @message.message_chain.each do |message|
           %div.row
