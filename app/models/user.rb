@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
     received_messages.unread.count
   end
 
+  def all_messages
+    UserMessage.where("receiver_id = ? OR sender_id = ?", self.id, self.id)
+  end
+
   def acknowledge_message!(message)
     received_messages.unread.where(originating_message_id: message.originating_message_id).update_all(acknowledged: true)
   end

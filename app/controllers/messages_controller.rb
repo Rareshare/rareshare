@@ -22,8 +22,8 @@ class MessagesController < ApplicationController
   end
 
   def reply
-    @message = current_user.received_messages.find(params[:id])
-    @message.reply! params[:message][:body]
+    @message = current_user.all_messages.find(params[:id])
+    @message.reply! current_user, params[:message][:body]
     redirect_to message_path(@message)
   end
 end

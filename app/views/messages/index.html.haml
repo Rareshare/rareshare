@@ -11,20 +11,5 @@
           = link_to "Search for a lease", search_path
           to get started with RareShare.
       - else
-        %table.table
-          %thead
-            %tr
-              %th Time
-              %th From
-              %th Body
-          %tbody
-            - current_user.received_messages.each do |m|
-              %tr
-                %td= m.created_at < 1.week.ago ? m.created_at.to_s(:long) : time_ago_in_words(m.created_at) + " ago"
-                %td= m.sender.display_name
-                %td{style: "width: 70%"}
-                  = link_to message_path(m) do
-                    - if m.acknowledged?
-                      = truncate(m.body, length: 80)
-                    - else
-                      %strong= truncate(m.body, length: 80)
+        = render partial: 'messages/messages', object: @messages
+        

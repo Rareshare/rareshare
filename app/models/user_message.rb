@@ -19,10 +19,12 @@ class UserMessage < ActiveRecord::Base
     UserMessage.where(originating_message_id: self.originating_message_id)
   end
 
-  def reply!(body)
+  def reply!(sender, body)
+    sender_id = sender.respond_to?(:id) ? sender.id : sender
+    receiver_id = sender_id == self.sender_id ? self.sender_id : self.receiver_id
     UserMessage.new(body: body).tap do |um|
-      um.sender_id = self.receiver_id
-      um.receiver_id = self.sender_id
+      um.sender_id = sender_id
+      um.receiver_id = receiver_id
       um.messageable_type = self.messageable_type
       um.messageable_id = self.messageable_id
       um.originating_message_id = self.originating_message_id || self.id

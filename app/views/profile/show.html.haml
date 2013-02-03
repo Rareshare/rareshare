@@ -30,7 +30,10 @@
             Upload a photo
     %span.span10.profile-main
       %h3.pull-up Unread Messages
-      %p You have no unread messages.
+      - if current_user.unread_message_count == 0
+        %p You have no unread messages.
+      - else
+        = render partial: 'messages/messages', object: current_user.received_messages.unread
 
       %h3 Current Leases
       - if current_user.leases.active.any?
