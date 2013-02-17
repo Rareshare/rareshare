@@ -10,7 +10,13 @@ module ApplicationHelper
   end
 
   def nav_link(name, url, opts={})
-    active = @nav_category == name || opts[:controller] == self.controller.controller_name || current_page?(url)
+    active = if @nav_category
+      @nav_category == name
+    elsif opts[:controller]
+      opts[:controller] == self.controller.controller_name
+    else
+      current_page?(url)
+    end
 
     content_tag(:li, class: active ? "active" : "") do
       icon = opts[:icon] ? content_tag(:i, "", class: "icon-#{opts[:icon]}") : ""

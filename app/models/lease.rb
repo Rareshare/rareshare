@@ -11,7 +11,7 @@ class Lease < ActiveRecord::Base
   validates_inclusion_of :tos_accepted, in: [ "1", 1, true ], message: "Please accept the Terms of Service."
   validate :lessee_cannot_be_lessor
 
-  scope :active, where(cancelled_at: nil)
+  scope :active, where(state: [:pending, :confirmed])
 
   after_create :notify_lessor_requested, if: :pending?
 

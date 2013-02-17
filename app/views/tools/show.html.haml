@@ -1,3 +1,5 @@
+- nav_category "Find a Tool"
+
 = render layout: 'shared/navbar' do
   %h1= @tool.display_name
 
@@ -6,7 +8,10 @@
       %div.well.sidebar-nav
         %ul.nav.nav-list
           %li.nav-header More options
-          %li= link_to "Reserve Now", "#"
+          - if @tool.owner == current_user
+            %li= link_to "Edit this tool"
+          - else
+            %li= link_to "Reserve Now", new_lease_path(tool_id: @tool.id, date: Date.today)
     %span.span9.price_per_hour
       %row
         = number_to_currency @tool.price_per_hour_adjusted

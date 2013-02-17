@@ -42,7 +42,7 @@
             %tr
               %th State
               %th Dates
-              %th Item description
+              %th Tool
               %th Cost
               %th Options
           %tbody
@@ -51,7 +51,7 @@
                 %td
                   = lease_state l
                 %td= l.duration_text
-                %td= l.tool.display_name
+                %td= link_to l.tool.display_name, l.tool
                 %td= number_to_currency l.total_cost
                 %td= simple_form_for(l, method: :delete) { |f| f.submit "Cancel", class: "btn btn-danger" } unless l.cancelled?
 

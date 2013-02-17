@@ -6,10 +6,10 @@
   %div.row
     %span.span12
       - if @messages.empty?
-        %p 
+        %p
           You haven't received any messages yet.
           = link_to "Search for a lease", search_path
           to get started with RareShare.
       - else
         = render partial: 'messages/messages', object: @messages
-        
+

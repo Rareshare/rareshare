@@ -5,18 +5,17 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :omniauthable
 
-  has_many :leases, foreign_key: :lessee_id
   has_many :tools, foreign_key: :owner_id
   has_many :received_messages, foreign_key: :receiver_id, class_name: "UserMessage"
   has_many :sent_messages, foreign_key: :sender_id, class_name: "UserMessage"
   has_and_belongs_to_many :roles
   has_one :address, as: :addressable
-  
+
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :provider, :uid, :image_url, :linkedin_profile_url, :primary_phone, :secondary_phone, :bio, :title, :organization, :education, :qualifications
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :all_blank
   attr_accessible :address_attributes
-  
+
   validates :first_name, :last_name, :email, presence: true
 
   def unread_message_count
@@ -37,6 +36,10 @@ class User < ActiveRecord::Base
 
   def display_name
     "#{first_name} #{last_name}"
+  end
+
+  def leases
+    Lease.where("lessee_id = ? OR lessor_id = ?", self.id, self.id)
   end
 
   def actionable_leases
