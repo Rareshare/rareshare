@@ -74,12 +74,18 @@ class Lease < ActiveRecord::Base
     user_messages.build.tap do |m|
       m.receiver = self.lessor
       m.sender = self.lessee
+      m.messageable = self
       m.body = "You've received a request to lease your tool #{tool.display_name} from #{self.lessee.display_name}. Here's what they'd like to do with it: <blockquote>#{self.description}</blockquote> Please reply back with any questions you have for them, or click Approve to approve the lease.".html_safe
     end.save!
   end
 
   def notify_lessee_confirmed
-    # user_messages.create! receiver: self.lessee, sender: self.lessor, body: "Hi there! This is an automated message to let you know that your lease has been confirmed. Please reply back to this message with any questions and I'll get back to you as soon as I can."
+    user_messages.build.tap do |m|
+      m.receiver = self.lessee
+      m.sender = self.lessor
+      m.messageable = self
+      m.body = "This is an automated message to let you know that your lease has been confirmed. Please reply back to this message with any questions and I'll get back to you as soon as I can."
+    end.save!
   end
 
   def set_initial_state

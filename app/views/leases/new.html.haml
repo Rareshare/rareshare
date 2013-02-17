@@ -16,7 +16,7 @@
         %legend Confirm Request
         %div.row
           %span.span3
-            %p Please describe, for the tool owner, what you'd like to accomplish with the tool.
+            %p Please describe your intended usage of the tool.
           %span.span9
             %p Reserve #{@lease.tool.display_name} from #{@lease.started_at.to_date.to_s(:long)} to #{@lease.ended_at.to_date.to_s(:long)} (a term of #{pluralize @lease.duration_in_days, 'day'}). The total cost for this lease will be #{number_to_currency @lease.total_cost}.
             = f.input :description

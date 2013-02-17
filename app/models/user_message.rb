@@ -21,7 +21,7 @@ class UserMessage < ActiveRecord::Base
 
   def reply!(sender, body)
     sender_id = sender.respond_to?(:id) ? sender.id : sender
-    receiver_id = sender_id == self.sender_id ? self.sender_id : self.receiver_id
+    receiver_id = sender_id == self.sender_id ? self.receiver_id : self.sender_id
     UserMessage.new(body: body).tap do |um|
       um.sender_id = sender_id
       um.receiver_id = receiver_id

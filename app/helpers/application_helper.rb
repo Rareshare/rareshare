@@ -21,4 +21,8 @@ module ApplicationHelper
   def share_a_tool_path(params={})
     current_user.tools_count.to_i > 0 ? tools_path(params) : new_tool_path(params)
   end
+
+  def lease_state(lease)
+    content_tag(:span, class: "label label-#{label_class_for(lease)}") { lease.state }
+  end
 end

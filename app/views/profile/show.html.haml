@@ -14,7 +14,7 @@
           Quick Links
         %li
           = link_to edit_profile_path do
-            %i.icon-edit 
+            %i.icon-edit
             Edit my profile
         %li
           = link_to new_tool_path do
@@ -49,7 +49,7 @@
             - current_user.leases.active.each do |l|
               %tr
                 %td
-                  %span.label{class: "label-#{label_class_for(l)}"}= l.state
+                  = lease_state l
                 %td= l.duration_text
                 %td= l.tool.display_name
                 %td= number_to_currency l.total_cost
