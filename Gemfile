@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Basic infrastructure
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.12'
 gem 'pg' # Basic Postgres driver.
 gem 'therubyracer' # Javascript integration from within Ruby
 gem 'uglifier' # JS asset compression
@@ -20,7 +20,7 @@ gem 'omniauth-linkedin' # Integrate Linkedin specifically.
 gem 'active_attr' # Treat basic Ruby objects like models
 gem 'aasm' # Add a state pattern to models
 gem 'geocoder' # Geocoding support
-gem 'simple_form', git: "https://github.com/plataformatec/simple_form.git" # Riding master for bootstrap integration.
+gem 'simple_form', '~> 2.0.4' # Easy form builder.
 gem 'strong_parameters' # Better parameter support.
 
 # Rendering and style
