@@ -21,7 +21,7 @@
               %i(class="icon-search" style="color: black")
           %ul.nav.pull-right
             - if signed_in?
-              %li 
+              %li
                 %span.muted.navbar-text.welcome-message Welcome, #{current_user.first_name}
               %li= link_to "Sign Out", destroy_user_session_path, method: :delete
             - else
@@ -33,10 +33,23 @@
 
   %div.content-root
     %div.content.container
-      - if content_for? :banner
-        = yield :banner
-      - else
-        = yield
+      = yield
+    - if controller.controller_name == "home"
+      %div.about_us
+        %div.container
+          %div.row
+            %div.span4
+              %h3 Fast
+              %i.icon-magic
+              %p Find the tools you need in minutes.
+            %div.span4
+              %h3 Global
+              %i.icon-globe
+              %p The most advanced equipment, anywhere.
+            %div.span4
+              %h3 Effective
+              %i.icon-beaker
+              %p We put your research front and center.
 
     %footer.container
       %div.row
