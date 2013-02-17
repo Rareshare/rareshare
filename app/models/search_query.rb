@@ -9,7 +9,7 @@ class SearchQuery
 
   def results
     self.on ||= Date.today
-    bad_leases = Lease.select("tool_id").where(started_at: on).active.map(&:tool_id)
+    bad_leases = Lease.select("tool_id, state").where(started_at: on).active.map(&:tool_id)
     @tools = Search.search(q).where("searchable_id NOT IN (?)", bad_leases.any? ? bad_leases : -1).map(&:searchable)
   end
 end

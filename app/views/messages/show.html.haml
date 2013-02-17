@@ -16,7 +16,7 @@
                   %small.muted.pull-right.clearfix
                   #{message.sender.display_name} at #{message.created_at}
             %span.span2{style: "text-align: center"}
-              %img{src: message.sender.image_url}
+              %img{src: message.sender.avatar.url(:thumb)}
 
         %div.row
           %span.span7
