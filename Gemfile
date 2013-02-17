@@ -18,7 +18,8 @@ gem 'omniauth-linkedin' # Integrate Linkedin specifically.
 
 # Support and extensions
 gem 'active_attr' # Treat basic Ruby objects like models
-gem 'aasm' # Add a state pattern to models
+# gem 'aasm' # Add a state pattern to models
+gem 'transitions', :require => ["transitions", "active_model/transitions"]
 gem 'geocoder' # Geocoding support
 gem 'simple_form', '~> 2.0.4' # Easy form builder.
 gem 'strong_parameters' # Better parameter support.

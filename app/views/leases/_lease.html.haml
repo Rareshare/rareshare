@@ -8,7 +8,7 @@
       = f.button :submit, value: "Confirm", class: "btn btn-success"
       = f.button :submit, value: "Deny", class: "btn btn-danger"
     - elsif lease.confirmed?
-      = f.button
+      = f.button :submit, value: "Cancel", class: "btn btn-danger"
   - elsif lease.lessee == current_user
     - if lease.pending? || lease.confirmed?
       = f.button :submit, value: "Cancel", class: "btn btn-danger"

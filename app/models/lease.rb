@@ -1,5 +1,5 @@
 class Lease < ActiveRecord::Base
-  include AASM
+  include ActiveModel::Transitions
 
   belongs_to :lessor, class_name: "User"
   belongs_to :lessee, class_name: "User"
@@ -13,25 +13,24 @@ class Lease < ActiveRecord::Base
 
   scope :active, where(cancelled_at: nil)
 
-  after_initialize :set_initial_state
   after_create :notify_lessor_requested, if: :pending?
 
-  aasm column: :state do
-    state :pending, initial: true, after_enter: :notify_lessor_requested
+  state_machine do
+    state :pending
     state :confirmed
     state :denied
     state :cancelled
     state :completed
 
-    event :confirm, after: :notify_lessee_confirmed do
+    event :confirm, success: :notify_lessee_confirmed do
       transitions from: :pending, to: :confirmed
     end
 
-    event :cancel, after: :set_cancelled_timestamp do
-      transitions from: [:pending, :confirmed], to: :cancelled
+    event :cancel, success: :set_cancelled_timestamp do
+      transitions from: [:pending, :confirmed], to: :denied
     end
 
-    event :deny, after: :notify_lessee_denied do
+    event :deny, success: :notify_lessee_denied do
       transitions from: [:pending, :confirmed], to: :denied
     end
 
@@ -80,16 +79,12 @@ class Lease < ActiveRecord::Base
   end
 
   def notify_lessee_confirmed
-    user_messages.build.tap do |m|
-      m.receiver = self.lessee
-      m.sender = self.lessor
-      m.messageable = self
-      m.body = "This is an automated message to let you know that your lease has been confirmed. Please reply back to this message with any questions and I'll get back to you as soon as I can."
-    end.save!
-  end
-
-  def set_initial_state
-    self.state = "pending"
+    # user_messages.build.tap do |m|
+    #   m.receiver = self.lessee
+    #   m.sender = self.lessor
+    #   m.messageable = self
+    #   m.body = "This is an automated message to let you know that your lease has been confirmed. Please reply back to this message with any questions and I'll get back to you as soon as I can."
+    # end.save!
   end
 
   def lessee_cannot_be_lessor

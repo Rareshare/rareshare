@@ -53,7 +53,6 @@ class LeasesController < ApplicationController
       else
         redirect_to profile_path, error: "Unrecognized lease operation."
       end
-    else
     end
   end
 end
