@@ -28,19 +28,29 @@
 
               %span.span3
                 = f.input :model_name, label: "Model", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }
-              
+
             %div.row
               %span.span2= f.input :year_manufactured, hint: "Approximate", as: :select, collection: @tool.possible_years
-              %span.span5= f.input :resolution, hint: "The smallest amount of input signal change that the instrument can detect reliably."
+              %span.span5= f.input :resolution, hint: "The smallest amount of change that the instrument can detect or manipulate reliably."
 
-            = f.input :sample_size, hint: sample_size_text(@tool) do
-              = f.hidden_field :sample_size_min
-              = f.hidden_field :sample_size_max
-              %div.slider-input{ data: { min: min_possible_sample_size, max: max_possible_sample_size } }
+            %div.control-group.optional.tool_sample_size
+              %label.optional.control-label{for: "tool_sample_size"} Sample size
+
+              %div.controls
+                = f.hidden_field :sample_size_min
+                = f.hidden_field :sample_size_max
+                %div.slider-input{ data: { min: min_possible_sample_size, max: max_possible_sample_size } }
+                %p.help-block= sample_size_text(@tool)
 
             %div.row
               %span.span4
-                = f.input :price_per_hour, hint: "Per day: <span data-bind='text: pricePerDay'></span>", input_html: { min: 0, data: { bind: 'value: pricePerHour' } }
+                = f.input :price_per_hour, wrapper: "prepend" do
+                  = content_tag :span, "$", class: "add-on"
+                  = f.input_field :price_per_hour, min: 0, type: "number"
+                  %p.help-block
+                    Per day:
+                    %span.price_per_day
+
                 = f.input :technician_required, as: :boolean, label: false, inline_label: "Technician required"
 
             %div.row
