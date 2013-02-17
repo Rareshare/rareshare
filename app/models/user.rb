@@ -51,6 +51,7 @@ class User < ActiveRecord::Base
   def request_reservation!(params={})
     leases.build.tap do |l|
       l.lessor_id    = params[:lessor_id]
+      l.lessee_id    = params[:lessee_id]
       l.tool_id      = params[:tool_id]
       l.started_at   = params[:started_at]
       l.ended_at     = params[:ended_at]
