@@ -10,6 +10,7 @@ class Tool < ActiveRecord::Base
   belongs_to :user, counter_cache: true, foreign_key: :owner_id
 
   has_many :user_messages, as: :topic
+  has_many :images, as: :imageable
 
   after_initialize :build_address_if_blank
   after_save :update_search_document

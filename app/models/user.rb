@@ -12,11 +12,13 @@ class User < ActiveRecord::Base
   has_one :address, as: :addressable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :provider, :uid, :image_url, :linkedin_profile_url, :primary_phone, :secondary_phone, :bio, :title, :organization, :education, :qualifications
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :provider, :uid, :image_url, :linkedin_profile_url, :primary_phone, :secondary_phone, :bio, :title, :organization, :education, :qualifications, :avatar
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :all_blank
   attr_accessible :address_attributes
 
   validates :first_name, :last_name, :email, presence: true
+
+  mount_uploader :avatar, ImageUploader
 
   def unread_message_count
     received_messages.unread.count
@@ -83,7 +85,7 @@ class User < ActiveRecord::Base
         uid: auth.uid,
         email: auth.info.email,
         password: Devise.friendly_token[0,20],
-        image_url: auth.info.image,
+        avatar: { tempfile: open(auth.info.image), filename: "#{auth.uid}.png" },
         linkedin_profile_url: auth.info.urls.public_profile
       )
     end

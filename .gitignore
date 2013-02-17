@@ -22,3 +22,6 @@
 
 # Ignore Redis dump database.
 /dump.rdb
+
+# Image uploads in dev mode.
+/public/uploads

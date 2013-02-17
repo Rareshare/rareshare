@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203181207) do
+ActiveRecord::Schema.define(:version => 20130217193236) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_line_1"
@@ -41,6 +41,16 @@ ActiveRecord::Schema.define(:version => 20130203181207) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "images", :force => true do |t|
+    t.string "image"
+    t.string "imageable_id"
+    t.string "integer"
+    t.string "imageable_type"
+    t.string "string"
+  end
+
+  add_index "images", ["imageable_id", "imageable_type"], :name => "index_images_on_imageable_id_and_imageable_type"
 
   create_table "leases", :force => true do |t|
     t.integer  "lessor_id"
@@ -153,6 +163,7 @@ ActiveRecord::Schema.define(:version => 20130203181207) do
     t.string   "secondary_phone"
     t.text     "qualifications"
     t.integer  "tools_count",            :default => 0
+    t.string   "avatar"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

@@ -9,6 +9,11 @@ gem 'unicorn' # High-performance Ruby web server
 gem 'seed-fu' # Seed test data
 gem 'redis-rails' # Store sessions in Redis
 
+# Image management
+gem 'carrierwave'
+gem 'fog'
+gem 'mini_magick'
+
 # User management
 gem 'devise' # A set of tools for user authentication
 gem 'cancan' # A small set of tools for defining user permissions
@@ -18,7 +23,6 @@ gem 'omniauth-linkedin' # Integrate Linkedin specifically.
 
 # Support and extensions
 gem 'active_attr' # Treat basic Ruby objects like models
-# gem 'aasm' # Add a state pattern to models
 gem 'transitions', :require => ["transitions", "active_model/transitions"]
 gem 'geocoder' # Geocoding support
 gem 'simple_form', '~> 2.0.4' # Easy form builder.
