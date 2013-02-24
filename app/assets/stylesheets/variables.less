@@ -1,10 +1,16 @@
 @import "twitter/bootstrap/variables";
 @import "twitter/bootstrap/mixins";
 
-@brandColor: #CAD4DE;
+@paleBlue: #CAD4DE;
+@darkBlueGrey: #50575E;
+@mossGreen: #87A49A;
+@darkMossGreen: #95B0A7;
+@lightMossGreen: lighten(@darkMossGreen, 20%);
+
+@brandColor: @paleBlue;
 
 @navbarHeight: 40px;
-@navbarBackground: #50575E;
+@navbarBackground: @darkBlueGrey;
 @navbarBackgroundHighlight: #57626E;
 @navbarBrandColor: @brandColor;
 @navbarLinkColor: #eee;
@@ -29,7 +35,17 @@
 
 body { font-size: 16px; }
 
-@altNavbarBackground: #87A49A; 
-@altNavbarBackgroundHighlight: #95B0A7;
+@altNavbarBackground: @mossGreen;
+@altNavbarBackgroundHighlight: @darkMossGreen;
 @altNavbarLinkBackgroundActive: darken(@altNavbarBackground, 5%);
-@altNavbarLinkColorActive: lighten(@altNavbarBackgroundHighlight, 20%);
+@altNavbarLinkColorActive: @lightMossGreen;
+@footerHeight: 80px;
+
+.gradient (@origin: left, @start: #ffffff, @stop: #000000) {
+  background-color: @start;
+  background-image: -webkit-linear-gradient(@origin, @start, @stop);
+  background-image: -moz-linear-gradient(@origin, @start, @stop);
+  background-image: -o-linear-gradient(@origin, @start, @stop);
+  background-image: -ms-linear-gradient(@origin, @start, @stop);
+  background-image: linear-gradient(@origin, @start, @stop);
+}
