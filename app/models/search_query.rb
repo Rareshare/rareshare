@@ -10,6 +10,6 @@ class SearchQuery
   def results
     self.on ||= Date.today
     bad_leases = Lease.select("tool_id, state").where(started_at: on).active.map(&:tool_id)
-    @tools = Search.search_with_fuzzy_query_matching(q).where("searchable_id NOT IN (?)", bad_leases.any? ? bad_leases : -1).map(&:searchable)
+    @tools = Search.where("searchable_id NOT IN (?)", bad_leases.any? ? bad_leases : -1).search_with_fuzzy_query_matching(q).map(&:searchable)
   end
 end
