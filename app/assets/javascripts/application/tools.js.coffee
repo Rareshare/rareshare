@@ -1,7 +1,13 @@
 $ ->
-  $("input[name='tool[price_per_hour]']").change ->
-    val = parseFloat($(this).val())
-    $(this).next(".help-block").find(".price_per_day").text(val * 8.0)
+  $("input[name='tool[price_per_hour]']").each () ->
+    input = $(this)
+
+    setPrice = () ->
+      val = parseFloat(input.val())
+      input.next(".help-block").find(".price_per_day").text(val * 8.0)
+
+    setPrice()
+    input.change setPrice
 
   $(".tool_sample_size").each ->
     $this = $(this)
@@ -33,8 +39,6 @@ $ ->
     typeahead = input.data("typeahead")
 
     if typeahead
-      console.log typeahead.$menu.find("li")
-
       button.click (evt) ->
         evt.preventDefault()
         typeahead.query = ""

@@ -13,6 +13,7 @@ gem 'redis-rails' # Store sessions in Redis
 gem 'carrierwave'
 gem 'fog'
 gem 'mini_magick'
+gem "jquery-fileupload-rails"
 
 # User management
 gem 'devise' # A set of tools for user authentication

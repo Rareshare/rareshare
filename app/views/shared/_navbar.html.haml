@@ -1,4 +1,3 @@
-= bootstrap_flash
 %div.navbar.alt-navbar
   %div.navbar-inner
     %ul.nav
@@ -13,4 +12,7 @@
           - count = current_user.unread_message_count
           %span.badge{class: count > 0 ? "badge-info" : "badge-default"}= count
 %div.container
+  %div.row
+    %div.span12
+      = bootstrap_flash
   = yield

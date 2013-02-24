@@ -59,7 +59,7 @@
 
       %fieldset
         %legend
-          %i.icon.icon-lock.icon-large
+          %i.icon-lock.icon-large
           Only visible to lessors
         %div.row
           %span.span3
@@ -77,6 +77,22 @@
                 %span.span4= a.input :city
                 %span.span1= a.input :state
                 %span.span2= a.input :zip_code
+
+      - unless @tool.new_record?
+        %fieldset
+          %legend
+            %i.icon-picture.icon-large
+            Images
+          %div.row
+            %span.span3
+              %p Add a picture or two.
+              = link_to "Edit Images", tool_images_path(@tool), class: "btn btn-info"
+            %span.span9
+              %ul.unstyled
+                - @tool.images.each do |image|
+                  %li.pull-left
+                    = link_to tool_images_path(@tool), style: "padding: 0 10px 10px 0" do
+                      = image_tag image.image.url(:thumb)
 
     %div.row
       %span.offset3.span9

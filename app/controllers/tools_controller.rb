@@ -51,4 +51,10 @@ class ToolsController < ApplicationController
     end
   end
 
+  def to_jq_upload(tool)
+    {
+      "delete_url" => picture_path(:id => id),
+      "delete_type" => "DELETE"
+    }
+  end
 end

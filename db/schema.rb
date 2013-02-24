@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130217193236) do
+ActiveRecord::Schema.define(:version => 20130224172736) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_line_1"
@@ -43,11 +43,11 @@ ActiveRecord::Schema.define(:version => 20130217193236) do
   end
 
   create_table "images", :force => true do |t|
-    t.string "image"
-    t.string "imageable_id"
-    t.string "integer"
-    t.string "imageable_type"
-    t.string "string"
+    t.string  "image"
+    t.string  "integer"
+    t.string  "imageable_type"
+    t.string  "string"
+    t.integer "imageable_id"
   end
 
   add_index "images", ["imageable_id", "imageable_type"], :name => "index_images_on_imageable_id_and_imageable_type"
