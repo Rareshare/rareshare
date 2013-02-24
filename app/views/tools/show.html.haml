@@ -69,3 +69,18 @@
         %p= raw @tool.description
         = number_to_currency @tool.price_per_hour_adjusted
 
+      %h3 Images
+      %div#carousel.carousel.slide
+        %ol.carousel-indicators
+          - @tool.images.each.with_index do |image, i|
+            %li{class: i == 0 ? "active" : "", data: { "target" => "#mycarousel", "slide-to" => i}}
+
+        %div.carousel-inner
+          - @tool.images.each.with_index do |image, i|
+            %div.item{class: i == 0 ? "active" : ""}
+              = image_tag image.image.url
+
+        %a.carousel-control.left{href: "#carousel", data: { slide: "prev" }}
+          %i.icon-arrow-left
+        %a.carousel-control.right{href: "#carousel", data: { slide: "next" }}
+          %i.icon-arrow-right
