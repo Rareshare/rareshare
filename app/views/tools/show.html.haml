@@ -1,21 +1,71 @@
 - nav_category "Find a Tool"
 
 = render layout: 'shared/navbar' do
-  %h1= @tool.display_name
-
-  %div.row
-    %span.span3.toolbar
-      %div.well.sidebar-nav
-        %ul.nav.nav-list
-          %li.nav-header More options
-          - if @tool.owner == current_user
-            %li= link_to "Edit this tool"
-          - else
-            %li= link_to "Reserve Now", new_lease_path(tool_id: @tool.id, date: Date.today)
-    %span.span9.price_per_hour
-      %row
-        = number_to_currency @tool.price_per_hour_adjusted
+  %div.row.row-header
+    %span.span12
+      - if @tool.images.any?
+        %img.avatar.pull-left{src: @tool.images.first.image.url(:thumb)}
+      %h1= @tool.display_name
+      %span.muted
+        = @tool.tool_category_name
         - if @tool.technician_required?
           %span.label.label-info Requires technician
         - else
           %span.label.label-default Self-service
+  %div.row
+    %span.span2.profile-sidebar
+      %ul.nav.nav-list
+        %li.nav-header
+          Quick Links
+        - if @tool.owner == current_user
+          %li
+            = link_to edit_tool_path(@tool) do
+              %i.icon-edit
+              Edit this tool
+        - else
+          %li= link_to "Reserve Now", new_lease_path(tool_id: @tool.id, date: Date.today)
+    %span.span8
+      %h3 Overview
+      %table.table
+        %tbody
+          %tr
+            %th Category
+            %td
+              = link_to search_path(q: @tool.tool_category_name) do
+                = @tool.tool_category_name
+          %tr
+            %th Manufacturer
+            %td
+              = link_to search_path(q: @tool.manufacturer_name) do
+                = @tool.manufacturer_name
+          %tr
+            %th Model
+            %td
+              = link_to search_path(q: @tool.model_name) do
+                = @tool.model_name
+          %tr
+            %th Year manufactured
+            %td= @tool.year_manufactured
+          %tr
+            %th Resolution
+            %td= @tool.resolution
+          %tr
+            %th Price per hour
+            %td
+              = number_to_currency @tool.price_per_hour_adjusted
+              (#{number_to_currency @tool.price_per_day} per day)
+          %tr
+            %th Sample size
+            %td
+              10
+              %sup= @tool.sample_size_min
+              to 10
+              %sup= @tool.sample_size_max
+
+      %h3 Description
+      - if @tool.description.blank?
+        %p No description given.
+      - else
+        %p= raw @tool.description
+        = number_to_currency @tool.price_per_hour_adjusted
+

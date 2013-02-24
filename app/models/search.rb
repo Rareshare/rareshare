@@ -4,15 +4,15 @@ class Search < ActiveRecord::Base
   # default_scope include: :searchable
 
   def self.search_with_fuzzy_query_matching(query)
-    return [] if query.blank? || query[:document].blank?
+    return [] if query.blank? || (query.is_a?(Hash) && query[:document].blank?)
 
     if query.is_a?(Hash)
-      query[:document] = "#{query[:document]}:*"
+      query[:document] = "'#{query[:document]}':*"
     else
-      query = "#{query}:*"
+      query = "'#{query}':*"
     end
 
-    super(query)
+    self.search query
   end
 
   # Our table doesn't have primary keys, so we need

@@ -24,7 +24,7 @@ class ToolsController < ApplicationController
     @tool = Tool.find(params[:id])
 
     if @tool.update_attributes(params[:tool])
-      redirect_to tools_path(flash: { notify: "Tool saved."})
+      redirect_to tool_path(@tool), flash: { notify: "Tool saved."}
     else
       render 'tools/edit'
     end
@@ -34,7 +34,7 @@ class ToolsController < ApplicationController
     @tool = current_user.tools.create params[:tool]
 
     if @tool.valid?
-      redirect_to tools_path(flash: { notify: "Tool created."})
+      redirect_to tool_path(@tool), flash: { notify: "Tool created."}
     else
       render 'tools/new'
     end

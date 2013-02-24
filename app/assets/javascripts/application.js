@@ -15,4 +15,5 @@
 //= require jquery-ui
 //= require twitter/bootstrap
 //= require jquery-fileupload
+//= require bootstrap-wysihtml5
 //= require_tree .

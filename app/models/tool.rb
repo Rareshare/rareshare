@@ -58,6 +58,10 @@ class Tool < ActiveRecord::Base
     self.price_per_hour / 100.0
   end
 
+  def price_per_day
+    self.price_per_hour_adjusted * 8
+  end
+
   def price_per_hour=(price)
     return if price.blank?
 

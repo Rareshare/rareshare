@@ -36,6 +36,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
+gem 'bootstrap-wysihtml5-rails'
 
 group :development do
   gem 'foreman'
