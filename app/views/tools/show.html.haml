@@ -2,16 +2,14 @@
 
 = render layout: 'shared/navbar' do
   %div.row.row-header
-    %span.span12
+    %span.span2.header-avatar
       - if @tool.images.any?
-        %img.avatar.pull-left{src: @tool.images.first.image.url(:thumb)}
+        %img.avatar{src: @tool.images.first.image.url(:thumb)}
+    %span.span10.header-body
       %h1= @tool.display_name
       %span.muted
         = @tool.tool_category_name
-        - if @tool.technician_required?
-          %span.label.label-info Requires technician
-        - else
-          %span.label.label-default Self-service
+
   %div.row
     %span.span2.profile-sidebar
       %ul.nav.nav-list
