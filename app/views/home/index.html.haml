@@ -31,17 +31,33 @@
         %i.icon-beaker
         %p We put your research front and center.
 
-%div.container.more-information{style: "line-height: 30px;"}
-  %h1{style: "line-height: 80px"}
-    It's tough to find good equipment.
-  %p
-    In lectus risus, euismod vitae blandit ut, ullamcorper eu dui. Phasellus congue sagittis turpis, vel
-    vehicula odio gravida varius. Vestibulum sagittis, metus ac consectetur faucibus, lorem ligula laoreet
-    quam, ultrices consequat magna tortor non diam. Sed dictum mattis lobortis. Aliquam erat volutpat.
-    Nullam mattis egestas posuere. Duis vel ipsum ac ipsum mollis iaculis quis vitae nulla.
-  %p{style: "font-weight: 700"}
-    Mauris tempus leo quis sapien euismod ac dignissim lectus semper.
-  %p
-    Curabitur mattis ornare mauris, a fermentum augue condimentum non. Praesent sagittis placerat neque,
-    ac pulvinar ipsum rutrum a. Sed vitae cursus leo. Curabitur justo magna, luctus sed consectetur ut,
-    ullamcorper vel dui.
+%div.more-information
+  %div.container
+    %div.row
+      %span.span6
+        %h1
+          Startups and scientists
+        %p
+          <strong>Scientific equipment is expensive.</strong> Small biotech
+          and technology companies don't have the kind of capital it takes to buy them for one-off tests.
+
+        %p
+          <strong>Rare Share connects you to institutions that have equipment and aren't using it.</strong>
+          Tools and systems come pre-installed, calibrated, and ready for use.
+
+
+      %span.span6
+        %h1
+          Institutions and vendors
+
+        %p
+          Tool vendors enjoy an additional sales channel as our customers try out their tools.
+          Owners enjoy found revenues from underutilized assets.
+
+        %p
+          All sourcing requests are anonymous. We maintain the confidentiality of all parties until and
+          unless the deal is closed. Your intellectual property is completely safe.
+
+    %div.row
+      %span.offset3.span6.get-started
+        = link_to "Get Started Now", new_user_session_path, class: "btn btn-success btn-large"
