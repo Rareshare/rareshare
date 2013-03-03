@@ -1,9 +1,11 @@
 = render layout: 'shared/navbar' do
   %div.row.row-header
-    %span.span12
+    %span.span2.header-avatar
+      %i.avatar.icon-calendar
+    %span.span10.header-body
       %h1 Calendar
       %span.muted= @calendar.title
-      
+
   %div.row
     %span.span2
       %table.calendar
@@ -17,7 +19,7 @@
               - week.each do |date|
                 %td{class: date_class_for(@calendar, date)}= date.day
 
-    %span.span10
+    %span.span8
       %h3.pull-up Leases
       - if @calendar.leases.empty?
         %p You have no leases this month.

@@ -71,6 +71,10 @@ legend {
 
   > .content.container {
     padding-top: 60px;
+
+    > .inner-content {
+      min-height: 450px;
+    }
   }
 }
 
@@ -88,6 +92,8 @@ body > footer {
 
   .brand {
     font-size: 24px;
+    line-height: 30px;
+    // color: @darkMossGreen;
   }
 
   ul.nav {
@@ -216,11 +222,14 @@ h1, h2, h3, h4, h5, h6 { &.pull-up { margin-top: 0; } }
   margin-bottom: 10px;
 
   .avatar {
+    display: block;
     text-align: center;
     padding: 10px;
-    border: 1px solid @defaultBorderColor;
-    margin-left: 10px;
-    margin-top: 10px;
+    background-color: @lightMossGreen;
+    margin: 10px 20px 0 10px;
+    font-size: 90px;
+    line-height: 100px;
+    color: @darkBlueGrey;
   }
 
   .header-body {
@@ -233,8 +242,4 @@ h1, h2, h3, h4, h5, h6 { &.pull-up { margin-top: 0; } }
 .typeahead {
   max-height: 300px;
   overflow: auto;
-}
-
-img.avatar {
-  margin-right: 20px;
 }

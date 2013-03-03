@@ -12,6 +12,13 @@
 
   %div.row
     %span.span2.profile-sidebar
+      %div.row.row-header
+        %span.span2.header-avatar
+          %h4{style: "text-align: center"} Owner
+          = link_to user_path(@tool.owner) do
+            %img.avatar{src: @tool.owner.avatar.url(:thumb)}
+            %p{style: "text-align: center;"}= @tool.owner.display_name
+
       %ul.nav.nav-list
         %li.nav-header
           Quick Links
@@ -19,7 +26,7 @@
           %li
             = link_to edit_tool_path(@tool) do
               %i.icon-edit
-              Edit this tool
+              Edit tool
         - else
           %li= link_to "Reserve Now", new_lease_path(tool_id: @tool.id, date: Date.today)
     %span.span8

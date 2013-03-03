@@ -15,4 +15,5 @@ jQuery ->
     $("input[data-provide='typeahead']").each ->
       $(this).data('typeahead').hide()
 
-  $("form textarea").each () -> $(this).wysihtml5(link: false, lists: false, image: false)
+  $("form textarea:not([readonly])").each () ->
+    $(this).wysihtml5(link: false, lists: false, image: false)

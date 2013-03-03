@@ -1,10 +1,18 @@
 = render layout: 'shared/navbar' do
   %div.row.row-header
-    %span.span12
+    %span.span2.header-avatar
+      %i.avatar.icon-envelope
+    %span.span10.header-body
       %h1 Inbox
+      %span.muted &nbsp;
+
+  %div.row.row-header
+    %span.span12
+
 
   %div.row
-    %span.span12
+    %span.span2
+    %span.span8
       - if @messages.empty?
         %p
           You haven't received any messages yet.
