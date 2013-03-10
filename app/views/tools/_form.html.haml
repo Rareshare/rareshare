@@ -25,6 +25,8 @@
                   = f.input_field :manufacturer_name, autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:manufacturer) }
                   %button.btn
                     %i.icon-chevron-down
+                  %p.help-block
+                    Select an existing manufacturer or simply type in a new name.
 
               %span.span3
                 = f.input :model_name, label: "Model", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }

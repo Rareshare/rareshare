@@ -4,8 +4,8 @@ $ ->
       input = $(this)
 
       setPrice = () ->
-        val = parseFloat(input.val())
-        input.next(".help-block").find(".price_per_day").text(val * 8.0)
+        val = parseFloat(input.val() || "0.00")
+        input.next(".help-block").find(".price_per_day").text("$" + val * 8.0)
 
       setPrice()
       input.change setPrice
