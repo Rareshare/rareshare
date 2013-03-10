@@ -30,7 +30,7 @@
                 = f.input :model_name, label: "Model", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }
 
             %div.row
-              %span.span2= f.input :year_manufactured, hint: "Approximate", as: :select, collection: @tool.possible_years
+              %span.span2= f.input :year_manufactured, hint: "Approximate", as: :select, collection: @tool.possible_years, prompt: "Unknown"
               %span.span5= f.input :resolution, hint: "The smallest amount of change that the instrument can detect or manipulate reliably."
 
             %div.control-group.optional.tool_sample_size
