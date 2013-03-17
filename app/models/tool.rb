@@ -1,5 +1,6 @@
 class Tool < ActiveRecord::Base
   has_many :leases
+  has_many :bookings
   has_one :search, as: :searchable
   has_one :address, as: :addressable
 
@@ -16,11 +17,12 @@ class Tool < ActiveRecord::Base
   after_save :update_search_document
   before_destroy :remove_search_document
 
-  validates :model_name, :manufacturer_name, :tool_category_name, :price_per_hour, :owner, presence: true
+  validates :model_name, :manufacturer_name, :tool_category_name, :owner, presence: true
 
   attr_accessible :manufacturer, :manufacturer_id, :year_manufactured, :serial_number
   attr_accessible :model, :model_id
-  attr_accessible :description, :price_per_hour, :sample_size, :resolution, :technician_required, :sample_size_min, :sample_size_max
+  attr_accessible :description, :sample_size, :resolution, :sample_size_min, :sample_size_max
+  attr_accessible :base_price, :base_lead_time, :can_expedite, :expedited_price, :expedited_lead_time
   accepts_nested_attributes_for :address, allow_destroy: true
   attr_accessible :address_attributes
 
@@ -54,26 +56,8 @@ class Tool < ActiveRecord::Base
     "#{manufacturer_name} #{model_name}"
   end
 
-  def price_per_hour_adjusted
-    self.price_per_hour / 100.0
-  end
-
-  def price_per_day
-    self.price_per_hour_adjusted * 8
-  end
-
-  def price_per_hour=(price)
-    return if price.blank?
-
-    if price.is_a?(String)
-      price = Float(price) * 100
-    end
-
-    super(price)
-  end
-
   def possible_years
-    Date.today.year.downto(1970).to_a
+    [""] + Date.today.year.downto(1970).to_a
   end
 
   def build_address_if_blank

@@ -24,7 +24,7 @@
               %tr
                 %td= link_to t.display_name, tool_path(t)
                 %td
-                  = number_to_currency t.price_per_hour_adjusted
+                  = number_to_currency t.base_price
                   %span.muted per hour
                 %td
                   = simple_form_for(t, method: :delete) do |f|

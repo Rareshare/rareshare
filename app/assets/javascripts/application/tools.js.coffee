@@ -1,15 +1,5 @@
 $ ->
   $("#tools").each () ->
-    $("input[name='tool[price_per_hour]']").each () ->
-      input = $(this)
-
-      setPrice = () ->
-        val = parseFloat(input.val() || "0.00")
-        input.next(".help-block").find(".price_per_day").text("$" + val * 8.0)
-
-      setPrice()
-      input.change setPrice
-
     $(".tool_sample_size").each ->
       $this = $(this)
       targetSlider = $this.find(".slider-input")

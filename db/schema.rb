@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130224172736) do
+ActiveRecord::Schema.define(:version => 20130316191418) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_line_1"
@@ -26,6 +26,21 @@ ActiveRecord::Schema.define(:version => 20130224172736) do
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
+
+  create_table "bookings", :force => true do |t|
+    t.integer  "renter_id"
+    t.integer  "tool_id"
+    t.integer  "price"
+    t.datetime "deadline"
+    t.text     "sample_description"
+    t.string   "state"
+    t.datetime "cancelled_at"
+    t.boolean  "tos_accepted"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "bookings", ["state"], :name => "index_bookings_on_state"
 
   create_table "helpers", :force => true do |t|
     t.string   "name"
@@ -106,10 +121,8 @@ ActiveRecord::Schema.define(:version => 20130224172736) do
     t.integer  "owner_id"
     t.integer  "model_id"
     t.string   "resolution"
-    t.boolean  "technician_required"
-    t.integer  "price_per_hour"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
     t.text     "description"
     t.integer  "manufacturer_id"
     t.integer  "sample_size_min"
@@ -117,6 +130,11 @@ ActiveRecord::Schema.define(:version => 20130224172736) do
     t.integer  "year_manufactured"
     t.string   "serial_number"
     t.integer  "tool_category_id"
+    t.integer  "base_lead_time"
+    t.decimal  "base_price",          :precision => 19, :scale => 2
+    t.boolean  "can_expedite"
+    t.integer  "expedited_lead_time"
+    t.decimal  "expedited_price",     :precision => 19, :scale => 2
   end
 
   create_table "user_messages", :force => true do |t|

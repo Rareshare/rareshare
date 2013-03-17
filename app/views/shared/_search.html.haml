@@ -1,8 +1,8 @@
 = form_tag search_url, method: "get", class: "form-inline search-tools" do |f|
   %label I need
   %input{name: "q", type: "text", placeholder: "a transmogrifier", value: params[:q]}
-  %label on
-  %input{name: "on", type: "text", class: "date", value: params[:on] || Date.today.strftime("%d %B, %Y")}
+  %label by
+  %input{name: "by", type: "text", class: "date", value: params[:by] || SearchQuery.default_date.strftime("%d %B, %Y")}
   %label near
   %input{name: "loc", type: "text", placeholder: "Stanford, MIT, Mars", value: params[:loc]}
   %input(name="submit" type="submit" value="Go" class="btn btn-default")

@@ -12,8 +12,7 @@ FactoryGirl.define do
     model
     resolution "Large"
     sample_size "Small"
-    technician_required false
-    price_per_hour 200
+    base_price 200.00
   end
 
   factory :user do

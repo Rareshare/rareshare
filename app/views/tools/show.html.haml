@@ -5,6 +5,8 @@
     %span.span2.header-avatar
       - if @tool.images.any?
         %img.avatar{src: @tool.images.first.image.url(:thumb)}
+      - else
+        %i.avatar.icon-beaker
     %span.span10.header-body
       %h1= @tool.display_name
       %span.muted
@@ -55,10 +57,11 @@
             %th Resolution
             %td= @tool.resolution
           %tr
-            %th Price per hour
+            %th Price per sample
             %td
-              = number_to_currency @tool.price_per_hour_adjusted
-              (#{number_to_currency @tool.price_per_day} per day)
+              = number_to_currency @tool.base_price
+              \/
+              = pluralize @tool.base_lead_time, "day"
           %tr
             %th Sample size
             %td
@@ -72,20 +75,20 @@
         %p No description given.
       - else
         %p= raw @tool.description
-        = number_to_currency @tool.price_per_hour_adjusted
 
-      %h3 Images
-      %div#carousel.carousel.slide
-        %ol.carousel-indicators
-          - @tool.images.each.with_index do |image, i|
-            %li{class: i == 0 ? "active" : "", data: { "target" => "#mycarousel", "slide-to" => i}}
+      - if @tool.images.any?
+        %h3 Images
+        %div#carousel.carousel.slide
+          %ol.carousel-indicators
+            - @tool.images.each.with_index do |image, i|
+              %li{class: i == 0 ? "active" : "", data: { "target" => "#mycarousel", "slide-to" => i}}
 
-        %div.carousel-inner
-          - @tool.images.each.with_index do |image, i|
-            %div.item{class: i == 0 ? "active" : ""}
-              = image_tag image.image.url
+          %div.carousel-inner
+            - @tool.images.each.with_index do |image, i|
+              %div.item{class: i == 0 ? "active" : ""}
+                = image_tag image.image.url
 
-        %a.carousel-control.left{href: "#carousel", data: { slide: "prev" }}
-          %i.icon-arrow-left
-        %a.carousel-control.right{href: "#carousel", data: { slide: "next" }}
-          %i.icon-arrow-right
+          %a.carousel-control.left{href: "#carousel", data: { slide: "prev" }}
+            %i.icon-arrow-left
+          %a.carousel-control.right{href: "#carousel", data: { slide: "next" }}
+            %i.icon-arrow-right
