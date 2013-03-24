@@ -27,21 +27,21 @@ class Calendar
   def end_of_calendar
     end_of_month.end_of_week
   end
-  
+
   def title
     start_of_month.strftime("%B %Y")
   end
 
-  def leases
-    @leases ||= @user.leases
+  def bookings
+    @bookings ||= Booking.joins(:tool).where("renter_id = ? OR tools.owner_id = ?", @user.id, @user.id).all
   end
 
   def days_of_week
     %w{S M Tu W Th F S}
   end
 
-  def leases_by_date
-    @leases_by_date ||= leases.inject({}) do |h, lease|
+  def bookings_by_date
+    @bookings_by_date ||= bookings.inject({}) do |h, lease|
       lease.duration.each do |d|
         h[d] ||= []
         h[d] << lease

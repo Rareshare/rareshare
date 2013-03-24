@@ -19,7 +19,8 @@
             %span.span3= f.input :primary_phone, type: :phone, hint: "The quickest way to reach you."
             %span.span3= f.input :secondary_phone, type: :phone, hint: "The other way to reach you."
           = f.input :avatar, type: :file, label: "Picture"
-          = image_tag current_user.avatar.url(:thumb)
+          - if current_user.avatar.present?
+            = image_tag current_user.avatar.url(:thumb)
           = f.input :bio
 
 

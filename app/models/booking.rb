@@ -7,7 +7,7 @@ class Booking < ActiveRecord::Base
 
   has_many :user_messages, as: :messageable
 
-  validates_presence_of :tool_id, :renter_id, :tool_id, :description, :deadline, :price
+  validates_presence_of :tool_id, :renter_id, :tool_id, :sample_description, :deadline, :price
   validates_inclusion_of :tos_accepted, in: [ "1", 1, true ], message: "Please accept the Terms of Service."
   validate :renter_cannot_be_owner
 
@@ -59,6 +59,14 @@ class Booking < ActiveRecord::Base
     self.renter == user
   end
 
+  def total_cost
+    tool.price_for deadline.to_date
+  end
+
+  def expedited?
+    tool.must_expedite? deadline.to_date
+  end
+
   protected
 
   def set_cancelled_timestamp
@@ -70,7 +78,7 @@ class Booking < ActiveRecord::Base
       m.receiver = self.owner
       m.sender = self.renter
       m.messageable = self
-      m.body = "You've received a request to book your tool #{tool.display_name} from #{self.renter.display_name}. Here's what they'd like to do with it: <blockquote>#{self.description}</blockquote> Please reply back with any questions you have for them, or click Approve to approve the booking.".html_safe
+      m.body = "You've received a request to book your tool #{tool.display_name} from #{self.renter.display_name}. Here's what they'd like to do with it: <blockquote>#{self.sample_description}</blockquote> Please reply back with any questions you have for them, or click Approve to approve the booking.".html_safe
     end.save!
   end
 

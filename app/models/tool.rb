@@ -14,10 +14,11 @@ class Tool < ActiveRecord::Base
   has_many :images, as: :imageable
 
   after_initialize :build_address_if_blank
-  after_save :update_search_document
-  before_destroy :remove_search_document
+  before_save :update_search_document
 
   validates :model_name, :manufacturer_name, :tool_category_name, :owner, presence: true
+
+  validates :expedited_price, :expedited_lead_time, presence: true, if: :can_expedite?
 
   attr_accessible :manufacturer, :manufacturer_id, :year_manufactured, :serial_number
   attr_accessible :model, :model_id
@@ -28,6 +29,11 @@ class Tool < ActiveRecord::Base
 
   DEFAULT_SAMPLE_SIZE = [ -4, 4 ]
   after_initialize :set_default_sample_size
+
+  scope :bookable_by, lambda {|deadline|
+    days_to_deadline = ( deadline - Date.today ).to_i
+    where("LEAST(base_lead_time, expedited_lead_time) < ?", days_to_deadline)
+  }
 
   class << self
     def name_delegator(*models)
@@ -64,24 +70,42 @@ class Tool < ActiveRecord::Base
     build_address if self.address.blank?
   end
 
+  def owned_by?(user)
+    user.id == self.owner_id
+  end
+
   def leaseable_by?(user)
-    user.id != self.owner_id
+    !owned_by?(user)
+  end
+
+  def bookable_before?(deadline)
+    deadline = Date.parse(deadline) if deadline.is_a?(String)
+    days_to_deadline = ( deadline - Date.today ).to_i
+
+    [ base_lead_time, expedited_lead_time ].compact.min < days_to_deadline
+  end
+
+  def must_expedite?(deadline)
+    deadline = Date.parse(deadline) if deadline.is_a?(String)
+    days_to_deadline = ( deadline - Date.today ).to_i
+
+    bookable_before?(deadline) && base_lead_time >= days_to_deadline
+  end
+
+  def price_for(deadline)
+    must_expedite?(deadline) ? expedited_price : base_price
   end
 
   private
 
   def update_search_document
-    terms = [ self.tool_category_name, self.manufacturer_name, self.model_name, self.description, self.serial_number ].compact.join(" ")
-
-    if search.present?
-      Search.where(searchable_id: self.id, searchable_type: self.class.name).update_all(document: terms)
-    else
-      Search.create(searchable_id: self.id, searchable_type: self.class.name, document: terms)
-    end
-  end
-
-  def remove_search_document
-    Search.delete_all(searchable_id: self.id, searchable_type: self.class.name)
+    self.document = [
+      self.tool_category_name,
+      self.manufacturer_name,
+      self.model_name,
+      self.description,
+      self.serial_number
+    ].compact.join(" ")
   end
 
   def set_default_sample_size

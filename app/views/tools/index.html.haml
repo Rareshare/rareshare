@@ -24,8 +24,10 @@
               %tr
                 %td= link_to t.display_name, tool_path(t)
                 %td
-                  = number_to_currency t.base_price
-                  %span.muted per hour
+                  = price_per_sample t, :base
+                  - if t.can_expedite?
+                    %br
+                    = price_per_sample t, :expedited
                 %td
                   = simple_form_for(t, method: :delete) do |f|
                     .form-actions

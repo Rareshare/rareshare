@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :roles
   has_one :address, as: :addressable
 
+  has_many :bookings, foreign_key: :renter_id
+
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :provider, :uid, :image_url, :linkedin_profile_url, :primary_phone, :secondary_phone, :bio, :title, :organization, :education, :qualifications, :avatar
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :all_blank
@@ -40,25 +42,22 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def leases
-    Lease.where("lessee_id = ? OR lessor_id = ?", self.id, self.id)
-  end
-
-  def actionable_leases
-    Lease.where(lessor_id: self.id, state: :pending)
+  def actionable_bookings
+    Booking.include(:tool).where("tools.owner_id" => self.id).where(state: :pending)
+    # Booking.where(tool_id: lessor_id: self.id, state: :pending)
   end
 
   def request_reservation!(params={})
-    leases.build.tap do |l|
-      l.lessor_id    = params[:lessor_id]
-      l.lessee_id    = params[:lessee_id]
-      l.tool_id      = params[:tool_id]
-      l.started_at   = params[:started_at]
-      l.ended_at     = params[:ended_at]
-      l.tos_accepted = params[:tos_accepted]
-      l.description  = params[:description]
+    tool = Tool.find params[:tool_id]
+    deadline = Date.parse(params[:deadline])
 
-      l.save
+    bookings.build.tap do |b|
+      b.tool_id             = tool.id
+      b.deadline            = deadline
+      b.tos_accepted        = params[:tos_accepted]
+      b.sample_description  = params[:sample_description]
+      b.price               = tool.price_for deadline
+      b.save
     end
   end
 

@@ -4,7 +4,8 @@
   %div.row.row-header
     %span.span2.header-avatar
       - if @tool.images.any?
-        %img.avatar{src: @tool.images.first.image.url(:thumb)}
+        %a{href: "#images", role: "button", data: { toggle: "modal" }}
+          %img.avatar{src: @tool.images.first.image.url(:thumb)}
       - else
         %i.avatar.icon-beaker
     %span.span10.header-body
@@ -14,12 +15,15 @@
 
   %div.row
     %span.span2.profile-sidebar
-      %div.row.row-header
-        %span.span2.header-avatar
-          %h4{style: "text-align: center"} Owner
-          = link_to user_path(@tool.owner) do
-            %img.avatar{src: @tool.owner.avatar.url(:thumb)}
-            %p{style: "text-align: center;"}= @tool.owner.display_name
+      / %div.row.row-header
+      /   %span.span2.header-avatar
+      /     %h4{style: "text-align: center"} Owner
+      /     = link_to user_path(@tool.owner) do
+      /       - if @tool.owner.avatar.present?
+      /         %img.avatar{src: current_user.avatar.url(:thumb)}
+      /       - else
+      /         %i.avatar.icon-user
+      /       %p{style: "text-align: center;"}= @tool.owner.display_name
 
       %ul.nav.nav-list
         %li.nav-header
@@ -30,7 +34,7 @@
               %i.icon-edit
               Edit tool
         - else
-          %li= link_to "Reserve Now", new_lease_path(tool_id: @tool.id, date: Date.today)
+          %li= link_to "Reserve Now", new_booking_path(tool_id: @tool.id, date: Date.today)
     %span.span8
       %h3 Overview
       %table.table
@@ -59,9 +63,10 @@
           %tr
             %th Price per sample
             %td
-              = number_to_currency @tool.base_price
-              \/
-              = pluralize @tool.base_lead_time, "day"
+              = price_per_sample @tool, :base
+              - if @tool.can_expedite?
+                %br
+                = price_per_sample @tool, :expedited
           %tr
             %th Sample size
             %td
@@ -77,18 +82,23 @@
         %p= raw @tool.description
 
       - if @tool.images.any?
-        %h3 Images
-        %div#carousel.carousel.slide
-          %ol.carousel-indicators
-            - @tool.images.each.with_index do |image, i|
-              %li{class: i == 0 ? "active" : "", data: { "target" => "#mycarousel", "slide-to" => i}}
+        %a.btn{href: "#images", role: "button", data: { toggle: "modal" }} Images
 
-          %div.carousel-inner
-            - @tool.images.each.with_index do |image, i|
-              %div.item{class: i == 0 ? "active" : ""}
-                = image_tag image.image.url
+        = modal_dialog id: "images" do
+          = modal_header do
+            %h3#imagesLabel Images
+          = modal_body do
+            %div#carousel.carousel.slide
+              %ol.carousel-indicators
+                - @tool.images.each.with_index do |image, i|
+                  %li{class: i == 0 ? "active" : "", data: { "target" => "#mycarousel", "slide-to" => i}}
 
-          %a.carousel-control.left{href: "#carousel", data: { slide: "prev" }}
-            %i.icon-arrow-left
-          %a.carousel-control.right{href: "#carousel", data: { slide: "next" }}
-            %i.icon-arrow-right
+              %div.carousel-inner
+                - @tool.images.each.with_index do |image, i|
+                  %div.item{class: i == 0 ? "active" : ""}
+                    = image_tag image.image.url
+
+              %a.carousel-control.left{href: "#carousel", data: { slide: "prev" }}
+                %i.icon-arrow-left
+              %a.carousel-control.right{href: "#carousel", data: { slide: "next" }}
+                %i.icon-arrow-right

@@ -1,7 +1,10 @@
 = render layout: 'shared/navbar' do
   %div.row.row-header
     %span.span2.header-avatar
-      %img.avatar{src: current_user.avatar.url(:thumb)}
+      - if current_user.avatar.present?
+        %img.avatar{src: current_user.avatar.url(:thumb)}
+      - else
+        %i.avatar.icon-user
     %span.span10.header-body
       %h1= current_user.display_name
       %span.muted
@@ -36,25 +39,25 @@
       - else
         = render partial: 'messages/messages', object: current_user.received_messages.unread
 
-      %h3 Current Leases
-      - if current_user.leases.active.any?
+      %h3 Current Bookings
+      - if current_user.bookings.active.any?
         %table.table
           %thead
             %tr
               %th State
-              %th Dates
+              %th Deadline
               %th Tool
               %th Cost
               %th Options
           %tbody
-            - current_user.leases.active.each do |l|
+            - current_user.bookings.active.each do |b|
               %tr
                 %td
-                  = lease_state l
-                %td= l.duration_text
-                %td= link_to l.tool.display_name, l.tool
-                %td= number_to_currency l.total_cost
-                %td= simple_form_for(l, method: :delete) { |f| f.submit "Cancel", class: "btn btn-danger" } unless l.cancelled?
+                  = booking_state b
+                %td= b.deadline
+                %td= link_to b.tool.display_name, b.tool
+                %td= number_to_currency b.price
+                %td= simple_form_for(b, method: :delete) { |f| f.submit "Cancel", class: "btn btn-danger" } unless b.cancelled?
 
       - else
-        %p You have no active leases.
+        %p You have no active bookings.

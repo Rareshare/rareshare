@@ -103,9 +103,9 @@
           %div.row
             %span.span2
               %p Add a picture or two.
-              = link_to "Edit Images", tool_images_path(@tool), class: "btn btn-info"
             %span.span8
-              %ul.unstyled
+              = link_to "Edit Images", tool_images_path(@tool), class: "btn btn-info"
+              %ul.unstyled{style: "margin-top: 10px"}
                 - @tool.images.each do |image|
                   %li.pull-left
                     = link_to tool_images_path(@tool), style: "padding: 0 10px 10px 0" do

@@ -1,12 +1,12 @@
 module UsersHelper
 
-  def label_class_for(lease)
+  def label_class_for(booking)
     {
       pending: "info",
       cancelled: "important",
       confirmed: "success",
       complete: "default"
-    }[lease.state.to_sym]
+    }[booking.state.to_sym]
   end
 
 end

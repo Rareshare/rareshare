@@ -1,0 +1,15 @@
+%p= booking.tool.display_name
+%p
+  #{number_to_currency booking.price} /
+  %span.muted= booking.deadline.to_date.to_s(:long)
+  %div= booking_state booking
+= simple_form_for booking, html: { style: "margin-bottom: 0" } do |f|
+  - if booking.tool.owned_by?(current_user)
+    - if booking.pending?
+      = f.button :submit, value: "Confirm", class: "btn btn-success"
+      = f.button :submit, value: "Deny", class: "btn btn-danger"
+    - elsif booking.confirmed?
+      = f.button :submit, value: "Cancel", class: "btn btn-danger"
+  - elsif booking.lessee == current_user
+    - if booking.pending? || booking.confirmed?
+      = f.button :submit, value: "Cancel", class: "btn btn-danger"

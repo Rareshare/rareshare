@@ -28,7 +28,7 @@ module ApplicationHelper
     current_user.tools_count.to_i > 0 ? tools_path(params) : new_tool_path(params)
   end
 
-  def lease_state(lease)
-    content_tag(:span, class: "label label-#{label_class_for(lease)}") { lease.state }
+  def booking_state(booking)
+    content_tag(:span, class: "label label-#{label_class_for(booking)}") { booking.state }
   end
 end
