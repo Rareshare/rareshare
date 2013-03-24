@@ -14,7 +14,11 @@ class SearchQuery
   def default_date; self.class.default_date; end
 
   def results
-    self.by ||= default_date
-    @tools = Tool.bookable_by(self.by).search "'#{self.q}':*"
+    if valid?
+      self.by ||= default_date
+      Tool.bookable_by(self.by).search "'#{self.q}':*"
+    else
+      []
+    end
   end
 end
