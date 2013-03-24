@@ -41,7 +41,7 @@ class BookingsController < ApplicationController
   def update
     @booking = Booking.find(params[:id])
 
-    if current_user.id = @booking.lessor_id
+    if @booking.tool.owned_by?(current_user)
       case params[:commit]
       when /confirm/i
         @booking.confirm!
