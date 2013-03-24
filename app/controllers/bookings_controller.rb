@@ -22,7 +22,6 @@ class BookingsController < ApplicationController
     if @booking.valid?
       redirect_to profile_path, flash: { notice: "Booking successful!" }
     else
-      raise @booking.errors.full_messages.inspect
       render 'bookings/new'
     end
   end
