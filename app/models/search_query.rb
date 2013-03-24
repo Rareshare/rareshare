@@ -16,7 +16,7 @@ class SearchQuery
   def results
     if valid?
       self.by ||= default_date
-      Tool.bookable_by(self.by).search "'#{self.q}':*"
+      Tool.bookable_by(self.by).advanced_search "'#{self.q}':*"
     else
       []
     end
