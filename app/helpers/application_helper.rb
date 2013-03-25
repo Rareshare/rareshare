@@ -31,4 +31,6 @@ module ApplicationHelper
   def booking_state(booking)
     content_tag(:span, class: "label label-#{label_class_for(booking)}") { booking.state }
   end
+
+  alias_method :lease_state, :booking_state
 end
