@@ -32,5 +32,11 @@ module ApplicationHelper
     content_tag(:span, class: "label label-#{label_class_for(booking)}") { booking.state }
   end
 
+  def unread_message_count(user)
+    count = user.unread_message_count
+    badge_type = count > 0 ? "badge-info" : "badge-default"
+    content_tag :span, count.to_s, class: "badge #{badge_type}"
+  end
+
   alias_method :lease_state, :booking_state
 end

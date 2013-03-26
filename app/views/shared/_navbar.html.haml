@@ -9,8 +9,7 @@
         = link_to messages_path do
           %i.icon-inbox
           Messages
-          - count = current_user.unread_message_count
-          %span.badge{class: count > 0 ? "badge-info" : "badge-default"}= count
+          = unread_message_count current_user
 %div.container.inner-content
   %div.row
     %div.span12

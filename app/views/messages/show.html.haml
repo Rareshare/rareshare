@@ -4,7 +4,7 @@
     %legend Messages
     %div.row
       %span.span3
-        %div.well.well-small.messageable(data-spy="affix")
+        %div.well.well-small.messageable(data-spy="affix" data-offset-top="176")
           = render @message.messageable
       %span.span9
         - @message.message_chain.each do |message|

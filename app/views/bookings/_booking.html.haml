@@ -10,6 +10,6 @@
       = f.button :submit, value: "Deny", class: "btn btn-danger"
     - elsif booking.confirmed?
       = f.button :submit, value: "Cancel", class: "btn btn-danger"
-  - elsif booking.lessee == current_user
+  - elsif booking.renter == current_user
     - if booking.pending? || booking.confirmed?
       = f.button :submit, value: "Cancel", class: "btn btn-danger"

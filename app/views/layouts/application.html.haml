@@ -24,10 +24,20 @@
               %i(class="icon-search" style="color: black")
           %ul.nav.pull-right
             - if signed_in?
-              %li
-                = link_to profile_path do
+              %li.dropdown
+                %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
                   %i.icon-user
-                  Welcome, #{current_user.first_name}
+                  %span#menuLabel Welcome, #{current_user.first_name}
+                  %i.icon-chevron-down
+                %ul.dropdown-menu{role: "menu", "aria-labelledby" => "menuLabel"}
+                  %li= link_to "Profile", profile_path
+                  %li= link_to "Find a Tool", search_path
+                  %li= link_to "Share a Tool", share_a_tool_path
+                  %li= link_to "Calendar", calendar_path
+                  %li
+                    %a{href: messages_path}
+                      Messages
+                      = unread_message_count current_user
               %li= link_to "Sign Out", destroy_user_session_path, method: :delete
             - else
               %li= link_to "Learn More", "#"
