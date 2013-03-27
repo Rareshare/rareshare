@@ -4,7 +4,8 @@
     %legend Messages
     %div.row
       %span.span3
-        %div.well.well-small.messageable(data-spy="affix" data-offset-top="176")
+        %div.messageable(data-spy="affix" data-offset-top="176")
+          %small.muted This is a message regarding:
           = render @message.messageable
       %span.span9
         - @message.message_chain.each do |message|
