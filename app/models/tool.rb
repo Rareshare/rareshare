@@ -101,6 +101,10 @@ class Tool < ActiveRecord::Base
     self.address.full_street_address
   end
 
+  def partial_address
+    [ self.address.city, self.address.state ].join(", ")
+  end
+
   private
 
   def update_search_document

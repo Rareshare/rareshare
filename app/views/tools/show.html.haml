@@ -74,6 +74,9 @@
               %sup= @tool.sample_size_min
               to 10
               %sup= @tool.sample_size_max
+          %tr
+            %th Location
+            %td= @tool.partial_address
 
       %h3 Description
       - if @tool.description.blank?

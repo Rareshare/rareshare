@@ -1,7 +1,25 @@
 %div.result
   %div.row
+    %span.span2.header-avatar
+      = link_to tool_path(result.id) do
+        - if result.images.any?
+          %a{href: "#images", role: "button", data: { toggle: "modal" }}
+            %img.avatar{src: result.images.first.image.url(:thumb)}
+        - else
+          %i.avatar.icon-beaker
+
+    %span.span8
+      %div.title
+        %h3= link_to result.display_name, tool_path(result.id)
+        %div.muted= result.tool_category_name
+      %table.table
+        %tr
+          %td Resolution
+          %td= result.resolution
+          %td Sample size
+          %td= sample_size_text(result)
     %span.span2
-      %div.well.reserve_now
+      %div.reserve-now
         %div.price
           = number_to_currency result.price_for(@query.by)
         %div.muted per sample
@@ -20,18 +38,3 @@
           %div
             = link_to "Log In", new_booking_path(tool_id: result.id, date: @query.by), class: "btn"
           %div.small.muted to reserve
-
-
-    %span.span10
-      %div.row
-        %span.span10
-          %h3.title
-            = link_to result.display_name, tool_path(result.id)
-      %div.row
-        %span.span9
-          %table.table
-            %tr
-              %td Resolution
-              %td= result.resolution
-              %td Sample size
-              %td= sample_size_text(result)

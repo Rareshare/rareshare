@@ -28,6 +28,7 @@ gem 'transitions', :require => ["transitions", "active_model/transitions"]
 gem 'geocoder' # Geocoding support
 gem 'simple_form', '~> 2.0.4' # Easy form builder.
 gem 'strong_parameters' # Better parameter support.
+gem 'will_paginate'
 
 # Rendering and style
 gem 'haml-rails'
