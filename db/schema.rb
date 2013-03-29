@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130324181552) do
+ActiveRecord::Schema.define(:version => 20130327170745) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_line_1"
@@ -19,8 +19,6 @@ ActiveRecord::Schema.define(:version => 20130324181552) do
     t.string   "city"
     t.string   "state"
     t.string   "zip_code"
-    t.float    "latitude"
-    t.float    "longitude"
     t.string   "addressable_type"
     t.integer  "addressable_id"
     t.datetime "created_at",       :null => false
@@ -136,6 +134,8 @@ ActiveRecord::Schema.define(:version => 20130324181552) do
     t.integer  "expedited_lead_time"
     t.decimal  "expedited_price",     :precision => 19, :scale => 2
     t.text     "document"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "user_messages", :force => true do |t|

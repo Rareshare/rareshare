@@ -15,9 +15,10 @@ class Tool < ActiveRecord::Base
 
   after_initialize :build_address_if_blank
   before_save :update_search_document
+  after_validation :geocode
+  geocoded_by :full_street_address
 
   validates :model_name, :manufacturer_name, :tool_category_name, :owner, presence: true
-
   validates :expedited_price, :expedited_lead_time, presence: true, if: :can_expedite?
 
   attr_accessible :manufacturer, :manufacturer_id, :year_manufactured, :serial_number
@@ -94,6 +95,10 @@ class Tool < ActiveRecord::Base
 
   def price_for(deadline)
     must_expedite?(deadline) ? expedited_price : base_price
+  end
+
+  def full_street_address
+    self.address.full_street_address
   end
 
   private

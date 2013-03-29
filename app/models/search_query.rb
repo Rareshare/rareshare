@@ -8,7 +8,7 @@ class SearchQuery
   validates_presence_of :q
 
   def self.default_date
-    1.week.from_now
+    2.weeks.from_now
   end
 
   def default_date; self.class.default_date; end
@@ -16,7 +16,12 @@ class SearchQuery
   def results
     if valid?
       self.by ||= default_date
-      Tool.bookable_by(self.by).advanced_search "'#{self.q}':*"
+
+      scope = Tool
+      scope = scope.near(self.loc, 25) if self.loc.present?
+      scope = scope.bookable_by(self.by)
+      scope = scope.advanced_search "'#{self.q}':*"
+      scope
     else
       []
     end
