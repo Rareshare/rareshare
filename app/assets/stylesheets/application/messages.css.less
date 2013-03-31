@@ -1,32 +1,4 @@
-@emailSentColor: #E0E8FF;
-@emailReceivedColor: #FFF0C4;
-
 #messages {
-  .email {
-    p:last-child {
-      margin-bottom: 0;
-    }
-
-    &.email-received {
-      background-color: @emailReceivedColor;
-      border: 1px solid darken(@emailReceivedColor, 10%);
-    }
-
-    &.email-sent {
-      background-color: @emailSentColor;
-      border: 1px solid darken(@emailSentColor, 10%);
-    }
-  }
-
-  .messageable {
-    border-bottom: 1px solid #e5e5e5;
-
-    &.affix {
-      top: 20px;
-      width: 200px;
-    }
-  }
-
   form.new_message {
     textarea { width: 606px; }
   }

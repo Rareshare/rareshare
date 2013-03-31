@@ -41,13 +41,7 @@ class Calendar
   end
 
   def bookings_by_date
-    @bookings_by_date ||= bookings.inject({}) do |h, lease|
-      lease.duration.each do |d|
-        h[d] ||= []
-        h[d] << lease
-        h
-      end
-    end
+    @bookings_by_date ||= bookings.group_by &:deadline
   end
 
 end

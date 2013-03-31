@@ -39,25 +39,10 @@
       - else
         = render partial: 'messages/messages', object: current_user.received_messages.unread
 
-      %h3 Current Bookings
       - if current_user.bookings.active.any?
-        %table.table
-          %thead
-            %tr
-              %th State
-              %th Deadline
-              %th Tool
-              %th Cost
-              %th Options
-          %tbody
-            - current_user.bookings.active.each do |b|
-              %tr
-                %td
-                  = booking_state b
-                %td= b.deadline
-                %td= link_to b.tool.display_name, b.tool
-                %td= number_to_currency b.price
-                %td= simple_form_for(b, method: :delete) { |f| f.submit "Cancel", class: "btn btn-danger" } unless b.cancelled?
+        %h3 Current Bookings
+        = render partial: 'bookings/list', object: current_user.bookings.active
 
-      - else
-        %p You have no active bookings.
+      - if current_user.due_bookings.active.any?
+        %h3 Pending and Due Bookings
+        = render partial: 'bookings/list', object: current_user.due_bookings.active

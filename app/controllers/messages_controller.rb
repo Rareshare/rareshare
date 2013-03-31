@@ -10,7 +10,10 @@ class MessagesController < ApplicationController
 
     if current_user.can_read?(@message)
       current_user.acknowledge_message!(@message)
-      unless @message.first?
+
+      if @message.messageable.present?
+        redirect_to @message.messageable
+      elsif !@message.first?
         redirect_to message_path(@message.originating_message_id, anchor: "message-#{@message.id}")
       end
     else

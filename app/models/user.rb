@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_one :address, as: :addressable
 
   has_many :bookings, foreign_key: :renter_id
+  has_many :due_bookings, through: :tools, source: :bookings
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :provider, :uid, :image_url, :linkedin_profile_url, :primary_phone, :secondary_phone, :bio, :title, :organization, :education, :qualifications, :avatar
@@ -40,11 +41,6 @@ class User < ActiveRecord::Base
 
   def display_name
     "#{first_name} #{last_name}"
-  end
-
-  def actionable_bookings
-    Booking.include(:tool).where("tools.owner_id" => self.id).where(state: :pending)
-    # Booking.where(tool_id: lessor_id: self.id, state: :pending)
   end
 
   def request_reservation!(params={})

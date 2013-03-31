@@ -26,6 +26,14 @@ class BookingsController < ApplicationController
     end
   end
 
+  def show
+    @booking = Booking.find(params[:id])
+
+    unless @booking.can_be_shown_to?(current_user)
+      redirect_to profile_path, flash: { error: "You don't have permission to view the requested booking." }
+    end
+  end
+
   def destroy
     @booking = Booking.find(params[:id])
 

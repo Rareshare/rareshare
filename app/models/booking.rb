@@ -7,11 +7,15 @@ class Booking < ActiveRecord::Base
 
   has_many :user_messages, as: :messageable
 
+  def message_chain
+    user_messages.first.try(:message_chain) || []
+  end
+
   validates_presence_of :tool_id, :renter_id, :tool_id, :sample_description, :deadline, :price
   validates_inclusion_of :tos_accepted, in: [ "1", 1, true ], message: "Please accept the Terms of Service."
   validate :renter_cannot_be_owner
 
-  scope :active, where(state: [:pending, :confirmed])
+  scope :active, where(state: [:pending, :confirmed, :overdue])
 
   after_create :notify_booking_requested, if: :pending?
 
@@ -21,6 +25,7 @@ class Booking < ActiveRecord::Base
     state :denied
     state :cancelled
     state :completed
+    state :overdue
 
     event :confirm, success: :notify_booking_approved do
       transitions from: :pending, to: :confirmed
@@ -35,12 +40,20 @@ class Booking < ActiveRecord::Base
     end
 
     event :complete do
-      transitions from: :confirmed, to: :completed
+      transitions from: [:confirmed, :overdue], to: :completed
+    end
+
+    event :warn do
+      transitions from: :confirmed, to: :overdue
     end
   end
 
   def duration
     started_at..ended_at
+  end
+
+  def display_name
+    tool.display_name + " - " + deadline.to_date.to_s(:short)
   end
 
   def duration_in_days
@@ -65,6 +78,22 @@ class Booking < ActiveRecord::Base
 
   def expedited?
     tool.must_expedite? deadline.to_date
+  end
+
+  def can_be_shown_to?(user)
+    tool.owner_id == user.id || renter_id == user.id
+  end
+
+  def public_address
+    if pending?
+      tool.partial_address
+    else
+      tool.full_street_address
+    end
+  end
+
+  def address_for_map
+    public_address.gsub(/,\s,/, ',').gsub(/\s/, '+')
   end
 
   protected

@@ -250,3 +250,36 @@ h1, h2, h3, h4, h5, h6 {
   max-height: 300px;
   overflow: auto;
 }
+
+.email {
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  &.email-received {
+    background-color: @emailReceivedColor;
+    border: 1px solid darken(@emailReceivedColor, 10%);
+  }
+
+  &.email-sent {
+    background-color: @emailSentColor;
+    border: 1px solid darken(@emailSentColor, 10%);
+  }
+}
+
+.messageable {
+  border-bottom: 1px solid #e5e5e5;
+
+  &.affix {
+    top: 100px;
+    width: 140px;
+  }
+
+  .btn {
+    width: 140px;
+    margin-bottom: 10px;
+
+    &:last-child { margin-bottom: 0; }
+  }
+}
+

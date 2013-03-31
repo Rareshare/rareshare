@@ -1,0 +1,29 @@
+%table.table
+  %thead
+    %tr
+      %th State
+      %th Deadline
+      %th Tool
+      %th Cost
+      %th Options
+  %tbody
+    - list.each do |b|
+      %tr
+        %td
+          = booking_state b
+        %td= link_to b.deadline.to_date.to_s(:simple), booking_path(b)
+        %td= link_to b.display_name, booking_path(b)
+        %td= number_to_currency b.price
+        %td
+          = simple_form_for(b) do |f|
+            - if b.tool.owned_by?(current_user)
+              - if b.pending?
+                = f.button :submit, value: "Approve", class: "btn btn-mini btn-success"
+                = f.button :submit, value: "Deny", class: "btn btn-mini btn-danger"
+              - elsif b.confirmed?
+                = f.button :submit, value: "Cancel", class: "btn btn-mini btn-danger"
+            - elsif b.renter == current_user
+              - if b.pending? || b.confirmed?
+                = f.button :submit, value: "Cancel", class: "btn btn-mini btn-danger"
+
+

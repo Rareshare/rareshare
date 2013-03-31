@@ -4,7 +4,7 @@ module CalendarHelper
 
     classes << "bad_month" if date.month != calendar.month
     classes << "today" if date.day == Time.zone.now.day
-    classes << "leases" if date.day % 9 == 0 # calendar.leases_by_date[date].present?
+    classes << "leases" if calendar.bookings_by_date.has_key?(date)
 
     classes.join " "
   end
