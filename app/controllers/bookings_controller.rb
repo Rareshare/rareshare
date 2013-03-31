@@ -20,7 +20,7 @@ class BookingsController < ApplicationController
     @booking = current_user.request_reservation!(params[:booking])
 
     if @booking.valid?
-      redirect_to profile_path, flash: { notice: "Booking successful!" }
+      redirect_to booking_path(@booking), flash: { notice: "Booking successful!" }
     else
       render 'bookings/new'
     end
@@ -53,12 +53,12 @@ class BookingsController < ApplicationController
       case params[:commit]
       when /confirm/i
         @booking.confirm!
-        redirect_to profile_path, info: "Successfully confirmed booking."
+        redirect_to booking_path(@booking), info: "Successfully confirmed booking."
       when /deny/i
         @booking.deny!
-        redirect_to profile_path, info: "Booking was denied."
+        redirect_to booking_path(@booking), info: "Booking was denied."
       else
-        redirect_to profile_path, error: "Unrecognized booking operation."
+        redirect_to booking_path(@booking), error: "Unrecognized booking operation."
       end
     end
   end
