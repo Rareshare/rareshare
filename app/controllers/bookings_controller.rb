@@ -51,7 +51,7 @@ class BookingsController < ApplicationController
 
     if @booking.tool.owned_by?(current_user)
       case params[:commit]
-      when /confirm/i
+      when /approve/i
         @booking.confirm!
         redirect_to booking_path(@booking), info: "Successfully confirmed booking."
       when /deny/i
