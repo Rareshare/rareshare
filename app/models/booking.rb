@@ -53,7 +53,7 @@ class Booking < ActiveRecord::Base
   end
 
   def display_name
-    tool.display_name + " - " + deadline.to_date.to_s(:short)
+    tool.display_name + " - " + deadline.to_date.to_s(:long)
   end
 
   def duration_in_days
