@@ -1,6 +1,6 @@
 = render layout: "shared/navbar" do
   = link_to profile_path do
-    %i.icon.icon-chevron-left
+    %i.icon.icon-angle-left
     My profile
 
   = simple_form_for current_user, url: profile_path, :html => {:multipart => true} do |f|

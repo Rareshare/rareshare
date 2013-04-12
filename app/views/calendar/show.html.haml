@@ -20,9 +20,9 @@
                 %td{class: date_class_for(@calendar, date)}= date.day
 
       %div.pull-left
-        = link_to icon("arrow-left"), calendar_path(@calendar.prev)
+        = link_to icon("angle-left"), calendar_path(@calendar.prev)
       %div.pull-right
-        = link_to icon("arrow-right"), calendar_path(@calendar.next)
+        = link_to icon("angle-right"), calendar_path(@calendar.next)
 
     %span.span8
       %h3.pull-up Bookings

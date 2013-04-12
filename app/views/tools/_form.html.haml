@@ -1,6 +1,6 @@
 = render layout: 'shared/navbar' do
   = link_to tools_path do
-    %i.icon.icon-chevron-left
+    %i.icon.icon-angle-left
     All my tools
   = simple_form_for @tool do |f|
     = f.error_notification
@@ -17,14 +17,14 @@
                 = f.input :tool_category_name, label: "Category", required: true, wrapper: :append do
                   = f.input_field :tool_category_name, autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:tool_category) }
                   %button.btn
-                    %i.icon-chevron-down
+                    %i.icon-angle-down
 
             %div.row
               %span.span3
                 = f.input :manufacturer_name, label: "Manufacturer", required: true, wrapper: :append, hint: "Select an existing manufacturer or simply type in a new name." do
                   = f.input_field :manufacturer_name, autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:manufacturer) }
                   %button.btn
-                    %i.icon-chevron-down
+                    %i.icon-angle-down
 
               %span.span3
                 = f.input :model_name, label: "Model", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }
