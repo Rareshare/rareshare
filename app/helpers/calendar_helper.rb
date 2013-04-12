@@ -3,7 +3,7 @@ module CalendarHelper
     classes = []
 
     classes << "bad_month" if date.month != calendar.month
-    classes << "today" if date.day == Time.zone.now.day
+    classes << "today" if date == Date.today
     classes << "leases" if calendar.bookings_by_date.has_key?(date)
 
     classes.join " "

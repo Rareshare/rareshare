@@ -19,9 +19,13 @@ module ApplicationHelper
     end
 
     content_tag(:li, class: active ? "active" : "") do
-      icon = opts[:icon] ? content_tag(:i, "", class: "icon-#{opts[:icon]}") : ""
+      icon = opts[:icon] ? icon(opts[:icon]) : ""
       link_to icon + name, url
     end
+  end
+
+  def icon(type)
+    content_tag(:i, "", class: "icon-#{type}")
   end
 
   def share_a_tool_path(params={})
