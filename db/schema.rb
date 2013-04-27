@@ -107,6 +107,12 @@ ActiveRecord::Schema.define(:version => 20130427224150) do
     t.datetime "updated_at",      :null => false
   end
 
+  create_table "pages", :force => true do |t|
+    t.string "title"
+    t.string "slug"
+    t.text   "content"
+  end
+
   create_table "searches", :id => false, :force => true do |t|
     t.text    "document"
     t.integer "searchable_id"

@@ -19,4 +19,6 @@ Rareshare::Application.routes.draw do
   resources :messages do
     member { post :reply }
   end
+
+  match "/:page" => 'pages#show', as: :page
 end

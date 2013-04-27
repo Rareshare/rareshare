@@ -98,6 +98,7 @@ GEM
     formatador (0.2.4)
     formtastic (2.2.1)
       actionpack (>= 3.0)
+    friendly_id (4.0.9)
     geocoder (1.1.6)
     haml (4.0.0)
       tilt
@@ -285,6 +286,7 @@ DEPENDENCIES
   factory_girl
   fog
   foreman
+  friendly_id
   geocoder
   haml-rails
   jquery-fileupload-rails
