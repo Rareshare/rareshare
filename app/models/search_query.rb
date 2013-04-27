@@ -23,7 +23,7 @@ class SearchQuery
       scope = scope.near(self.loc, 25) if self.loc.present?
       scope = scope.bookable_by(self.by)
       scope = scope.advanced_search "'#{self.q}':*"
-      scope = scope.paginate page: self.page, per_page: self.per_page
+      scope = scope.page(self.page).per(self.per_page)
       scope
     else
       []

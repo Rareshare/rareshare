@@ -1,6 +1,7 @@
 Rareshare::Application.routes.draw do
   root to: "home#index"
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  ActiveAdmin.routes(self)
 
   resource :profile, controller: "profile"
 

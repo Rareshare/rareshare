@@ -15,6 +15,11 @@ gem 'fog'
 gem 'mini_magick'
 gem "jquery-fileupload-rails"
 
+# Admin
+gem 'activeadmin'
+gem 'active_admin_editor'
+gem 'meta_search', '>= 1.1.0.pre'
+
 # User management
 gem 'devise' # A set of tools for user authentication
 gem 'cancan' # A small set of tools for defining user permissions
@@ -28,11 +33,12 @@ gem 'transitions', :require => ["transitions", "active_model/transitions"]
 gem 'geocoder' # Geocoding support
 gem 'simple_form', '~> 2.0.4' # Easy form builder.
 gem 'strong_parameters' # Better parameter support.
-gem 'will_paginate'
+gem 'kaminari'
 
 # Rendering and style
 gem 'haml-rails'
 gem 'coffee-rails'
+gem 'sass-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'less-rails'

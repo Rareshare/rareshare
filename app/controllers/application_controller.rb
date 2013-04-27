@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :logged_in?
-  
+
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = exception.message
     redirect_to root_url
@@ -14,5 +14,9 @@ class ApplicationController < ActionController::Base
     else
       profile_path
     end
+  end
+
+  def authenticate_admin_user!
+    authenticate_user! && current_user.admin?
   end
 end
