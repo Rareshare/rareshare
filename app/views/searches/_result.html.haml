@@ -32,7 +32,6 @@
                 = link_to "Reserve", new_booking_path(tool_id: result.id, date: @query.by), class: "btn btn-primary"
           - else
             %div
-              Owner
               = link_to "Edit", edit_tool_path(result), class: "btn"
         - else
           %div
