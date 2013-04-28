@@ -23,10 +23,9 @@
     %div.pull-right
       = link_to icon("angle-right"), calendar_path(@calendar.next)
 
-  %span.span8
-    %h3.pull-up Bookings
+  %span.span10
     - if @calendar.bookings.empty?
       %p You have no bookings this month.
     - else
-      = render @calendar.bookings
+      = render partial: 'bookings/list', object: @calendar.bookings
 
