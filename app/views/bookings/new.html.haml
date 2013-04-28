@@ -20,10 +20,11 @@
             to process a sample on or before #{@booking.deadline.to_date.to_s(:long)}.
             The total cost for this lease will be #{number_to_currency @booking.total_cost}.
           = f.input :sample_description
-          %div.control-group
-            %textarea(class="text" readonly)
-              I hereby promise to abide by the terms of this agreement (to provide a sample in a timle manner, pay the full amount, and not break anything) or to be cast into the darkness for all eternity. Amen.
-          = f.input :tos_accepted, label: false, inline_label: "I have read and agree to the #{page_link_to('Terms of Service')} for this lease.".html_safe
+
+          %div{style: "overflow-y: scroll; max-height: 300px"}
+            = raw Page.where(title: "Terms & Conditions").first.try(:content)
+
+          = f.input :tos_accepted, label: false, inline_label: "I have read and agree to the #{page_link_to('Terms & Conditions')} for this lease.".html_safe
 
     %div.row
       %span.offset3.span9

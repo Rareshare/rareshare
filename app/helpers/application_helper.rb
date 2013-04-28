@@ -43,8 +43,8 @@ module ApplicationHelper
   end
 
   def page_link_to(title, opts={})
-    path = Page.where(title: title).first.try(:slug)
-    link_to title, path || "#", opts
+    slug = Page.where(title: title).first.try(:slug)
+    link_to title, ( slug.present? ? page_path(slug) : "#" ), opts
   end
 
   alias_method :lease_state, :booking_state
