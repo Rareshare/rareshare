@@ -21,7 +21,7 @@
           = form_tag search_url, method: "get", class: "navbar-search", id: "navbar-search", style: "position: relative" do
             %input(type="text" name="q" placeholder="What do you need?" style="border-right: none")
             %span.search_append
-              %i(class="icon-search" style="color: black")
+              %i(class="icon-search")
           %ul.nav.pull-right
             - if signed_in?
               %li.dropdown
@@ -60,9 +60,11 @@
         %div.span10
           %ul.nav
             %li
-              %a{href: "#"} Learn More
+              = page_link_to "Learn More"
             %li
-              %a{href: "#"} Get Help
+              = page_link_to "Get Help"
+            %li
+              = page_link_to "Terms & Conditions"
         %div.span2
           %div.pull-right.brand
             Rareshare

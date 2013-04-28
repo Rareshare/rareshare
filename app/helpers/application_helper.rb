@@ -42,5 +42,10 @@ module ApplicationHelper
     content_tag :span, count.to_s, class: "badge #{badge_type}"
   end
 
+  def page_link_to(title, opts={})
+    path = Page.where(title: title).first.try(:slug)
+    link_to title, path || "#", opts
+  end
+
   alias_method :lease_state, :booking_state
 end
