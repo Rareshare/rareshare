@@ -1,32 +1,31 @@
 - nav_category "Share a Tool"
 
-= render layout: 'shared/navbar' do
-  = link_to tool_path(@booking.tool) do
-    %i.icon.icon-angle-left
-    Cancel
+= link_to tool_path(@booking.tool) do
+  %i.icon.icon-angle-left
+  Cancel
 
-  = simple_form_for @booking do |f|
-    %div.form-inputs
-      = f.input :tool_id, as: :hidden
-      = f.input :deadline, as: :hidden
-      %fieldset
-        %legend Confirm Request
-        %div.row
-          %span.span3
-            %p Please describe your intended usage of the tool.
-          %span.span9
-            %p
-              Request to book
-              = link_to @booking.tool.display_name, tool_path(@booking.tool)
-              to process a sample on or before #{@booking.deadline.to_date.to_s(:long)}.
-              The total cost for this lease will be #{number_to_currency @booking.total_cost}.
-            = f.input :sample_description
-            %div.control-group
-              %textarea(class="text" readonly)
-                I hereby promise to abide by the terms of this agreement (to provide a sample in a timle manner, pay the full amount, and not break anything) or to be cast into the darkness for all eternity. Amen.
-            = f.input :tos_accepted, label: false, inline_label: "I have read and agree to the Terms of Service for this lease."
-
+= simple_form_for @booking do |f|
+  %div.form-inputs
+    = f.input :tool_id, as: :hidden
+    = f.input :deadline, as: :hidden
+    %fieldset
+      %legend Confirm Request
       %div.row
-        %span.offset3.span9
-          = f.submit "Reserve", class: "btn btn-primary"
-          = link_to "Cancel", :back, class: "btn"
+        %span.span3
+          %p Please describe your intended usage of the tool.
+        %span.span9
+          %p
+            Request to book
+            = link_to @booking.tool.display_name, tool_path(@booking.tool)
+            to process a sample on or before #{@booking.deadline.to_date.to_s(:long)}.
+            The total cost for this lease will be #{number_to_currency @booking.total_cost}.
+          = f.input :sample_description
+          %div.control-group
+            %textarea(class="text" readonly)
+              I hereby promise to abide by the terms of this agreement (to provide a sample in a timle manner, pay the full amount, and not break anything) or to be cast into the darkness for all eternity. Amen.
+          = f.input :tos_accepted, label: false, inline_label: "I have read and agree to the Terms of Service for this lease."
+
+    %div.row
+      %span.offset3.span9
+        = f.submit "Reserve", class: "btn btn-primary"
+        = link_to "Cancel", :back, class: "btn"

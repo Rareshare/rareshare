@@ -1,5 +1,4 @@
-class MessagesController < ApplicationController
-  before_filter :authenticate_user!
+class MessagesController < InternalController
 
   def index
     @messages = current_user.received_messages(limit: 10)

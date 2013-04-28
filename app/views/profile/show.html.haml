@@ -1,48 +1,47 @@
-= render layout: 'shared/navbar' do
-  %div.row.row-header
-    %span.span2.header-avatar
-      - if current_user.avatar.present?
-        %img.avatar{src: current_user.avatar.url(:thumb)}
-      - else
-        %i.avatar.icon-user
-    %span.span10.header-body
-      %h1= current_user.display_name
-      %span.muted
-        Joined on
-        = current_user.confirmed_at.to_date.to_s(:long)
+%div.row.row-header
+  %span.span2.header-avatar
+    - if current_user.avatar.present?
+      %img.avatar{src: current_user.avatar.url(:thumb)}
+    - else
+      %i.avatar.icon-user
+  %span.span10.header-body
+    %h1= current_user.display_name
+    %span.muted
+      Joined on
+      = current_user.confirmed_at.to_date.to_s(:long)
 
-  %div.row
-    %span.span2.profile-sidebar
-      %ul.nav.nav-list
-        %li.nav-header
-          Quick Links
-        %li
-          = link_to edit_profile_path do
-            %i.icon-edit
-            Edit my profile
-        %li
-          = link_to new_tool_path do
-            %i.icon-beaker
-            Add a Tool
-        %li
-          = link_to messages_path do
-            %i.icon-envelope
-            My Messages
-        %li
-          = link_to "#" do
-            %i.icon-picture
-            Upload a photo
-    %span.span10.profile-main
-      %h3.pull-up Unread Messages
-      - if current_user.unread_message_count == 0
-        %p You have no unread messages.
-      - else
-        = render partial: 'messages/messages', object: current_user.received_messages.unread
+%div.row
+  %span.span2.profile-sidebar
+    %ul.nav.nav-list
+      %li.nav-header
+        Quick Links
+      %li
+        = link_to edit_profile_path do
+          %i.icon-edit
+          Edit my profile
+      %li
+        = link_to new_tool_path do
+          %i.icon-beaker
+          Add a Tool
+      %li
+        = link_to messages_path do
+          %i.icon-envelope
+          My Messages
+      %li
+        = link_to "#" do
+          %i.icon-picture
+          Upload a photo
+  %span.span10.profile-main
+    %h3.pull-up Unread Messages
+    - if current_user.unread_message_count == 0
+      %p You have no unread messages.
+    - else
+      = render partial: 'messages/messages', object: current_user.received_messages.unread
 
-      - if current_user.bookings.active.any?
-        %h3 Current Bookings
-        = render partial: 'bookings/list', object: current_user.bookings.active
+    - if current_user.bookings.active.any?
+      %h3 Current Bookings
+      = render partial: 'bookings/list', object: current_user.bookings.active
 
-      - if current_user.due_bookings.active.any?
-        %h3 Pending and Due Bookings
-        = render partial: 'bookings/list', object: current_user.due_bookings.active
+    - if current_user.due_bookings.active.any?
+      %h3 Pending and Due Bookings
+      = render partial: 'bookings/list', object: current_user.due_bookings.active

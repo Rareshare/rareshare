@@ -1,13 +1,8 @@
-%div.container.inner-content
-  %div.row
-    %div.span10.offset1
-      = bootstrap_flash
+%div.row.row-header
+  %span.span10.offset1.header-body
+    %h1= @page.title
 
-  %div.row.row-header
-    %span.span10.offset1.header-body
-      %h1= @page.title
-
-  %div.row
-    %span.span10.offset1
-      = raw @page.content
+%div.row
+  %span.span10.offset1
+    = raw @page.content
 

@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :logged_in?
+  layout "external"
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = exception.message

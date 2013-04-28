@@ -1,5 +1,4 @@
-class LeasesController < ApplicationController
-  before_filter :authenticate_user!
+class LeasesController < InternalController
 
   def new
     tool = Tool.find(params[:tool_id])

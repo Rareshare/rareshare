@@ -1,12 +1,11 @@
-= render layout: 'shared/navbar' do
-  %div.row.row-header
-    %span.span12
-      %img.small{src: current_user.image_url, style: "float: left; margin-right: 20px;"}
-      %h1= @user.display_name
-      %span.muted
-        Joined on
-        = @user.confirmed_at.to_date.to_s(:long)
+%div.row.row-header
+  %span.span12
+    %img.small{src: current_user.image_url, style: "float: left; margin-right: 20px;"}
+    %h1= @user.display_name
+    %span.muted
+      Joined on
+      = @user.confirmed_at.to_date.to_s(:long)
 
-  %div.row
-    %span.span2.profile-sidebar
-    %span.span10.profile-main
+%div.row
+  %span.span2.profile-sidebar
+  %span.span10.profile-main

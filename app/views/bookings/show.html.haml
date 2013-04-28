@@ -1,138 +1,137 @@
 - nav_category @booking.owner == current_user ? "Share a Tool" : "Find a Tool"
 
-= render layout: 'shared/navbar' do
-  %div.row.row-header
+%div.row.row-header
+  %span.span2.header-avatar
+    - if @booking.tool.images.any?
+      %a{href: "#images", role: "button", data: { toggle: "modal" }}
+        %img.avatar{src: @booking.tool.images.first.image.url(:thumb)}
+    - else
+      %i.avatar.icon-beaker
+  %span.span10.header-body
+    %h1
+      = @booking.state.titleize
+      = t(:booking)
+    %span.muted
+      = @booking.display_name
+
+%div.row
+  %span.span2
+  %span.span8
+    %h3 Tool Overview
+    %table.table
+      %tbody
+        %tr
+          %th Category
+          %td
+            = link_to search_path(q: @booking.tool.tool_category_name) do
+              = @booking.tool.tool_category_name
+        %tr
+          %th Manufacturer
+          %td
+            = link_to search_path(q: @booking.tool.manufacturer_name) do
+              = @booking.tool.manufacturer_name
+        %tr
+          %th Model
+          %td
+            = link_to search_path(q: @booking.tool.model_name) do
+              = @booking.tool.model_name
+        %tr
+          %th Year manufactured
+          %td= @booking.tool.year_manufactured
+        %tr
+          %th Resolution
+          %td= @booking.tool.resolution
+        %tr
+          %th Sample size
+          %td
+            10
+            %sup= @booking.tool.sample_size_min
+            to 10
+            %sup= @booking.tool.sample_size_max
+
+    %h3 Booking Information
+    %table.table
+      %tbody
+        %tr
+          %th Price
+          %td= number_to_currency @booking.price
+        %tr
+          %th Location
+          %td= @booking.tool.partial_address
+        %tr
+          %th Due By
+          %td= @booking.deadline.to_date.to_s(:long)
+
+    - if @booking.tool.images.any?
+      = modal_dialog id: "images" do
+        = modal_header do
+          %h3#imagesLabel Images
+        = modal_body do
+          %div#carousel.carousel.slide
+            %ol.carousel-indicators
+              - @booking.tool.images.each.with_index do |image, i|
+                %li{class: i == 0 ? "active" : "", data: { "target" => "#mycarousel", "slide-to" => i}}
+
+            %div.carousel-inner
+              - @booking.tool.images.each.with_index do |image, i|
+                %div.item{class: i == 0 ? "active" : ""}
+                  = image_tag image.image.url
+
+            %a.carousel-control.left{href: "#carousel", data: { slide: "prev" }}
+              %i.icon-arrow-left
+            %a.carousel-control.right{href: "#carousel", data: { slide: "next" }}
+              %i.icon-arrow-right
+
+  %span.span2
+    %div.messageable(data-spy="affix" data-offset-top="156")
+      = simple_form_for @booking do |f|
+        - if @booking.tool.owned_by?(current_user)
+          - if @booking.pending?
+            %p This person is currently waiting for a response from you.
+            = f.button :submit, value: "Approve", class: "btn btn-success"
+            = f.button :submit, value: "Deny", class: "btn btn-danger"
+          - elsif @booking.confirmed?
+            %p You have approved this booking.
+            = f.button :submit, value: "Cancel Booking", class: "btn btn-danger"
+        - elsif @booking.renter == current_user
+          - if @booking.pending?
+            %p You are waiting for a response from the owner of this tool.
+            = f.button :submit, value: "Cancel Request", class: "btn btn-danger"
+          - elsif @booking.confirmed?
+            %p The owner of the tool has agreed to this booking.
+            = f.button :submit, value: "Cancel Request", class: "btn btn-danger"
+
+%div.row
+  %span.span8.offset2
+    %h3 Address
+    %h4.address
+      %strong
+        = @booking.public_address
+    %iframe{width: "100%", height: "350", frameborder: "0", scrolling: "no", marginheight: "0", marginwidth: "0", src: "http://maps.google.com/maps?f=q&q=#{@booking.address_for_map}&source=s_q&hl=en&geocode=&aq=&ie=UTF8&spn=0.706779,1.187897&t=m&z=10&output=embed"}
+
+
+%div.row#messages
+  %span.span8.offset2
+    %h3 Messages
+- @booking.message_chain.each do |message|
+  %div.row
     %span.span2.header-avatar
-      - if @booking.tool.images.any?
-        %a{href: "#images", role: "button", data: { toggle: "modal" }}
-          %img.avatar{src: @booking.tool.images.first.image.url(:thumb)}
+      - if message.sender.avatar.present?
+        %img.avatar{src: message.sender.avatar.url(:thumb), style: "margin-top: 0; margin-bottom: 10px"}
       - else
-        %i.avatar.icon-beaker
-    %span.span10.header-body
-      %h1
-        = @booking.state.titleize
-        = t(:booking)
-      %span.muted
-        = @booking.display_name
+        %i.avatar.icon-user{style: "margin-top: 0; margin-bottom: 10px"}
 
-  %div.row
-    %span.span2
     %span.span8
-      %h3 Tool Overview
-      %table.table
-        %tbody
-          %tr
-            %th Category
-            %td
-              = link_to search_path(q: @booking.tool.tool_category_name) do
-                = @booking.tool.tool_category_name
-          %tr
-            %th Manufacturer
-            %td
-              = link_to search_path(q: @booking.tool.manufacturer_name) do
-                = @booking.tool.manufacturer_name
-          %tr
-            %th Model
-            %td
-              = link_to search_path(q: @booking.tool.model_name) do
-                = @booking.tool.model_name
-          %tr
-            %th Year manufactured
-            %td= @booking.tool.year_manufactured
-          %tr
-            %th Resolution
-            %td= @booking.tool.resolution
-          %tr
-            %th Sample size
-            %td
-              10
-              %sup= @booking.tool.sample_size_min
-              to 10
-              %sup= @booking.tool.sample_size_max
+      %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
+        %p= message.body.html_safe
+        %small.muted
+          #{message.sender.display_name} at #{message.created_at}
 
-      %h3 Booking Information
-      %table.table
-        %tbody
-          %tr
-            %th Price
-            %td= number_to_currency @booking.price
-          %tr
-            %th Location
-            %td= @booking.tool.partial_address
-          %tr
-            %th Due By
-            %td= @booking.deadline.to_date.to_s(:long)
-
-      - if @booking.tool.images.any?
-        = modal_dialog id: "images" do
-          = modal_header do
-            %h3#imagesLabel Images
-          = modal_body do
-            %div#carousel.carousel.slide
-              %ol.carousel-indicators
-                - @booking.tool.images.each.with_index do |image, i|
-                  %li{class: i == 0 ? "active" : "", data: { "target" => "#mycarousel", "slide-to" => i}}
-
-              %div.carousel-inner
-                - @booking.tool.images.each.with_index do |image, i|
-                  %div.item{class: i == 0 ? "active" : ""}
-                    = image_tag image.image.url
-
-              %a.carousel-control.left{href: "#carousel", data: { slide: "prev" }}
-                %i.icon-arrow-left
-              %a.carousel-control.right{href: "#carousel", data: { slide: "next" }}
-                %i.icon-arrow-right
-
-    %span.span2
-      %div.messageable(data-spy="affix" data-offset-top="156")
-        = simple_form_for @booking do |f|
-          - if @booking.tool.owned_by?(current_user)
-            - if @booking.pending?
-              %p This person is currently waiting for a response from you.
-              = f.button :submit, value: "Approve", class: "btn btn-success"
-              = f.button :submit, value: "Deny", class: "btn btn-danger"
-            - elsif @booking.confirmed?
-              %p You have approved this booking.
-              = f.button :submit, value: "Cancel Booking", class: "btn btn-danger"
-          - elsif @booking.renter == current_user
-            - if @booking.pending?
-              %p You are waiting for a response from the owner of this tool.
-              = f.button :submit, value: "Cancel Request", class: "btn btn-danger"
-            - elsif @booking.confirmed?
-              %p The owner of the tool has agreed to this booking.
-              = f.button :submit, value: "Cancel Request", class: "btn btn-danger"
-
-  %div.row
-    %span.span8.offset2
-      %h3 Address
-      %h4.address
-        %strong
-          = @booking.public_address
-      %iframe{width: "100%", height: "350", frameborder: "0", scrolling: "no", marginheight: "0", marginwidth: "0", src: "http://maps.google.com/maps?f=q&q=#{@booking.address_for_map}&source=s_q&hl=en&geocode=&aq=&ie=UTF8&spn=0.706779,1.187897&t=m&z=10&output=embed"}
-
-
-  %div.row#messages
-    %span.span8.offset2
-      %h3 Messages
-  - @booking.message_chain.each do |message|
-    %div.row
-      %span.span2.header-avatar
-        - if message.sender.avatar.present?
-          %img.avatar{src: message.sender.avatar.url(:thumb), style: "margin-top: 0; margin-bottom: 10px"}
-        - else
-          %i.avatar.icon-user{style: "margin-top: 0; margin-bottom: 10px"}
-
-      %span.span8
-        %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
-          %p= message.body.html_safe
-          %small.muted
-            #{message.sender.display_name} at #{message.created_at}
-
-  %div.row
-    %span.span2
-    %span.span8
-      = simple_form_for UserMessage.new, as: :message, url: reply_message_path(@booking.user_messages.last) do |f|
-        .form-inputs
-          = f.input :body, label: false, input_html: { rows: 4, cols: nil }
-        .form-actions
-          = f.button :submit, "Reply", class: "btn btn-primary"
+%div.row
+  %span.span2
+  %span.span8
+    = simple_form_for UserMessage.new, as: :message, url: reply_message_path(@booking.user_messages.last) do |f|
+      .form-inputs
+        = f.input :body, label: false, input_html: { rows: 4, cols: nil }
+      .form-actions
+        = f.button :submit, "Reply", class: "btn btn-primary"

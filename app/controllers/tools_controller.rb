@@ -1,5 +1,4 @@
-class ToolsController < ApplicationController
-  before_filter :authenticate_user!
+class ToolsController < InternalController
 
   def index
     @tools = current_user.tools.all

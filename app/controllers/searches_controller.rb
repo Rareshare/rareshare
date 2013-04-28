@@ -1,4 +1,4 @@
-class SearchesController < ApplicationController
+class SearchesController < InternalController
   helper :tools
   def show
     @query = SearchQuery.new(params)

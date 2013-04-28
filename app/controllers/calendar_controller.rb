@@ -1,4 +1,4 @@
-class CalendarController < ApplicationController
+class CalendarController < InternalController
   def show
     if params[:id].present? && params[:id] =~ /(\d{4})-(\d{2})/
       year, month = [ $1, $2 ].map &:to_i

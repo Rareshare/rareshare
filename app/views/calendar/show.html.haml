@@ -1,33 +1,32 @@
-= render layout: 'shared/navbar' do
-  %div.row.row-header
-    %span.span2.header-avatar
-      %i.avatar.icon-calendar
-    %span.span10.header-body
-      %h1 Calendar
-      %span.muted= @calendar.title
+%div.row.row-header
+  %span.span2.header-avatar
+    %i.avatar.icon-calendar
+  %span.span10.header-body
+    %h1 Calendar
+    %span.muted= @calendar.title
 
-  %div.row
-    %span.span2
-      %table.calendar
-        %thead
+%div.row
+  %span.span2
+    %table.calendar
+      %thead
+        %tr
+          - @calendar.days_of_week.each do |d|
+            %th= d
+      %tbody
+        - @calendar.weeks.each do |week|
           %tr
-            - @calendar.days_of_week.each do |d|
-              %th= d
-        %tbody
-          - @calendar.weeks.each do |week|
-            %tr
-              - week.each do |date|
-                %td{class: date_class_for(@calendar, date)}= date.day
+            - week.each do |date|
+              %td{class: date_class_for(@calendar, date)}= date.day
 
-      %div.pull-left
-        = link_to icon("angle-left"), calendar_path(@calendar.prev)
-      %div.pull-right
-        = link_to icon("angle-right"), calendar_path(@calendar.next)
+    %div.pull-left
+      = link_to icon("angle-left"), calendar_path(@calendar.prev)
+    %div.pull-right
+      = link_to icon("angle-right"), calendar_path(@calendar.next)
 
-    %span.span8
-      %h3.pull-up Bookings
-      - if @calendar.bookings.empty?
-        %p You have no bookings this month.
-      - else
-        = render @calendar.bookings
+  %span.span8
+    %h3.pull-up Bookings
+    - if @calendar.bookings.empty?
+      %p You have no bookings this month.
+    - else
+      = render @calendar.bookings
 

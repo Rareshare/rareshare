@@ -1,4 +1,4 @@
-class BookingsController < ApplicationController
+class BookingsController < InternalController
   before_filter :authenticate_user!
 
   def new

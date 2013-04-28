@@ -1,27 +1,27 @@
 - nav_category "Messages"
-= render layout: 'shared/navbar' do
-  %fieldset
-    %legend Messages
-    %div.row
-      %span.span3
-        %div.messageable(data-spy="affix" data-offset-top="176")
-          %small.muted This is a message regarding:
-          = render @message.messageable
-      %span.span9
-        - @message.message_chain.each do |message|
-          %div.row
-            %span.span7
-              %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
-                %p= message.body.html_safe
-                %small.muted
-                  #{message.sender.display_name} at #{message.created_at}
-            %span.span2{style: "text-align: center"}
-              %img{src: message.sender.avatar.url(:thumb)}
 
+%fieldset
+  %legend Messages
+  %div.row
+    %span.span3
+      %div.messageable(data-spy="affix" data-offset-top="176")
+        %small.muted This is a message regarding:
+        = render @message.messageable
+    %span.span9
+      - @message.message_chain.each do |message|
         %div.row
           %span.span7
-            = simple_form_for UserMessage.new, as: :message, url: reply_message_path(@message) do |f|
-              .form-inputs
-                = f.input :body, label: false, input_html: { rows: 4, cols: nil }
-              .form-actions
-                = f.button :submit, "Reply", class: "btn btn-primary"
+            %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
+              %p= message.body.html_safe
+              %small.muted
+                #{message.sender.display_name} at #{message.created_at}
+          %span.span2{style: "text-align: center"}
+            %img{src: message.sender.avatar.url(:thumb)}
+
+      %div.row
+        %span.span7
+          = simple_form_for UserMessage.new, as: :message, url: reply_message_path(@message) do |f|
+            .form-inputs
+              = f.input :body, label: false, input_html: { rows: 4, cols: nil }
+            .form-actions
+              = f.button :submit, "Reply", class: "btn btn-primary"

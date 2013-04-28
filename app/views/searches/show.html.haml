@@ -1,19 +1,10 @@
-- if signed_in?
-  = render layout: 'shared/navbar' do
-    = render partial: "shared/search"
+= render partial: "shared/search"
 
-    - if @results.any?
-      - if @results.total_pages > 1
-        = paginate @results
-      - else
-        %p Found #{pluralize(@results.size, 'result')}.
-      = render collection: @results, partial: 'result'
-    - elsif @query.valid?
-      %p No results found.
-- else
-  = render partial: "shared/search"
-
-  - if @results.any?
-    = render collection: @results, partial: 'result'
-  - elsif @query.valid?
-    %p No results found.
+- if @results.any?
+  - if @results.total_pages > 1
+    = paginate @results
+  - else
+    %p Found #{pluralize(@results.size, 'result')}.
+  = render collection: @results, partial: 'result'
+- elsif @query.valid?
+  %p No results found.

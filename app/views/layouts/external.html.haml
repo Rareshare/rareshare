@@ -1,0 +1,9 @@
+= render layout: 'layouts/application' do
+  %div.content.container
+    %div.container.inner-content
+      %div.row
+        %div.span10.offset1
+          = bootstrap_flash
+
+      = yield
+

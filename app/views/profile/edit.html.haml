@@ -1,62 +1,61 @@
-= render layout: "shared/navbar" do
-  = link_to profile_path do
-    %i.icon.icon-angle-left
-    My profile
+= link_to profile_path do
+  %i.icon.icon-angle-left
+  My profile
 
-  = simple_form_for current_user, url: profile_path, :html => {:multipart => true} do |f|
-    %fieldset
-      %legend Your basic information
-      %div.row
-        %span.span2
-          %p Help us get to know you.
-        %span.span8
-          %div.row
-            %span.span4= f.input :first_name
-            %span.span4= f.input :last_name
-          %div.row
-            %span.span6= f.input :email
-          %div.row
-            %span.span3= f.input :primary_phone, type: :phone, hint: "The quickest way to reach you."
-            %span.span3= f.input :secondary_phone, type: :phone, hint: "The other way to reach you."
-          = f.input :avatar, type: :file, label: "Picture"
-          - if current_user.avatar.present?
-            = image_tag current_user.avatar.url(:thumb)
-          = f.input :bio
+= simple_form_for current_user, url: profile_path, :html => {:multipart => true} do |f|
+  %fieldset
+    %legend Your basic information
+    %div.row
+      %span.span2
+        %p Help us get to know you.
+      %span.span8
+        %div.row
+          %span.span4= f.input :first_name
+          %span.span4= f.input :last_name
+        %div.row
+          %span.span6= f.input :email
+        %div.row
+          %span.span3= f.input :primary_phone, type: :phone, hint: "The quickest way to reach you."
+          %span.span3= f.input :secondary_phone, type: :phone, hint: "The other way to reach you."
+        = f.input :avatar, type: :file, label: "Picture"
+        - if current_user.avatar.present?
+          = image_tag current_user.avatar.url(:thumb)
+        = f.input :bio
 
+
+  %fieldset
+    %legend
+      Credentials and association
+    %div.row
+      %span.span2
+        %p Please let us know a little about what you study, and with whom. We use this to help match you with the right tools and services.
+      %span.span8
+        %div.row
+          %span.span3= f.input :title
+          %span.span3= f.input :organization
+        = f.input :education
+        = f.input :qualifications, label: "Professional qualifications", hint: "Equipment expertise, credentials"
 
     %fieldset
       %legend
-        Credentials and association
+        %i.icon.icon-lock.icon-large
+        Address
       %div.row
         %span.span2
-          %p Please let us know a little about what you study, and with whom. We use this to help match you with the right tools and services.
+          %p We use this to help you locate new tools and services.
         %span.span8
-          %div.row
-            %span.span3= f.input :title
-            %span.span3= f.input :organization
-          = f.input :education
-          = f.input :qualifications, label: "Professional qualifications", hint: "Equipment expertise, credentials"
+          = f.simple_fields_for :address, current_user.address || current_user.build_address do |a|
+            %div.row
+              %span.span6= a.input :address_line_1
+            %div.row
+              %span.span6= a.input :address_line_2
+            %div.row
+              %span.span4= a.input :city
+              %span.span1= a.input :state
+              %span.span2= a.input :zip_code
 
-      %fieldset
-        %legend
-          %i.icon.icon-lock.icon-large
-          Address
-        %div.row
-          %span.span2
-            %p We use this to help you locate new tools and services.
-          %span.span8
-            = f.simple_fields_for :address, current_user.address || current_user.build_address do |a|
-              %div.row
-                %span.span6= a.input :address_line_1
-              %div.row
-                %span.span6= a.input :address_line_2
-              %div.row
-                %span.span4= a.input :city
-                %span.span1= a.input :state
-                %span.span2= a.input :zip_code
-
-    %div.row
-      %span.span9.offset3
-        = f.button :submit, value: "Save", class: "btn btn-primary"
-        = link_to "Cancel", profile_path, class: "btn btn-default"
+  %div.row
+    %span.span9.offset3
+      = f.button :submit, value: "Save", class: "btn btn-primary"
+      = link_to "Cancel", profile_path, class: "btn btn-default"
 

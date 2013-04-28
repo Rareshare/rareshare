@@ -1,107 +1,106 @@
 - nav_category "Find a Tool"
 
-= render layout: 'shared/navbar' do
-  %div.row.row-header
-    %span.span2.header-avatar
-      - if @tool.images.any?
-        %a{href: "#images", role: "button", data: { toggle: "modal" }}
-          %img.avatar{src: @tool.images.first.image.url(:thumb)}
+%div.row.row-header
+  %span.span2.header-avatar
+    - if @tool.images.any?
+      %a{href: "#images", role: "button", data: { toggle: "modal" }}
+        %img.avatar{src: @tool.images.first.image.url(:thumb)}
+    - else
+      %i.avatar.icon-beaker
+  %span.span10.header-body
+    %h1= @tool.display_name
+    %span.muted
+      = @tool.tool_category_name
+
+%div.row
+  %span.span2.profile-sidebar
+    / %div.row.row-header
+    /   %span.span2.header-avatar
+    /     %h4{style: "text-align: center"} Owner
+    /     = link_to user_path(@tool.owner) do
+    /       - if @tool.owner.avatar.present?
+    /         %img.avatar{src: current_user.avatar.url(:thumb)}
+    /       - else
+    /         %i.avatar.icon-user
+    /       %p{style: "text-align: center;"}= @tool.owner.display_name
+
+    %ul.nav.nav-list
+      %li.nav-header
+        Quick Links
+      - if @tool.owner == current_user
+        %li
+          = link_to edit_tool_path(@tool) do
+            %i.icon-edit
+            Edit tool
       - else
-        %i.avatar.icon-beaker
-    %span.span10.header-body
-      %h1= @tool.display_name
-      %span.muted
-        = @tool.tool_category_name
+        %li= link_to "Reserve Now", new_booking_path(tool_id: @tool.id, date: Date.today)
+  %span.span8
+    %h3 Overview
+    %table.table
+      %tbody
+        %tr
+          %th Category
+          %td
+            = link_to search_path(q: @tool.tool_category_name) do
+              = @tool.tool_category_name
+        %tr
+          %th Manufacturer
+          %td
+            = link_to search_path(q: @tool.manufacturer_name) do
+              = @tool.manufacturer_name
+        %tr
+          %th Model
+          %td
+            = link_to search_path(q: @tool.model_name) do
+              = @tool.model_name
+        %tr
+          %th Year manufactured
+          %td= @tool.year_manufactured
+        %tr
+          %th Resolution
+          %td= @tool.resolution
+        %tr
+          %th Price per sample
+          %td
+            = price_per_sample @tool, :base
+            - if @tool.can_expedite?
+              %br
+              = price_per_sample @tool, :expedited
+        %tr
+          %th Sample size
+          %td
+            10
+            %sup= @tool.sample_size_min
+            to 10
+            %sup= @tool.sample_size_max
+        %tr
+          %th Location
+          %td= @tool.partial_address
 
-  %div.row
-    %span.span2.profile-sidebar
-      / %div.row.row-header
-      /   %span.span2.header-avatar
-      /     %h4{style: "text-align: center"} Owner
-      /     = link_to user_path(@tool.owner) do
-      /       - if @tool.owner.avatar.present?
-      /         %img.avatar{src: current_user.avatar.url(:thumb)}
-      /       - else
-      /         %i.avatar.icon-user
-      /       %p{style: "text-align: center;"}= @tool.owner.display_name
+    %h3 Description
+    - if @tool.description.blank?
+      %p No description given.
+    - else
+      %p= raw @tool.description
 
-      %ul.nav.nav-list
-        %li.nav-header
-          Quick Links
-        - if @tool.owner == current_user
-          %li
-            = link_to edit_tool_path(@tool) do
-              %i.icon-edit
-              Edit tool
-        - else
-          %li= link_to "Reserve Now", new_booking_path(tool_id: @tool.id, date: Date.today)
-    %span.span8
-      %h3 Overview
-      %table.table
-        %tbody
-          %tr
-            %th Category
-            %td
-              = link_to search_path(q: @tool.tool_category_name) do
-                = @tool.tool_category_name
-          %tr
-            %th Manufacturer
-            %td
-              = link_to search_path(q: @tool.manufacturer_name) do
-                = @tool.manufacturer_name
-          %tr
-            %th Model
-            %td
-              = link_to search_path(q: @tool.model_name) do
-                = @tool.model_name
-          %tr
-            %th Year manufactured
-            %td= @tool.year_manufactured
-          %tr
-            %th Resolution
-            %td= @tool.resolution
-          %tr
-            %th Price per sample
-            %td
-              = price_per_sample @tool, :base
-              - if @tool.can_expedite?
-                %br
-                = price_per_sample @tool, :expedited
-          %tr
-            %th Sample size
-            %td
-              10
-              %sup= @tool.sample_size_min
-              to 10
-              %sup= @tool.sample_size_max
-          %tr
-            %th Location
-            %td= @tool.partial_address
+    - if @tool.images.any?
+      %a.btn{href: "#images", role: "button", data: { toggle: "modal" }} Images
 
-      %h3 Description
-      - if @tool.description.blank?
-        %p No description given.
-      - else
-        %p= raw @tool.description
+      = modal_dialog id: "images" do
+        = modal_header do
+          %h3#imagesLabel Images
+        = modal_body do
+          %div#carousel.carousel.slide
+            %ol.carousel-indicators
+              - @tool.images.each.with_index do |image, i|
+                %li{class: i == 0 ? "active" : "", data: { "target" => "#mycarousel", "slide-to" => i}}
 
-      - if @tool.images.any?
-        %a.btn{href: "#images", role: "button", data: { toggle: "modal" }} Images
+            %div.carousel-inner
+              - @tool.images.each.with_index do |image, i|
+                %div.item{class: i == 0 ? "active" : ""}
+                  = image_tag image.image.url
 
-        = modal_dialog id: "images" do
-          = modal_header do
-            %h3#imagesLabel Images
-          = modal_body do
-            %div#carousel.carousel.slide
-              %ol.carousel-indicators
-                - @tool.images.each.with_index do |image, i|
-                  %li{class: i == 0 ? "active" : "", data: { "target" => "#mycarousel", "slide-to" => i}}
-
-              %div.carousel-inner
-                - @tool.images.each.with_index do |image, i|
-                  %div.item{class: i == 0 ? "active" : ""}
-                    = image_tag image.image.url
-
-              %a.carousel-control.left{href: "#carousel", data: { slide: "prev" }}
-                %i.icon-arrow-left
-              %a.carousel-control.right{href: "#carousel", data: { slide: "next" }}
-                %i.icon-arrow-right
+            %a.carousel-control.left{href: "#carousel", data: { slide: "prev" }}
+              %i.icon-arrow-left
+            %a.carousel-control.right{href: "#carousel", data: { slide: "next" }}
+              %i.icon-arrow-right
