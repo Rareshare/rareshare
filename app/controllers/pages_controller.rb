@@ -1,5 +1,4 @@
 class PagesController < ApplicationController
-  layout :external
 
   def show
     @page = Page.find(params[:page])

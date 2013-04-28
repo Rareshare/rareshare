@@ -7,26 +7,20 @@ class SearchQuery
   attribute :page, type: Integer, default: 1
   attribute :per_page, type: Integer, default: 10
 
-  validates_presence_of :q
-
   def self.default_date
-    2.weeks.from_now
+    2.weeks.from_now.to_date
   end
 
   def default_date; self.class.default_date; end
 
   def results
-    if valid?
-      self.by ||= default_date
+    self.by ||= default_date
 
-      scope = Tool
-      scope = scope.near(self.loc, 25) if self.loc.present?
-      scope = scope.bookable_by(self.by)
-      scope = scope.advanced_search "'#{self.q}':*"
-      scope = scope.page(self.page).per(self.per_page)
-      scope
-    else
-      []
-    end
+    scope = Tool
+    scope = scope.near(self.loc, 25) if self.loc.present?
+    scope = scope.bookable_by(self.by)
+    scope = scope.advanced_search "'#{self.q}':*" if self.q.present?
+    scope = scope.page(self.page).per(self.per_page)
+    scope
   end
 end

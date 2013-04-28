@@ -1,5 +1,5 @@
 jQuery ->
-  $("input.date").pickadate(date_min: true)
+  $("input.date").pickadate()
 
   $('a[data-toggle="tab"]').on 'shown', (e) ->
     window.location.hash = $(e.target).attr("href")

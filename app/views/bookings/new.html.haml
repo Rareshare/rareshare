@@ -23,7 +23,7 @@
           %div.control-group
             %textarea(class="text" readonly)
               I hereby promise to abide by the terms of this agreement (to provide a sample in a timle manner, pay the full amount, and not break anything) or to be cast into the darkness for all eternity. Amen.
-          = f.input :tos_accepted, label: false, inline_label: "I have read and agree to the Terms of Service for this lease."
+          = f.input :tos_accepted, label: false, inline_label: "I have read and agree to the #{page_link_to('Terms of Service')} for this lease.".html_safe
 
     %div.row
       %span.offset3.span9

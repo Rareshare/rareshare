@@ -156,24 +156,31 @@ form {
       font-size: 14px;
     }
 
-    > .span1 { > .control-group {                 select, .string, .text, .numeric { .input-width(1); } } }
-    > .span1 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(1); } } } }
-    > .span2 { > .control-group {                 select, .string, .text, .numeric { .input-width(2); } } }
-    > .span2 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(2); } } } }
-    > .span3 { > .control-group {                 select, .string, .text, .numeric { .input-width(3); } } }
-    > .span3 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(3); } } } }
-    > .span4 { > .control-group {                 select, .string, .text, .numeric { .input-width(4); } } }
-    > .span4 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(4); } } } }
-    > .span5 { > .control-group {                 select, .string, .text, .numeric { .input-width(5); } } }
-    > .span5 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(5); } } } }
-    > .span6 { > .control-group {                 select, .string, .text, .numeric { .input-width(6); } } }
-    > .span6 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(6); } } } }
-    > .span7 { > .control-group {                 select, .string, .text, .numeric { .input-width(7); } } }
-    > .span7 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(7); } } } }
-    > .span8 { > .control-group {                 select, .string, .text, .numeric { .input-width(8); } } }
-    > .span8 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(8); } } } }
-    > .span9 { > .control-group {                 select, .string, .text, .numeric { .input-width(9); } } }
-    > .span9 { > .control-group { .input-append { select, .string, .text, .numeric { .input-append-width(9); } } } }
+    // TODO This can be eliminated using Bootstrap's controls-row and inline span classes. Argh.
+    > .span1 { > .control-group {                 select, .string, .text, .numeric, .date, .search-query { .input-width(1); } } }
+    > .span1 { > .control-group { .input-append { select, .string, .text, .numeric, .date, .search-query { .input-append-width(1); } } } }
+    > .span2 { > .control-group {                 select, .string, .text, .numeric, .date, .search-query { .input-width(2); } } }
+    > .span2 { > .control-group { .input-append { select, .string, .text, .numeric, .date, .search-query { .input-append-width(2); } } } }
+    > .span3 { > .control-group {                 select, .string, .text, .numeric, .date, .search-query { .input-width(3); } } }
+    > .span3 { > .control-group { .input-append { select, .string, .text, .numeric, .date, .search-query { .input-append-width(3); } } } }
+    > .span4 { > .control-group {                 select, .string, .text, .numeric, .date, .search-query { .input-width(4); } } }
+    > .span4 { > .control-group { .input-append { select, .string, .text, .numeric, .date, .search-query { .input-append-width(4); } } } }
+    > .span5 { > .control-group {                 select, .string, .text, .numeric, .date, .search-query { .input-width(5); } } }
+    > .span5 { > .control-group { .input-append { select, .string, .text, .numeric, .date, .search-query { .input-append-width(5); } } } }
+    > .span6 { > .control-group {                 select, .string, .text, .numeric, .date, .search-query { .input-width(6); } } }
+    > .span6 { > .control-group { .input-append { select, .string, .text, .numeric, .date, .search-query { .input-append-width(6); } } } }
+    > .span7 { > .control-group {                 select, .string, .text, .numeric, .date, .search-query { .input-width(7); } } }
+    > .span7 { > .control-group { .input-append { select, .string, .text, .numeric, .date, .search-query { .input-append-width(7); } } } }
+    > .span8 { > .control-group {                 select, .string, .text, .numeric, .date, .search-query { .input-width(8); } } }
+    > .span8 { > .control-group { .input-append { select, .string, .text, .numeric, .date, .search-query { .input-append-width(8); } } } }
+    > .span9 { > .control-group {                 select, .string, .text, .numeric, .date, .search-query { .input-width(9); } } }
+    > .span9 { > .control-group { .input-append { select, .string, .text, .numeric, .date, .search-query { .input-append-width(9); } } } }
+    > .span10 { > .control-group {                 select, .string, .text, .numeric, .date, .search-query { .input-width(10); } } }
+    > .span10 { > .control-group { .input-append { select, .string, .text, .numeric, .date, .search-query { .input-append-width(10); } } } }
+    > .span11 { > .control-group {                 select, .string, .text, .numeric, .date, .search-query { .input-width(11); } } }
+    > .span11 { > .control-group { .input-append { select, .string, .text, .numeric, .date, .search-query { .input-append-width(11); } } } }
+    > .span12 { > .control-group {                 select, .string, .text, .numeric, .date, .search-query { .input-width(12); } } }
+    > .span12 { > .control-group { .input-append { select, .string, .text, .numeric, .date, .search-query { .input-append-width(12); } } } }
   }
 }
 
@@ -287,5 +294,12 @@ form.new_message {
     margin-bottom: 10px;
 
     &:last-child { margin-bottom: 0; }
+  }
+}
+
+.search-tools {
+  .control-group {
+    margin-bottom: 0;
+    // .input-append { margin-bottom: 0; }
   }
 }

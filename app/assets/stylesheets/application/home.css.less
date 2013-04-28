@@ -33,6 +33,7 @@
     .span4 {
       text-align: center;
       background-color: lighten(@altNavbarBackground, 20%);
+      background: image-url('parquet-light.png') left top repeat;
       box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.3), inset -1px -1px 0 rgba(255, 255, 255, 0.3);
       border-radius: 8px;
       height: 175px;
@@ -51,11 +52,10 @@
     margin-bottom: 0;
   }
 
-  .search {
+  .content > .search {
     height: 210px;
-    padding-top: 80px;
+    padding-top: 60px;
     padding-bottom: 40px;
-    margin-left: 20px;
     color: #eee;
     text-shadow: 0 0 2em #111, 0 0 0.8em #777;
     font-weight: 300;
@@ -78,25 +78,31 @@
     form {
       margin-top: 10px;
       background: rgba(0, 0, 0, 0.7);
-      padding: 8px;
-      border-radius: 2px;
+      padding: 8px 8px 0 8px;
+      border-radius: 5px;
       display: inline-block;
+      color: #eee;
 
       label, input { font-size: 18px; }
 
       input {
-        background-color: #555;
-        border: none;
-        color: #eee;
+        &.string, &.date {
+          background-color: #555;
+          color: #eee;
+          border-color: #777;
+        }
       }
 
       label {
         vertical-align: middle;
       }
 
-      input[type=submit] {
-        background-color: #eee;
-        color: #333;
+      .pickadate__holder { text-shadow: none; }
+
+      .input-append .add-on {
+        background-color: #777;
+        border-color: #777;
+        text-shadow: none;
       }
     }
   }

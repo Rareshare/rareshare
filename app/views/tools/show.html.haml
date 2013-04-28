@@ -24,17 +24,19 @@
     /         %i.avatar.icon-user
     /       %p{style: "text-align: center;"}= @tool.owner.display_name
 
-    %ul.nav.nav-list
-      %li.nav-header
-        Quick Links
+    %ul.unstyled
       - if @tool.owner == current_user
         %li
-          = link_to edit_tool_path(@tool) do
+          = link_to edit_tool_path(@tool), class: "btn" do
             %i.icon-edit
             Edit tool
-      - else
-        %li= link_to "Reserve Now", new_booking_path(tool_id: @tool.id, date: Date.today)
   %span.span8
+    %form{action: new_booking_path, method: :get, class: "form-inline"}
+      %input{type: "hidden", name: "tool_id", value: @tool.id}
+      %input{type: "submit", value: "Reserve Now", class: "btn btn-primary"}
+      %span for
+      %input{type: "date", name: "date", class: "date", value: SearchQuery.default_date.strftime("%d %B, %Y")}
+
     %h3 Overview
     %table.table
       %tbody

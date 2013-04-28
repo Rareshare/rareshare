@@ -1,8 +1,26 @@
-= form_tag search_url, method: "get", class: "form-inline search-tools" do |f|
-  %label I need
-  %input{name: "q", type: "text", placeholder: "a transmogrifier", value: params[:q]}
-  %label by
-  %input{name: "by", type: "text", class: "date", value: params[:by] || SearchQuery.default_date.strftime("%d %B, %Y")}
-  %label near
-  %input{name: "loc", type: "text", placeholder: "Stanford, MIT, Mars", value: params[:loc]}
-  %input(name="submit" type="submit" value="Go" class="btn btn-default")
+= form_tag search_url, method: "get", class: "search-tools" do |f|
+  %div.row
+    %span.span10
+      %div.control-group
+        %div.input-append
+          %input{name: "q", type: "text", placeholder: "Find me a transmogrifier!", class: "string", value: params[:q]}
+          %span{class: "add-on"}
+            %i.icon-search
+
+  %div.row
+    %span.span4
+      %div.control-group
+        %div.input-append
+          %input{name: "by", type: "text", class: "date", value: params[:by] || SearchQuery.default_date.strftime("%d %B, %Y")}
+          %span{class: "add-on"}
+            %i.icon-calendar
+
+    %span.span4
+      %div.control-group
+        %div.input-append
+          %input{name: "loc", type: "text", class: "string", placeholder: "Stanford, MIT, Mars", value: params[:loc]}
+          %span{class: "add-on"}
+            %i.icon-globe
+
+    %span.span2
+      %input(name="submit" type="submit" value="Search" class="btn btn-primary span2")
