@@ -32,22 +32,27 @@
   }
 
   .about_us {
-    background-color: @altNavbarBackground;
+    background: #CDFAE7 image-url('parquet.png') left top repeat;
 
-    .span4 {
+    .panel {
       text-align: center;
-      background-color: lighten(@altNavbarBackground, 20%);
-      background: image-url('parquet-light.png') left top repeat;
-      box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.3), inset -1px -1px 0 rgba(255, 255, 255, 0.3);
+      background-image: linear-gradient(lighten(@altNavbarBackground, 20%) 0%, @altNavbarBackground 100%);
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7), inset 2px 2px 20px rgba(255, 255, 255, 0.5);
       border-radius: 8px;
       height: 175px;
       margin-top: 20px;
       margin-bottom: 20px;
+      padding: 20px;
+
+      h3 {
+        margin-top: 0;
+      }
 
       > i {
         font-size: 60px;
         color: @altNavbarLinkColorActive;
         text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+        line-height: 80px;
       }
     }
   }
