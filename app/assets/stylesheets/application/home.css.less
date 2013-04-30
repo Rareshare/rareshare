@@ -1,10 +1,10 @@
 @import "variables";
 
+
 #home {
   .banner-background {
     width: 100%;
-    max-height: 400px;
-    min-height: 400px;
+    height: 600px;
     background: image-url("tunnel.jpg") no-repeat;
     background-size: 100% auto;
     background-position: 0 50%;
@@ -12,6 +12,10 @@
     top: 0;
     left: 0;
     z-index: -1;
+
+    @media (max-width: 700px) {
+      background-size: auto 525px;
+    }
 
     .photo-credit {
       display: none;
@@ -54,8 +58,8 @@
 
   .content > .search {
     height: 210px;
-    padding-top: 60px;
-    padding-bottom: 40px;
+    padding-top: 80px;
+    padding-bottom: 140px;
     color: #eee;
     text-shadow: 0 0 2em #111, 0 0 0.8em #777;
     font-weight: 300;
