@@ -32,7 +32,12 @@
   }
 
   .about_us {
-    background: #CDFAE7 image-url('parquet.png') left top repeat;
+    background-color: #CDFAE7;
+    background-image: image-url('parquet.png'), linear-gradient(rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.0) 5%, rgba(0,0,0,0.0) 95%, rgba(0,0,0,0.6) 100%);
+    background-position: left top;
+    background-repeat: repeat;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
 
     .panel {
       text-align: center;
