@@ -5,12 +5,11 @@
     %h1 Search
     %span.muted
       = "Showing page #{@results.current_page} of #{@results.total_pages}."
-      / - raise @results.methods.sort.inspect
 
 
 %div.row
   %span.span10.offset2
-    = render partial: "shared/search"
+    = render partial: "searches/form"
 
 - if @results.any?
   - if @results.total_pages > 1
