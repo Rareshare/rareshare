@@ -16,11 +16,11 @@ class ImagesController < ApplicationController
     if image.save
       respond_to do |format|
         format.html do
-          render json: [ json_for(image) ], content_type: 'text/html', layout: false
+          render json: { files: [ json_for(image) ] }, content_type: 'text/html', layout: false
         end
 
         format.json do
-          render json: [ json_for(image) ]
+          render json: { files: [ json_for(image) ] }
         end
       end
     else
