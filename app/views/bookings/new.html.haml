@@ -22,7 +22,7 @@
           = f.input :sample_description
 
           %div{style: "overflow-y: scroll; max-height: 300px"}
-            = raw Page.where(title: "Terms & Conditions").first.try(:content)
+            = sanitize Page.where(title: "Terms & Conditions").first.try(:content)
 
           = f.input :tos_accepted, label: false, inline_label: "I have read and agree to the #{page_link_to('Terms & Conditions')} for this lease.".html_safe
 

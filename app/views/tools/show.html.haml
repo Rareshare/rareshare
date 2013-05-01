@@ -83,7 +83,7 @@
     - if @tool.description.blank?
       %p No description given.
     - else
-      %p= raw @tool.description
+      %p= sanitize @tool.description
 
     - if @tool.images.any?
       %a.btn{href: "#images", role: "button", data: { toggle: "modal" }} Images
