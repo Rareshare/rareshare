@@ -21,6 +21,8 @@ class Tool < ActiveRecord::Base
   validates :model_name, :manufacturer_name, :tool_category_name, :owner, presence: true
   validates :expedited_price, :expedited_lead_time, presence: true, if: :can_expedite?
 
+  validates :base_lead_time, :expedited_lead_time, numericality: { greater_than: 1 }
+
   attr_accessible :manufacturer, :manufacturer_id, :year_manufactured, :serial_number
   attr_accessible :model, :model_id
   attr_accessible :description, :sample_size, :resolution, :sample_size_min, :sample_size_max

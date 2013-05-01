@@ -36,3 +36,15 @@ $ ->
           items = typeahead.source("*", $.proxy(typeahead.process, typeahead))
           typeahead.process(items) if items?
           typeahead.$menu.off("mouseleave", "li") # Without this, menu disappears on mouse move.
+
+    canExpedite = $("input[name='tool[can_expedite]']")
+    expeditedFields = $("[id^=tool_expedited]")
+
+    resetExpeditedFields = () ->
+      if canExpedite.is(":checked")
+        expeditedFields.removeAttr("disabled")
+      else
+        expeditedFields.attr("disabled", "disabled")
+
+    resetExpeditedFields()
+    $("input[name='tool[can_expedite]']").on "change", resetExpeditedFields
