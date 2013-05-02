@@ -6,21 +6,25 @@ class ToolsController < InternalController
 
   def show
     @tool = Tool.find(params[:id])
+    authorize! :read, @tool
     add_breadcrumb @tool.display_name, tool_path(@tool)
   end
 
   def new
     @tool = current_user.tools.build(params[:tool] || {})
+    authorize! :create, @tool
     add_breadcrumb "New " + @tool.display_name, new_tool_path
   end
 
   def edit
     @tool = Tool.find(params[:id])
+    authorize! :update, @tool
     add_breadcrumb "Edit " + @tool.display_name, edit_tool_path(@tool)
   end
 
   def update
     @tool = Tool.find(params[:id])
+    authorize! :update, @tool
 
     if @tool.update_attributes(tool_params)
       redirect_to tool_path(@tool), flash: { notify: "Tool saved."}
@@ -31,9 +35,11 @@ class ToolsController < InternalController
 
   def create
     @tool = current_user.tools.create tool_params
+    authorize! :create, @tool
 
     if @tool.valid?
-      redirect_to tool_path(@tool), flash: { notify: "Tool created."}
+      redirect_to tool_images_path(@tool), flash: { notify: "Tool created! Why not add some images?" }
+      # redirect_to tool_path(@tool), flash: { notify: "Tool created."}
     else
       render 'tools/new'
     end
@@ -41,6 +47,7 @@ class ToolsController < InternalController
 
   def destroy
     tool = current_user.tools.find(params[:id])
+    authorize! :delete, @tool
 
     if tool.present?
       tool.destroy

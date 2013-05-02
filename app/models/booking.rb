@@ -4,6 +4,7 @@ class Booking < ActiveRecord::Base
   belongs_to :renter, class_name: "User"
   belongs_to :tool
   has_one :owner, through: :tool
+  has_many :booking_logs
 
   has_many :user_messages, as: :messageable
 
@@ -18,6 +19,7 @@ class Booking < ActiveRecord::Base
   scope :active, where(state: [:pending, :confirmed, :overdue])
 
   after_create :notify_booking_requested, if: :pending?
+  after_create :log_booking_requested, if: :pending?
 
   state_machine do
     state :pending
@@ -32,7 +34,7 @@ class Booking < ActiveRecord::Base
     end
 
     event :cancel, success: :notify_booking_cancelled do
-      transitions from: [:pending, :confirmed], to: :denied
+      transitions from: [:pending, :confirmed], to: :cancelled
     end
 
     event :deny, success: :notify_booking_cancelled do
@@ -45,6 +47,15 @@ class Booking < ActiveRecord::Base
 
     event :warn do
       transitions from: :confirmed, to: :overdue
+    end
+  end
+
+  def transition!(state, updated_by)
+    old_state = self.state
+
+    if respond_to?(state)
+      self.send "#{state}!"
+      self.booking_logs.create updated_by_id: updated_by.id, old_state: old_state, new_state: self.state
     end
   end
 
@@ -66,10 +77,6 @@ class Booking < ActiveRecord::Base
     else
       started_at.to_date.to_s(:mdy) + " - " + ended_at.to_date.to_s(:mdy)
     end
-  end
-
-  def reserved_by?(user)
-    self.renter == user
   end
 
   def total_cost
@@ -96,6 +103,46 @@ class Booking < ActiveRecord::Base
     public_address.gsub(/,\s,/, ',').gsub(/\s/, '+')
   end
 
+  def party?(user)
+    renter?(user) || owner?(user)
+  end
+
+  def owner?(user)
+    user == self.owner
+  end
+
+  def renter?(user)
+    user == self.renter
+  end
+
+  def opposite_party_to(user)
+    renter?(user) ? self.owner : self.renter
+  end
+
+  def state_summary_for(user)
+    if owner?(user)
+      if pending?
+        "This person is currently waiting for a response from you."
+      elsif confirmed?
+        "You have approved this booking."
+      elsif denied?
+        "You have declined this booking."
+      elsif cancelled?
+        "This booking has been cancelled."
+      end
+    elsif renter?(user)
+      if pending?
+        "You are waiting for a response from the owner of this tool."
+      elsif confirmed?
+        "The owner of the tool has agreed to this booking."
+      elsif denied?
+        "The owner of the tool has declined this booking."
+      elsif cancelled?
+        "This booking has been cancelled."
+      end
+    end
+  end
+
   protected
 
   def set_cancelled_timestamp
@@ -109,6 +156,10 @@ class Booking < ActiveRecord::Base
       m.messageable = self
       m.body = "You've received a request to book your tool #{tool.display_name} from #{self.renter.display_name}. Here's what they'd like to do with it: <blockquote>#{self.sample_description}</blockquote> Please reply back with any questions you have for them, or click Approve to approve the booking.".html_safe
     end.save!
+  end
+
+  def log_booking_requested
+    self.booking_logs.create updated_by_id: self.renter_id, new_state: self.state
   end
 
   def notify_booking_approved

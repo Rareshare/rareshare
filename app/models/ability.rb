@@ -3,14 +3,47 @@ class Ability
 
   def initialize(user)
     user ||= User.new # guest user (not logged in)
-    if user.admin?
-      can :manage, :all
-    elsif user.lessor?
-      can :read, :all
-    elsif user.lessee?
-      can :read, :all
-    else
-      can :read, :all
+    # Admin access handled separately via admin-scoped controllers in ActiveAdmin.
+    # can :manage, :all if user.admin?
+    bookings user
+    tools user
+  end
+
+  private
+
+  def bookings(user)
+    can :cancel, Booking do |b|
+      b.party?(user) && b.can_cancel?
+    end
+
+    can :read, Booking do |b|
+      b.party? user
+    end
+
+    can :approve, Booking do |b|
+      b.owner?(user) && b.can_approve?
+    end
+
+    can :deny, Booking do |b|
+      b.owner?(user) && b.can_deny?
+    end
+  end
+
+  def tools(user)
+    can :manage, Tool do |t|
+      t.owned_by? user
+    end
+
+    can :read, Tool do |t|
+      !user.new_record?
+    end
+
+    can :create, Tool do |t|
+      !user.new_record?
+    end
+
+    can :book, Tool do |t|
+      !t.owned_by? user
     end
   end
 end

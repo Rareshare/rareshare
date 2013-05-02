@@ -49,5 +49,17 @@ module ApplicationHelper
     link_to title, ( slug.present? ? page_path(slug) : "#" ), opts
   end
 
+  def avatar_of(user)
+    link_to user_path(user) do
+      image = if user.avatar.present?
+        image_tag user.avatar.url(:thumb), class: "avatar"
+      else
+        content_tag :i, nil, class: "avatar icon-user"
+      end
+
+      image + content_tag(:p, user.display_name, style: "text-align: center", class: "small")
+    end
+  end
+
   alias_method :lease_state, :booking_state
 end

@@ -15,7 +15,9 @@
       = @booking.display_name
 
 %div.row
-  %span.span2
+  %span.span2.header-avatar
+    = avatar_of @booking.opposite_party_to(current_user)
+
   %span.span8
     %h3 Tool Overview
     %table.table
@@ -61,6 +63,14 @@
         %tr
           %th Due By
           %td= @booking.deadline.to_date.to_s(:long)
+        %tr
+          %th History
+          %td
+            - @booking.booking_logs.each do |log|
+              %p
+                = link_to glyph_text(:profile, log.updated_by.display_name), user_path(log.updated_by)
+                = log.state_transition_description
+                = "on #{log.created_at}."
 
     - if @booking.tool.images.any?
       = modal_dialog id: "images" do
@@ -85,21 +95,13 @@
   %span.span2
     %div.messageable(data-spy="affix" data-offset-top="156")
       = simple_form_for @booking do |f|
-        - if @booking.tool.owned_by?(current_user)
-          - if @booking.pending?
-            %p This person is currently waiting for a response from you.
-            = f.button :submit, value: "Approve", class: "btn btn-success"
-            = f.button :submit, value: "Deny", class: "btn btn-danger"
-          - elsif @booking.confirmed?
-            %p You have approved this booking.
-            = f.button :submit, value: "Cancel Booking", class: "btn btn-danger"
-        - elsif @booking.renter == current_user
-          - if @booking.pending?
-            %p You are waiting for a response from the owner of this tool.
-            = f.button :submit, value: "Cancel Request", class: "btn btn-danger"
-          - elsif @booking.confirmed?
-            %p The owner of the tool has agreed to this booking.
-            = f.button :submit, value: "Cancel Request", class: "btn btn-danger"
+        %p= @booking.state_summary_for(current_user)
+        - if can? :confirm, @booking
+          = f.button :submit, value: "Approve", class: "btn btn-success"
+        - if can? :deny, @booking
+          = f.button :submit, value: "Deny", class: "btn btn-danger"
+        - if can? :cancel, @booking
+          = f.button :submit, value: "Cancel Booking", class: "btn btn-danger"
 
 %div.row
   %span.span8.offset2

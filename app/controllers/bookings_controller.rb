@@ -4,7 +4,7 @@ class BookingsController < InternalController
   def new
     tool = Tool.find(params[:tool_id])
 
-    unless tool.leaseable_by? current_user
+    unless can? :book, tool
       redirect_to :back, error: "You cannot book your own tool."
     end
 
@@ -20,7 +20,7 @@ class BookingsController < InternalController
     @booking = current_user.request_reservation!(params[:booking])
 
     if @booking.valid?
-      redirect_to booking_path(@booking), flash: { notice: "Booking successful!" }
+      redirect_to booking_path(@booking), flash: { notice: "Booking requested!" }
     else
       render 'bookings/new'
     end
@@ -34,32 +34,24 @@ class BookingsController < InternalController
     end
   end
 
-  def destroy
-    @booking = Booking.find(params[:id])
-
-    if @booking.reserved_by?(current_user)
-      @booking.cancel!
-      @booking.save!
-      redirect_to profile_path, flash: { notice: "Booking successfully cancelled." }
-    else
-      redirect_to profile_path, flash: { error: "You do not have permission to cancel this booking." }
-    end
-  end
-
   def update
     @booking = Booking.find(params[:id])
 
-    if @booking.tool.owned_by?(current_user)
-      case params[:commit]
-      when /approve/i
-        @booking.confirm!
-        redirect_to booking_path(@booking), info: "Successfully confirmed booking."
-      when /deny/i
-        @booking.deny!
-        redirect_to booking_path(@booking), info: "Booking was denied."
-      else
-        redirect_to booking_path(@booking), error: "Unrecognized booking operation."
-      end
+    case params[:commit]
+    when /approve/i
+      authorize! :confirm, @booking
+      @booking.transition! :confirm, current_user
+      redirect_to booking_path(@booking), info: "Successfully confirmed booking."
+    when /deny/i
+      authorize! :deny, @booking
+      @booking.transition! :deny, current_user
+      redirect_to booking_path(@booking), info: "Booking was denied."
+    when /cancel/i
+      authorize! :cancel, @booking
+      @booking.transition! :cancel, current_user
+      redirect_to profile_path, info: "Booking was cancelled."
+    else
+      redirect_to booking_path(@booking), error: "Unrecognized booking operation."
     end
   end
 end

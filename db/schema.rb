@@ -40,6 +40,15 @@ ActiveRecord::Schema.define(:version => 20130502162226) do
     t.datetime "updated_at",       :null => false
   end
 
+  create_table "booking_logs", :force => true do |t|
+    t.string   "old_state"
+    t.string   "new_state"
+    t.integer  "booking_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
   create_table "bookings", :force => true do |t|
     t.integer  "renter_id"
     t.integer  "tool_id"

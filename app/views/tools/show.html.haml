@@ -13,12 +13,7 @@
     %div.row.row-header
       %span.span2.header-avatar
         %h4{style: "text-align: center"} Owner
-        = link_to user_path(@tool.owner) do
-          - if @tool.owner.avatar.present?
-            %img.avatar{src: current_user.avatar.url(:thumb)}
-          - else
-            %i.avatar.icon-user
-          %p{style: "text-align: center;"}= @tool.owner.display_name
+        = avatar_of @tool.owner
 
     %ul.unstyled
       - if @tool.owner == current_user

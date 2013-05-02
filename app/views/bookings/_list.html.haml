@@ -16,14 +16,9 @@
         %td= number_to_currency b.price
         %td
           = simple_form_for(b) do |f|
-            - if b.tool.owned_by?(current_user)
-              - if b.pending?
-                = f.button :submit, value: "Approve", class: "btn btn-mini btn-success"
-                = f.button :submit, value: "Deny", class: "btn btn-mini btn-danger"
-              - elsif b.confirmed?
-                = f.button :submit, value: "Cancel", class: "btn btn-mini btn-danger"
-            - elsif b.renter == current_user
-              - if b.pending? || b.confirmed?
-                = f.button :submit, value: "Cancel", class: "btn btn-mini btn-danger"
-
-
+            - if can? :confirm, b
+              = f.button :submit, value: "Approve", class: "btn btn-mini btn-success"
+            - if can? :deny, b
+              = f.button :submit, value: "Deny", class: "btn btn-mini btn-danger"
+            - if can? :cancel, b
+              = f.button :submit, value: "Cancel", class: "btn btn-mini btn-danger"
