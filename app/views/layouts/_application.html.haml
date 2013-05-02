@@ -18,7 +18,7 @@
       %div.navbar-inner
         %div.container
           %a.brand{href: root_path} Rareshare
-          = form_tag search_url, method: "get", class: "navbar-search", id: "navbar-search", style: "position: relative" do
+          = form_tag search_path, method: "get", class: "navbar-search", id: "navbar-search", style: "position: relative" do
             %input(type="text" name="q" placeholder="What do you need?" style="border-right: none")
             %span.search_append
               %i(class="icon-search")

@@ -48,8 +48,8 @@ Rareshare::Application.configure do
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile += %w( search.js )
 
-  config.action_mailer.default_url_options = { :host => 'rareshare.herokuapp.com' }
-  config.action_controller.default_url_options = { :host => 'rareshare.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => ENV['APP_HOSTNAME'] }
+  config.action_controller.default_url_options = { :host => ENV['APP_HOSTNAME'] }
 
   # Enable threaded mode
   # config.threadsafe!
