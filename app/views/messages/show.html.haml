@@ -12,7 +12,7 @@
         %div.row
           %span.span7
             %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
-              %p= message.body.html_safe
+              %p= sanitize message.body
               %small.muted
                 #{message.sender.display_name} at #{message.created_at}
           %span.span2{style: "text-align: center"}
