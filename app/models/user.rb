@@ -13,11 +13,7 @@ class User < ActiveRecord::Base
 
   has_many :bookings, foreign_key: :renter_id
   has_many :due_bookings, through: :tools, source: :bookings
-
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :provider, :uid, :image_url, :linkedin_profile_url, :primary_phone, :secondary_phone, :bio, :title, :organization, :education, :qualifications, :avatar
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :all_blank
-  attr_accessible :address_attributes
 
   validates :first_name, :last_name, :email, presence: true
 

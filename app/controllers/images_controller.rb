@@ -11,7 +11,7 @@ class ImagesController < ApplicationController
   end
 
   def create
-    image = @tool.images.build(params[:image])
+    image = @tool.images.build(tool_params)
 
     if image.save
       respond_to do |format|
@@ -45,6 +45,10 @@ class ImagesController < ApplicationController
 
   def json_for(image)
     image.to_h.merge delete_type: "DELETE", delete_url: tool_image_url(@tool, image)
+  end
+
+  def image_params
+    params.require(:image).permit(:image)
   end
 
 end

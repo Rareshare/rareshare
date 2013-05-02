@@ -25,7 +25,13 @@ class MessagesController < InternalController
 
   def reply
     @message = current_user.all_messages.find(params[:id])
-    @message.reply! current_user, params[:message][:body]
+    @message.reply! current_user, message_params[:body]
     redirect_to message_path(@message)
+  end
+
+  private
+
+  def message_params
+    params.require(:message)
   end
 end

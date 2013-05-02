@@ -1,7 +1,6 @@
+# TODO - We now search tools directly, so this can be safely removed.
 class Search < ActiveRecord::Base
   belongs_to :searchable, polymorphic: true
-  attr_accessible :searchable_id, :searchable_type, :document
-  # default_scope include: :searchable
 
   def self.search_with_fuzzy_query_matching(query)
     return [] if query.blank? || (query.is_a?(Hash) && query[:document].blank?)

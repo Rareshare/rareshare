@@ -20,15 +20,9 @@ class Tool < ActiveRecord::Base
 
   validates :model_name, :manufacturer_name, :tool_category_name, :owner, presence: true
   validates :expedited_price, :expedited_lead_time, presence: true, if: :can_expedite?
-
   validates :base_lead_time, :expedited_lead_time, numericality: { greater_than: 1 }
 
-  attr_accessible :manufacturer, :manufacturer_id, :year_manufactured, :serial_number
-  attr_accessible :model, :model_id
-  attr_accessible :description, :sample_size, :resolution, :sample_size_min, :sample_size_max
-  attr_accessible :base_price, :base_lead_time, :can_expedite, :expedited_price, :expedited_lead_time
   accepts_nested_attributes_for :address, allow_destroy: true
-  attr_accessible :address_attributes
 
   DEFAULT_SAMPLE_SIZE = [ -4, 4 ]
   after_initialize :set_default_sample_size
@@ -49,8 +43,6 @@ class Tool < ActiveRecord::Base
           model_class = model.to_s.classify.constantize
           self.send "#{model}=", model_class.where(name: name).first || model_class.create(name: name)
         end
-
-        attr_accessible :"#{model}_name"
       end
     end
   end

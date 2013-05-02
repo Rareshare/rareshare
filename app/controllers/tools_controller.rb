@@ -22,7 +22,7 @@ class ToolsController < InternalController
   def update
     @tool = Tool.find(params[:id])
 
-    if @tool.update_attributes(params[:tool])
+    if @tool.update_attributes(tool_params)
       redirect_to tool_path(@tool), flash: { notify: "Tool saved."}
     else
       render 'tools/edit'
@@ -30,7 +30,7 @@ class ToolsController < InternalController
   end
 
   def create
-    @tool = current_user.tools.create params[:tool]
+    @tool = current_user.tools.create tool_params
 
     if @tool.valid?
       redirect_to tool_path(@tool), flash: { notify: "Tool created."}
@@ -50,10 +50,28 @@ class ToolsController < InternalController
     end
   end
 
-  def to_jq_upload(tool)
-    {
-      "delete_url" => picture_path(:id => id),
-      "delete_type" => "DELETE"
-    }
+  private
+
+  def tool_params
+    params.require(:tool).permit(
+      :manufacturer_id,
+      :year_manufactured,
+      :serial_number,
+      :model_id,
+      :description,
+      :resolution,
+      :sample_size_min,
+      :sample_size_max,
+      :base_price,
+      :base_lead_time,
+      :can_expedite,
+      :expedited_price,
+      :expedited_lead_time,
+      :address_attributes,
+      :tool_category_name,
+      :manufacturer_name,
+      :model_name
+    )
   end
+
 end

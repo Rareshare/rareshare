@@ -6,8 +6,6 @@ class UserMessage < ActiveRecord::Base
   default_scope order("created_at ASC")
 
   scope :unread, where(acknowledged: false)
-
-  attr_accessible :body
   belongs_to :messageable, polymorphic: true
   after_create :make_self_originator_if_first
 
