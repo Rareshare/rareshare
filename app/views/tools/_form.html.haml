@@ -1,6 +1,4 @@
-= link_to tools_path do
-  %i.icon.icon-angle-left
-  All my tools
+= link_to glyph_text(:angle_left, "All my tools"), tools_path do
 = simple_form_for @tool do |f|
   = f.error_notification
 

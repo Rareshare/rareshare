@@ -19,13 +19,15 @@ module ApplicationHelper
     end
 
     content_tag(:li, class: active ? "active" : "") do
-      icon = opts[:icon] ? icon(opts[:icon]) : ""
+      icon = opts[:icon] ? glyph(opts[:icon]) : ""
       link_to icon + name, url
     end
   end
 
-  def icon(type)
-    content_tag(:i, "", class: "icon-#{type}")
+  def glyph_text(*args)
+    args.map do |arg|
+      arg.is_a?(Symbol) ? glyph(arg) : arg
+    end.join(" ").html_safe
   end
 
   def share_a_tool_path(params={})

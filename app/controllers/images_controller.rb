@@ -11,7 +11,7 @@ class ImagesController < ApplicationController
   end
 
   def create
-    image = @tool.images.build(tool_params)
+    image = @tool.images.build(image_params)
 
     if image.save
       respond_to do |format|

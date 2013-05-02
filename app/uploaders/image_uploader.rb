@@ -24,18 +24,14 @@ class ImageUploader < CarrierWave::Uploader::Base
   # end
 
   # We won't need bigger, and this seems to be what Instagram/FB display.
-  process :resize_to_fit => [400,400]
+  process :resize_to_fit => [612,612]
 
   version :thumb do
     process :resize_to_fill => [100,100]
   end
 
-  version :icon, from_version: :thumb do
-    process resize_to_fill: [32,32]
-  end
-
   # Add a white list of extensions which are allowed to be uploaded.
-  # def extension_white_list
-  #   %w(jpg jpeg gif png)
-  # end
+  def extension_white_list
+    %w(jpg jpeg gif png)
+  end
 end

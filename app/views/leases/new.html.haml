@@ -1,8 +1,6 @@
 - nav_category "Share a Tool"
 
-= link_to tool_path(@lease.tool) do
-  %i.icon.icon-angle-left
-  Cancel
+= link_to glyph_text(:angle_left, "Cancel"), tool_path(@lease.tool) do
 
 = simple_form_for @lease do |f|
   %div.form-inputs

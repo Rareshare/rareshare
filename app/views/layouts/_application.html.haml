@@ -26,9 +26,7 @@
             - if signed_in?
               %li.dropdown
                 %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
-                  %i.icon-user
-                  %span#menuLabel Welcome, #{current_user.first_name}
-                  %i.icon-angle-down
+                  = glyph_text :user, "Welcome, #{current_user.first_name}", :angle_down
                 %ul.dropdown-menu{role: "menu", "aria-labelledby" => "menuLabel"}
                   %li= link_to "Profile", profile_path
                   %li= link_to "Find a Tool", search_path

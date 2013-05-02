@@ -2,11 +2,7 @@
 
 %div.row.row-header
   %span.span2.header-avatar
-    - if @tool.images.any?
-      %a{href: "#images", role: "button", data: { toggle: "modal" }}
-        %img.avatar{src: @tool.images.first.image.url(:thumb)}
-    - else
-      %i.avatar.icon-beaker
+    %i.avatar.icon-beaker
   %span.span10.header-body
     %h1= @tool.display_name
     %span.muted
@@ -26,16 +22,14 @@
 
     %ul.unstyled
       - if @tool.owner == current_user
-        %li
-          = link_to edit_tool_path(@tool), class: "btn" do
-            %i.icon-edit
-            Edit tool
+        %li= link_to glyph_text(:edit, "Edit tool"), edit_tool_path(@tool), class: "btn"
   %span.span8
-    %form{action: new_booking_path, method: :get, class: "form-inline"}
-      %input{type: "hidden", name: "tool_id", value: @tool.id}
-      %input{type: "submit", value: "Reserve Now", class: "btn btn-primary"}
-      %span for
-      %input{type: "date", name: "date", class: "date", value: SearchQuery.default_date.strftime("%d %B, %Y")}
+    %div.well.well-small
+      %form.no-margin{action: new_booking_path, method: :get, class: "form-inline"}
+        %input{type: "hidden", name: "tool_id", value: @tool.id}
+        %input{type: "submit", value: "Reserve Now", class: "btn btn-primary"}
+        %span for
+        %input{type: "date", name: "date", class: "date", value: SearchQuery.default_date.strftime("%d %B, %Y")}
 
     %h3 Overview
     %table.table
@@ -79,6 +73,14 @@
           %th Location
           %td= @tool.partial_address
 
+    %div{id: "gallery", data: { toggle: "modal-gallery", target: "#images" }}
+      - @tool.images.each do |image|
+        %a{href: image.image.url, data: { gallery: "gallery" } }
+          %img{src: image.image.url(:thumb)}
+
+      / %a{href: "#images", role: "button", data: { toggle: "modal" }}
+      /   %img.avatar{src: @tool.images.first.image.url(:thumb)}
+
     %h3 Description
     - if @tool.description.blank?
       %p No description given.
@@ -88,21 +90,13 @@
     - if @tool.images.any?
       %a.btn{href: "#images", role: "button", data: { toggle: "modal" }} Images
 
-      = modal_dialog id: "images" do
+      %div#images.modal.modal-gallery.hide.fade{tabindex: -1}
         = modal_header do
           %h3#imagesLabel Images
         = modal_body do
-          %div#carousel.carousel.slide
-            %ol.carousel-indicators
-              - @tool.images.each.with_index do |image, i|
-                %li{class: i == 0 ? "active" : "", data: { "target" => "#mycarousel", "slide-to" => i}}
+          %div.modal-image
+        = modal_footer do
+          %a.btn.btn-info.modal-prev= glyph_text :arrow_left, "Previous"
+          %a.btn.btn-primary.modal-next= glyph_text "Next", :arrow_right
+          %a.btn.btn-success.modal-play.modal-slideshow{"data-slideshow" => 5000}= glyph_text :play, "Slideshow"
 
-            %div.carousel-inner
-              - @tool.images.each.with_index do |image, i|
-                %div.item{class: i == 0 ? "active" : ""}
-                  = image_tag image.image.url
-
-            %a.carousel-control.left{href: "#carousel", data: { slide: "prev" }}
-              %i.icon-arrow-left
-            %a.carousel-control.right{href: "#carousel", data: { slide: "next" }}
-              %i.icon-arrow-right

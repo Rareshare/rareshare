@@ -14,21 +14,11 @@
   %span.span2.profile-sidebar
     %ul.nav.nav-list
       %li
-        = link_to edit_profile_path do
-          %i.icon-edit
-          Edit my profile
+        = link_to glyph_text(:edit, "Edit my profile"), edit_profile_path
       %li
-        = link_to new_tool_path do
-          %i.icon-beaker
-          Add a Tool
+        = link_to glyph_text(:beaker, "Add a tool"), new_tool_path
       %li
-        = link_to messages_path do
-          %i.icon-envelope
-          My Messages
-      %li
-        = link_to "#" do
-          %i.icon-picture
-          Upload a photo
+        = link_to glyph_text(:envelope, "My mesages"), messages_path
   %span.span10.profile-main
     %h3.pull-up Unread Messages
     - if current_user.unread_message_count == 0

@@ -1,42 +1,37 @@
 - nav_category 'Share a Tool'
 
-= link_to edit_tool_path(@tool) do
-  %i.icon.icon-angle-left
-  Back to tool
-%h1
-  Images
-
+= link_to glyph_text(:angle_left, "Back to tool"), edit_tool_path(@tool)
 = simple_form_for [ @tool, Image.new ], html: { multipart: true, id: "fileupload" } do |f|
-  %div.row.fileupload-buttonbar
-    %div.span7
-      %span.btn.btn-success.fileinput-button
-        %i.icon-plus
-        %span Add files...
-        = f.file_field :image
+  %fieldset{style: 'margin-bottom: 0'}
+    %legend Images
+  %div.row
+    %div.span2
+      %p Uploading pictures dramatically improves the likelihood that someone will want to use your tools.
+    %div.span10
+      %div.fileupload-buttonbar{style: 'margin-bottom: 16px'}
+        %span.btn.btn-success.fileinput-button
+          %i.icon-plus
+          %span Add files...
+          = f.file_field :image
 
-      %button.btn.btn-primary.start{type: "submit"}
-        %i.icon-upload
-        %span Upload All
+        %button.btn.btn-primary.start{type: "submit"}
+          %i.icon-upload
+          %span Upload All
 
-      %button.btn.btn-warning.cancel{type: "reset"}
-        %i.icon-ban-circle
-        %span Cancel upload
+        %button.btn.btn-warning.cancel{type: "reset"}
+          %i.icon-ban-circle
+          %span Cancel upload
 
-      %button.btn.btn-danger.delete{type: "button"}
-        %i.icon-trash
-        %span Delete
+        %button.btn.btn-danger.delete{type: "button"}
+          %i.icon-trash
+          %span Delete Selected
 
-      %input.toggle{type: "checkbox"}
+        %label{style: 'display: inline-block; padding-top: 2px; padding-bottom: 2px', class: "btn"}
+          %input.toggle{type: "checkbox"}
+          Select all
 
-    %div.span5
-      %div.progress.progress-success.progress-striped.active.fade
-        %div.bar{style: "width: 0%;"}
-
-
-  %div.fileupload-loading
-  %br
-  %table.table.table-striped
-    %tbody.files{data: { toggle: "modal-gallery", target: "#modal-gallery" }}
+      %table.table.table-striped
+        %tbody.files{data: { toggle: "modal-gallery", target: "#modal-gallery" }}
 
 :javascript
   var fileUploadErrors = {

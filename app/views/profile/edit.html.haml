@@ -1,6 +1,4 @@
-= link_to profile_path do
-  %i.icon.icon-angle-left
-  My profile
+= link_to glyph_text(:angle_left, "My profile"), profile_path
 
 = simple_form_for current_user, url: profile_path, :html => {:multipart => true} do |f|
   %fieldset
@@ -38,7 +36,7 @@
 
     %fieldset
       %legend
-        %i.icon.icon-lock.icon-large
+        %i.icon-lock.icon-large
         Address
       %div.row
         %span.span2
