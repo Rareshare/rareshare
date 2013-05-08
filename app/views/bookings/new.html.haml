@@ -11,17 +11,45 @@
     %fieldset
       %legend Request a Booking
       %div.row
-        %span.span3
-          %p Please describe your intended usage of the tool.
-        %span.span9
+        %span.span2
+        %span.span8
           %p
             Request to book
             = link_to @booking.tool.display_name, tool_path(@booking.tool)
             to process a sample on or before #{@booking.deadline.to_date.to_s(:long)}.
             The total cost for this lease will be #{number_to_currency @booking.total_cost}.
-          = f.input :sample_description
 
-          %div{style: "overflow-y: scroll; max-height: 300px"}
+      %div.row.step
+        %span.span2
+          %h1 1
+          %small
+            Describe your intended usage of the tool.
+        %span.span8
+          = f.input :sample_description, hint: "Consider including details such as material, quantity, size, handling requirements, and specific hazards in order to allow the tool owner to evaluate your request."
+
+      %div.row.step
+        %span.span12.border
+        %span.span2
+          %h1 2
+          %small Describe the outcome you would like.
+        %span.span8
+          = f.input :sample_deliverable
+
+      %div.row.step
+        %span.span12.border
+        %span.span2
+          %h1 3
+          %small How would you like the tool owner to receive your sample?
+        %span.span8
+          = f.input :sample_transit, as: :select
+
+      %div.row.step
+        %span.span12.border
+        %span.span2
+          %h1 4
+          %small Read the terms and conditions.
+        %span.span8
+          %div.terms_and_conditions
             = sanitize Page.where(title: "Terms & Conditions").first.try(:content)
 
           = f.input :tos_accepted, label: false, inline_label: "I have read and agree to the #{page_link_to('Terms & Conditions')} for this lease.".html_safe

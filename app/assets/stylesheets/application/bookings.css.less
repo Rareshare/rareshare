@@ -1,0 +1,29 @@
+@import "variables";
+
+#bookings {
+  .step {
+    .border { border-top: 1px solid #ccc; margin-top: 20px; margin-bottom: 20px; }
+
+    &.complete { h1 { color: @mossGreen; } small { color: #ccc; } }
+
+    h1 {
+      font-weight: bold;
+      color: #eee;
+      font-size: 100px;
+      line-height: 100px;
+    }
+
+    h1, small {
+      transition: color 1s ease;
+    }
+  }
+
+  .terms_and_conditions {
+    overflow-y: scroll;
+    max-height: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+}

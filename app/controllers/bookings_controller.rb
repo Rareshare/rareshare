@@ -17,7 +17,7 @@ class BookingsController < InternalController
   end
 
   def create
-    @booking = current_user.request_reservation!(params[:booking])
+    @booking = current_user.request_reservation!(booking_params)
 
     if @booking.valid?
       redirect_to booking_path(@booking), flash: { notice: "Booking requested!" }
@@ -53,5 +53,18 @@ class BookingsController < InternalController
     else
       redirect_to booking_path(@booking), error: "Unrecognized booking operation."
     end
+  end
+
+  private
+
+  def booking_params
+    params.require(:booking).permit(
+      :tool_id,
+      :deadline,
+      :tos_accepted,
+      :sample_description,
+      :sample_deliverable,
+      :sample_transit
+    )
   end
 end

@@ -40,17 +40,11 @@ class User < ActiveRecord::Base
   end
 
   def request_reservation!(params={})
-    tool = Tool.find params[:tool_id]
-    deadline = Date.parse(params[:deadline])
+    tool              = Tool.find(params[:tool_id]) # or raise RecordNotFound
+    deadline          = Date.parse(params[:deadline])
+    params[:price]    = tool.price_for(params[:deadline])
 
-    bookings.build.tap do |b|
-      b.tool_id             = tool.id
-      b.deadline            = deadline
-      b.tos_accepted        = params[:tos_accepted]
-      b.sample_description  = params[:sample_description]
-      b.price               = tool.price_for deadline
-      b.save
-    end
+    bookings.create params
   end
 
   def link_profile(auth)

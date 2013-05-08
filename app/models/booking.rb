@@ -9,14 +9,14 @@ class Booking < ActiveRecord::Base
   has_many :user_messages, as: :messageable
 
   def message_chain
-    user_messages.first.try(:message_chain) || UserMessage.new
+    user_messages.first.try(:message_chain) || []
   end
 
   def append_message(attrs)
     ( user_messages.first || UserMessage.new ).append attrs
   end
 
-  validates_presence_of :tool_id, :renter_id, :tool_id, :sample_description, :deadline, :price
+  validates_presence_of :tool_id, :renter_id, :tool_id, :sample_description, :deadline, :price, :sample_deliverable, :sample_transit
   validates_inclusion_of :tos_accepted, in: [ "1", 1, true ], message: "Please accept the Terms of Service."
   validate :renter_cannot_be_owner
 
