@@ -13,11 +13,11 @@ class Ability
 
   def bookings(user)
     can :cancel, Booking do |b|
-      b.party?(user) && b.can_cancel?
+      b.can_cancel? && b.cancellable_by?(user)
     end
 
     can :read, Booking do |b|
-      b.party? user
+      b.party?(user)
     end
 
     can :approve, Booking do |b|
@@ -26,6 +26,10 @@ class Ability
 
     can :deny, Booking do |b|
       b.owner?(user) && b.can_deny?
+    end
+
+    can :confirm, Booking do |b|
+      b.owner?(user) && b.can_confirm?
     end
   end
 

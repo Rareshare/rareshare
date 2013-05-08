@@ -3,7 +3,7 @@ class UserMessage < ActiveRecord::Base
   belongs_to :sender, class_name: "User"
   belongs_to :receiver, class_name: "User"
 
-  default_scope order("created_at ASC")
+  # default_scope order("created_at ASC")
 
   scope :unread, where(acknowledged: false)
   belongs_to :messageable, polymorphic: true
@@ -15,6 +15,10 @@ class UserMessage < ActiveRecord::Base
 
   def message_chain
     UserMessage.where(originating_message_id: self.originating_message_id)
+  end
+
+  def append(attrs={})
+    self.class.create attrs.merge(originating_message_id: self.originating_message_id)
   end
 
   def reply!(sender, body)

@@ -9,7 +9,11 @@ class Booking < ActiveRecord::Base
   has_many :user_messages, as: :messageable
 
   def message_chain
-    user_messages.first.try(:message_chain) || []
+    user_messages.first.try(:message_chain) || UserMessage.new
+  end
+
+  def append_message(attrs)
+    ( user_messages.first || UserMessage.new ).append attrs
   end
 
   validates_presence_of :tool_id, :renter_id, :tool_id, :sample_description, :deadline, :price
@@ -29,7 +33,7 @@ class Booking < ActiveRecord::Base
     state :completed
     state :overdue
 
-    event :confirm, success: :notify_booking_approved do
+    event :confirm, success: :notify_booking_confirmed do
       transitions from: :pending, to: :confirmed
     end
 
@@ -38,7 +42,7 @@ class Booking < ActiveRecord::Base
     end
 
     event :deny, success: :notify_booking_cancelled do
-      transitions from: [:pending, :confirmed], to: :denied
+      transitions from: [:pending], to: :denied
     end
 
     event :complete do
@@ -115,6 +119,10 @@ class Booking < ActiveRecord::Base
     user == self.renter
   end
 
+  def cancellable_by?(user)
+    renter?(user) || ( owner?(user) && confirmed? )
+  end
+
   def opposite_party_to(user)
     renter?(user) ? self.owner : self.renter
   end
@@ -149,26 +157,56 @@ class Booking < ActiveRecord::Base
     self.cancelled_at = Time.now
   end
 
-  def notify_booking_requested
-    user_messages.build.tap do |m|
-      m.receiver = self.owner
-      m.sender = self.renter
-      m.messageable = self
-      m.body = "You've received a request to book your tool #{tool.display_name} from #{self.renter.display_name}. Here's what they'd like to do with it: <blockquote>#{self.sample_description}</blockquote> Please reply back with any questions you have for them, or click Approve to approve the booking.".html_safe
-    end.save!
-  end
-
   def log_booking_requested
     self.booking_logs.create updated_by_id: self.renter_id, new_state: self.state
   end
 
-  def notify_booking_approved
+  def notify_booking_requested
+    message_body = I18n.t("bookings.notify_requested",
+      tool_name: tool.display_name,
+      renter_name: self.renter.display_name,
+      description: self.sample_description
+    )
+
+    append_message(
+      receiver: self.owner,
+      sender: self.renter,
+      body: message_body
+    )
+  end
+
+  def notify_booking_confirmed
+    message_body = I18n.t("bookings.notify_confirmed",
+      owner_name: self.owner.display_name
+    )
+
+    append_message(
+      receiver: self.renter,
+      sender: self.owner,
+      body: message_body
+    )
   end
 
   def notify_booking_cancelled
+    message_body = I18n.t("bookings.notify_cancelled")
+
+    append_message(
+      receiver: self.owner,
+      sender: self.renter,
+      body: message_body
+    )
   end
 
-  def notify_booking_cancelled
+  def notify_booking_denied
+    message_body = I18n.t("bookings.notify_denied",
+      owner_name: self.owner.display_name
+    )
+
+    append_message(
+      receiver: self.renter,
+      sender: self.owner,
+      body: message_body
+    )
   end
 
   def renter_cannot_be_owner

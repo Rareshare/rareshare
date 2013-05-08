@@ -1,7 +1,7 @@
 class MessagesController < InternalController
 
   def index
-    @messages = current_user.received_messages(limit: 10)
+    @messages = current_user.received_messages(limit: 10).order("created_at DESC")
   end
 
   def show

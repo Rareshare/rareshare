@@ -3,3 +3,16 @@
 
 en:
   hello: "Hello world"
+  bookings:
+    notify_requested: |
+      You've received a request to book your tool %{tool_name}
+      from %{renter_name}. Here's what they'd like to do with it:
+      <blockquote>%{description}</blockquote>
+      Please reply back with any questions you have for them, or click
+      Approve to approve the booking.
+    notify_confirmed: |
+      This booking has been approved by %{owner_name}.
+    notify_cancelled: |
+      This request has been cancelled.
+    notify_denied: |
+      This request has been denied by %{owner_name}.

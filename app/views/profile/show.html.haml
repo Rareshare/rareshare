@@ -24,7 +24,7 @@
     - if current_user.unread_message_count == 0
       %p You have no unread messages.
     - else
-      = render partial: 'messages/messages', object: current_user.received_messages.unread
+      = render partial: 'messages/messages', object: current_user.received_messages.unread.order("created_at DESC")
 
     - if current_user.bookings.active.any?
       %h3 Current Bookings
