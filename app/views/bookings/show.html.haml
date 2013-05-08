@@ -70,7 +70,7 @@
               %p
                 = link_to glyph_text(:profile, log.updated_by.display_name), user_path(log.updated_by)
                 = log.state_transition_description
-                = "on #{log.created_at}."
+                = "on #{log.created_at.to_s(:long)}."
 
     - if @booking.tool.images.any?
       = modal_dialog id: "images" do

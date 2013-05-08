@@ -40,9 +40,10 @@ class User < ActiveRecord::Base
   end
 
   def request_reservation!(params={})
-    tool              = Tool.find(params[:tool_id]) # or raise RecordNotFound
-    deadline          = Date.parse(params[:deadline])
-    params[:price]    = tool.price_for(params[:deadline])
+    tool                = Tool.find(params[:tool_id]) # or raise RecordNotFound
+    deadline            = Date.parse(params[:deadline])
+    params[:price]      = tool.price_for(params[:deadline])
+    params[:updated_by] = self
 
     bookings.create params
   end

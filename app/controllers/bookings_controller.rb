@@ -36,19 +36,20 @@ class BookingsController < InternalController
 
   def update
     @booking = Booking.find(params[:id])
+    @booking.updated_by = current_user
 
     case params[:commit]
     when /approve/i
       authorize! :confirm, @booking
-      @booking.transition! :confirm, current_user
+      @booking.confirm!
       redirect_to booking_path(@booking), info: "Successfully confirmed booking."
     when /deny/i
       authorize! :deny, @booking
-      @booking.transition! :deny, current_user
+      @booking.deny!
       redirect_to booking_path(@booking), info: "Booking was denied."
     when /cancel/i
       authorize! :cancel, @booking
-      @booking.transition! :cancel, current_user
+      @booking.cancel!
       redirect_to profile_path, info: "Booking was cancelled."
     else
       redirect_to booking_path(@booking), error: "Unrecognized booking operation."

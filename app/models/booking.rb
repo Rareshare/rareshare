@@ -2,28 +2,21 @@ class Booking < ActiveRecord::Base
   include ActiveModel::Transitions
 
   belongs_to :renter, class_name: "User"
+  belongs_to :last_updated_by, class_name: "User"
   belongs_to :tool
   has_one :owner, through: :tool
   has_many :booking_logs
-
   has_many :user_messages, as: :messageable
 
-  def message_chain
-    user_messages.first.try(:message_chain) || []
-  end
+  attr_accessor :updated_by # Virtual attribute to enforce last_updated_by update.
 
-  def append_message(attrs)
-    ( user_messages.first || UserMessage.new ).append attrs
-  end
-
-  validates_presence_of :tool_id, :renter_id, :tool_id, :sample_description, :deadline, :price, :sample_deliverable, :sample_transit
+  validates_presence_of :tool_id, :renter_id, :tool_id, :sample_description, :deadline, :price, :sample_deliverable, :sample_transit, :updated_by
   validates_inclusion_of :tos_accepted, in: [ "1", 1, true ], message: "Please accept the Terms of Service."
   validate :renter_cannot_be_owner
 
-  scope :active, where(state: [:pending, :confirmed, :overdue])
+  before_save :persist_updated_by
 
-  after_create :notify_booking_requested, if: :pending?
-  after_create :log_booking_requested, if: :pending?
+  scope :active, where(state: [:pending, :confirmed, :overdue])
 
   state_machine do
     state :pending
@@ -33,15 +26,15 @@ class Booking < ActiveRecord::Base
     state :completed
     state :overdue
 
-    event :confirm, success: :notify_booking_confirmed do
+    event :confirm do
       transitions from: :pending, to: :confirmed
     end
 
-    event :cancel, success: :notify_booking_cancelled do
+    event :cancel do
       transitions from: [:pending, :confirmed], to: :cancelled
     end
 
-    event :deny, success: :notify_booking_cancelled do
+    event :deny do
       transitions from: [:pending], to: :denied
     end
 
@@ -54,12 +47,15 @@ class Booking < ActiveRecord::Base
     end
   end
 
-  def transition!(state, updated_by)
-    old_state = self.state
+  def message_chain
+    user_messages.first.try(:message_chain) || []
+  end
 
-    if respond_to?(state)
-      self.send "#{state}!"
-      self.booking_logs.create updated_by_id: updated_by.id, old_state: old_state, new_state: self.state
+  def append_message(attrs)
+    if message_chain.empty?
+      user_messages.create attrs
+    else
+      user_messages.first.append attrs
     end
   end
 
@@ -153,66 +149,14 @@ class Booking < ActiveRecord::Base
 
   protected
 
-  def set_cancelled_timestamp
-    self.cancelled_at = Time.now
-  end
-
-  def log_booking_requested
-    self.booking_logs.create updated_by_id: self.renter_id, new_state: self.state
-  end
-
-  def notify_booking_requested
-    message_body = I18n.t("bookings.notify_requested",
-      tool_name: tool.display_name,
-      renter_name: self.renter.display_name,
-      description: self.sample_description
-    )
-
-    append_message(
-      receiver: self.owner,
-      sender: self.renter,
-      body: message_body
-    )
-  end
-
-  def notify_booking_confirmed
-    message_body = I18n.t("bookings.notify_confirmed",
-      owner_name: self.owner.display_name
-    )
-
-    append_message(
-      receiver: self.renter,
-      sender: self.owner,
-      body: message_body
-    )
-  end
-
-  def notify_booking_cancelled
-    message_body = I18n.t("bookings.notify_cancelled")
-
-    append_message(
-      receiver: self.owner,
-      sender: self.renter,
-      body: message_body
-    )
-  end
-
-  def notify_booking_denied
-    message_body = I18n.t("bookings.notify_denied",
-      owner_name: self.owner.display_name
-    )
-
-    append_message(
-      receiver: self.renter,
-      sender: self.owner,
-      body: message_body
-    )
-  end
-
   def renter_cannot_be_owner
-    if self.renter_id == self.tool.owner_id
+    if self.tool.present? && self.renter_id == self.tool.owner_id
       errors.add "renter_id", "You can't book your own tool!"
     end
+  end
+
+  def persist_updated_by
+    self.last_updated_by_id = self.updated_by.id
   end
 
 end

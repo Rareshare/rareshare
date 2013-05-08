@@ -53,4 +53,5 @@ end
 group :test do
   gem 'factory_girl'
   gem 'rspec-rails'
+  gem 'no_peeping_toms' # Disable observers during tests.
 end
