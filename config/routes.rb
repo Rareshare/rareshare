@@ -13,7 +13,6 @@ Rareshare::Application.routes.draw do
     resources :images
   end
 
-  resources :leases
   resources :bookings
   resources :users, only: :show
   resources :messages do

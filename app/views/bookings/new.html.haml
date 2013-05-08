@@ -17,7 +17,7 @@
             Request to book
             = link_to @booking.tool.display_name, tool_path(@booking.tool)
             to process a sample on or before #{@booking.deadline.to_date.to_s(:long)}.
-            The total cost for this lease will be #{number_to_currency @booking.total_cost}.
+            The total cost for this reservation will be #{number_to_currency @booking.total_cost}.
 
       %div.row.step
         %span.span2
@@ -52,7 +52,7 @@
           %div.terms_and_conditions
             = sanitize Page.where(title: "Terms & Conditions").first.try(:content)
 
-          = f.input :tos_accepted, label: false, inline_label: "I have read and agree to the #{page_link_to('Terms & Conditions')} for this lease.".html_safe
+          = f.input :tos_accepted, label: false, inline_label: "I have read and agree to the #{page_link_to('Terms & Conditions')} for this booking.".html_safe
 
     %div.row
       %span.offset3.span9

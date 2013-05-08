@@ -246,45 +246,6 @@ ALTER SEQUENCE images_id_seq OWNED BY images.id;
 
 
 --
--- Name: leases; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE leases (
-    id integer NOT NULL,
-    lessor_id integer,
-    lessee_id integer,
-    tool_id integer,
-    started_at timestamp without time zone,
-    ended_at timestamp without time zone,
-    cancelled_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    tos_accepted boolean,
-    state character varying(255),
-    description text
-);
-
-
---
--- Name: leases_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE leases_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: leases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE leases_id_seq OWNED BY leases.id;
-
-
---
 -- Name: manufacturers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -384,17 +345,6 @@ ALTER SEQUENCE pages_id_seq OWNED BY pages.id;
 
 CREATE TABLE schema_migrations (
     version character varying(255) NOT NULL
-);
-
-
---
--- Name: searches; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE searches (
-    document text,
-    searchable_id integer,
-    searchable_type character varying(255)
 );
 
 
@@ -621,13 +571,6 @@ ALTER TABLE ONLY images ALTER COLUMN id SET DEFAULT nextval('images_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY leases ALTER COLUMN id SET DEFAULT nextval('leases_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY manufacturers ALTER COLUMN id SET DEFAULT nextval('manufacturers_id_seq'::regclass);
 
 
@@ -719,14 +662,6 @@ ALTER TABLE ONLY helpers
 
 ALTER TABLE ONLY images
     ADD CONSTRAINT images_pkey PRIMARY KEY (id);
-
-
---
--- Name: leases_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY leases
-    ADD CONSTRAINT leases_pkey PRIMARY KEY (id);
 
 
 --
@@ -842,20 +777,6 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (re
 
 
 --
--- Name: searches_to_tsvector_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX searches_to_tsvector_idx ON searches USING gin (to_tsvector('english'::regconfig, document));
-
-
---
--- Name: searches_to_tsvector_idx1; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX searches_to_tsvector_idx1 ON searches USING gin (to_tsvector('english'::regconfig, (searchable_type)::text));
-
-
---
 -- Name: tools_to_tsvector_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -944,3 +865,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130508003345');
 INSERT INTO schema_migrations (version) VALUES ('20130508144328');
 
 INSERT INTO schema_migrations (version) VALUES ('20130508171938');
+
+INSERT INTO schema_migrations (version) VALUES ('20130508184828');

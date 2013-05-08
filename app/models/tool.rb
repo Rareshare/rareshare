@@ -1,7 +1,5 @@
 class Tool < ActiveRecord::Base
-  has_many :leases
   has_many :bookings
-  has_one :search, as: :searchable
   has_one :address, as: :addressable
 
   belongs_to :owner, class_name: "User"
@@ -49,10 +47,6 @@ class Tool < ActiveRecord::Base
 
   name_delegator :manufacturer, :model, :tool_category
 
-  def self.search(query)
-    Search.search(searchable_type: self.name, document: query).map(&:searchable)
-  end
-
   def display_name
     "#{manufacturer_name} #{model_name}"
   end
@@ -67,10 +61,6 @@ class Tool < ActiveRecord::Base
 
   def owned_by?(user)
     user.id == self.owner_id
-  end
-
-  def leaseable_by?(user)
-    !owned_by?(user)
   end
 
   def bookable_before?(deadline)
