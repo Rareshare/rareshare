@@ -1,0 +1,27 @@
+- nav_category "Find a Tool"
+
+%div.row.row-header
+  %span.span2.header-avatar
+    - if @booking.tool.images.any?
+      %a{href: "#images", role: "button", data: { toggle: "modal" }}
+        %img.avatar{src: @booking.tool.images.first.image.url(:thumb)}
+    - else
+      %i.avatar.icon-beaker
+  %span.span10.header-body
+    %h1 Finalize #{t(:booking)}
+    %span.muted
+      = @booking.display_name
+
+%div.row
+  %span.offset2.span8
+    %p
+      In order to finalize the booking, you must pay the booking price and RareShare commission.
+      RareShare charges a 10% fee on every booking.
+      = page_link_to "Learn more about our pricing.", page: "Learn More"
+
+    %div{style: "width: 400px; height: 200px; border: 1px solid #ccc; background-color: #eee; border-radius: 4px;"}
+      %h1{style: "color: #ccc; padding-top: 40px; text-align: center;"} CREDIT CARD DETAILS
+
+    = simple_form_for @booking do |f|
+      = f.submit "Finalize & Pay", class: "btn btn-info", style: "margin-top: 20px"
+

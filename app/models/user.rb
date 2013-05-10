@@ -11,8 +11,8 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :roles
   has_one :address, as: :addressable
 
-  has_many :bookings, foreign_key: :renter_id
-  has_many :due_bookings, through: :tools, source: :bookings
+  has_many :requested_bookings, class_name: "Booking", foreign_key: :renter_id
+  has_many :owned_bookings, through: :tools, source: :bookings
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :all_blank
 
   validates :first_name, :last_name, :email, presence: true
@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
     params[:price]      = tool.price_for(params[:deadline])
     params[:updated_by] = self
 
-    bookings.create params
+    requested_bookings.create params
   end
 
   def link_profile(auth)
@@ -57,6 +57,10 @@ class User < ActiveRecord::Base
 
   def provider_linked?
     self.provider.present?
+  end
+
+  def all_recent_bookings
+    ( owned_bookings.recent + requested_bookings.recent ).sort_by &:updated_at
   end
 
   def self.find_for_linkedin_oauth(auth, signed_in_resource=nil)

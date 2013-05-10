@@ -8,12 +8,12 @@ class BookingsController < InternalController
       redirect_to :back, error: "You cannot book your own tool."
     end
 
-    @booking = Booking.new.tap do |l|
-      l.renter_id  = current_user.id
-      l.tool_id    = tool.id
-      l.deadline   = params[:date]
-      l.price      = tool.price_for(params[:date])
-    end
+    @booking = Booking.new(
+      renter_id: current_user.id,
+      tool_id:   tool.id,
+      deadline:  params[:date],
+      price:     tool.price_for(params[:date])
+    )
   end
 
   def create
@@ -42,18 +42,26 @@ class BookingsController < InternalController
     when /approve/i
       authorize! :confirm, @booking
       @booking.confirm!
-      redirect_to booking_path(@booking), info: "Successfully confirmed booking."
+      redirect_to booking_path(@booking), notice: "Successfully confirmed booking."
     when /deny/i
       authorize! :deny, @booking
       @booking.deny!
-      redirect_to booking_path(@booking), info: "Booking was denied."
+      redirect_to booking_path(@booking), notice: "Booking was denied."
     when /cancel/i
       authorize! :cancel, @booking
       @booking.cancel!
-      redirect_to profile_path, info: "Booking was cancelled."
+      redirect_to profile_path, notice: "Booking was cancelled."
+    when /finalize/i
+      authorize! :finalize, @booking
+      @booking.finalize!
+      redirect_to profile_path, notice: "Successfully finalized booking."
     else
       redirect_to booking_path(@booking), error: "Unrecognized booking operation."
     end
+  end
+
+  def finalize
+    @booking = Booking.find(params[:id])
   end
 
   private

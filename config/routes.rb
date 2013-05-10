@@ -13,7 +13,10 @@ Rareshare::Application.routes.draw do
     resources :images
   end
 
-  resources :bookings
+  resources :bookings do
+    member { get :finalize }
+  end
+
   resources :users, only: :show
   resources :messages do
     member { post :reply }

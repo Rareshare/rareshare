@@ -119,6 +119,12 @@ body > footer {
   }
 }
 
+table {
+  tr.actionable {
+    font-weight: bold;
+  }
+}
+
 form {
   .form-actions {
     background: none;
@@ -294,11 +300,12 @@ form.new_message {
   }
 
   .btn {
-    width: 140px;
     margin-bottom: 10px;
-
     &:last-child { margin-bottom: 0; }
   }
+
+  input.btn { width: 140px; }
+  a.btn { width: 114px; }
 }
 
 .search-tools {

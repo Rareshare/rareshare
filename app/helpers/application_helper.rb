@@ -38,6 +38,16 @@ module ApplicationHelper
     content_tag(:span, class: "label label-#{label_class_for(booking)}") { booking.state }
   end
 
+  def label_class_for(booking)
+    {
+      pending: "info",
+      cancelled: "important",
+      finalized: "success",
+      confirmed: "default",
+      complete: "default"
+    }[booking.state.to_sym]
+  end
+
   def unread_message_count(user)
     count = user.unread_message_count
     badge_type = count > 0 ? "badge-info" : "badge-default"
@@ -45,7 +55,8 @@ module ApplicationHelper
   end
 
   def page_link_to(title, opts={})
-    slug = Page.where(title: title).first.try(:slug)
+    page_title = opts[:page] || title
+    slug = Page.where(title: page_title).first.try(:slug)
     link_to title, ( slug.present? ? page_path(slug) : "#" ), opts
   end
 
@@ -61,5 +72,14 @@ module ApplicationHelper
     end
   end
 
-  alias_method :lease_state, :booking_state
+  def actionable?(booking)
+    can?(:confirm, booking) || can?(:deny, booking) || can?(:finalize, booking)
+  end
+
+  def classes_for_booking_row(b)
+    who = b.owner?(current_user) ? "info" : ""
+    what = actionable?(b) ? "actionable" : ""
+
+    [ who, what ].join(" ")
+  end
 end

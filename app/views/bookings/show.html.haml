@@ -1,4 +1,4 @@
-- nav_category @booking.owner == current_user ? "Share a Tool" : "Find a Tool"
+- nav_category @booking.owner?(current_user) ? "Share a Tool" : "Find a Tool"
 
 %div.row.row-header
   %span.span2.header-avatar
@@ -64,6 +64,15 @@
           %th Due By
           %td= @booking.deadline.to_date.to_s(:long)
         %tr
+          %th Sample transit
+          %td= @booking.sample_transit
+        %tr
+          %th Sample description
+          %td= @booking.sample_description
+        %tr
+          %th Sample deliverable
+          %td= @booking.sample_deliverable
+        %tr
           %th History
           %td
             - @booking.booking_logs.each do |log|
@@ -94,14 +103,16 @@
 
   %span.span2
     %div.messageable(data-spy="affix" data-offset-top="156")
+      %p= @booking.state_summary_for(current_user)
+      - if can? :finalize, @booking
+        = link_to "Finalize & Pay", finalize_booking_path(@booking), class: "btn btn-success"
       = simple_form_for @booking do |f|
-        %p= @booking.state_summary_for(current_user)
         - if can? :confirm, @booking
           = f.button :submit, value: "Approve", class: "btn btn-success"
         - if can? :deny, @booking
           = f.button :submit, value: "Deny", class: "btn btn-danger"
         - if can? :cancel, @booking
-          = f.button :submit, value: "Cancel Booking", class: "btn btn-danger"
+          = f.button :submit, value: "Cancel", class: "btn btn-danger"
 
 %div.row
   %span.span8.offset2

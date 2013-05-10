@@ -1,4 +1,4 @@
-- nav_category "Share a Tool"
+- nav_category @booking.owner?(current_user) ? "Share a Tool" : "Find a Tool"
 
 = link_to tool_path(@booking.tool) do
   %i.icon.icon-angle-left

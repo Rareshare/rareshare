@@ -16,7 +16,8 @@ class Booking < ActiveRecord::Base
 
   before_save :persist_updated_by
 
-  scope :active, where(state: [:pending, :confirmed, :overdue])
+  scope :active, where(state: [:pending, :confirmed, :finalized, :overdue])
+  scope :recent, lambda { where("#{table_name}.updated_at > ?", 1.month.ago)}
 
   state_machine do
     state :pending
@@ -25,13 +26,14 @@ class Booking < ActiveRecord::Base
     state :cancelled
     state :completed
     state :overdue
+    state :finalized
 
     event :confirm do
       transitions from: :pending, to: :confirmed
     end
 
     event :cancel do
-      transitions from: [:pending, :confirmed], to: :cancelled
+      transitions from: [:pending, :confirmed, :finalized], to: :cancelled
     end
 
     event :deny do
@@ -39,16 +41,26 @@ class Booking < ActiveRecord::Base
     end
 
     event :complete do
-      transitions from: [:confirmed, :overdue], to: :completed
+      transitions from: [:finalized, :overdue], to: :completed
     end
 
     event :warn do
       transitions from: :confirmed, to: :overdue
     end
+
+    event :finalize do
+      transitions from: :confirmed, to: :finalized
+    end
   end
 
   def message_chain
-    user_messages.first.try(:message_chain) || []
+    chain = user_messages.first.try(:message_chain) || []
+
+    if chain.present?
+      chain.order("created_at ASC")
+    else
+      []
+    end
   end
 
   def append_message(attrs)
@@ -116,7 +128,7 @@ class Booking < ActiveRecord::Base
   end
 
   def cancellable_by?(user)
-    renter?(user) || ( owner?(user) && confirmed? )
+    renter?(user) || ( owner?(user) && ( confirmed? || finalized? ) )
   end
 
   def opposite_party_to(user)
@@ -131,6 +143,8 @@ class Booking < ActiveRecord::Base
         "You have approved this booking."
       elsif denied?
         "You have declined this booking."
+      elsif finalized?
+        "This person has finalized the booking."
       elsif cancelled?
         "This booking has been cancelled."
       end
@@ -141,6 +155,8 @@ class Booking < ActiveRecord::Base
         "The owner of the tool has agreed to this booking."
       elsif denied?
         "The owner of the tool has declined this booking."
+      elsif finalized?
+          "You have finalized this booking."
       elsif cancelled?
         "This booking has been cancelled."
       end

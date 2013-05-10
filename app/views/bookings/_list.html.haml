@@ -1,21 +1,21 @@
-%table.table
+%table.table.table-hover.table-bordered
   %thead
     %tr
       %th State
       %th Deadline
       %th Tool
       %th Cost
-      %th Options
+      %th
   %tbody
     - list.each do |b|
-      %tr
+      %tr{class: classes_for_booking_row(b)}
         %td
           = booking_state b
         %td= link_to b.deadline.to_date.to_s(:simple), booking_path(b)
         %td= link_to b.display_name, booking_path(b)
         %td= number_to_currency b.price
         %td
-          = simple_form_for(b) do |f|
+          = simple_form_for b, html: { class: "no-margin" } do |f|
             - if can? :confirm, b
               = f.button :submit, value: "Approve", class: "btn btn-mini btn-success"
             - if can? :deny, b

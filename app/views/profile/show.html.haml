@@ -26,10 +26,13 @@
     - else
       = render partial: 'messages/messages', object: current_user.received_messages.unread.order("created_at DESC")
 
-    - if current_user.bookings.active.any?
-      %h3 Current Bookings
-      = render partial: 'bookings/list', object: current_user.bookings.active
-
-    - if current_user.due_bookings.active.any?
-      %h3 Pending and Due Bookings
-      = render partial: 'bookings/list', object: current_user.due_bookings.active
+    %h3 Recent booking history
+    - if current_user.all_recent_bookings.any?
+      = render partial: 'bookings/list', object: current_user.all_recent_bookings
+    - else
+      %p
+        You have no booking history.
+        = link_to "Find a tool", search_path
+        or
+        = link_to "list a tool", new_tool_path
+        now.
