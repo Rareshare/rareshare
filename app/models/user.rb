@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :tools, foreign_key: :owner_id
   has_many :received_messages, foreign_key: :receiver_id, class_name: "UserMessage"
   has_many :sent_messages, foreign_key: :sender_id, class_name: "UserMessage"
-  has_and_belongs_to_many :roles
+  # has_and_belongs_to_many :roles
   has_one :address, as: :addressable
 
   has_many :requested_bookings, class_name: "Booking", foreign_key: :renter_id

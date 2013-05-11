@@ -1,5 +1,6 @@
 class Booking < ActiveRecord::Base
   include ActiveModel::Transitions
+  include ActiveModel::ForbiddenAttributesProtection
 
   belongs_to :renter, class_name: "User"
   belongs_to :last_updated_by, class_name: "User"
