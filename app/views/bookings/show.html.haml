@@ -1,4 +1,4 @@
-- nav_category @booking.owner?(current_user) ? "Share a Tool" : "Find a Tool"
+- nav_category "Calendar"
 
 %div.row.row-header
   %span.span2.header-avatar
@@ -8,9 +8,8 @@
     - else
       %i.avatar.icon-beaker
   %span.span10.header-body
-    %h1
-      = @booking.state.titleize
-      = t(:booking)
+    = breadcrumbs :root, :calendar, @booking
+    %h1= @booking.title
     %span.muted
       = @booking.display_name
 

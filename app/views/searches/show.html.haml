@@ -2,6 +2,7 @@
   %span.span2.header-avatar
     %i.avatar.icon-search
   %span.span10.header-body
+    = breadcrumbs :root, :search
     %h1 Search
     %span.muted
       = "Showing page #{@results.current_page} of #{@results.total_pages}."

@@ -76,6 +76,10 @@ class Booking < ActiveRecord::Base
     started_at..ended_at
   end
 
+  def title
+    self.state.titleize + " " + self.class.model_name.titleize
+  end
+
   def display_name
     tool.display_name + " - " + deadline.to_date.to_s(:long)
   end
@@ -139,25 +143,25 @@ class Booking < ActiveRecord::Base
   def state_summary_for(user)
     if owner?(user)
       if pending?
-        "This person is currently waiting for a response from you."
+        "You have not yet responded to this request."
       elsif confirmed?
         "You have approved this booking."
       elsif denied?
         "You have declined this booking."
       elsif finalized?
-        "This person has finalized the booking."
+        "The renter has finalized the booking and is waiting for you to fulfill the booking."
       elsif cancelled?
         "This booking has been cancelled."
       end
     elsif renter?(user)
       if pending?
-        "You are waiting for a response from the owner of this tool."
+        "The owner of this tool has not yet responded to this request."
       elsif confirmed?
         "The owner of the tool has agreed to this booking."
       elsif denied?
         "The owner of the tool has declined this booking."
       elsif finalized?
-          "You have finalized this booking."
+        "You have finalized this booking and the owner of the tool has not yet fulfilled it."
       elsif cancelled?
         "This booking has been cancelled."
       end

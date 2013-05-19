@@ -82,4 +82,55 @@ module ApplicationHelper
 
     [ who, what ].join(" ")
   end
+
+  def polymorphic_name_of(crumb)
+    [ :display_name, :name, :title ].each do |attr|
+      return crumb.send(attr) if crumb.respond_to?(attr)
+    end
+    nil
+  end
+
+  def breadcrumb_for(crumb)
+    if crumb.is_a?(Array)
+      crumb
+    elsif crumb == :root
+      [ "Home", root_path ]
+    elsif crumb == :inbox
+      [ "Inbox", messages_path ]
+    elsif crumb == :calendar
+      [ "Calendar", calendar_path ]
+    elsif crumb == :search
+      [ "Find a Tool", search_path ]
+    elsif crumb.is_a?(ActiveModel::Naming)
+      [ "All #{crumb.model_name.pluralize}", url_for(crumb) ]
+    elsif name = polymorphic_name_of(crumb)
+      [ name, url_for(crumb) ]
+    else
+      raise "Can't construct breadcrumb from #{crumb}"
+    end
+  end
+
+  def breadcrumbs(*crumbs)
+    divider = content_tag :span, class: :divider do
+      content_tag(:i, "", class: "icon-double-angle-right")
+    end
+
+    content_tag :ul, class: "breadcrumb" do
+      crumbs.map.with_index do |crumb, i|
+        if i == crumbs.length - 1
+          content_tag :li, class: "active" do
+            title, url = breadcrumb_for(crumb)
+            content_tag(:span, title)
+          end
+        else
+          content_tag :li do
+            title, url = breadcrumb_for(crumb)
+            link_to(title, url) + divider
+          end
+        end
+      end.join.html_safe
+    end
+  end
+
+
 end
