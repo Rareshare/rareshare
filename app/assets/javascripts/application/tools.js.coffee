@@ -23,6 +23,9 @@ $ ->
 
       updateVisualRange()
 
+    $(".tool_sample_size_unit").change () ->
+      $(".tool_sample_size").find(".unit").text $(this).find(":selected").text()
+
     $(".input-append").each ->
       input = $(this).find("input")
       button = $(this).find("button")

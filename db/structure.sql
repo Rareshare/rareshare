@@ -102,6 +102,35 @@ ALTER SEQUENCE addresses_id_seq OWNED BY addresses.id;
 
 
 --
+-- Name: available_units; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE available_units (
+    id integer NOT NULL,
+    name character varying(255)
+);
+
+
+--
+-- Name: available_units_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE available_units_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: available_units_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE available_units_id_seq OWNED BY available_units.id;
+
+
+--
 -- Name: booking_logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -387,7 +416,6 @@ CREATE TABLE tools (
     id integer NOT NULL,
     owner_id integer,
     model_id integer,
-    resolution character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     description text,
@@ -404,7 +432,10 @@ CREATE TABLE tools (
     expedited_price money,
     document text,
     latitude double precision,
-    longitude double precision
+    longitude double precision,
+    resolution integer,
+    sample_size_unit_id character varying(255),
+    resolution_unit_id character varying(255)
 );
 
 
@@ -543,6 +574,13 @@ ALTER TABLE ONLY addresses ALTER COLUMN id SET DEFAULT nextval('addresses_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY available_units ALTER COLUMN id SET DEFAULT nextval('available_units_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY booking_logs ALTER COLUMN id SET DEFAULT nextval('booking_logs_id_seq'::regclass);
 
 
@@ -630,6 +668,14 @@ ALTER TABLE ONLY addresses
 
 ALTER TABLE ONLY active_admin_comments
     ADD CONSTRAINT admin_notes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: available_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY available_units
+    ADD CONSTRAINT available_units_pkey PRIMARY KEY (id);
 
 
 --
@@ -867,3 +913,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130508144328');
 INSERT INTO schema_migrations (version) VALUES ('20130508171938');
 
 INSERT INTO schema_migrations (version) VALUES ('20130508184828');
+
+INSERT INTO schema_migrations (version) VALUES ('20130519190419');

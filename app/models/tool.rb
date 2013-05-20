@@ -18,7 +18,7 @@ class Tool < ActiveRecord::Base
 
   validates :model_name, :manufacturer_name, :tool_category_name, :owner, presence: true
   validates :expedited_price, :expedited_lead_time, presence: true, if: :can_expedite?
-  validates :base_lead_time, :expedited_lead_time, numericality: { greater_than: 1, allow_nil: true }
+  validates :base_lead_time, :expedited_lead_time, :resolution, numericality: { greater_than: 0, allow_nil: true }
 
   accepts_nested_attributes_for :address, allow_destroy: true
 
@@ -87,6 +87,22 @@ class Tool < ActiveRecord::Base
 
   def partial_address
     [ self.address.city, self.address.state ].join(", ")
+  end
+
+  def sample_size_unit
+    Unit.definitions[self.sample_size_unit_id]
+  end
+
+  def resolution_unit
+    Unit.definitions[self.resolution_unit_id]
+  end
+
+  def sample_size_unit_name
+    sample_size_unit.try :display_name
+  end
+
+  def resolution_unit_name
+    resolution_unit.try :display_name
   end
 
   private

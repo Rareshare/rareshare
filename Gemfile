@@ -35,6 +35,7 @@ gem 'simple_form', '~> 2.0.4' # Easy form builder.
 gem 'strong_parameters' # Better parameter support.
 gem 'kaminari'
 gem 'friendly_id' # Standard ID generation.
+gem 'ruby-units' # Definitions for standard and scientific units.
 
 # Rendering and style
 gem 'haml-rails'
