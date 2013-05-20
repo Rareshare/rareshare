@@ -17,3 +17,9 @@ en:
         This request has been cancelled.
       denied: |
         This request has been denied by %{owner_name}.
+    transit:
+      in_person: "I'll deliver the sample and receive the results in person."
+      rareshare_send: "I'd like RareShare to arrange shipping for the sample."
+      renter_send: "I'll arrange shipping for the sample myself."
+      digital_send: "The sample isn't physical; I'll arrange Internet data transfer with the owner."
+      none_required: "No sample transit required."

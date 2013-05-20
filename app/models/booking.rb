@@ -20,6 +20,16 @@ class Booking < ActiveRecord::Base
   scope :active, where(state: [:pending, :confirmed, :finalized, :overdue])
   scope :recent, lambda { where("#{table_name}.updated_at > ?", 1.month.ago)}
 
+  module Transit
+    IN_PERSON      = :in_person
+    RARESHARE_SEND = :rareshare_send
+    RENTER_SEND    = :renter_send
+    DIGITAL_SEND   = :digital_send
+    NONE_REQUIRED  = :none_required
+
+    ALL = [ IN_PERSON, RARESHARE_SEND, RENTER_SEND, DIGITAL_SEND, NONE_REQUIRED ]
+  end
+
   state_machine do
     state :pending
     state :confirmed

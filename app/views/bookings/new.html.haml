@@ -41,7 +41,7 @@
           %h1 3
           %small How would you like the tool owner to receive your sample?
         %span.span8
-          = f.input :sample_transit, as: :select
+          = f.input :sample_transit, as: :select, collection: Booking::Transit::ALL.map {|k| [ t("bookings.transit.#{k}"), k ]}
 
       %div.row.step
         %span.span12.border
