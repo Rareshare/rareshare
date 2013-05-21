@@ -36,7 +36,6 @@ gem 'strong_parameters' # Better parameter support.
 gem 'kaminari'
 gem 'friendly_id' # Standard ID generation.
 gem 'ruby-units' # Definitions for standard and scientific units.
-gem 'renum' # Ruby enums
 
 # Rendering and style
 gem 'haml-rails'
