@@ -65,8 +65,11 @@ legend {
     }
   }
 
-  .dropdown-menu li a.text-warning {
-    color: @warningText;
+  .dropdown-menu {
+    width: 183px;
+    li a.text-warning {
+      color: @warningText;
+    }
   }
 }
 
@@ -86,7 +89,11 @@ legend {
       margin-left: -20px;
       background-color: white;
       border-radius: 4px;
-      box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.2)
+      box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.2);
+
+      .sidebar {
+        > .btn { width: 85px; margin-left: 10px; font-size: 14px; margin-bottom: 10px; }
+      }
     }
   }
 }

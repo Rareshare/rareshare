@@ -1,0 +1,22 @@
+- nav_category "Calendar"
+
+%div.row.row-header
+  %span.span2.header-avatar
+    - if @booking.tool.images.any?
+      %a{href: "#images", role: "button", data: { toggle: "modal" }}
+        %img.avatar{src: @booking.tool.images.first.image.url(:thumb)}
+    - else
+      %i.avatar.icon-beaker
+  %span.span10.header-body
+    = breadcrumbs :root, :calendar, @booking
+    %h1= "Cancel Booking"
+    %span.muted
+      = @booking.display_name
+
+%div.row
+  %span.span2
+  %span.span8
+    %p You are about to cancel this booking. This might cost money. Cool? (yes/no)
+    = simple_form_for @booking do |f|
+      = f.button :submit, value: "Yes, cancel", class: "btn btn-danger"
+      = link_to "No, don't", booking_path(@booking), class: "btn"

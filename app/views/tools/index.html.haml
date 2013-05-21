@@ -4,11 +4,11 @@
   %span.span10.header-body
     = breadcrumbs :root, Tool
     %h1 Tools
-    %span.muted
-      = link_to glyph_text("Add a tool", :angle_right), new_tool_path
+    %span.muted &nbsp;
 
 %div.row
-  %span.span2
+  %span.span2.sidebar
+    = link_to glyph_text(:plus, "Add tool"), new_tool_path, class: "btn btn-info"
   %span.span8
     - if @tools.any?
       %table.table

@@ -21,4 +21,4 @@
             - if can? :deny, b
               = f.button :submit, value: "Deny", class: "btn btn-mini btn-danger"
             - if can? :cancel, b
-              = f.button :submit, value: "Cancel", class: "btn btn-mini btn-danger"
+              = link_to "Cancel", cancel_booking_path(b), class: "btn btn-mini btn-danger"

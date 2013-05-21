@@ -34,6 +34,14 @@ class BookingsController < InternalController
     end
   end
 
+  def cancel
+    @booking = Booking.find(params[:id])
+
+    unless can? :cancel, @booking
+      redirect_to profile_path, flash: { error: "This booking cannot be cancelled." }
+    end
+  end
+
   def update
     @booking = Booking.find(params[:id])
     @booking.updated_by = current_user
