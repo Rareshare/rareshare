@@ -9,9 +9,9 @@
 %div.row
   %span.span2.sidebar
     = link_to glyph_text(:plus, "Add tool"), new_tool_path, class: "btn btn-info"
-  %span.span8
+  %span.span10
     - if @tools.any?
-      %table.table
+      %table.table.table-hover.table-bordered
         %thead
           %tr
             %th Item description
@@ -27,7 +27,7 @@
                   %br
                   = price_per_sample t, :expedited
               %td
-                = simple_form_for(t, method: :delete) do |f|
+                = simple_form_for t, method: :delete, html: { class: "no-margin" } do |f|
                   .form-actions
                     = link_to "Edit", edit_tool_path(t), class: "btn btn-mini btn-info"
                     = f.submit "Delete", class: "btn btn-mini btn-danger"

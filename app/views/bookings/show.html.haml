@@ -18,6 +18,19 @@
     = avatar_of @booking.opposite_party_to(current_user)
 
   %span.span8
+    %div.well.well-small
+      %p= @booking.state_summary_for(current_user)
+      - if can? :finalize, @booking
+        = link_to "Finalize & Pay", finalize_booking_path(@booking), class: "btn btn-success"
+      = simple_form_for @booking, html: { class: "no-margin" } do |f|
+        - if can? :confirm, @booking
+          = f.button :submit, value: "Approve", class: "btn btn-success"
+        - if can? :deny, @booking
+          = f.button :submit, value: "Deny", class: "btn btn-danger"
+        - if can? :cancel, @booking
+          = f.button :submit, value: "Cancel", class: "btn btn-danger"
+
+
     %h3 Tool Overview
     %table.table
       %tbody
@@ -76,7 +89,7 @@
           %td
             - @booking.booking_logs.each do |log|
               %p
-                = link_to glyph_text(:profile, log.updated_by.display_name), user_path(log.updated_by)
+                = link_to glyph_text(:user, log.updated_by.display_name), user_path(log.updated_by)
                 = log.state_transition_description
                 = "on #{log.created_at.to_s(:long)}."
 
@@ -99,19 +112,6 @@
               %i.icon-arrow-left
             %a.carousel-control.right{href: "#carousel", data: { slide: "next" }}
               %i.icon-arrow-right
-
-  %span.span2
-    %div.messageable(data-spy="affix" data-offset-top="156")
-      %p= @booking.state_summary_for(current_user)
-      - if can? :finalize, @booking
-        = link_to "Finalize & Pay", finalize_booking_path(@booking), class: "btn btn-success"
-      = simple_form_for @booking do |f|
-        - if can? :confirm, @booking
-          = f.button :submit, value: "Approve", class: "btn btn-success"
-        - if can? :deny, @booking
-          = f.button :submit, value: "Deny", class: "btn btn-danger"
-        - if can? :cancel, @booking
-          = f.button :submit, value: "Cancel", class: "btn btn-danger"
 
 %div.row
   %span.span8.offset2
