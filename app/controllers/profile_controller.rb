@@ -36,7 +36,13 @@ class ProfileController < InternalController
       :education,
       :qualifications,
       :avatar,
-      :address_attributes
+      :address_attributes => [
+        :address_line_1,
+        :address_line_2,
+        :city,
+        :state,
+        :zip_code
+      ]
     )
   end
 
