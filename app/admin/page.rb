@@ -9,7 +9,7 @@ ActiveAdmin.register Page do
     f.inputs "Show Details" do
       f.input :title
       f.input :slug, hint: "Optional - will be generated as needed"
-      f.input :content, as: :html_editor
+      f.input :content, as: :text
     end
     f.actions
   end

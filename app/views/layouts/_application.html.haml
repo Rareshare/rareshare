@@ -48,21 +48,21 @@
               %li{class: current_page?(new_user_session_path) ? "active" : ""}
                 = link_to "Log In", new_user_session_path
 
-  %div.content-root
-    = yield
-    %div.push
+    %div.content-root
+      = yield
+      %div.push
 
-  %footer.footer
-    %div.container
-      %div.row
-        %div.span10
-          %ul.nav
-            %li
-              = page_link_to "Learn More"
-            %li
-              = page_link_to "Get Help"
-            %li
-              = page_link_to "Terms & Conditions"
-        %div.span2
-          %div.pull-right.brand
-            Rareshare
+    %footer.footer
+      %div.container
+        %div.row
+          %div.span10
+            %ul.nav
+              %li
+                = page_link_to "Learn More"
+              %li
+                = page_link_to "Get Help"
+              %li
+                = page_link_to "Terms & Conditions"
+          %div.span2
+            %div.pull-right.brand
+              Rareshare

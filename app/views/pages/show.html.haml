@@ -1,8 +1,7 @@
-%div.row.row-header
+%div.row.row-header{class: @page.slug}
   %span.span10.offset1.header-body
     %h1= @page.title
 
-%div.row
+%div.row{class: @page.slug}
   %span.span10.offset1
-    = sanitize @page.content
-
+    = @page.html_content
