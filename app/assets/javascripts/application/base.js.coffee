@@ -1,4 +1,6 @@
 jQuery ->
+  $(".tip").tooltip().click (evt) -> evt.preventDefault()
+
   $("input.date").pickadate()
 
   $('a[data-toggle="tab"]').on 'shown', (e) ->

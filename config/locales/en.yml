@@ -23,3 +23,6 @@ en:
       renter_send: "I'll arrange shipping for the sample myself."
       digital_send: "The sample isn't physical; I'll arrange Internet data transfer with the owner."
       none_required: "No sample transit required."
+
+  data:
+    private: "This information is collected and handled by Rare Share subject to the Rare Share Privacy Policy and will not be displayed on rare-share.com."
