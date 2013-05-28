@@ -23,6 +23,22 @@ en:
       renter_send: "I'll arrange shipping for the sample myself."
       digital_send: "The sample isn't physical; I'll arrange Internet data transfer with the owner."
       none_required: "No sample transit required."
+    state:
+      owner:
+        pending:   "You have not yet responded to this request."
+        confirmed: "You have approved this booking."
+        denied:    "You have declined this booking."
+        finalized: "The renter has finalized the booking and is waiting for you to fulfill the booking."
+        cancelled: "This booking has been cancelled."
+        expired:   "This booking has expired."
+      renter:
+        pending:   "The owner of this tool has not yet responded to this request."
+        confirmed: "The owner of the tool has agreed to this booking."
+        denied:    "The owner of the tool has declined this booking."
+        finalized: "You have finalized this booking and the owner of the tool has not yet fulfilled it."
+        cancelled: "This booking has been cancelled."
+        expired:   "This booking has expired."
+
 
   data:
     private: "This information is collected and handled by Rare Share subject to the Rare Share Privacy Policy and will not be displayed on rare-share.com."

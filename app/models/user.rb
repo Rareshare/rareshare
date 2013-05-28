@@ -63,6 +63,16 @@ class User < ActiveRecord::Base
     ( owned_bookings.recent + requested_bookings.recent ).sort_by &:updated_at
   end
 
+  def self.administrative
+    scope = User.where(
+      first_name: "RareShare",
+      last_name:  "Support",
+      email:      "support@rare-share.com"
+    )
+
+    scope.first || scope.create
+  end
+
   def self.find_for_linkedin_oauth(auth, signed_in_resource=nil)
     if user = User.where(email: auth.info.email).first
       user.link_profile(auth) unless user.provider_linked?

@@ -20,6 +20,12 @@ class Booking < ActiveRecord::Base
   scope :active, where(state: [:pending, :confirmed, :finalized, :overdue])
   scope :recent, lambda { where("#{table_name}.updated_at > ?", 1.month.ago)}
 
+  scope :can, lambda {|state|
+    # TODO Fix the library and replace once patch accepted.
+    from_states = state_machine.events[state.to_sym].instance_variable_get("@transitions").map &:from
+    where(state: from_states)
+  }
+
   module Transit
     IN_PERSON      = :in_person
     RARESHARE_SEND = :rareshare_send
@@ -30,7 +36,7 @@ class Booking < ActiveRecord::Base
     ALL = [ IN_PERSON, RARESHARE_SEND, RENTER_SEND, DIGITAL_SEND, NONE_REQUIRED ]
   end
 
-  state_machine do
+  state_machine auto_scopes: true do
     state :pending
     state :confirmed
     state :denied
@@ -38,6 +44,7 @@ class Booking < ActiveRecord::Base
     state :completed
     state :overdue
     state :finalized
+    state :expired
 
     event :confirm do
       transitions from: :pending, to: :confirmed
@@ -62,6 +69,10 @@ class Booking < ActiveRecord::Base
     event :finalize do
       transitions from: :confirmed, to: :finalized
     end
+
+    event :expire do
+      transitions from: [:pending, :confirmed], to: :expired
+    end
   end
 
   def message_chain
@@ -82,28 +93,12 @@ class Booking < ActiveRecord::Base
     end
   end
 
-  def duration
-    started_at..ended_at
-  end
-
   def title
     self.state.titleize + " " + self.class.model_name.titleize
   end
 
   def display_name
     tool.display_name + " - " + deadline.to_date.to_s(:long)
-  end
-
-  def duration_in_days
-    duration.to_a.length
-  end
-
-  def duration_text
-    if duration_in_days == 1
-      started_at.to_date.to_s(:long)
-    else
-      started_at.to_date.to_s(:mdy) + " - " + ended_at.to_date.to_s(:mdy)
-    end
   end
 
   def total_cost
@@ -151,31 +146,8 @@ class Booking < ActiveRecord::Base
   end
 
   def state_summary_for(user)
-    if owner?(user)
-      if pending?
-        "You have not yet responded to this request."
-      elsif confirmed?
-        "You have approved this booking."
-      elsif denied?
-        "You have declined this booking."
-      elsif finalized?
-        "The renter has finalized the booking and is waiting for you to fulfill the booking."
-      elsif cancelled?
-        "This booking has been cancelled."
-      end
-    elsif renter?(user)
-      if pending?
-        "The owner of this tool has not yet responded to this request."
-      elsif confirmed?
-        "The owner of the tool has agreed to this booking."
-      elsif denied?
-        "The owner of the tool has declined this booking."
-      elsif finalized?
-        "You have finalized this booking and the owner of the tool has not yet fulfilled it."
-      elsif cancelled?
-        "This booking has been cancelled."
-      end
-    end
+    viewer = owner?(user) ? "owner" : "renter"
+    I18n.t("bookings.state.#{viewer}.#{state}")
   end
 
   protected
