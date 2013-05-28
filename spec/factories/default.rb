@@ -26,7 +26,8 @@ FactoryGirl.define do
     address
     can_expedite false
     association :owner, factory: :user
-    resolution "Large"
+    resolution 10
+    resolution_unit_id { AvailableUnit.for("<meter>") }
     base_price 200.00
     base_lead_time 7
 

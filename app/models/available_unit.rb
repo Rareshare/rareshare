@@ -10,4 +10,10 @@ class AvailableUnit < ActiveRecord::Base
     definition.display_name
   end
 
+  class << self
+    def for(name)
+      where(name: name).first || create!(name: name)
+    end
+  end
+
 end

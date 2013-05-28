@@ -114,7 +114,6 @@ class Tool < ActiveRecord::Base
       self.model_name,
       self.description,
       self.serial_number,
-      self.resolution
     ].compact.join(" ")
   end
 

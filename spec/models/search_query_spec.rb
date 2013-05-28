@@ -3,8 +3,8 @@ require 'spec_helper'
 describe SearchQuery do
   let(:manufacturer) { create(:manufacturer, name: "Venture Industries") }
   let(:model)        { create(:model, name: "Walking Eye", manufacturer: manufacturer) }
-  let(:small_eye)    { create(:tool, model: model, resolution: "tiny") }
-  let(:large_eye)    { create(:tool, model: model, resolution: "huge") }
+  let(:small_eye)    { create(:tool, model: model, description: "tiny") }
+  let(:large_eye)    { create(:tool, model: model, description: "huge") }
   before             { small_eye; large_eye }
 
   let(:q) { nil }
