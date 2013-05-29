@@ -37,3 +37,18 @@ jQuery ->
       if wysihtml5
         wysihtml5.editor.on("change", () -> setClassBasedOn $(this.textareaElement).val())
 
+  $("[data-toggle='confirm']").click (evt) ->
+    evt.preventDefault()
+
+    button = $(this)
+    form = button.closest("form")
+    modal  = $("#modalConfirm")
+
+    if form.find(".commit").length is 0
+      form.prepend $("<input />").attr(type: "hidden", name: "commit", class: "commit")
+    form.find(".commit").val button.attr("value")
+
+    modal.find(".modal-header h3").text button.data("title")
+    modal.find("button.btn-primary").off("click").on "click", () -> form.trigger "submit", commit: commitType
+
+    modal.modal()

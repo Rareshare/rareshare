@@ -17,8 +17,11 @@
         %td
           = simple_form_for b, html: { class: "no-margin" } do |f|
             - if can? :confirm, b
-              = f.button :submit, value: "Approve", class: "btn btn-mini btn-success"
+              = f.button :submit, value: "Approve", class: "btn btn-mini btn-success", data: { toggle: "confirm", title: "Approve Booking" }
             - if can? :deny, b
-              = f.button :submit, value: "Deny", class: "btn btn-mini btn-danger"
+              = f.button :submit, value: "Deny", class: "btn btn-mini btn-danger", data: { toggle: "confirm", title: "Deny Booking" }
             - if can? :cancel, b
-              = link_to "Cancel", cancel_booking_path(b), class: "btn btn-mini btn-danger"
+              - if b.finalized?
+                = link_to "Cancel", cancel_booking_path(b), class: "btn btn-mini btn-danger"
+              - else
+                = f.button :submit, value: "Cancel", class: "btn btn-mini btn-danger", data: { toggle: "confirm", title: "Cancel Booking" }
