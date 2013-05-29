@@ -31,7 +31,7 @@
       %form.no-margin{action: new_booking_path, method: :get, class: "form-inline"}
         %input{type: "hidden", name: "tool_id", value: @tool.id}
         %input{type: "submit", value: "Reserve Now", class: "btn btn-primary"}
-        %span for
+        %span for a result by
         %input{type: "date", name: "date", class: "date", value: SearchQuery.default_date.strftime("%d %B, %Y")}
 
     %h3 Overview
