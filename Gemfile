@@ -9,6 +9,9 @@ gem 'unicorn' # High-performance Ruby web server
 gem 'seed-fu' # Seed test data
 gem 'redis-rails' # Store sessions in Redis
 
+# Payment
+gem 'braintree'
+
 # Image management
 gem 'carrierwave'
 gem 'fog'

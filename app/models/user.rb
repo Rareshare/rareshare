@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
   end
 
   def all_recent_bookings
-    ( owned_bookings.recent + requested_bookings.recent ).sort_by &:updated_at
+    ( owned_bookings.recent + requested_bookings.recent ).sort_by(&:updated_at).reverse
   end
 
   def self.administrative

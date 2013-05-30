@@ -20,7 +20,11 @@ Rareshare::Application.routes.draw do
   end
 
   resources :bookings do
-    member { get :finalize; get :cancel }
+    member do
+      get :finalize, action: :finalize
+      post :finalize, action: :pay
+      get :cancel
+    end
   end
 
   resources :users, only: :show

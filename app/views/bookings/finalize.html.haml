@@ -8,6 +8,7 @@
     - else
       %i.avatar.icon-beaker
   %span.span10.header-body
+    = breadcrumbs :root, :calendar, @booking, ["Finalize"]
     %h1 Finalize #{t(:booking)}
     %span.muted
       = @booking.display_name
@@ -19,9 +20,28 @@
       RareShare charges a 10% fee on every booking.
       = page_link_to "Learn more about our pricing.", page: "Learn More"
 
-    %div{style: "width: 400px; height: 200px; border: 1px solid #ccc; background-color: #eee; border-radius: 4px;"}
-      %h1{style: "color: #ccc; padding-top: 40px; text-align: center;"} CREDIT CARD DETAILS
+    %h3 Payment
 
-    = simple_form_for @booking do |f|
-      = f.submit "Finalize & Pay", class: "btn btn-info", style: "margin-top: 20px"
+    = simple_form_for :transaction, url: finalize_booking_path(@booking), html: { class: "payment", "data-braintree-client-key" => ENV['BRAINTREE_CLIENT_KEY'] } do |f|
+      = f.simple_fields_for :credit_card do |c|
+        %div.row
+          %span.span4
+            = c.input :number, wrapper: :append do
+              %input.cc-number.string(type="text" size="20" autocomplete="on" data-encrypted-name="transaction[credit_card][number]")
+              %span.add-on
+                %i.icon-credit-card
+          %span.span2
+            = c.input :cvv, label: "CVV", wrapper: :append do
+              %input.cc-cvv.string(type="text" size="4" autocomplete="off" data-encrypted-name="transaction[credit_card][cvv]")
+              %span.add-on
+                %i.icon-lock
+          %span.span2
+            = c.input :expiration, wrapper: :append do
+              %input.cc-expiry-month(type="text" autocomplete="on" data-encrypted-name="transaction[credit_card][expiration_month]" style="width: 50px" placeholder="01")
+              %span(style="font-size: 25px; line-height: 25px; margin: auto 5px")= "/"
+              %input.cc-expiry-year(type="text" autocomplete="on" data-encrypted-name="transaction[credit_card][expiration_year]" style="width: 80px" placeholder="2023")
+              %span.add-on
+                %i.icon-calendar
+        = f.submit "Finalize & Pay", class: "btn btn-info"
 
+  %script(type="text/javascript" src="https://js.braintreegateway.com/v1/braintree.js")

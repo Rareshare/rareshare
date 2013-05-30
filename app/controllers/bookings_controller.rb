@@ -72,6 +72,28 @@ class BookingsController < InternalController
     @booking = Booking.find(params[:id])
   end
 
+  def pay
+    @booking = Booking.find(params[:id])
+
+    credit_card_params = params.require(:transaction).require(:credit_card).permit(
+      :number, :cvv, :expiration_date, :expiration_month, :expiration_year
+    )
+
+    result = Braintree::Transaction.sale(
+      amount:      @booking.price,
+      credit_card: credit_card_params,
+      options:     { submit_for_settlement: true }
+    )
+
+    if result.success?
+      Transaction.create! booking: @booking, customer: current_user, amount: @booking.price
+      redirect_to booking_path(@booking), flash: { notify: "Booking finalized." }
+    else
+      flash[:error] = result.message
+      render 'finalize'
+    end
+  end
+
   private
 
   def booking_params

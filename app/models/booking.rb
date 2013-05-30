@@ -101,10 +101,6 @@ class Booking < ActiveRecord::Base
     tool.display_name + " - " + deadline.to_date.to_s(:long)
   end
 
-  def total_cost
-    tool.price_for deadline.to_date
-  end
-
   def expedited?
     tool.must_expedite? deadline.to_date
   end
