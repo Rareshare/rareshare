@@ -87,6 +87,8 @@ class BookingsController < InternalController
 
     if result.success?
       Transaction.create! booking: @booking, customer: current_user, amount: @booking.price
+      @booking.updated_by = current_user
+      @booking.finalize!
       redirect_to booking_path(@booking), flash: { notify: "Booking finalized." }
     else
       flash[:error] = result.message
