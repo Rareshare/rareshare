@@ -12,27 +12,27 @@
         %span.span10
           %div.row
             %span.span8
-              = f.input :tool_category_name, label: "Category", required: true, wrapper: :append do
+              = f.input :tool_category_name, required: true, wrapper: :append do
                 = f.input_field :tool_category_name, autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:tool_category) }
                 %button.btn
                   %i.icon-angle-down
 
           %div.row
             %span.span3
-              = f.input :manufacturer_name, label: "Manufacturer", required: true, wrapper: :append, hint: "Select an existing manufacturer or simply type in a new name." do
+              = f.input :manufacturer_name, required: true, wrapper: :append do
                 = f.input_field :manufacturer_name, autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:manufacturer) }
                 %button.btn
                   %i.icon-angle-down
 
             %span.span3
-              = f.input :model_name, label: "Model", required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }
+              = f.input :model_name, required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }
 
             %span.span2
-              = f.input :year_manufactured, hint: "Approximate", as: :select, collection: @tool.possible_years, prompt: "Unknown"
+              = f.input :year_manufactured, as: :select, collection: @tool.possible_years, prompt: "Unknown"
 
           %div.row
             %span.span8
-              = f.input :description, hint: "Please list any additional distinguishing characteristics of the tool, e.g. customizations."
+              = f.input :description
 
       %div.row
         %span.span2
@@ -41,8 +41,8 @@
         %span.span10
 
           %div.row
-            %span.span5= f.input :resolution, hint: "The smallest amount of change that the instrument can detect or manipulate reliably.", input_html: { min: 0, type: "number", step: "any" }
-            %span.span3= f.input :resolution_unit_id, as: :select, label: "Unit", collection: AvailableUnit.all, value_method: :name, label_method: :display_name
+            %span.span5= f.input :resolution, input_html: { min: 0, type: "number", step: "any" }
+            %span.span3= f.input :resolution_unit_id, as: :select, collection: AvailableUnit.all, value_method: :name, label_method: :display_name
 
           %div.row
             %span.span5
@@ -56,7 +56,7 @@
                   %p.help-block= sample_size_text(@tool)
 
             %span.span3
-              = f.input :sample_size_unit_id, as: :select, label: "Unit", collection: AvailableUnit.all, value_method: :name, label_method: :display_name, wrapper_html: { class: "tool_sample_size_unit" }
+              = f.input :sample_size_unit_id, as: :select, collection: AvailableUnit.all, value_method: :name, label_method: :display_name, wrapper_html: { class: "tool_sample_size_unit" }
 
 
     %fieldset
@@ -68,14 +68,14 @@
         %span.span8
           %div.row
             %span.span3
-              = f.input :base_lead_time, label: "Lead time - days", hint: "If you received a sample today, how many days would it take you to finish processing it?", input_html: { min: 1 }
+              = f.input :base_lead_time, input_html: { min: 1 }
             %span.span4
-              = f.input :base_price, wrapper: "prepend", label: "Price" do
+              = f.input :base_price, wrapper: "prepend" do
                 = content_tag :span, "$", class: "add-on"
                 = f.input_field :base_price, min: 0, type: "number", step: "any"
           %div.row
             %span.span8
-              = f.input :can_expedite, label: false, inline_label: raw("Offer expedited pricing? " + content_tag(:span, "Recommended", class: "label label-info")), hint: " Offer researchers priority processing for an additional fee."
+              = f.input :can_expedite, label: false, inline_label: raw("Offer expedited pricing? " + content_tag(:span, "Recommended", class: "label label-info"))
           %div.row
             %span.span3
               = f.input :expedited_lead_time, input_html: { min: 1, disabled: true }

@@ -46,6 +46,30 @@ en:
       address:
         postal_code: 'Postal/Zip code'
         city: 'Town/City'
+      tool:
+        manufacturer_name: 'Manufacturer'
+        tool_category_name: 'Category'
+        model_name: 'Model'
+        sample_size_unit_id: 'Unit'
+        resolution_unit_id: 'Unit'
+        base_lead_time: 'Lead time - days'
+        base_price: 'Price'
+      user:
+        avatar: 'Picture'
+        qualifications: "Professional qualifications"
     hints:
       address:
         state: 'Please leave blank if outside US.'
+      tool:
+        manufacturer_name: 'Select an existing manufacturer or simply type in a new name.'
+        year_manufactured: 'Approximate'
+        description: 'Please list any additional distinguishing characteristics of the tool, e.g. customizations.'
+        resolution: 'The smallest amount of change that the instrument can detect or manipulate reliably.'
+        base_lead_time: 'If you received a sample today, how many days would it take you to finish processing it?'
+        can_expedite: 'Offer researchers priority processing for an additional fee.'
+      user:
+        primary_phone: "The quickest way to reach you."
+        secondary_phone: "The other way to reach you."
+        qualifications: "Equipment expertise, credentials"
+      booking:
+        "Consider including details such as material, quantity, size, handling requirements, and specific hazards in order to allow the tool owner to evaluate your request."
