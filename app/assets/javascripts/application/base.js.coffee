@@ -48,6 +48,7 @@ jQuery ->
       form.prepend $("<input />").attr(type: "hidden", name: "commit", class: "commit")
     form.find(".commit").val button.attr("value")
 
+    commitType = button.attr("name")
     modal.find(".modal-header h3").text button.data("title")
     modal.find("button.btn-primary").off("click").on "click", () -> form.trigger "submit", commit: commitType
 

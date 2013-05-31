@@ -39,7 +39,6 @@ class ToolsController < InternalController
 
     if @tool.valid?
       redirect_to tool_images_path(@tool), flash: { notify: "Tool created! Why not add some images?" }
-      # redirect_to tool_path(@tool), flash: { notify: "Tool created."}
     else
       render 'tools/new'
     end
@@ -47,7 +46,7 @@ class ToolsController < InternalController
 
   def destroy
     tool = current_user.tools.find(params[:id])
-    authorize! :delete, @tool
+    authorize! :destroy, @tool
 
     if tool.present?
       tool.destroy

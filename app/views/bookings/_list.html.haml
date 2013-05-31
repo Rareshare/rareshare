@@ -14,14 +14,4 @@
         %td= link_to b.deadline.to_date.to_s(:simple), booking_path(b)
         %td= link_to b.display_name, booking_path(b)
         %td= number_to_currency b.price
-        %td
-          = simple_form_for b, html: { class: "no-margin" } do |f|
-            - if can? :confirm, b
-              = f.button :submit, value: "Approve", class: "btn btn-mini btn-success", data: { toggle: "confirm", title: "Approve Booking" }
-            - if can? :deny, b
-              = f.button :submit, value: "Deny", class: "btn btn-mini btn-danger", data: { toggle: "confirm", title: "Deny Booking" }
-            - if can? :cancel, b
-              - if b.finalized?
-                = link_to "Cancel", cancel_booking_path(b), class: "btn btn-mini btn-danger"
-              - else
-                = f.button :submit, value: "Cancel", class: "btn btn-mini btn-danger", data: { toggle: "confirm", title: "Cancel Booking" }
+        %td= render partial: "bookings/actions", locals: { booking: b }
