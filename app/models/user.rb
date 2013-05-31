@@ -28,7 +28,9 @@ class User < ActiveRecord::Base
   end
 
   def acknowledge_message!(message)
-    received_messages.unread.where(originating_message_id: message.originating_message_id).update_all(acknowledged: true)
+    received_messages.unread.where(
+      originating_message_id: message.originating_message_id
+    ).update_all(acknowledged: true)
   end
 
   def can_read?(message)
@@ -77,7 +79,8 @@ class User < ActiveRecord::Base
     if user = User.where(email: auth.info.email).first
       user.link_profile(auth) unless user.provider_linked?
     elsif user = User.where(:provider => auth.provider, :uid => auth.uid).first
-      user.email = auth.info.email # We have the user, but they've changed addresses in LinkedIn.
+      # We have the user, but they've changed addresses in LinkedIn.
+      user.email = auth.info.email
     else
       user = User.new(
         first_name: auth.info.first_name,
