@@ -126,7 +126,7 @@ GEM
     jquery-ui-rails (4.0.1)
       jquery-rails
       railties (>= 3.1.0)
-    json (1.7.7)
+    json (1.8.0)
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -149,7 +149,7 @@ GEM
     mime-types (1.21)
     mini_magick (3.5.0)
       subexec (~> 0.2.1)
-    multi_json (1.7.3)
+    multi_json (1.7.4)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-ssh (2.6.5)
@@ -263,7 +263,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    twitter-bootstrap-rails (2.2.3)
+    twitter-bootstrap-rails (2.2.6)
       actionpack (>= 3.1)
       execjs
       railties (>= 3.1)

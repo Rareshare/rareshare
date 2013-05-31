@@ -6,7 +6,7 @@
       %a{href: "#images", role: "button", data: { toggle: "modal" }}
         %img.avatar{src: @booking.tool.images.first.image.url(:thumb)}
     - else
-      %i.avatar.icon-beaker
+      %i.avatar.icon-cogs
   %span.span10.header-body
     = breadcrumbs :root, :calendar, @booking, ["Finalize"]
     %h1 Finalize #{t(:booking)}
