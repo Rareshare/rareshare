@@ -99,13 +99,14 @@
           = f.simple_fields_for :address do |a|
             = a.hidden_field :id
             %div.row
-              %span.span6= a.input :address_line_1
+              %span.span5= a.input :address_line_1
+              %span.span3= a.input :country, collection: [["United States", "us"], ["United Kingdom", "gb"]]
             %div.row
-              %span.span6= a.input :address_line_2
+              %span.span5= a.input :address_line_2
             %div.row
               %span.span4= a.input :city
-              %span.span1= a.input :state
-              %span.span2= a.input :zip_code
+              %span.span2= a.input :state
+              %span.span2= a.input :postal_code
 
     - unless @tool.new_record?
       %fieldset

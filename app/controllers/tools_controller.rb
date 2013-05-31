@@ -83,7 +83,7 @@ class ToolsController < InternalController
         :address_line_2,
         :city,
         :state,
-        :zip_code
+        :postal_code
       ]
     )
   end

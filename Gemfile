@@ -39,6 +39,7 @@ gem 'strong_parameters' # Better parameter support.
 gem 'kaminari'
 gem 'friendly_id' # Standard ID generation.
 gem 'ruby-units' # Definitions for standard and scientific units.
+gem 'country_select', git: "git://github.com/stefanpenner/country_select.git" # Use ISO codes.
 
 # Rendering and style
 gem 'haml-rails'
