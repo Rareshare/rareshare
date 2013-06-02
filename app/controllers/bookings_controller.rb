@@ -12,7 +12,8 @@ class BookingsController < InternalController
       renter_id: current_user.id,
       tool_id:   tool.id,
       deadline:  params[:date],
-      price:     tool.price_for(params[:date])
+      price:     tool.price_for(params[:date]),
+      address_id: current_user.address.try(:id)
     )
   end
 

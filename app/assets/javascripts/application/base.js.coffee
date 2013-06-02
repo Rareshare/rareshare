@@ -20,23 +20,6 @@ jQuery ->
   $("form textarea:not([readonly])").each () ->
     $(this).wysihtml5(link: false, lists: false, image: false)
 
-  $(".step").each () ->
-    step = $(this)
-
-    setClassBasedOn = (val) ->
-      if val? and val isnt ""
-        step.addClass("complete")
-      else
-        step.removeClass("complete")
-
-    step.find("input, select").bind 'change', () ->
-      setClassBasedOn $(this).val()
-
-    step.find("textarea").each () ->
-      wysihtml5 = $(this).data().wysihtml5
-      if wysihtml5
-        wysihtml5.editor.on("change", () -> setClassBasedOn $(this.textareaElement).val())
-
   $("[data-toggle='confirm']").click (evt) ->
     evt.preventDefault()
 

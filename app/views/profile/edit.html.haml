@@ -44,15 +44,7 @@
           %p We use this to help you locate new tools and services.
         %span.span8
           = f.simple_fields_for :address, current_user.address || current_user.build_address do |a|
-            %div.row
-              %span.span5= a.input :address_line_1
-              %span.span3= a.input :country, collection: [["United States", "us"], ["United Kingdom", "gb"]]
-            %div.row
-              %span.span5= a.input :address_line_2
-            %div.row
-              %span.span4= a.input :city
-              %span.span2= a.input :state
-              %span.span2= a.input :postal_code
+            = render partial: 'addresses/form', object: a
 
   %div.row
     %span.span10.offset2

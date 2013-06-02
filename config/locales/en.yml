@@ -58,6 +58,8 @@ en:
         avatar: 'Picture'
         title: 'Position/Job Title'
         qualifications: "Professional qualifications"
+      booking:
+        tos_accepted: 'I have read and agree to the %{terms_link} for this booking.'
     hints:
       address:
         state: 'Please leave blank if outside US.'
