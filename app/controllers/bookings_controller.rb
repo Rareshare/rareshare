@@ -107,6 +107,8 @@ class BookingsController < InternalController
       :sample_description,
       :sample_deliverable,
       :sample_transit,
+      :sample_disposal,
+      :disposal_instructions,
       :address_id,
       :use_user_address,
       :address_attributes => address_attributes

@@ -7,10 +7,9 @@ window.Booking = (input) ->
     read:  ()    => @use_user_address()
     write: (val) => @use_user_address(val is "1")
 
-  @stepOneComplete   = ko.computed () => valuePresent(@sample_description())
-  @stepTwoComplete   = ko.computed () => valuePresent(@sample_deliverable())
-  @stepThreeComplete = ko.computed () => valuePresent(@sample_transit())
-  @stepFourComplete  = ko.computed () => @tos_accepted()
+  @stepOneComplete   = ko.computed () => valuePresent(@sample_description()) and valuePresent(@sample_deliverable())
+  @stepTwoComplete   = ko.computed () => valuePresent(@sample_transit()) and valuePresent(@sample_disposal())
+  @stepThreeComplete = ko.computed () => @tos_accepted()
 
   @canSubmit = ko.computed () =>
     @stepOneComplete() and @stepTwoComplete() and @stepThreeComplete() and @stepFourComplete()

@@ -182,7 +182,9 @@ CREATE TABLE bookings (
     sample_deliverable text,
     sample_transit character varying(255),
     last_updated_by_id integer,
-    address_id integer
+    address_id integer,
+    sample_disposal character varying(255),
+    disposal_instructions text
 );
 
 
@@ -973,3 +975,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130530155005');
 INSERT INTO schema_migrations (version) VALUES ('20130531193415');
 
 INSERT INTO schema_migrations (version) VALUES ('20130531221848');
+
+INSERT INTO schema_migrations (version) VALUES ('20130603150348');

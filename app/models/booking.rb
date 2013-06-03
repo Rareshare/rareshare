@@ -14,7 +14,7 @@ class Booking < ActiveRecord::Base
 
   attr_accessor :updated_by # Virtual attribute to enforce last_updated_by update.
 
-  validates_presence_of :tool_id, :renter_id, :tool_id, :sample_description, :deadline, :price, :sample_deliverable, :sample_transit, :updated_by
+  validates_presence_of :tool_id, :renter_id, :tool_id, :sample_description, :deadline, :price, :sample_deliverable, :sample_transit, :sample_disposal, :updated_by
   validates_inclusion_of :tos_accepted, in: [ "1", 1, true ], message: "Please accept the Terms of Service."
   validate :renter_cannot_be_owner
 
@@ -51,6 +51,15 @@ class Booking < ActiveRecord::Base
     NONE_REQUIRED  = :none_required
 
     ALL = [ IN_PERSON, RARESHARE_SEND, RENTER_SEND, DIGITAL_SEND, NONE_REQUIRED ]
+  end
+
+  module Disposal
+    IN_PERSON      = :in_person
+    RARESHARE_SEND = :rareshare_send
+    OWNER_DISPOSE  = :owner_dispose
+    NONE_REQUIRED  = :none_required
+
+    ALL = [ IN_PERSON, RARESHARE_SEND, OWNER_DISPOSE, NONE_REQUIRED ]
   end
 
   state_machine auto_scopes: true do

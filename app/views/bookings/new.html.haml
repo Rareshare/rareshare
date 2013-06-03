@@ -23,59 +23,78 @@
         %span.span2
           %h1 1
           %small
-            Describe your intended usage of the tool.
+            What are you studying, and what results do you need?
         %span.span8
-          = f.input :sample_description, input_html: { "data-bind" => "wysihtml5: sample_description" }
+          %div.row
+            %span.span8
+              = f.input :sample_description, input_html: { "data-bind" => "wysihtml5: sample_description" }
+            %span.span8
+              = f.input :sample_deliverable, input_html: { "data-bind" => "wysihtml5: sample_deliverable" }
 
       %div.row.step{ "data-bind" => "css: { complete: stepTwoComplete }"}
         %span.span12.border
         %span.span2
           %h1 2
-          %small Describe the outcome you would like.
+          %small How would you like to send and dispose of the sample?
         %span.span8
-          = f.input :sample_deliverable, input_html: { "data-bind" => "wysihtml5: sample_deliverable" }
+          %div.row
+            %span.span8
+              = f.input :sample_transit, as: :select, collection: Booking::Transit::ALL.map {|k| [ t("bookings.sample_transit.#{k}"), k ]}, input_html: { "data-bind" => "value: sample_transit" }
+
+          %div.row
+            %span.span8
+              %div.transit.in_person{ "data-bind" => "visible: sample_transit() == 'in_person'" }
+                %p We'll let you know the address of the tool when the owner approves the booking.
+
+              %div.transit.rareshare_send{ "data-bind" => "visible: sample_transit() == 'rareshare_send'" }
+                %p Please let us know where you'd like us to send the packaging materials.
+                - if current_user.address.present?
+                  = f.input :address_id, as: :hidden, value: current_user.address.id
+
+                  %label.radio
+                    %input{type: "radio", name: "booking[use_user_address]", value: 1, "data-bind" => "checked: use_user_address.writeable"}
+                    Use my address (#{current_user.address.full_street_address})
+
+                  %label.radio
+                    %input{type: "radio", name: "booking[use_user_address]", value: 0, "data-bind" => "checked: use_user_address.writeable"}
+                    Add a new shipping address
+
+                %div.row.address
+                  %div.span8.slide-down{"data-bind" => "css: { slid: !use_user_address() }"}
+                    = f.simple_fields_for :address do |a|
+                      = render partial: 'addresses/form', object: a
+
+              %div.transit.renter_send{ "data-bind" => "visible: sample_transit() == 'renter_send'" }
+                %p We'll let you know the address of the tool when the owner approves the booking.
+
+              %div.transit.digital_send{ "data-bind" => "visible: sample_transit() == 'digital_send'" }
+                %p You'll have to come to a separate arrangement with the owner of the tool over data transfer.
+
+              %div.transit.none_required{ "data-bind" => "visible: sample_transit() == 'none_required'" }
+
+          %div.row
+            %span.span8
+              = f.input :sample_disposal, as: :select, collection: Booking::Disposal::ALL.map {|k| [ t("bookings.sample_disposal.#{k}"), k ]}, input_html: { "data-bind" => "value: sample_disposal" }
+
+          %div.row
+            %span.span8
+              %div.disposal.in_person{ "data-bind" => "visible: sample_disposal() == 'in_person'" }
+                %p We'll let you know the address of the tool when the owner approves the booking.
+
+              %div.disposal.rareshare_send{ "data-bind" => "visible: sample_disposal() == 'rareshare_send'" }
+                %p Note that you cannot select this option unless you've given us a shipping address above.
+
+              %div.disposal.owner_dispose{ "data-bind" => "visible: sample_disposal() == 'owner_dispose'" }
+                %div.row
+                  %span.span8
+                    = f.input :disposal_instructions, input_html: { "data-bind" => "wysihtml5: disposal_instructions" }
+
+              %div.transit.none_required{ "data-bind" => "visible: sample_disposal() == 'none_required'" }
 
       %div.row.step{ "data-bind" => "css: { complete: stepThreeComplete }"}
         %span.span12.border
         %span.span2
           %h1 3
-          %small How would you like the tool owner to receive your sample?
-        %span.span8
-          = f.input :sample_transit, as: :select, collection: Booking::Transit::ALL.map {|k| [ t("bookings.transit.#{k}"), k ]}, input_html: { "data-bind" => "value: sample_transit" }
-
-          %div.transit.in_person{ "data-bind" => "visible: sample_transit() == 'in_person'" }
-            %p We'll let you know the address of the tool when the owner approves the booking.
-
-          %div.transit.rareshare_send{ "data-bind" => "visible: sample_transit() == 'rareshare_send'" }
-            %p Please let us know where you'd like us to send the packaging materials.
-            - if current_user.address.present?
-              = f.input :address_id, as: :hidden, value: current_user.address.id
-
-              %label.radio
-                %input{type: "radio", name: "booking[use_user_address]", value: 1, "data-bind" => "checked: use_user_address.writeable"}
-                Use my address (#{current_user.address.full_street_address})
-
-              %label.radio
-                %input{type: "radio", name: "booking[use_user_address]", value: 0, "data-bind" => "checked: use_user_address.writeable"}
-                Add a new shipping address
-
-            %div.row.address
-              %div.span8.slide-down{"data-bind" => "css: { slid: !use_user_address() }"}
-                = f.simple_fields_for :address do |a|
-                  = render partial: 'addresses/form', object: a
-
-          %div.transit.renter_send{ "data-bind" => "visible: sample_transit() == 'renter_send'" }
-            %p We'll let you know the address of the tool when the owner approves the booking.
-
-          %div.transit.digital_send{ "data-bind" => "visible: sample_transit() == 'digital_send'" }
-            %p You'll have to come to a separate arrangement with the owner of the tool over data transfer.
-
-          %div.transit.none_required{ "data-bind" => "visible: sample_transit() == 'none_required'" }
-
-      %div.row.step{ "data-bind" => "css: { complete: stepFourComplete }"}
-        %span.span12.border
-        %span.span2
-          %h1 4
           %small Read the terms and conditions.
         %span.span8
           %div.terms_and_conditions
