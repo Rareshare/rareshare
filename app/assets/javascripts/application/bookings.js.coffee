@@ -3,9 +3,9 @@ window.valuePresent = (o) -> o? and typeof(o) is "string" and o isnt ""
 window.Booking = (input) ->
   this[k] = ko.observable(v) for k, v of input
 
-  @address_id.writeable = ko.computed
-    read: ()     => @address_id()
-    write: (val) => @address_id(if val is "on" then null else val)
+  @use_user_address.writeable = ko.computed
+    read:  ()    => @use_user_address()
+    write: (val) => @use_user_address(val is "1")
 
   @stepOneComplete   = ko.computed () => valuePresent(@sample_description())
   @stepTwoComplete   = ko.computed () => valuePresent(@sample_deliverable())
@@ -14,8 +14,6 @@ window.Booking = (input) ->
 
   @canSubmit = ko.computed () =>
     @stepOneComplete() and @stepTwoComplete() and @stepThreeComplete() and @stepFourComplete()
-
-  @needsAddress = ko.computed () => !parseInt(@address_id(), 10) # NaN is falsy in Coffee
 
   this
 

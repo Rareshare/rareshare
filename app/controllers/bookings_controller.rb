@@ -12,13 +12,12 @@ class BookingsController < InternalController
       renter_id: current_user.id,
       tool_id:   tool.id,
       deadline:  params[:date],
-      price:     tool.price_for(params[:date]),
-      address_id: current_user.address.try(:id)
+      price:     tool.price_for(params[:date])
     )
   end
 
   def create
-    @booking = current_user.request_reservation!(booking_params)
+    @booking = Booking.reserve current_user, booking_params
 
     if @booking.valid?
       redirect_to booking_path(@booking), flash: { notice: "Booking requested!" }
@@ -109,13 +108,8 @@ class BookingsController < InternalController
       :sample_deliverable,
       :sample_transit,
       :address_id,
-      :address_attributes => [
-        :address_line_1,
-        :address_line_2,
-        :city,
-        :state,
-        :postal_code
-      ]
+      :use_user_address,
+      :address_attributes => address_attributes
     )
   end
 end

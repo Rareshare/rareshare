@@ -49,16 +49,18 @@
           %div.transit.rareshare_send{ "data-bind" => "visible: sample_transit() == 'rareshare_send'" }
             %p Please let us know where you'd like us to send the packaging materials.
             - if current_user.address.present?
+              = f.input :address_id, as: :hidden, value: current_user.address.id
+
               %label.radio
-                %input{type: "radio", name: "booking[address_id]", value: current_user.address.id, checked: @booking.address_id.present?, "data-bind" => "checked: address_id.writeable"}
+                %input{type: "radio", name: "booking[use_user_address]", value: 1, "data-bind" => "checked: use_user_address.writeable"}
                 Use my address (#{current_user.address.full_street_address})
 
               %label.radio
-                %input{type: "radio", name: "booking[address_id]", value: nil, checked: @booking.address_id.blank?, "data-bind" => "checked: address_id.writeable"}
+                %input{type: "radio", name: "booking[use_user_address]", value: 0, "data-bind" => "checked: use_user_address.writeable"}
                 Add a new shipping address
 
             %div.row.address
-              %div.span8.slide-down{"data-bind" => "css: { slid: needsAddress }"}
+              %div.span8.slide-down{"data-bind" => "css: { slid: !use_user_address() }"}
                 = f.simple_fields_for :address do |a|
                   = render partial: 'addresses/form', object: a
 

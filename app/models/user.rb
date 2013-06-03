@@ -41,15 +41,6 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def request_reservation!(params={})
-    tool                = Tool.find(params[:tool_id]) # or raise RecordNotFound
-    deadline            = Date.parse(params[:deadline])
-    params[:price]      = tool.price_for(params[:deadline])
-    params[:updated_by] = self
-
-    requested_bookings.create params
-  end
-
   def link_profile(auth)
     self.provider = auth.provider
     self.uid = auth.uid

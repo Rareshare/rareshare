@@ -79,13 +79,7 @@ class ToolsController < InternalController
       :manufacturer_name,
       :model_name,
       :address_id,
-      :address_attributes => [
-        :address_line_1,
-        :address_line_2,
-        :city,
-        :state,
-        :postal_code
-      ]
+      :address_attributes => address_attributes
     )
   end
 

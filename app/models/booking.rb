@@ -20,6 +20,8 @@ class Booking < ActiveRecord::Base
 
   before_save :persist_updated_by
 
+  after_initialize :build_address_if_blank
+
   scope :active, where(state: [:pending, :confirmed, :finalized, :overdue])
   scope :recent, lambda { where("#{table_name}.updated_at > ?", 1.month.ago)}
 
@@ -28,6 +30,18 @@ class Booking < ActiveRecord::Base
     from_states = state_machine.events[state.to_sym].instance_variable_get("@transitions").map &:from
     where(state: from_states)
   }
+
+  class << self
+    def reserve(renter, params={})
+      self.new(params).tap do |b|
+        b.renter     = renter
+        b.updated_by = renter
+        b.price      = b.tool.price_for b.deadline
+        b.address    = renter.address if b.use_user_address?
+        b.save
+      end
+    end
+  end
 
   module Transit
     IN_PERSON      = :in_person
@@ -149,6 +163,21 @@ class Booking < ActiveRecord::Base
     I18n.t("bookings.state.#{viewer}.#{state}")
   end
 
+  def use_user_address=(val)
+    val = ( val == "1" ) if val.is_a? String
+    @use_user_address = val
+  end
+
+  def use_user_address
+    defined?(@use_user_address) ? @use_user_address : true
+  end
+
+  alias_method :use_user_address?, :use_user_address
+
+  def as_json(options)
+    super(options).merge(use_user_address: use_user_address)
+  end
+
   protected
 
   def renter_cannot_be_owner
@@ -159,6 +188,10 @@ class Booking < ActiveRecord::Base
 
   def persist_updated_by
     self.last_updated_by_id = self.updated_by.id
+  end
+
+  def build_address_if_blank
+    build_address if self.address.blank?
   end
 
 end

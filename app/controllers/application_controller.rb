@@ -24,4 +24,17 @@ class ApplicationController < ActionController::Base
   def authenticate_admin_user!
     authenticate_user! && current_user.admin?
   end
+
+  private
+
+  def address_attributes
+    [
+      :address_line_1,
+      :address_line_2,
+      :city,
+      :state,
+      :postal_code,
+      :country
+    ]
+  end
 end

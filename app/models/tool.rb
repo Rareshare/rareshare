@@ -72,6 +72,8 @@ class Tool < ActiveRecord::Base
 
   def must_expedite?(deadline)
     deadline = Date.parse(deadline) if deadline.is_a?(String)
+    deadline = deadline.to_date if !deadline.is_a?(Date)
+
     days_to_deadline = ( deadline - Date.today ).to_i
 
     bookable_before?(deadline) && base_lead_time >= days_to_deadline
