@@ -3,6 +3,10 @@ window.valuePresent = (o) -> o? and typeof(o) is "string" and o isnt ""
 window.Booking = (input) ->
   this[k] = ko.observable(v) for k, v of input
 
+  @address_id.writeable = ko.computed
+    read: ()     => @address_id()
+    write: (val) => @address_id(if val is "on" then null else val)
+
   @stepOneComplete   = ko.computed () => valuePresent(@sample_description())
   @stepTwoComplete   = ko.computed () => valuePresent(@sample_deliverable())
   @stepThreeComplete = ko.computed () => valuePresent(@sample_transit())

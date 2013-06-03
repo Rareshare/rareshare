@@ -27,6 +27,13 @@ a.tip {
   color: @mossGreen;
 }
 
+.slide-down {
+  max-height: 0;
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+  &.slid { max-height: 400px; transition: max-height 0.3s ease; }
+}
+
 .rareshare.navbar {
   position: absolute;
   top: 0;

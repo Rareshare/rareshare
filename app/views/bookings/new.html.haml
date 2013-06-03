@@ -50,16 +50,17 @@
             %p Please let us know where you'd like us to send the packaging materials.
             - if current_user.address.present?
               %label.radio
-                %input.primary{type: "radio", name: "booking[address_id]", value: current_user.address.id, "data-bind" => "checked: address_id"}
+                %input{type: "radio", name: "booking[address_id]", value: current_user.address.id, checked: @booking.address_id.present?, "data-bind" => "checked: address_id.writeable"}
                 Use my address (#{current_user.address.full_street_address})
 
               %label.radio
-                %input.primary{type: "radio", name: "booking[address_id]", value: nil, "data-bind" => "checked: address_id"}
+                %input{type: "radio", name: "booking[address_id]", value: nil, checked: @booking.address_id.blank?, "data-bind" => "checked: address_id.writeable"}
                 Add a new shipping address
 
-            %div.address{"data-bind" => "visible: needsAddress"}
-              = f.simple_fields_for :address do |a|
-                = render partial: 'addresses/form', object: a
+            %div.row.address
+              %div.span8.slide-down{"data-bind" => "css: { slid: needsAddress }"}
+                = f.simple_fields_for :address do |a|
+                  = render partial: 'addresses/form', object: a
 
           %div.transit.renter_send{ "data-bind" => "visible: sample_transit() == 'renter_send'" }
             %p We'll let you know the address of the tool when the owner approves the booking.

@@ -10,6 +10,8 @@ class Booking < ActiveRecord::Base
   has_many :booking_logs
   has_many :user_messages, as: :messageable
 
+  accepts_nested_attributes_for :address, allow_destroy: true
+
   attr_accessor :updated_by # Virtual attribute to enforce last_updated_by update.
 
   validates_presence_of :tool_id, :renter_id, :tool_id, :sample_description, :deadline, :price, :sample_deliverable, :sample_transit, :updated_by

@@ -44,6 +44,7 @@
           %p We use this to help you locate new tools and services.
         %span.span8
           = f.simple_fields_for :address, current_user.address || current_user.build_address do |a|
+            = a.hidden_field :id
             = render partial: 'addresses/form', object: a
 
   %div.row

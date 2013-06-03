@@ -23,6 +23,7 @@ class BookingsController < InternalController
     if @booking.valid?
       redirect_to booking_path(@booking), flash: { notice: "Booking requested!" }
     else
+      flash[:error] = @booking.errors.full_messages
       render 'bookings/new'
     end
   end
@@ -106,7 +107,15 @@ class BookingsController < InternalController
       :tos_accepted,
       :sample_description,
       :sample_deliverable,
-      :sample_transit
+      :sample_transit,
+      :address_id,
+      :address_attributes => [
+        :address_line_1,
+        :address_line_2,
+        :city,
+        :state,
+        :postal_code
+      ]
     )
   end
 end

@@ -78,6 +78,7 @@ class ToolsController < InternalController
       :tool_category_name,
       :manufacturer_name,
       :model_name,
+      :address_id,
       :address_attributes => [
         :address_line_1,
         :address_line_2,
