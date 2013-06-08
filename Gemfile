@@ -62,4 +62,5 @@ group :test do
   gem 'no_peeping_toms' # Disable observers during tests.
   gem 'capybara'
   gem 'poltergeist'
+  gem 'spork-rails'
 end
