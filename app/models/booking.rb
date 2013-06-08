@@ -20,8 +20,6 @@ class Booking < ActiveRecord::Base
 
   before_save :persist_updated_by
 
-  after_initialize :build_address_if_blank
-
   scope :active, where(state: [:pending, :confirmed, :finalized, :overdue])
   scope :recent, lambda { where("#{table_name}.updated_at > ?", 1.month.ago)}
 
@@ -197,10 +195,6 @@ class Booking < ActiveRecord::Base
 
   def persist_updated_by
     self.last_updated_by_id = self.updated_by.id
-  end
-
-  def build_address_if_blank
-    build_address if self.address.blank?
   end
 
 end

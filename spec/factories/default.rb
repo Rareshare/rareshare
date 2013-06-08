@@ -16,7 +16,8 @@ FactoryGirl.define do
     address_line_1 "100 Venture Way"
     city "Bozeman"
     state "MO"
-    zip_code 59715
+    postal_code 59715
+    country "US"
   end
 
   factory :tool do
@@ -52,7 +53,8 @@ FactoryGirl.define do
     tool
     sample_description "Kryptonite"
     sample_deliverable "Processed Kryptonite"
-    sample_transit "hand_deliver"
+    sample_transit Booking::Transit::IN_PERSON
+    sample_disposal Booking::Disposal::IN_PERSON
     tos_accepted true
     price 10000
     deadline { 2.weeks.from_now }

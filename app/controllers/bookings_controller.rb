@@ -8,12 +8,13 @@ class BookingsController < InternalController
       redirect_to :back, error: "You cannot book your own tool."
     end
 
-    @booking = Booking.new(
-      renter_id: current_user.id,
-      tool_id:   tool.id,
-      deadline:  params[:date],
-      price:     tool.price_for(params[:date])
-    )
+    @booking = Booking.new do |b|
+      b.renter_id = current_user.id
+      b.tool_id   = tool.id
+      b.deadline  = params[:date]
+      b.price     = tool.price_for(params[:date])
+      b.build_address
+    end
   end
 
   def create
