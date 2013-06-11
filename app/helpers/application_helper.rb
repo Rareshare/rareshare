@@ -60,6 +60,10 @@ module ApplicationHelper
     link_to title, ( slug.present? ? page_path(slug) : "#" ), opts
   end
 
+  def active_page?(title)
+    controller_name == 'pages' && defined?(@page) && @page.title == title
+  end
+
   def avatar_of(user)
     link_to user_path(user) do
       image = if user.avatar.present?
@@ -131,6 +135,4 @@ module ApplicationHelper
       end.join.html_safe
     end
   end
-
-
 end

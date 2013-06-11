@@ -356,3 +356,29 @@ ul.breadcrumb {
   a { color: @mossGreen; }
   .active { color: #333333; }
 }
+
+ul.nav-pills.devise {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  text-align: center;
+
+  > li {
+    float: none;
+    display: inline-block;
+
+    > a {
+      border-radius: 0;
+      background-color: @grayLighter;
+      margin-right: -2px;
+      &:hover { background-color: @darkMossGreen; color: white; }
+    }
+
+    &.active a {
+      background-color: @darkMossGreen;
+    }
+
+    &:first-child > a { .border-radius(4px 0 0 4px); }
+    &:last-child  > a { .border-radius(0 4px 4px 0);}
+  }
+}

@@ -1,8 +1,13 @@
-%h2 Resend confirmation instructions
-= simple_form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f|
-  = f.error_notification
-  .form-inputs
-    = f.input :email, :required => true
-  .form-actions
-    = f.button :submit, "Resend confirmation instructions"
-= render "devise/shared/links"
+%div.row
+  %span.span8.offset2
+    = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { class: "form-horizontal", method: :post }) do |f|
+      = f.error_notification
+      .form-inputs
+        %p
+          We ask you to confirm your registration via email. If you haven't received such an email,
+          you can use this form to resend it. Alternately, please feel free to contact us at
+          %a{href: "mailto:support@rare-share.com"} support@rare-share.com
+          at any time.
+        = f.input :email, :required => true
+      .form-actions
+        = f.button :submit, "Resend confirmation instructions"

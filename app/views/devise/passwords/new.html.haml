@@ -1,8 +1,20 @@
-%h2 Forgot your password?
-= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
-  = f.error_notification
-  .form-inputs
-    = f.input :email, :required => true
-  .form-actions
-    = f.button :submit, "Send me reset password instructions"
-= render "devise/shared/links"
+%div.row
+  %span.span8.offset2
+    = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: "post", class: "form-horizontal" }) do |f|
+      = f.error_notification
+      .form-inputs
+        %p
+          If you've lost your password, you can use this form to reset it; please follow
+          the instructions in the email we send you. Alternately, please feel free to contact us at
+          %a{href: "mailto:support@rare-share.com"} support@rare-share.com
+          at any time.
+
+        %p
+          RareShare strongly recommends that you use and generate random passwords, and
+          store them in a password tool such as
+          %a{href: "https://agilebits.com/onepassword"} 1Password
+          \.
+
+        = f.input :email, :required => true
+      .form-actions
+        = f.button :submit, "Send reset instructions", class: "btn-primary"
