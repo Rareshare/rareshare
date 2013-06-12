@@ -61,6 +61,9 @@ group :test do
   gem 'rspec-rails'
   gem 'no_peeping_toms' # Disable observers during tests.
   gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'poltergeist'
   gem 'spork-rails'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
 end

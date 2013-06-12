@@ -16,7 +16,7 @@ class Tool < ActiveRecord::Base
   after_validation :geocode
   geocoded_by :full_street_address
 
-  validates :model_name, :manufacturer_name, :tool_category_name, :owner, presence: true
+  validates :model_name, :manufacturer_name, :tool_category_name, :owner, :base_lead_time, :base_price, presence: true
   validates :expedited_price, :expedited_lead_time, presence: true, if: :can_expedite?
   validates :base_lead_time, :expedited_lead_time, :resolution, numericality: { greater_than: 0, allow_nil: true }
 
