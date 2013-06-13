@@ -60,7 +60,7 @@ class Tool < ActiveRecord::Base
   end
 
   def owned_by?(user)
-    user.id == self.owner_id
+    user == self.owner
   end
 
   def bookable_before?(deadline)
