@@ -39,7 +39,7 @@ class Ability
 
   def tools(user)
     can :manage, Tool do |t|
-      t.owned_by? user
+      t.owned_by?(user)
     end
 
     can :read, Tool do |t|
@@ -51,7 +51,7 @@ class Ability
     end
 
     can :book, Tool do |t|
-      !t.owned_by? user
+      !t.owned_by?(user)
     end
   end
 end

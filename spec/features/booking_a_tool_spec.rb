@@ -25,12 +25,10 @@ describe "booking a tool", type: :feature, js: true do
   end
 
   def fill_in_wysihtml5(label, opts={})
-    script = <<-JAVASCRIPT
+    page.execute_script <<-JAVASCRIPT
       var id = $("label:contains(#{label})").attr("for");
       $("#" + id).data("wysihtml5").editor.setValue("#{opts[:with]}");
     JAVASCRIPT
-
-    page.execute_script script
   end
 
   let(:renter) { create(:user) }

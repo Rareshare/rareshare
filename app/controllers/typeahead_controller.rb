@@ -6,7 +6,7 @@ class TypeaheadController < ApplicationController
     names = if params[:q] == "*"
       model_class.select("name").map(&:name).sort
     else
-      model_class.select("name").search(name: "#{params[:q]}:*").limit(self.limit).map(&:name).sort
+      model_class.select("name").advanced_search(name: "#{params[:q]}:*").limit(self.limit).map(&:name).sort
     end
     render json: names
   rescue => e
