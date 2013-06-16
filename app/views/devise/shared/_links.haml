@@ -3,14 +3,9 @@
     = link_to "Log in", new_user_session_path
   %li{class: controller_name == 'registrations' ? "active" : ""}
     = link_to "Sign up", new_user_registration_path
-  %li{class: controller_name == 'passwords' ? "active" : ""}
-    = link_to "Reset Password", new_user_password_path
-  %li{class: controller_name == 'confirmations' ? "active" : ""}
-    = link_to "Reconfirm Login", new_user_confirmation_path
-  / - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email)
-  /   %li{class: controller_name == 'unlocks' ? "active" : ""}
-  /     = link_to "Unlock Account", new_user_unlock_path
   %li{class: active_page?("Learn More") ? "active" : ""}
     = page_link_to "Learn More"
   %li{class: active_page?("Privacy Policy") ? "active" : ""}
     = page_link_to "Privacy Policy"
+  %li{class: active_page?("Terms & Conditions") ? "active" : ""}
+    = page_link_to "Terms & Conditions"

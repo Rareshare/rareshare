@@ -1,9 +1,14 @@
 %div.row
   %span.span8.offset2
     %p{style: "text-align: center"}
+      Didn't get a confirmation email?
+      = link_to "Request another one", new_user_confirmation_path
+      \.
+      %br
       We'll never share you information with third-parties.
       = page_link_to "Read our Privacy Policy", page: "Privacy Policy"
       \.
+
     = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: { class: "form-horizontal"}) do |f|
       .form-inputs
         %div.control-group

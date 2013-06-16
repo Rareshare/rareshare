@@ -1,5 +1,10 @@
 %div.row
   %span.span8.offset2
+    %p{style: "text-align: center"}
+      Can't remember your password?
+      = link_to "Reset it", new_user_password_path
+      \.
+
     = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "form-horizontal"}) do |f|
       .form-inputs
         %div.control-group
