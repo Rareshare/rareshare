@@ -1,0 +1,39 @@
+%table.table
+  %tbody
+    %tr
+      %th Tool
+      %td= link_to booking.tool.display_name, tool_path(booking.tool)
+    %tr
+      %th Price
+      %td= number_to_currency booking.price
+    %tr
+      %th Location
+      %td= booking.tool.partial_address
+    %tr
+      %th Due By
+      %td= booking.deadline.to_date.to_s(:long)
+    %tr
+      %th Sample description
+      %td= booking.sample_description
+    %tr
+      %th Sample deliverable
+      %td= booking.sample_deliverable
+    %tr
+      %th Sample transit
+      %td= t("bookings.sample_transit.#{booking.sample_transit}")
+    %tr
+      %th Sample disposal
+      %td= t("bookings.sample_disposal.#{booking.sample_disposal}")
+    - unless booking.disposal_instructions.blank?
+      %tr
+        %th Disposal instructions
+        %td= booking.disposal_instructions
+
+    %tr
+      %th History
+      %td
+        - booking.booking_logs.each do |log|
+          %p
+            = link_to glyph_text(:user, log.updated_by.display_name), user_path(log.updated_by)
+            = log.state_transition_description
+            = "on #{log.created_at.to_s(:long)}."

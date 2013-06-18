@@ -61,6 +61,8 @@ module Rareshare
     # Add fonts to the assets path.
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
+    config.assets.precompile += %w( vendor/paypal-button.min.js )
+
     config.generators do |g|
       g.test_framework :rspec
     end

@@ -21,9 +21,9 @@ Rareshare::Application.routes.draw do
 
   resources :bookings do
     member do
-      get :finalize, action: :finalize
-      post :finalize, action: :pay
-      get :cancel
+      get  :finalize
+      post :paid # callback
+      get  :cancel
     end
   end
 
