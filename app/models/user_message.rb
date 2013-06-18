@@ -34,6 +34,10 @@ class UserMessage < ActiveRecord::Base
     end
   end
 
+  def sender_name
+    self.sender.present? ? sender.display_name : "Deleted User"
+  end
+
   private
 
   def make_self_originator_if_first

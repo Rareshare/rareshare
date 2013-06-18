@@ -2,7 +2,7 @@
   %tbody
     - messages.each do |m|
       %tr
-        %td= link_to m.sender.display_name, user_path(m.sender)
+        %td= link_to m.sender_name, m.sender.present? ? user_path(m.sender) : "#"
         %td= m.created_at < 1.week.ago ? m.created_at.to_s(:long) : time_ago_in_words(m.created_at) + " ago"
         %td{style: "width: 70%"}
           = link_to message_path(m) do

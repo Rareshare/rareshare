@@ -14,9 +14,12 @@
             %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
               %p= sanitize message.body
               %small.muted
-                #{message.sender.display_name} at #{message.created_at}
+                #{message.sender_name} at #{message.created_at}
           %span.span2{style: "text-align: center"}
-            %img{src: message.sender.avatar.url(:thumb)}
+            - if message.sender.try(:avatar).present?
+              %img{src: message.sender.avatar.url(:thumb)}
+            - else
+              %i.avatar.icon-user
 
       %div.row
         %span.span7

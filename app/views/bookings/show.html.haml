@@ -95,7 +95,7 @@
 - @booking.message_chain.each do |message|
   %div.row
     %span.span2.header-avatar
-      - if message.sender.avatar.present?
+      - if message.sender.try(:avatar).present?
         %img.avatar{src: message.sender.avatar.url(:thumb), style: "margin-top: 0; margin-bottom: 10px"}
       - else
         %i.avatar.icon-user{style: "margin-top: 0; margin-bottom: 10px"}
@@ -104,7 +104,7 @@
       %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
         %p= sanitize message.body
         %small.muted
-          #{message.sender.display_name} at #{message.created_at}
+          #{message.sender_name} at #{message.created_at}
 
 %div.row
   %span.span2
