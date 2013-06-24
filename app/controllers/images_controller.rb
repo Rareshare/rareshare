@@ -1,4 +1,4 @@
-class ImagesController < ApplicationController
+class ImagesController < InternalController
   before_filter :tool
 
   def index
