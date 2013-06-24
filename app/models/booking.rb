@@ -35,7 +35,13 @@ class Booking < ActiveRecord::Base
         b.renter     = renter
         b.updated_by = renter
         b.price      = b.tool.price_for b.deadline
-        b.address    = renter.address if b.use_user_address?
+
+        if !b.requires_address?
+          b.address = nil
+        elsif b.use_user_address?
+          b.address = renter.address
+        end
+
         b.save
       end
     end
@@ -168,6 +174,10 @@ class Booking < ActiveRecord::Base
   def state_summary_for(user)
     viewer = owner?(user) ? "owner" : "renter"
     I18n.t("bookings.state.#{viewer}.#{state}")
+  end
+
+  def requires_address?
+    self.sample_transit == Booking::Transit::RARESHARE_SEND || self.sample_disposal == Booking::Disposal::RARESHARE_SEND
   end
 
   def use_user_address=(val)
