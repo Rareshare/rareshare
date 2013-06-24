@@ -570,7 +570,8 @@ CREATE TABLE users (
     qualifications text,
     tools_count integer DEFAULT 0,
     avatar character varying(255),
-    admin boolean
+    admin boolean,
+    tos_accepted boolean
 );
 
 
@@ -977,3 +978,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130531193415');
 INSERT INTO schema_migrations (version) VALUES ('20130531221848');
 
 INSERT INTO schema_migrations (version) VALUES ('20130603150348');
+
+INSERT INTO schema_migrations (version) VALUES ('20130624024414');

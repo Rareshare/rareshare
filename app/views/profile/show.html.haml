@@ -17,12 +17,6 @@
     = link_to glyph_text(:plus, "Add tool"), new_tool_path, class: "btn btn-info"
     = link_to glyph_text(:envelope, "Messages"), messages_path, class: "btn btn-success"
   %span.span10.profile-main
-    %h3.pull-up Unread Messages
-    - if current_user.unread_message_count == 0
-      %p You have no unread messages.
-    - else
-      = render partial: 'messages/messages', object: current_user.received_messages.unread.order("created_at DESC")
-
     %h3 Recent booking history
     - if current_user.all_recent_bookings.any?
       = render partial: 'bookings/list', object: current_user.all_recent_bookings

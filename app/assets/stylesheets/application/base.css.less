@@ -8,9 +8,7 @@ body {
   background: image-url('bg3.png');
 }
 
-h1, h2, h3, h4, h5, h6 {
-  a:hover { text-decoration: none; }
-}
+a:hover { text-decoration: none; }
 
 legend {
   font-family: @headingsFontFamily;
@@ -381,4 +379,15 @@ ul.nav-pills.devise {
     &:first-child > a { .border-radius(4px 0 0 4px); }
     &:last-child  > a { .border-radius(0 4px 4px 0);}
   }
+}
+
+.terms_and_conditions {
+  overflow-y: scroll;
+  max-height: 300px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  background-color: @lightMossGreen;
+  color: #444;
 }

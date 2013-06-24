@@ -114,6 +114,10 @@ module ApplicationHelper
     end
   end
 
+  def terms_and_conditions
+    sanitize Page.where(title: "Terms & Conditions").first.try(:content)
+  end
+
   def breadcrumbs(*crumbs)
     divider = content_tag :span, class: :divider do
       content_tag(:i, "", class: "icon-double-angle-right")

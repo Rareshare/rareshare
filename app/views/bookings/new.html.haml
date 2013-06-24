@@ -101,8 +101,7 @@
           %h1 3
           %small Read the terms and conditions.
         %span.span8
-          %div.terms_and_conditions
-            = sanitize Page.where(title: "Terms & Conditions").first.try(:content)
+          %div.terms_and_conditions= terms_and_conditions
 
           = f.input :tos_accepted, label: false, input_html: { class: "primary", "data-bind" => "checked: tos_accepted" }, inline_label: t('simple_form.labels.booking.tos_accepted', terms_link: page_link_to('Terms & Conditions', target: "_blank")).html_safe
 
@@ -113,8 +112,6 @@
 
   :javascript
     $(function() {
-      console.log("foo");
       window.booking = new Booking(#{@booking.to_json});
       ko.applyBindings({ booking: booking });
-      console.log("bar");
     });

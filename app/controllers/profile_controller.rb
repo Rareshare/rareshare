@@ -1,9 +1,14 @@
 class ProfileController < InternalController
+  skip_before_filter :tos_accepted?, only: :welcome
 
   def show
   end
 
   def edit
+  end
+
+  def welcome
+    render 'welcome', layout: 'external'
   end
 
   def update

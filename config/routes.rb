@@ -11,9 +11,10 @@ Rareshare::Application.routes.draw do
 
   resource :profile, controller: "profile"
 
-  match "calendar(/:id)", to: "calendar#show",  as: :calendar
-  match "search",         to: "searches#show",  as: :search
-  match "typeahead/:id",  to: "typeahead#show", as: :typeahead
+  match "welcome",        to: "profile#welcome", as: :welcome
+  match "calendar(/:id)", to: "calendar#show",   as: :calendar
+  match "search",         to: "searches#show",   as: :search
+  match "typeahead/:id",  to: "typeahead#show",  as: :typeahead
 
   resources :tools do
     resources :images
