@@ -107,7 +107,7 @@
 
     %div.row
       %span.offset2.span10
-        = f.submit "Reserve", class: "btn btn-primary"
+        = f.submit "Reserve", class: "btn btn-primary", "data-bind" => "enable: canSubmit"
         = link_to "Cancel", :back, class: "btn"
 
   :javascript

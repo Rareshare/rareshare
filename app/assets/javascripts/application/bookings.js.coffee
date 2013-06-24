@@ -15,7 +15,7 @@ window.Booking = (input) ->
   @stepThreeComplete = ko.computed () => @tos_accepted()
 
   @canSubmit = ko.computed () =>
-    @stepOneComplete() and @stepTwoComplete() and @stepThreeComplete() and @stepFourComplete()
+    @stepOneComplete() and @stepTwoComplete() and @stepThreeComplete()
 
   this
 
