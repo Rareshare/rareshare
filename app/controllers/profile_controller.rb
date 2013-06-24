@@ -1,5 +1,5 @@
 class ProfileController < InternalController
-  skip_before_filter :tos_accepted?, only: :welcome
+  skip_before_filter :tos_accepted?, only: [:welcome, :update]
 
   def show
   end
@@ -42,6 +42,7 @@ class ProfileController < InternalController
       :qualifications,
       :avatar,
       :address_id,
+      :tos_accepted,
       :address_attributes => address_attributes
     )
   end
