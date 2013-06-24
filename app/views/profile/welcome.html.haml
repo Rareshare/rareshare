@@ -10,7 +10,7 @@
     %div.terms_and_conditions= terms_and_conditions
 
     = simple_form_for current_user, url: profile_path, html: { class: "welcome" } do |f|
-      = f.input :tos_accepted, label: false,
+      = f.input :tos_accepted, as: :boolean, label: false,
           input_html: { class: "primary", "data-bind" => "checked: tos_accepted" },
           inline_label: t('simple_form.labels.booking.tos_accepted', terms_link: page_link_to('Terms & Conditions', target: "_blank")).html_safe
       = f.submit "Let's Go Already", class: "btn btn-primary", "data-bind" => "enable: tos_accepted"
