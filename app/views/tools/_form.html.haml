@@ -1,15 +1,13 @@
-= link_to glyph_text(:angle_left, "All my tools"), tools_path
-
 = simple_form_for @tool do |f|
   = f.error_notification
 
   %div.form-inputs
     %fieldset
-      %legend About the tool
       %div.row
         %span.span2
-          %p Please describe the instrument you'd like to share.
+          %p.help-block Please describe the instrument you'd like to share.
         %span.span10
+          %legend About the tool
           %div.row
             %span.span8
               = f.input :tool_category_name, required: true, wrapper: :append do
@@ -36,10 +34,9 @@
 
       %div.row
         %span.span2
-          %p If possible, please indicate the sample size and resolution of the tool.
+          %p.help-block If possible, please indicate the sample size and resolution of the tool.
 
         %span.span10
-
           %div.row
             %span.span5= f.input :resolution, input_html: { min: 0, type: "number", step: "any" }
             %span.span3= f.input :resolution_unit_id, as: :select, collection: AvailableUnit.all, value_method: :name, label_method: :display_name
@@ -60,12 +57,12 @@
 
 
     %fieldset
-      %legend Pricing
 
       %div.row
         %span.span2
-          %p The pricing structure for your tool. If you need help determining what the right values should be, please get in touch.
+          %p.help-block The pricing structure for your tool. If you need help determining what the right values should be, please get in touch.
         %span.span8
+          %legend Pricing
           %div.row
             %span.span3
               = f.input :base_lead_time, input_html: { min: 1 }
@@ -86,14 +83,14 @@
 
 
     %fieldset
-      %legend
-        %a.tip{href: "#", title: t('data.private'), data: { toggle: "tooltip" }}
-          %i.icon-lock.icon-large
-        Only visible to lessors
       %div.row
         %span.span2
-          %p We keep this information hidden from users until they've confirmed a reservation with you.
+          %p.help-block We keep this information hidden from users until they've confirmed a reservation with you.
         %span.span8
+          %legend
+            %a.tip{href: "#", title: t('data.private'), data: { toggle: "tooltip" }}
+              %i.icon-lock.icon-large
+            Only visible to lessors
           %div.row
             %span.span5= f.input :serial_number
           = f.simple_fields_for :address do |a|
@@ -102,13 +99,13 @@
 
     - unless @tool.new_record?
       %fieldset
-        %legend
-          %i.icon-picture.icon-large
-          Images
         %div.row
           %span.span2
-            %p Add a picture or two.
+            %p.help-block Add a picture or two.
           %span.span8
+            %legend
+              %i.icon-picture.icon-large
+              Images
             = link_to "Edit Images", tool_images_path(@tool), class: "btn btn-info"
             %ul.unstyled{style: "margin-top: 10px"}
               - @tool.images.each do |image|

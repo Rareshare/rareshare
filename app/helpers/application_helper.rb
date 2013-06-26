@@ -88,10 +88,13 @@ module ApplicationHelper
   end
 
   def polymorphic_name_of(crumb)
-    [ :display_name, :name, :title ].each do |attr|
-      return crumb.send(attr) if crumb.respond_to?(attr)
+    name_methods = [ :display_name, :name, :title ]
+
+    if crumb.new_record?
+      "New #{crumb.class.model_name.human}"
+    else
+      name_methods.inject(nil) {|o, m| o || crumb.respond_to?(m) && crumb.send(m) }
     end
-    nil
   end
 
   def breadcrumb_for(crumb)

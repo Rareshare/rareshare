@@ -10,11 +10,6 @@ body {
 
 a:hover { text-decoration: none; }
 
-legend {
-  font-family: @headingsFontFamily;
-  line-height: 54px;
-}
-
 .brand {
   font-family: @brandFontFamily;
   text-transform: uppercase;
@@ -169,13 +164,23 @@ form {
     width: 400px;
   }
 
-  legend {
-    border-bottom: 1px solid @defaultBorderColor;
-  }
-
   fieldset {
     margin-bottom: 20px;
+    border-top: 1px solid @defaultBorderColor;
+    padding-top: 20px;
+
+    legend {
+      font-family: @headingsFontFamily;
+      line-height: 32px;
+      color: @mossGreen;
+      text-transform: uppercase;
+      border-bottom: none;
+    }
+
+    &:first-child { border: none; }
   }
+
+  .fieldset-helper { font-size: small; }
 
   .row {
     // Scale input widths based if they're nested in a row.
