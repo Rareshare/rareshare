@@ -18,7 +18,7 @@ module ToolsHelper
     price, lead_time = tool.send("#{type}_price"), tool.send("#{type}_lead_time")
 
     if price.present? && lead_time.present?
-      number_to_currency(price) + " / " + content_tag(:span, pluralize(lead_time, "day"), class: "muted")
+      number_to_currency(price, unit: currency_for(tool)) + " / " + content_tag(:span, pluralize(lead_time, "day"), class: "muted")
     end
   end
 end

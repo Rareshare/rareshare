@@ -1,3 +1,4 @@
+# encoding: utf-8
 module ApplicationHelper
   def linkedin_sign_in_button
     link_to user_omniauth_authorize_path(:linkedin), class: "btn btn-large btn-info" do
@@ -119,6 +120,11 @@ module ApplicationHelper
 
   def terms_and_conditions
     sanitize Page.where(title: "Terms & Conditions").first.try(:content)
+  end
+
+  def currency_for(model)
+    raise "No currency" unless model.respond_to?(:currency)
+    ( model.currency || "USD" ) == "USD" ? "$" : "£"
   end
 
   def breadcrumbs(*crumbs)

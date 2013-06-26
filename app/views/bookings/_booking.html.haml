@@ -3,7 +3,7 @@
 %p
   %dl
     %dt Price
-    %dd= number_to_currency booking.price
+    %dd= number_to_currency booking.price, unit: currency_for(booking)
     %dt Deadline
     %dd= booking.deadline.to_date.to_s(:long)
     %dt Status

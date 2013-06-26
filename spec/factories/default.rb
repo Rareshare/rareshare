@@ -29,6 +29,7 @@ FactoryGirl.define do
     association :owner, factory: :user
     resolution 10
     resolution_unit_id { AvailableUnit.for("<meter>") }
+    currency "USD"
     base_price 200.00
     base_lead_time 7
 
@@ -56,6 +57,7 @@ FactoryGirl.define do
     sample_transit Booking::Transit::IN_PERSON
     sample_disposal Booking::Disposal::IN_PERSON
     tos_accepted true
+    currency "USD"
     price 10000
     deadline { 2.weeks.from_now }
     updated_by { create(:user) }

@@ -22,15 +22,15 @@ module BookingsHelper
     else {} end
 
     address.merge(sandbox).merge(
-      "data-button" => "buynow",
-      "data-name"   => booking.display_name,
-      "data-email"  => booking.renter.email,
-      "data-quantity" => 1,
-      "data-amount" => booking.price,
-      "data-currency" => "USD",
-      "data-callback" => paid_booking_url(booking),
+      "data-button"     => "buynow",
+      "data-name"       => booking.display_name,
+      "data-email"      => booking.renter.email,
+      "data-quantity"   => 1,
+      "data-amount"     => booking.price,
+      "data-currency"   => booking.currency || "USD",
+      "data-callback"   => paid_booking_url(booking),
       "data-first_name" => booking.renter.first_name,
-      "data-last_name" => booking.renter.last_name
+      "data-last_name"  => booking.renter.last_name
     )
   end
 

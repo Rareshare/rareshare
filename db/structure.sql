@@ -184,7 +184,8 @@ CREATE TABLE bookings (
     last_updated_by_id integer,
     address_id integer,
     sample_disposal character varying(255),
-    disposal_instructions text
+    disposal_instructions text,
+    currency character varying(3)
 );
 
 
@@ -439,7 +440,8 @@ CREATE TABLE tools (
     longitude double precision,
     resolution integer,
     sample_size_unit_id character varying(255),
-    resolution_unit_id character varying(255)
+    resolution_unit_id character varying(255),
+    currency character varying(3)
 );
 
 
@@ -982,3 +984,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130603150348');
 INSERT INTO schema_migrations (version) VALUES ('20130624024414');
 
 INSERT INTO schema_migrations (version) VALUES ('20130624140350');
+
+INSERT INTO schema_migrations (version) VALUES ('20130626035938');

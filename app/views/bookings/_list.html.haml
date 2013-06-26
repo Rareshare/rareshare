@@ -13,5 +13,5 @@
           = booking_state b
         %td= link_to b.deadline.to_date.to_s(:simple), booking_path(b)
         %td= link_to b.display_name, booking_path(b)
-        %td= number_to_currency b.price
+        %td= number_to_currency b.price, unit: currency_for(b)
         %td= render partial: "bookings/actions", locals: { booking: b, btn_size: "btn-mini" }

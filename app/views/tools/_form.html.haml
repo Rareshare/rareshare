@@ -63,12 +63,22 @@
           %p.help-block The pricing structure for your tool. If you need help determining what the right values should be, please get in touch.
         %span.span8
           %legend Pricing
+          %div.row{style: "margin-bottom: 10px"}
+            %span.span2
+              %label.radio
+                = f.radio_button :currency, "USD"
+                USD ($)
+            %span.span2
+              %label.radio
+                = f.radio_button :currency, "GBP"
+                GBP (£)
+
           %div.row
             %span.span3
               = f.input :base_lead_time, input_html: { min: 1 }
             %span.span4
               = f.input :base_price, wrapper: "prepend" do
-                = content_tag :span, "$", class: "add-on"
+                = content_tag :span, "$", class: "add-on currency"
                 = f.input_field :base_price, min: 0, type: "number", step: "any"
           %div.row
             %span.span8
@@ -78,7 +88,7 @@
               = f.input :expedited_lead_time, input_html: { min: 1, disabled: true }
             %span.span4
               = f.input :expedited_price, wrapper: "prepend" do
-                = content_tag :span, "$", class: "add-on"
+                = content_tag :span, "$", class: "add-on currency"
                 = f.input_field :expedited_price, min: 0, type: "number", step: "any", disabled: true
 
 
@@ -91,8 +101,6 @@
             %a.tip{href: "#", title: t('data.private'), data: { toggle: "tooltip" }}
               %i.icon-lock.icon-large
             Only visible to lessors
-          %div.row
-            %span.span5= f.input :serial_number
           = f.simple_fields_for :address do |a|
             = a.hidden_field :id
             = render partial: 'addresses/form', object: a

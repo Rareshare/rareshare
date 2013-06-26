@@ -21,7 +21,7 @@
     %span.span2
       %div.reserve-now
         %div.price
-          = number_to_currency result.price_for(@query.by)
+          = number_to_currency result.price_for(@query.by), unit: currency_for(result)
         %div.muted per sample
         - if user_signed_in?
           - if result.owned_by?(current_user)

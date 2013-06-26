@@ -16,9 +16,23 @@ class Tool < ActiveRecord::Base
   after_validation :geocode
   geocoded_by :full_street_address
 
-  validates :model_name, :manufacturer_name, :tool_category_name, :owner, :base_lead_time, :base_price, presence: true
-  validates :expedited_price, :expedited_lead_time, presence: true, if: :can_expedite?
-  validates :base_lead_time, :expedited_lead_time, :resolution, numericality: { greater_than: 0, allow_nil: true }
+  validates :model_name,
+            :manufacturer_name,
+            :tool_category_name,
+            :owner,
+            :base_lead_time,
+            :base_price,
+            presence: true
+
+  validates :expedited_price,
+            :expedited_lead_time,
+            presence: true,
+            if: :can_expedite?
+
+  validates :base_lead_time,
+            :expedited_lead_time,
+            :resolution,
+            numericality: { greater_than: 0, allow_nil: true }
 
   accepts_nested_attributes_for :address, allow_destroy: true
 
@@ -39,7 +53,8 @@ class Tool < ActiveRecord::Base
 
         define_method "#{model}_name=" do |name|
           model_class = model.to_s.classify.constantize
-          self.send "#{model}=", model_class.where(name: name).first || model_class.create(name: name)
+          name = model_class.where(name: name).first || model_class.create(name: name)
+          self.send "#{model}=", name
         end
       end
     end

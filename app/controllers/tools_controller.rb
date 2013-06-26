@@ -11,7 +11,7 @@ class ToolsController < InternalController
   end
 
   def new
-    @tool = current_user.tools.build(params[:tool] || {})
+    @tool = current_user.tools.build(params[:tool] || { currency: "USD" })
     authorize! :create, @tool
     add_breadcrumb "New " + @tool.display_name, new_tool_path
   end
@@ -70,6 +70,7 @@ class ToolsController < InternalController
       :sample_size_min,
       :sample_size_max,
       :sample_size_unit_id,
+      :currency,
       :base_price,
       :base_lead_time,
       :can_expedite,

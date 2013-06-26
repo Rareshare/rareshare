@@ -13,6 +13,7 @@ class BookingsController < InternalController
       b.tool_id   = tool.id
       b.deadline  = params[:date]
       b.price     = tool.price_for(params[:date])
+      b.currency  = tool.currency
       b.use_user_address = current_user.address.present?
       b.build_address
     end

@@ -23,6 +23,9 @@ $ ->
 
       updateVisualRange()
 
+    $("input[name='tool[currency]']").change () ->
+      $(".add-on.currency").text( if $(this).val() is "USD" then "$" else "£" )
+
     $(".tool_sample_size_unit").change () ->
       $(".tool_sample_size").find(".unit").text $(this).find(":selected").text()
 
