@@ -1,4 +1,4 @@
-= simple_form_for @tool do |f|
+= simple_form_for @tool, html: { data: { bind: "with: tool" } } do |f|
   = f.error_notification
 
   %div.form-inputs
@@ -11,19 +11,19 @@
           %div.row
             %span.span8
               = f.input :tool_category_name, required: true, wrapper: :append do
-                = f.input_field :tool_category_name, autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:tool_category) }
+                = f.input_field :tool_category_name, autocomplete: "off", data: { provide: "typeahead", bind: "typeahead: tool_category_name", lookup: typeahead_path(:tool_category) }
                 %button.btn
                   %i.icon-angle-down
 
           %div.row
             %span.span3
               = f.input :manufacturer_name, required: true, wrapper: :append do
-                = f.input_field :manufacturer_name, autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:manufacturer) }
+                = f.input_field :manufacturer_name, autocomplete: "off", data: { provide: "typeahead", bind: "typeahead: manufacturer_name", lookup: typeahead_path(:manufacturer) }
                 %button.btn
                   %i.icon-angle-down
 
             %span.span3
-              = f.input :model_name, required: true, input_html: { autocomplete: "off", data: { provide: :typeahead, lookup: typeahead_path(:model) } }
+              = f.input :model_name, required: true, input_html: { autocomplete: "off", data: { bind: "typeahead: model_name", lookup: typeahead_path(:model) } }
 
             %span.span2
               = f.input :year_manufactured, as: :select, collection: @tool.possible_years, prompt: "Unknown"
@@ -47,13 +47,23 @@
                 %label.optional.control-label{for: "tool_sample_size"} Sample size
 
                 %div.controls
-                  = f.hidden_field :sample_size_min
-                  = f.hidden_field :sample_size_max
-                  %div.slider-input{ data: { min: min_possible_sample_size, max: max_possible_sample_size } }
-                  %p.help-block= sample_size_text(@tool)
+                  = f.hidden_field :sample_size_min, data: { bind: "value: sampleSize.min" }
+                  = f.hidden_field :sample_size_max, data: { bind: "value: sampleSize.max" }
+                  %div.slider-input{data: { bind: "slider: sampleSize" }}
+                  %p.help-block{style: "margin-top: 10px"}
+                    %span.exponent
+                      10
+                      %sup{data: { bind: "text: sampleSize.min"} }
+                      %span.unit{data: { bind: "text: sampleSize.unitName" } }
+                    \ -
+                    %span.exponent
+                      10
+                      %sup{data: { bind: "text: sampleSize.max"} }
+                      %span.unit{data: { bind: "text: sampleSize.unitName" } }
+
 
             %span.span3
-              = f.input :sample_size_unit_id, as: :select, collection: AvailableUnit.all, value_method: :name, label_method: :display_name, wrapper_html: { class: "tool_sample_size_unit" }
+              = f.input :sample_size_unit_id, as: :select, collection: AvailableUnit.all, value_method: :name, label_method: :display_name, wrapper_html: { class: "tool_sample_size_unit" }, input_html: { data: { bind: "value: sampleSize.unit.writeable" } }
 
 
     %fieldset
@@ -66,11 +76,11 @@
           %div.row{style: "margin-bottom: 10px"}
             %span.span2
               %label.radio
-                = f.radio_button :currency, "USD"
+                = f.radio_button :currency, "USD", data: { bind: "checked: currency" }
                 USD ($)
             %span.span2
               %label.radio
-                = f.radio_button :currency, "GBP"
+                = f.radio_button :currency, "GBP", data: { bind: "checked: currency" }
                 GBP (£)
 
           %div.row
@@ -78,18 +88,18 @@
               = f.input :base_lead_time, input_html: { min: 1 }
             %span.span4
               = f.input :base_price, wrapper: "prepend" do
-                = content_tag :span, "$", class: "add-on currency"
+                = content_tag :span, "", class: "add-on currency", data: { bind: "text: currencySymbol" }
                 = f.input_field :base_price, min: 0, type: "number", step: "any"
           %div.row
             %span.span8
-              = f.input :can_expedite, label: false, inline_label: raw("Offer expedited pricing? " + content_tag(:span, "Recommended", class: "label label-info"))
+              = f.input :can_expedite, label: false, inline_label: raw("Offer expedited pricing? " + content_tag(:span, "Recommended", class: "label label-info")), input_html: { "data-bind" => "checked: can_expedite" }
           %div.row
             %span.span3
-              = f.input :expedited_lead_time, input_html: { min: 1, disabled: true }
+              = f.input :expedited_lead_time, input_html: { min: 1, "data-bind" => "enable: can_expedite" }
             %span.span4
               = f.input :expedited_price, wrapper: "prepend" do
-                = content_tag :span, "$", class: "add-on currency"
-                = f.input_field :expedited_price, min: 0, type: "number", step: "any", disabled: true
+                = content_tag :span, "", class: "add-on currency", data: { bind: "text: currencySymbol" }
+                = f.input_field :expedited_price, min: 0, type: "number", step: "any", data: { bind: "enable: can_expedite" }
 
 
     %fieldset
@@ -125,3 +135,10 @@
     %span.offset2.span8
       = f.button :submit, class: "btn btn-primary"
       = link_to "Cancel", profile_path, class: "btn btn-default"
+
+  :javascript
+    $(function() {
+      window.tool = new Tool(#{@tool.to_json});
+      ko.applyBindings({ tool: tool });
+    });
+

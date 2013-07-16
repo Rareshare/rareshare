@@ -1,56 +1,47 @@
+window.SampleSize = (input) ->
+  this[k] = ko.observable(v) for k, v of input
+
+  @unit.writeable = ko.computed
+    read: () -> ""
+    write: (val) =>
+      unless val is ""
+        $.get "/units/#{val}", (resp) => @unit resp
+
+  @unitName = ko.computed () => console.log(@unit()); @unit().display_name
+
+  this
+
+window.Tool = (input) ->
+  this[k] = ko.observable(v) for k, v of input
+
+  @sampleSize = new SampleSize(input.sample_size)
+
+  @currencySymbol = ko.computed () =>
+    if @currency() is "USD" then "$" else "£"
+
+  this
+
 $ ->
-  $("#tools").each () ->
-    $(".tool_sample_size").each ->
-      $this = $(this)
-      targetSlider = $this.find(".slider-input")
-      minSize = $this.find("#tool_sample_size_min")
-      maxSize = $this.find("#tool_sample_size_max")
-      helpBlock = targetSlider.next(".help-block")
-
-      updateVisualRange = () ->
-        helpBlock.find(".text-min").text minSize.val()
-        helpBlock.find(".text-max").text maxSize.val()
-
-      targetSlider.slider
-        range: true,
-        min: -9,
-        max: 6,
-        values: [minSize.val(), maxSize.val()]
+  ko.bindingHandlers.slider =
+    init: (elt, val, all, vm) ->
+      sampleSize = val()
+      sizes = sampleSize.all()
+      $(elt).slider
+        range: true
+        min: sizes[0].exponent
+        max: sizes[sizes.length - 1].exponent
+        values: [ sampleSize.min(), sampleSize.max() ]
         slide: (evt, ui) ->
-          minSize.val(ui.values[0])
-          maxSize.val(ui.values[1])
-          updateVisualRange()
+          sampleSize.min ui.values[0]
+          sampleSize.max ui.values[1]
 
-      updateVisualRange()
-
-    $("input[name='tool[currency]']").change () ->
-      $(".add-on.currency").text( if $(this).val() is "USD" then "$" else "£" )
-
-    $(".tool_sample_size_unit").change () ->
-      $(".tool_sample_size").find(".unit").text $(this).find(":selected").text()
-
-    $(".input-append").each ->
-      input = $(this).find("input")
-      button = $(this).find("button")
-
-      typeahead = input.data("typeahead")
-
-      if typeahead
+  # Necessary for managing typeahead clicks. Replace with select2.
+  ko.bindingHandlers.typeahead =
+    init: (elt, val, all, vm) ->
+      if ( typeahead = $(elt).data("typeahead") ) and ( button = $(elt).nextAll("button") )
         button.click (evt) ->
           evt.preventDefault()
           typeahead.query = ""
           items = typeahead.source("*", $.proxy(typeahead.process, typeahead))
           typeahead.process(items) if items?
           typeahead.$menu.off("mouseleave", "li") # Without this, menu disappears on mouse move.
-
-    canExpedite = $("input[name='tool[can_expedite]']")
-    expeditedFields = $("[id^=tool_expedited]")
-
-    resetExpeditedFields = () ->
-      if canExpedite.is(":checked")
-        expeditedFields.removeAttr("disabled")
-      else
-        expeditedFields.attr("disabled", "disabled")
-
-    resetExpeditedFields()
-    $("input[name='tool[can_expedite]']").on "change", resetExpeditedFields

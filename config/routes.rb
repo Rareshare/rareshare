@@ -29,6 +29,8 @@ Rareshare::Application.routes.draw do
   end
 
   resources :users, only: :show
+  resources :units, only: :show
+
   resources :messages do
     member { post :reply }
   end

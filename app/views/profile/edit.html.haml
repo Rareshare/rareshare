@@ -4,7 +4,7 @@
   %span.span10.header-body
     = breadcrumbs :root, current_user
     %h1 Edit Profile
-    %span.muted Last edited at #{current_user.updated_at.to_s(:short)}
+    %span.muted Last edited at #{current_user.updated_at.to_s(:long)}
 
 = simple_form_for current_user, url: profile_path, :html => {:multipart => true} do |f|
   %div.form-inputs

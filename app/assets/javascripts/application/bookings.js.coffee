@@ -7,9 +7,6 @@ window.Booking = (input) ->
     read:  ()    => @use_user_address()
     write: (val) => @use_user_address(val is "1")
 
-  # ko.computed () =>
-  #   console.log "transit", @sample_transit(), @sample_transit() == 'rareshare_send', @use_user_address()
-
   @stepOneComplete   = ko.computed () => valuePresent(@sample_description()) and valuePresent(@sample_deliverable())
   @stepTwoComplete   = ko.computed () => valuePresent(@sample_transit()) and valuePresent(@sample_disposal())
   @stepThreeComplete = ko.computed () => @tos_accepted()

@@ -122,6 +122,20 @@ class Tool < ActiveRecord::Base
     resolution_unit.try :display_name
   end
 
+  def as_json(options)
+    super(options).merge(
+      model_name: self.model_name,
+      tool_category_name: self.tool_category_name,
+      manufacturer_name: self.manufacturer_name,
+      sample_size: {
+        min: self.sample_size_min,
+        max: self.sample_size_max,
+        unit: self.sample_size_unit,
+        all: SampleSize.all_sizes
+      }
+    )
+  end
+
   private
 
   def update_search_document

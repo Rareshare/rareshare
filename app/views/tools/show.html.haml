@@ -17,15 +17,15 @@
       = @tool.tool_category_name
 
 %div.row
-  %span.span2.profile-sidebar
+  %span.span2.sidebar.profile-sidebar
     %div.row.row-header
       %span.span2.header-avatar
         %h4{style: "text-align: center"} Owner
         = avatar_of @tool.owner
 
-    %ul.unstyled
-      - if @tool.owned_by?(current_user)
-        %li= link_to glyph_text(:edit, "Edit tool"), edit_tool_path(@tool), class: "btn"
+    - if can?(:edit, @tool)
+      = link_to glyph_text(:edit, "Edit tool"), edit_tool_path(@tool), class: "btn"
+
   %span.span8
     %div.well.well-small
       %form.no-margin{action: new_booking_path, method: :get, class: "form-inline"}

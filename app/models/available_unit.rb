@@ -16,4 +16,8 @@ class AvailableUnit < ActiveRecord::Base
     end
   end
 
+  def as_json
+    definition.as_json.except("scalar").merge(id: self.name, plural: definition.name.pluralize)
+  end
+
 end
