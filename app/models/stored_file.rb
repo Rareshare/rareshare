@@ -9,7 +9,7 @@ class StoredFile < ActiveRecord::Base
   end
 
   def thumbnail
-    filepicker_image_url(self.url, w: 100, h: 100) if image?
+    filepicker_image_url(self.url, w: 100, h: 100, fit: :crop) if image?
   end
 
   def as_json(options={})

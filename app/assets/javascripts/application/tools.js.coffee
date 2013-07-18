@@ -12,7 +12,6 @@ window.SampleSize = (input) ->
   this
 
 window.Tool = (input) ->
-  console.log "tool input", input
   this[k] = ko.observable(v) for k, v of input
 
   @images = ko.observableArray(input.images)
@@ -72,6 +71,4 @@ $ ->
           typeahead.process(items) if items?
           typeahead.$menu.off("mouseleave", "li") # Without this, menu disappears on mouse move.
 
-  ko.bindingHandlers.sortable =
-    init: (elt, val, all, vm) ->
 

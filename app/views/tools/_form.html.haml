@@ -126,7 +126,6 @@
                 %i.icon-picture.icon-large
                 Images
               %ul.unstyled.file-list{data: { bind: "sortable: images" }}
-                / ko foreach: { data: images, includeDestroyed: true }
                 %li
                   %a.destroy{data: { bind: "click: $parent.removeFile" } }
                     %i.icon-remove-sign
@@ -136,7 +135,7 @@
                   = i.hidden_field :position, data: { bind: "value: $index" }
                   = i.hidden_field :_destroy, class: "destroyed", data: { bind: "value: $data._destroy" }
                   = i.hidden_field :category, value: FileAttachment::Categories::IMAGE
-                / /ko
+              %ul.unstyled.file-list
                 %li
                   %a.add-file{data: { bind: "click: addFile", upload: files_path }}
                     %i.icon-plus-sign
