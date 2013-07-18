@@ -5,6 +5,53 @@
     width: 380px;
   }
 
+  form {
+    .file-list {
+      margin-top: 10px;
+
+      > li {
+        width: 100px;
+        height: 100px;
+        padding: 10px;
+        border: 1px solid #eee;
+        margin: 0 10px 10px 0;
+        float: left;
+        position: relative;
+        text-align: center;
+
+        img {
+          width: 100px;
+          height: 100px;
+        }
+
+        a { color: #eee; }
+
+        &:hover {
+          a { color: #ccc; }
+          border: 1px solid #ccc;
+          .destroy { display: block; }
+        }
+
+        .add-file {
+          font-size: 50px;
+          line-height: 100px;
+          cursor: pointer;
+          display: block;
+        }
+
+        .destroy {
+          cursor: pointer;
+          display: none;
+          position: absolute;
+          font-size: 20px;
+          top: 10px;
+          left: 10px;
+          color: #ccc;
+        }
+      }
+    }
+  }
+
   .carousel {
     .carousel-inner {
       overflow: hidden;

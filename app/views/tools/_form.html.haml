@@ -116,20 +116,30 @@
             = render partial: 'addresses/form', object: a
 
     - unless @tool.new_record?
-      %fieldset
-        %div.row
-          %span.span2
-            %p.help-block Add a picture or two.
-          %span.span8
-            %legend
-              %i.icon-picture.icon-large
-              Images
-            = link_to "Edit Images", tool_images_path(@tool), class: "btn btn-info"
-            %ul.unstyled{style: "margin-top: 10px"}
-              - @tool.images.each do |image|
-                %li.pull-left
-                  = link_to tool_images_path(@tool), style: "padding: 0 10px 10px 0" do
-                    = image_tag image.image.url(:thumb)
+      = f.simple_fields_for :file_attachments_attributes, index: nil do |i|
+        %fieldset
+          %div.row
+            %span.span2
+              %p.help-block Add a picture or two.
+            %span.span8
+              %legend
+                %i.icon-picture.icon-large
+                Images
+              %ul.unstyled.file-list{data: { bind: "sortable: images" }}
+                / ko foreach: { data: images, includeDestroyed: true }
+                %li
+                  %a.destroy{data: { bind: "click: $parent.removeFile" } }
+                    %i.icon-remove-sign
+                  %img{data: { bind: "attr: { src: thumbnail }" }}
+                  = i.hidden_field :id,       data: { bind: "value: id" }
+                  = i.hidden_field :file_id,  data: { bind: "value: file_id" }
+                  = i.hidden_field :position, data: { bind: "value: $index" }
+                  = i.hidden_field :_destroy, class: "destroyed", data: { bind: "value: $data._destroy" }
+                  = i.hidden_field :category, value: FileAttachment::Categories::IMAGE
+                / /ko
+                %li
+                  %a.add-file{data: { bind: "click: addFile", upload: files_path }}
+                    %i.icon-plus-sign
 
   %div.row
     %span.offset2.span8

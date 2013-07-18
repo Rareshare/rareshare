@@ -16,9 +16,8 @@ Rareshare::Application.routes.draw do
   match "search",         to: "searches#show",   as: :search
   match "typeahead/:id",  to: "typeahead#show",  as: :typeahead
 
-  resources :tools do
-    resources :images
-  end
+  resources :tools
+  resources :files
 
   resources :bookings do
     member do

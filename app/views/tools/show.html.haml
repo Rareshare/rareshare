@@ -78,8 +78,8 @@
 
     %div{id: "gallery", data: { toggle: "modal-gallery", target: "#images" }}
       - @tool.images.each do |image|
-        %a{href: image.image.url, data: { gallery: "gallery" } }
-          %img{src: image.image.url(:thumb)}
+        %a{href: image.url, data: { gallery: "gallery" } }
+          %img{src: image.thumbnail}
 
       / %a{href: "#images", role: "button", data: { toggle: "modal" }}
       /   %img.avatar{src: @tool.images.first.image.url(:thumb)}

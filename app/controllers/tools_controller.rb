@@ -80,7 +80,14 @@ class ToolsController < InternalController
       :manufacturer_name,
       :model_name,
       :address_id,
-      :address_attributes => address_attributes
+      :address_attributes => address_attributes,
+      :file_attachments_attributes => [
+        :id,
+        :file_id,
+        :position,
+        :category,
+        :_destroy
+      ]
     )
   end
 

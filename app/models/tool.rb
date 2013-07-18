@@ -9,7 +9,8 @@ class Tool < ActiveRecord::Base
   belongs_to :user, counter_cache: true, foreign_key: :owner_id
 
   has_many :user_messages, as: :topic
-  has_many :images, as: :imageable
+  has_many :file_attachments, as: :attachable
+  accepts_nested_attributes_for :file_attachments, allow_destroy: true
 
   after_initialize :build_address_if_blank
   before_save :update_search_document
@@ -122,11 +123,16 @@ class Tool < ActiveRecord::Base
     resolution_unit.try :display_name
   end
 
-  def as_json(options)
+  def images
+    file_attachments.where(category: FileAttachment::Categories::IMAGE)
+  end
+
+  def as_json(options={})
+    options = options.merge(
+      methods: [:model_name, :tool_category_name, :manufacturer_name, :images, :errors]
+    )
+
     super(options).merge(
-      model_name: self.model_name,
-      tool_category_name: self.tool_category_name,
-      manufacturer_name: self.manufacturer_name,
       sample_size: {
         min: self.sample_size_min,
         max: self.sample_size_max,

@@ -209,6 +209,74 @@ ALTER SEQUENCE bookings_id_seq OWNED BY bookings.id;
 
 
 --
+-- Name: file_attachments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE file_attachments (
+    id integer NOT NULL,
+    "position" integer NOT NULL,
+    attachable_id integer NOT NULL,
+    attachable_type character varying(255) NOT NULL,
+    file_id integer NOT NULL,
+    category character varying(255)
+);
+
+
+--
+-- Name: file_attachments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE file_attachments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: file_attachments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE file_attachments_id_seq OWNED BY file_attachments.id;
+
+
+--
+-- Name: files; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE files (
+    id integer NOT NULL,
+    name character varying(255),
+    size integer,
+    content_type character varying(255),
+    url character varying(255),
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: files_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE files_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE files_id_seq OWNED BY files.id;
+
+
+--
 -- Name: helpers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -246,37 +314,6 @@ CREATE SEQUENCE helpers_id_seq
 --
 
 ALTER SEQUENCE helpers_id_seq OWNED BY helpers.id;
-
-
---
--- Name: images; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE images (
-    id integer NOT NULL,
-    image character varying(255),
-    imageable_type character varying(255),
-    imageable_id integer
-);
-
-
---
--- Name: images_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE images_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE images_id_seq OWNED BY images.id;
 
 
 --
@@ -635,14 +672,21 @@ ALTER TABLE ONLY bookings ALTER COLUMN id SET DEFAULT nextval('bookings_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY helpers ALTER COLUMN id SET DEFAULT nextval('helpers_id_seq'::regclass);
+ALTER TABLE ONLY file_attachments ALTER COLUMN id SET DEFAULT nextval('file_attachments_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY images ALTER COLUMN id SET DEFAULT nextval('images_id_seq'::regclass);
+ALTER TABLE ONLY files ALTER COLUMN id SET DEFAULT nextval('files_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY helpers ALTER COLUMN id SET DEFAULT nextval('helpers_id_seq'::regclass);
 
 
 --
@@ -742,19 +786,27 @@ ALTER TABLE ONLY bookings
 
 
 --
+-- Name: file_attachments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY file_attachments
+    ADD CONSTRAINT file_attachments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: files_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY files
+    ADD CONSTRAINT files_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: helpers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY helpers
     ADD CONSTRAINT helpers_pkey PRIMARY KEY (id);
-
-
---
--- Name: images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY images
-    ADD CONSTRAINT images_pkey PRIMARY KEY (id);
 
 
 --
@@ -850,10 +902,17 @@ CREATE INDEX index_bookings_on_state ON bookings USING btree (state);
 
 
 --
--- Name: index_images_on_imageable_id_and_imageable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_file_attachments_for_uniqueness; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_images_on_imageable_id_and_imageable_type ON images USING btree (imageable_id, imageable_type);
+CREATE UNIQUE INDEX index_file_attachments_for_uniqueness ON file_attachments USING btree (file_id, attachable_id, attachable_type, category);
+
+
+--
+-- Name: index_file_attachments_on_attachable_type_and_attachable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_file_attachments_on_attachable_type_and_attachable_id ON file_attachments USING btree (attachable_type, attachable_id);
 
 
 --
@@ -986,3 +1045,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130624024414');
 INSERT INTO schema_migrations (version) VALUES ('20130624140350');
 
 INSERT INTO schema_migrations (version) VALUES ('20130626035938');
+
+INSERT INTO schema_migrations (version) VALUES ('20130716131949');
