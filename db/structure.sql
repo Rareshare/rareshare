@@ -187,6 +187,7 @@ CREATE TABLE bookings (
     disposal_instructions text,
     currency character varying(3),
     shipping_package_size character varying(255),
+    shipping_weight numeric,
     shipping_price money,
     rareshare_fee money
 );
@@ -916,6 +917,13 @@ CREATE UNIQUE INDEX index_file_attachments_for_uniqueness ON file_attachments US
 --
 
 CREATE INDEX index_file_attachments_on_attachable_type_and_attachable_id ON file_attachments USING btree (attachable_type, attachable_id);
+
+
+--
+-- Name: index_files_on_url; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_files_on_url ON files USING btree (url);
 
 
 --

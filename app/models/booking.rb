@@ -2,7 +2,7 @@ class Booking < ActiveRecord::Base
   include ActiveModel::Transitions
   include ActiveModel::ForbiddenAttributesProtection
 
-  RARESHARE_FEE = BigDecimal.new("0.10")
+  RARESHARE_FEE_PERCENT = BigDecimal.new("0.10")
 
   belongs_to :renter, class_name: "User"
   belongs_to :last_updated_by, class_name: "User"
@@ -44,7 +44,7 @@ class Booking < ActiveRecord::Base
           b.address = renter.address
         end
 
-        b.rareshare_fee = b.price * RARESHARE_FEE
+        b.rareshare_fee = b.price * RARESHARE_FEE_PERCENT
 
         b.save
       end
@@ -79,7 +79,6 @@ class Booking < ActiveRecord::Base
 
     ALL = [ ENVELOPE, PAK, BOX_SMALL, BOX_MEDIUM, BOX_LARGE ]
   end
-
 
   state_machine auto_scopes: true do
     state :pending
@@ -148,10 +147,6 @@ class Booking < ActiveRecord::Base
 
   def expedited?
     tool.must_expedite? deadline.to_date
-  end
-
-  def can_be_shown_to?(user)
-    tool.owner_id == user.id || renter_id == user.id
   end
 
   def public_address

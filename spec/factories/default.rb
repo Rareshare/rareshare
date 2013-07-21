@@ -13,7 +13,7 @@ FactoryGirl.define do
   end
 
   factory :address do
-    address_line_1 "100 Venture Way"
+    sequence(:address_line_1) {|n| "#{n} Venture Way" }
     city "Bozeman"
     state "MO"
     postal_code 59715

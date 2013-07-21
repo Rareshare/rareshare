@@ -6,6 +6,10 @@ class Address < ActiveRecord::Base
     [ self.address_line_1, self.address_line_2, city, "#{state} #{postal_code}" ].reject(&:blank?).join(", ")
   end
 
+  def partial_address
+    [ self.city, self.state ].join(", ")
+  end
+
   def easypost_address(opts={})
     EasyPost::Address.create(opts.merge(
       street1: self.address_line_1,

@@ -1,4 +1,6 @@
 class Tool < ActiveRecord::Base
+  extend NameDelegator
+
   has_many :bookings
   has_one :address, as: :addressable
 
@@ -45,22 +47,7 @@ class Tool < ActiveRecord::Base
     where("LEAST(base_lead_time, expedited_lead_time) < ?", days_to_deadline)
   }
 
-  class << self
-    def name_delegator(*models)
-      models.each do |model|
-        define_method "#{model}_name" do
-          self.send(model).try(:name)
-        end
-
-        define_method "#{model}_name=" do |name|
-          model_class = model.to_s.classify.constantize
-          name = model_class.where(name: name).first || model_class.create(name: name)
-          self.send "#{model}=", name
-        end
-      end
-    end
-  end
-
+  delegate :full_street_address, :partial_address, to: :address
   name_delegator :manufacturer, :model, :tool_category
 
   def display_name
@@ -71,40 +58,20 @@ class Tool < ActiveRecord::Base
     [""] + Date.today.year.downto(1970).to_a
   end
 
-  def build_address_if_blank
-    build_address if self.address.blank?
-  end
-
   def owned_by?(user)
     user == self.owner
   end
 
-  def bookable_before?(deadline)
-    deadline = Date.parse(deadline) if deadline.is_a?(String)
-    days_to_deadline = ( deadline - Date.today ).to_i
-
-    [ base_lead_time, expedited_lead_time ].compact.min < days_to_deadline
+  def bookable_by?(deadline)
+    [ base_lead_time, expedited_lead_time ].compact.min < days_to_deadline(deadline)
   end
 
   def must_expedite?(deadline)
-    deadline = Date.parse(deadline) if deadline.is_a?(String)
-    deadline = deadline.to_date if !deadline.is_a?(Date)
-
-    days_to_deadline = ( deadline - Date.today ).to_i
-
-    bookable_before?(deadline) && base_lead_time >= days_to_deadline
+    bookable_by?(deadline) && base_lead_time >= days_to_deadline(deadline)
   end
 
   def price_for(deadline)
     must_expedite?(deadline) ? expedited_price : base_price
-  end
-
-  def full_street_address
-    self.address.full_street_address
-  end
-
-  def partial_address
-    [ self.address.city, self.address.state ].join(", ")
   end
 
   def sample_size_unit
@@ -144,6 +111,10 @@ class Tool < ActiveRecord::Base
 
   private
 
+  def build_address_if_blank
+    build_address if self.address.blank?
+  end
+
   def update_search_document
     self.document = [
       self.tool_category_name,
@@ -158,5 +129,11 @@ class Tool < ActiveRecord::Base
     min, max = DEFAULT_SAMPLE_SIZE
     self.sample_size_min ||= min
     self.sample_size_max ||= max
+  end
+
+  def days_to_deadline(deadline)
+    deadline = Date.parse(deadline) if deadline.is_a?(String)
+    deadline = deadline.to_date if !deadline.is_a?(Date)
+    ( deadline - Date.today ).to_i
   end
 end

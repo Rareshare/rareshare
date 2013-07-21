@@ -33,7 +33,7 @@ class BookingsController < InternalController
   def show
     @booking = Booking.find(params[:id])
 
-    unless @booking.can_be_shown_to?(current_user)
+    unless can? :read, @booking
       redirect_to profile_path, flash: { error: "You don't have permission to view the requested booking." }
     end
   end
