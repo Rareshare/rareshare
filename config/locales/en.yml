@@ -29,6 +29,13 @@ en:
       rareshare_send: "I'd like RareShare to arrange return shipping for the sample."
       owner_dispose: "I'd like the owner to arrange for the sample to be disposed."
       none_required: "No sample disposal required."
+    package_size:
+      UPSLetter: "Standard shipping envelope"
+      Pak: 'Hard pak or laboratory pak (roughly 15" x 12" or 38cm x 30cm)'
+      SmallExpressBox: 'Small box (roughly 13" x 11" x 2" or 33cm x 28cm x 5cm)'
+      MediumExpressBox: 'Medium box (roughly 15" x 11" x 3" or 38cm x 28cm x 7cm)'
+      LargeExpressBox: 'Large box (roughly 18" x 13" x 3" or 45cm x 33cm x 7cm)'
+
     state:
       owner:
         pending:   "You have not yet responded to this request."

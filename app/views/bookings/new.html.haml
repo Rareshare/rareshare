@@ -50,7 +50,15 @@
                 %p We'll let you know the address of the tool when the owner approves the booking.
 
               %div.transit.rareshare_send{ "data-bind" => "visible: sample_transit() == 'rareshare_send'" }
-                %p Please let us know where you'd like us to send the packaging materials.
+                %p
+                  Please let us know what size package you need, and we'll get you a label. If you're sending biological samples, please read this
+                  = link_to "guide to shipping biological samples", "http://www.dehs.umn.edu/bio_pracprin_std_ship_guide.htm"
+                  for more information. RareShare does not supply any packaging materials.
+
+                = f.input :shipping_package_size, as: :radio, collection: Booking::PackageSize::ALL.map {|k| [ t("bookings.package_size.#{k}"), k]}, label: ""
+
+                %p Additionally, we need to know where you're sending the package from.
+
                 - has_address  = current_user.address.present?
                 - full_address = has_address ? current_user.address.full_street_address : t('addresses.none_found')
 
@@ -71,6 +79,7 @@
                     = f.simple_fields_for :address do |a|
                       = render partial: 'addresses/form', object: a
 
+
               %div.transit.renter_send{ "data-bind" => "visible: sample_transit() == 'renter_send'" }
                 %p We'll let you know the address of the tool when the owner approves the booking.
 
@@ -89,7 +98,7 @@
                 %p We'll let you know the address of the tool when the owner approves the booking.
 
               %div.disposal.rareshare_send{ "data-bind" => "visible: sample_disposal() == 'rareshare_send'" }
-                %p Note that you cannot select this option unless you've given us a shipping address above.
+                %p We can only take care of the round trip if you give us an address above.
 
               %div.disposal.owner_dispose{ "data-bind" => "visible: sample_disposal() == 'owner_dispose'" }
                 %div.row

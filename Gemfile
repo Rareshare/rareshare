@@ -38,10 +38,13 @@ gem 'transitions', :require => ["transitions", "active_model/transitions"]
 gem 'geocoder' # Geocoding support
 gem 'simple_form', '~> 2.0.4' # Easy form builder.
 gem 'strong_parameters' # Better parameter support.
-gem 'kaminari'
-gem 'friendly_id' # Standard ID generation.
+gem 'kaminari' # ARec pagination
+gem 'friendly_id' # Standard slugged ID management
 gem 'ruby-units' # Definitions for standard and scientific units.
 gem 'country_select', git: "git://github.com/stefanpenner/country_select.git" # Use ISO codes.
+
+# Shipping
+gem 'easypost'
 
 # Rendering and style
 gem 'haml-rails'

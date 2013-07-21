@@ -20,6 +20,12 @@
       RareShare charges a 10% fee on every booking.
       = page_link_to "Learn more about our pricing.", page: "Learn More"
 
+    - if @booking.ship_outgoing?
+      %p You've selected outgoing shipping. Please indicate the type of shipping you'd like:
+      %ul
+        - @booking.outgoing_shipment.rates.each do |rate|
+          %li #{rate.service} (#{rate.rate})
+
     %h3 Review the Booking
     = render partial: "summary", locals: { booking: @booking }
 

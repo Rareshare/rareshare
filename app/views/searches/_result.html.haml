@@ -4,7 +4,7 @@
       = link_to tool_path(result.id) do
         - if result.images.any?
           %a{href: "#images", role: "button", data: { toggle: "modal" }}
-            %img.avatar{src: result.images.first.image.url(:thumb)}
+            %img.avatar{src: result.images.first.thumbnail}
         - else
           %i.avatar.icon-cogs
 

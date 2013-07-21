@@ -118,6 +118,7 @@ class BookingsController < InternalController
       :disposal_instructions,
       :address_id,
       :use_user_address,
+      :shipping_package_size,
       :address_attributes => address_attributes
     )
   end

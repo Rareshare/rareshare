@@ -185,7 +185,10 @@ CREATE TABLE bookings (
     address_id integer,
     sample_disposal character varying(255),
     disposal_instructions text,
-    currency character varying(3)
+    currency character varying(3),
+    shipping_package_size character varying(255),
+    shipping_price money,
+    rareshare_fee money
 );
 
 
@@ -1047,3 +1050,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130624140350');
 INSERT INTO schema_migrations (version) VALUES ('20130626035938');
 
 INSERT INTO schema_migrations (version) VALUES ('20130716131949');
+
+INSERT INTO schema_migrations (version) VALUES ('20130718193029');

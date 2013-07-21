@@ -2,6 +2,8 @@ class Booking < ActiveRecord::Base
   include ActiveModel::Transitions
   include ActiveModel::ForbiddenAttributesProtection
 
+  RARESHARE_FEE = BigDecimal.new("0.10")
+
   belongs_to :renter, class_name: "User"
   belongs_to :last_updated_by, class_name: "User"
   belongs_to :tool
@@ -42,6 +44,8 @@ class Booking < ActiveRecord::Base
           b.address = renter.address
         end
 
+        b.rareshare_fee = b.price * RARESHARE_FEE
+
         b.save
       end
     end
@@ -65,6 +69,17 @@ class Booking < ActiveRecord::Base
 
     ALL = [ IN_PERSON, RARESHARE_SEND, OWNER_DISPOSE, NONE_REQUIRED ]
   end
+
+  module PackageSize
+    ENVELOPE   = "UPSLetter"
+    PAK        = "Pak"
+    BOX_SMALL  = "SmallExpressBox"
+    BOX_MEDIUM = "MediumExpressBox"
+    BOX_LARGE  = "LargeExpressBox"
+
+    ALL = [ ENVELOPE, PAK, BOX_SMALL, BOX_MEDIUM, BOX_LARGE ]
+  end
+
 
   state_machine auto_scopes: true do
     state :pending
@@ -176,8 +191,40 @@ class Booking < ActiveRecord::Base
     I18n.t("bookings.state.#{viewer}.#{state}")
   end
 
+  def ship_outgoing?
+    self.sample_transit.to_s == Booking::Transit::RARESHARE_SEND.to_s
+  end
+
+  def ship_return?
+    self.sample_disposal.to_s == Booking::Disposal::RARESHARE_SEND.to_s
+  end
+
+  def outgoing_shipment
+    if ship_outgoing?
+      from   = self.address.easypost_address(name: renter.display_name)
+      to     = tool.address.easypost_address(name: owner.display_name)
+      parcel = EasyPost::Parcel.create(predefined_package: self.shipping_package_size, weight: 16.0)
+
+      EasyPost::Shipment.create(to_address: to, from_address: from, parcel: parcel)
+    else
+      nil
+    end
+  end
+
+  def return_shipment
+    if ship_return?
+      to     = self.address.easypost_address(name: renter.display_name)
+      from   = tool.address.easypost_address(name: owner.display_name)
+      parcel = EasyPost::Parcel.create(predefined_package: self.shipping_package_size, weight: 16.0)
+
+      EasyPost::Shipment.create(to_address: to, from_address: from, parcel: parcel)
+    else
+      nil
+    end
+  end
+
   def requires_address?
-    self.sample_transit == Booking::Transit::RARESHARE_SEND || self.sample_disposal == Booking::Disposal::RARESHARE_SEND
+    ship_outgoing? || ship_return?
   end
 
   def use_user_address=(val)

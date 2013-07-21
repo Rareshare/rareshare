@@ -7,6 +7,6 @@ class CalendarController < InternalController
       year, month = now.year, now.month
     end
 
-    @calendar = Calendar.new(year, month, current_user)
+    @calendar = Calendar.new(year: year, month: month, user: current_user)
   end
 end

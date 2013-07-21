@@ -1,20 +1,18 @@
 class Calendar
-  extend ActiveModel::Naming
+  include ActiveAttr::Model
 
-  attr_reader :year, :month
+  attribute :year, type: Integer
+  attribute :month, type: Integer
+  attribute :user
 
-  def initialize(year, month, user)
-    @year = year
-    @month = month
-    @user = user
-  end
+  def new_record?; false; end
 
   def weeks
     (start_of_calendar..end_of_calendar).to_a.in_groups_of(7)
   end
 
   def start_of_month
-    Date.new(@year, @month, 1)
+    Date.new(self.year, self.month, 1)
   end
 
   def start_of_calendar
@@ -31,12 +29,12 @@ class Calendar
 
   def next
     next_month = start_of_month + 1.month
-    Calendar.new(next_month.year, next_month.month, @user)
+    Calendar.new(year: next_month.year, month: next_month.month, user: self.user)
   end
 
   def prev
     prev_month = start_of_month - 1.month
-    Calendar.new(prev_month.year, prev_month.month, @user)
+    Calendar.new(year: prev_month.year, month: prev_month.month, user: self.user)
   end
 
   def to_param
@@ -48,7 +46,10 @@ class Calendar
   end
 
   def bookings
-    @bookings ||= Booking.joins(:tool).where("renter_id = ? OR tools.owner_id = ?", @user.id, @user.id).where("deadline >= ? AND deadline <= ?", start_of_month, end_of_month).all
+    @bookings ||= Booking.joins(:tool)
+      .where("renter_id = ? OR tools.owner_id = ?", self.user.id, self.user.id)
+      .where("deadline >= ? AND deadline <= ?", start_of_month, end_of_month)
+      .all
   end
 
   def days_of_week
