@@ -162,10 +162,6 @@ class Booking < ActiveRecord::Base
     end
   end
 
-  def address_for_map
-    public_address.gsub(/,\s,/, ',').gsub(/\s/, '+').gsub(/#/, '%23')
-  end
-
   def party?(user)
     renter?(user) || owner?(user)
   end

@@ -103,3 +103,12 @@
           %a.btn.btn-primary.modal-next= glyph_text "Next", :arrow_right
           %a.btn.btn-success.modal-play.modal-slideshow{"data-slideshow" => 5000}= glyph_text :play, "Slideshow"
 
+%div.row
+  %span.span8.offset2
+    %h3 Location
+    %h4.address
+      %strong
+        = @tool.partial_address
+    %iframe{width: "100%", height: "350", frameborder: "0", scrolling: "no", marginheight: "0", marginwidth: "0", src: google_maps_address_for(@tool.partial_address)}
+
+

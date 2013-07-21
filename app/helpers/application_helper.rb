@@ -155,4 +155,13 @@ module ApplicationHelper
       (function(fp) { fp.setKey("#{ENV['FILEPICKER_API_KEY']}") })(window.filepicker);
     JS
   end
+
+  def google_maps_address_for(address)
+    formatted_address = address_for_map(address)
+    raw("//maps.google.com/maps?f=q&q=#{formatted_address}&source=s_q&hl=en&geocode=&aq=&ie=UTF8&spn=0.706779,1.187897&t=m&z=10&output=embed")
+  end
+
+  def address_for_map(address)
+    address.gsub(/,\s,/, ',').gsub(/\s/, '+').gsub(/#/, '%23')
+  end
 end
