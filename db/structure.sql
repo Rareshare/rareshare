@@ -187,9 +187,9 @@ CREATE TABLE bookings (
     disposal_instructions text,
     currency character varying(3),
     shipping_package_size character varying(255),
-    shipping_weight numeric,
     shipping_price money,
-    rareshare_fee money
+    rareshare_fee money,
+    shipping_weight numeric
 );
 
 
@@ -210,6 +210,38 @@ CREATE SEQUENCE bookings_id_seq
 --
 
 ALTER SEQUENCE bookings_id_seq OWNED BY bookings.id;
+
+
+--
+-- Name: facilities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE facilities (
+    id integer NOT NULL,
+    user_id integer,
+    name character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: facilities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE facilities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: facilities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE facilities_id_seq OWNED BY facilities.id;
 
 
 --
@@ -482,7 +514,8 @@ CREATE TABLE tools (
     resolution integer,
     sample_size_unit_id character varying(255),
     resolution_unit_id character varying(255),
-    currency character varying(3)
+    currency character varying(3),
+    facility_id integer
 );
 
 
@@ -676,6 +709,13 @@ ALTER TABLE ONLY bookings ALTER COLUMN id SET DEFAULT nextval('bookings_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY facilities ALTER COLUMN id SET DEFAULT nextval('facilities_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY file_attachments ALTER COLUMN id SET DEFAULT nextval('file_attachments_id_seq'::regclass);
 
 
@@ -787,6 +827,14 @@ ALTER TABLE ONLY booking_logs
 
 ALTER TABLE ONLY bookings
     ADD CONSTRAINT bookings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: facilities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY facilities
+    ADD CONSTRAINT facilities_pkey PRIMARY KEY (id);
 
 
 --
@@ -917,13 +965,6 @@ CREATE UNIQUE INDEX index_file_attachments_for_uniqueness ON file_attachments US
 --
 
 CREATE INDEX index_file_attachments_on_attachable_type_and_attachable_id ON file_attachments USING btree (attachable_type, attachable_id);
-
-
---
--- Name: index_files_on_url; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_files_on_url ON files USING btree (url);
 
 
 --
@@ -1060,3 +1101,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130626035938');
 INSERT INTO schema_migrations (version) VALUES ('20130716131949');
 
 INSERT INTO schema_migrations (version) VALUES ('20130718193029');
+
+INSERT INTO schema_migrations (version) VALUES ('20130727142033');

@@ -9,6 +9,7 @@ class Tool < ActiveRecord::Base
   belongs_to :manufacturer
   belongs_to :tool_category
   belongs_to :user, counter_cache: true, foreign_key: :owner_id
+  belongs_to :facility
 
   has_many :user_messages, as: :topic
   has_many :file_attachments, as: :attachable
