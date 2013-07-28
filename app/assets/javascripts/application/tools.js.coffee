@@ -17,6 +17,9 @@ window.Tool = (input) ->
   @images = ko.observableArray(input.images)
   @sampleSize = new SampleSize(input.sample_size)
 
+  @showFacility = ko.computed () =>
+    @facility_id() is "" or @facility_id() is null
+
   @currencySymbol = ko.computed () =>
     if @currency() is "USD" then "$" else "£"
 

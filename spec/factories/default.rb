@@ -20,11 +20,16 @@ FactoryGirl.define do
     country "US"
   end
 
+  factory :facility do
+    sequence(:name) { |n| "Facility #{n}" }
+    address
+  end
+
   factory :tool do
     model
     manufacturer
     tool_category
-    address
+    facility
     can_expedite false
     association :owner, factory: :user
     resolution 10

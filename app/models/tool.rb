@@ -2,7 +2,6 @@ class Tool < ActiveRecord::Base
   extend NameDelegator
 
   has_many :bookings
-  has_one :address, as: :addressable
 
   belongs_to :owner, class_name: "User"
   belongs_to :model
@@ -15,7 +14,6 @@ class Tool < ActiveRecord::Base
   has_many :file_attachments, as: :attachable
   accepts_nested_attributes_for :file_attachments, allow_destroy: true
 
-  after_initialize :build_address_if_blank
   before_save :update_search_document
   after_validation :geocode
   geocoded_by :full_street_address
@@ -38,7 +36,7 @@ class Tool < ActiveRecord::Base
             :resolution,
             numericality: { greater_than: 0, allow_nil: true }
 
-  accepts_nested_attributes_for :address, allow_destroy: true
+  accepts_nested_attributes_for :facility, allow_destroy: true, reject_if: :facility_rejected?
 
   DEFAULT_SAMPLE_SIZE = [ -4, 4 ]
   after_initialize :set_default_sample_size
@@ -48,6 +46,7 @@ class Tool < ActiveRecord::Base
     where("LEAST(base_lead_time, expedited_lead_time) < ?", days_to_deadline)
   }
 
+  delegate :address, to: :facility
   delegate :full_street_address, :partial_address, to: :address
   name_delegator :manufacturer, :model, :tool_category
 
@@ -56,7 +55,7 @@ class Tool < ActiveRecord::Base
   end
 
   def possible_years
-    [""] + Date.today.year.downto(1970).to_a
+    Date.today.year.downto(1970).to_a
   end
 
   def owned_by?(user)
@@ -112,10 +111,6 @@ class Tool < ActiveRecord::Base
 
   private
 
-  def build_address_if_blank
-    build_address if self.address.blank?
-  end
-
   def update_search_document
     self.document = [
       self.tool_category_name,
@@ -137,4 +132,9 @@ class Tool < ActiveRecord::Base
     deadline = deadline.to_date if !deadline.is_a?(Date)
     ( deadline - Date.today ).to_i
   end
+
+  def facility_rejected?(attrs)
+    attrs[:address_attributes][:address_line_1].blank?
+  end
+
 end

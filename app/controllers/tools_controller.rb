@@ -38,7 +38,7 @@ class ToolsController < InternalController
     authorize! :create, @tool
 
     if @tool.valid?
-      redirect_to tool_images_path(@tool), flash: { notify: "Tool created! Why not add some images?" }
+      redirect_to tools_path, flash: { notify: "Tool created." }
     else
       render 'tools/new'
     end
@@ -46,7 +46,7 @@ class ToolsController < InternalController
 
   def destroy
     tool = current_user.tools.find(params[:id])
-    authorize! :destroy, @tool
+    authorize! :destroy, tool
 
     if tool.present?
       tool.destroy
@@ -80,7 +80,11 @@ class ToolsController < InternalController
       :manufacturer_name,
       :model_name,
       :address_id,
-      :address_attributes => address_attributes,
+      :facility_id,
+      :facility_attributes => [
+        :name,
+        { :address_attributes => address_attributes }
+      ],
       :file_attachments_attributes => [
         :id,
         :file_id,
@@ -88,7 +92,11 @@ class ToolsController < InternalController
         :category,
         :_destroy
       ]
-    )
+    ).tap do |params|
+      if params[:facility_attributes].present?
+        params[:facility_attributes][:user_id] = current_user.id
+      end
+    end
   end
 
 end

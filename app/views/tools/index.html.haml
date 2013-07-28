@@ -18,16 +18,19 @@
             %th Cost
             %th Options
         %tbody
-          - @tools.each do |t|
-            %tr
-              %td= link_to t.display_name, tool_path(t)
-              %td
-                = price_per_sample t, :base
-                - if t.can_expedite?
-                  %br
-                  = price_per_sample t, :expedited
-              %td
-                = simple_form_for t, method: :delete, html: { class: "no-margin" } do |f|
-                  .form-actions
-                    = link_to "Edit", edit_tool_path(t), class: "btn btn-mini btn-info"
-                    = f.submit "Delete", class: "btn btn-mini btn-danger", data: { toggle: "confirm", title: "Delete Tool" }
+          - @tools.group_by(&:facility).each.with_index do |(facility, tools), index|
+            - tools.each do |t|
+              %tr
+                - if index == 0
+                  %td{rowspan: tools.length}= facility.title
+                %td= link_to t.display_name, tool_path(t)
+                %td
+                  = price_per_sample t, :base
+                  - if t.can_expedite?
+                    %br
+                    = price_per_sample t, :expedited
+                %td
+                  = simple_form_for t, method: :delete, html: { class: "no-margin" } do |f|
+                    .form-actions
+                      = link_to "Edit", edit_tool_path(t), class: "btn btn-mini btn-info"
+                      = f.submit "Delete", class: "btn btn-mini btn-danger", data: { toggle: "confirm", title: "Delete Tool" }

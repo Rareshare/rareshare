@@ -26,7 +26,7 @@
               = f.input :model_name, required: true, input_html: { autocomplete: "off", data: { bind: "typeahead: model_name", lookup: typeahead_path(:model) } }
 
             %span.span2
-              = f.input :year_manufactured, as: :select, collection: @tool.possible_years, prompt: "Unknown"
+              = f.input :year_manufactured, as: :select, collection: @tool.possible_years, prompt: "Unknown", include_blank: true
 
           %div.row
             %span.span8
@@ -110,10 +110,14 @@
           %legend
             %a.tip{href: "#", title: t('data.private'), data: { toggle: "tooltip" }}
               %i.icon-lock.icon-large
-            Only visible to lessors
-          = f.simple_fields_for :address do |a|
-            = a.hidden_field :id
-            = render partial: 'addresses/form', object: a
+            Facility
+          = f.input :facility, as: :select, collection: current_user.facilities, label_method: :title, include_blank: "Create a new facility", input_html: { "data-bind" => "value: facility_id" }
+          %div.facility{data: { bind: "visible: showFacility" }}
+            = f.simple_fields_for :facility, Facility.new do |fa|
+              = fa.input :name
+              = fa.simple_fields_for :address, fa.object.build_address do |a|
+                = a.hidden_field :id
+                = render partial: 'addresses/form', object: a
 
       - unless @tool.new_record?
         = f.simple_fields_for :file_attachments_attributes, index: nil do |i|
