@@ -1,5 +1,4 @@
 class BookingsController < InternalController
-  before_filter :authenticate_user!
 
   def new
     tool = Tool.find(params[:tool_id])
@@ -74,35 +73,23 @@ class BookingsController < InternalController
 
   def finalize
     @booking = Booking.find(params[:id])
+    authorize! :finalize, @booking
   end
 
-  def paid
+  def pay
+    @booking = Booking.find(params[:id])
 
+    transaction_params = params.require(:transaction).permit(:stripe_token, :shipping_service)
+
+    @booking.update_attributes(transaction_params)
+
+    if @booking.pay!
+      redirect_to booking_path(@booking), notice: "Successfully finalized booking."
+    else
+      flash[:error] = @booking.errors.full_messages
+      render 'finalize'
+    end
   end
-
-  # def pay
-  #   @booking = Booking.find(params[:id])
-
-  #   credit_card_params = params.require(:transaction).require(:credit_card).permit(
-  #     :number, :cvv, :expiration_date, :expiration_month, :expiration_year
-  #   )
-
-  #   result = Braintree::Transaction.sale(
-  #     amount:      @booking.price,
-  #     credit_card: credit_card_params,
-  #     options:     { submit_for_settlement: true }
-  #   )
-
-  #   if result.success?
-  #     Transaction.create! booking: @booking, customer: current_user, amount: @booking.price
-  #     @booking.updated_by = current_user
-  #     @booking.finalize!
-  #     redirect_to booking_path(@booking), flash: { notify: "Booking finalized." }
-  #   else
-  #     flash[:error] = result.message
-  #     render 'finalize'
-  #   end
-  # end
 
   private
 

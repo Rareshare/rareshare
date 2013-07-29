@@ -1,8 +1,8 @@
 %table.table
   %tbody
     %tr
-      %th Tool
-      %td= link_to booking.tool.display_name, tool_path(booking.tool)
+      %th.span3 Tool
+      %td.span5= link_to booking.tool.display_name, tool_path(booking.tool)
     %tr
       %th Price
       %td= number_to_currency booking.price, unit: currency_for(booking)
@@ -23,7 +23,6 @@
       %td
         = t("bookings.sample_transit.#{booking.sample_transit}")
         - if @booking.ship_outgoing?
-          - raise @booking.outgoing_shipment.inspect
           %ul
             - @booking.outgoing_shipment.rates.each do |rate|
               %li #{rate.service} (#{rate.rate})

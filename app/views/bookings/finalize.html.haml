@@ -1,5 +1,8 @@
 - nav_category "Find a Tool"
 
+- content_for :head do
+  = javascript_include_tag "https://js.stripe.com/v2/"
+
 %div.row.row-header
   %span.span2.header-avatar
     - if @booking.tool.images.any?
@@ -13,20 +16,74 @@
     %span.muted
       = @booking.display_name
 
-%div.row
-  %span.offset2.span8
-    %p
-      In order to finalize the booking, you must pay the booking price and RareShare commission.
-      RareShare charges a 10% fee on every booking.
-      = page_link_to "Learn more about our pricing.", page: "Learn More"
+= simple_form_for :transaction, url: finalize_booking_path(@booking), html: { class: "payment", "data-stripe-key" => ENV["STRIPE_PUBLIC_KEY"] } do |f|
+  %div.form-inputs
+    %fieldset
+      %div.row
+        %span.offset2.span8
+          %legend Review the Booking
+          = render partial: "summary", locals: { booking: @booking }
 
-    - if @booking.ship_outgoing?
-      %p You've selected outgoing shipping. Please indicate the type of shipping you'd like:
-      %ul
-        - @booking.outgoing_shipment.rates.each do |rate|
-          %li #{rate.service} (#{rate.rate})
+      - if @booking.ship_outgoing?
+        %fieldset
+          %div.row
+            %span.offset2.span8
 
-    %h3 Review the Booking
-    = render partial: "summary", locals: { booking: @booking }
+              %legend Shipping
+              %p You've selected outgoing shipping. Please indicate the type of shipping you'd like:
+              = f.input :shipping_service, as: :select, collection: @booking.outgoing_shipment_rates, label_method: :display_name, value_method: :service
 
-    = paypal_button_for @booking
+        %p
+          In order to finalize the booking, you must pay the booking price and RareShare commission.
+          RareShare charges a 10% fee on every booking.
+          = page_link_to "Learn more about our pricing.", page: "Learn More"
+
+          %table.table
+            %tbody
+              %tr
+                %th.span3 Base price
+                %td.span5= @booking.price
+              %tr
+                %th RareShare fee
+                %td{data: { bind: "text: rareshare_fee" }}= @booking.rareshare_fee
+              %tr
+                %th Shipping
+                %td{data: { bind: "text: shipping_price" }}= @booking.shipping_price
+              %tr
+                %th Final Price
+                %td{data: { bind: "text: final_price" }}= @booking.final_price
+
+    %fieldset
+      %div.row
+        %span.offset2.span8
+          %legend Payment
+          = f.hidden_field :stripe_token
+
+          %div.row
+            %span.span4
+              = f.input :number, wrapper: :append do
+                %input.cc-number.string{type: "text", autocomplete: "on", data: { stripe: "number" }}
+                %span.add-on
+                  %i.icon-credit-card
+            %span.span2
+              = f.input :cvv, label: "CVV", wrapper: :append do
+                %input.cc-cvv.string{type: "text", autocomplete: "off", data: { stripe: "cvc" }}
+                %span.add-on
+                  %i.icon-lock
+            %span.span2
+              = f.input :expiration, wrapper: :append do
+                %input.cc-expiry{type: "text", autocomplete: "on", data: { stripe: "exp" }}
+                %span.add-on
+                  %i.icon-calendar
+
+  %div.row
+    %span.offset2.span8
+      = f.submit "Finalize & Pay", class: "btn btn-primary"
+      = link_to "Cancel", booking_path(@booking), class: "btn btn-default"
+
+:javascript
+  $(function() {
+    window.booking = new Booking(#{@booking.to_json});
+    ko.applyBindings({ booking: booking });
+  });
+

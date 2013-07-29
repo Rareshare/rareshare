@@ -172,7 +172,7 @@ CREATE TABLE bookings (
     id integer NOT NULL,
     renter_id integer,
     tool_id integer,
-    price money,
+    price money DEFAULT 0.0,
     deadline timestamp without time zone,
     sample_description text,
     state character varying(255),
@@ -187,9 +187,10 @@ CREATE TABLE bookings (
     disposal_instructions text,
     currency character varying(3),
     shipping_package_size character varying(255),
-    shipping_price money,
-    rareshare_fee money,
-    shipping_weight numeric
+    shipping_price money DEFAULT 0.0,
+    rareshare_fee money DEFAULT 0.0,
+    shipping_weight numeric,
+    shipping_service character varying(255)
 );
 
 
@@ -1103,3 +1104,9 @@ INSERT INTO schema_migrations (version) VALUES ('20130716131949');
 INSERT INTO schema_migrations (version) VALUES ('20130718193029');
 
 INSERT INTO schema_migrations (version) VALUES ('20130727142033');
+
+INSERT INTO schema_migrations (version) VALUES ('20130728164032');
+
+INSERT INTO schema_migrations (version) VALUES ('20130728221705');
+
+INSERT INTO schema_migrations (version) VALUES ('20130729125543');

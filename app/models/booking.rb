@@ -14,7 +14,8 @@ class Booking < ActiveRecord::Base
 
   accepts_nested_attributes_for :address, allow_destroy: true
 
-  attr_accessor :updated_by # Virtual attribute to enforce last_updated_by update.
+  attr_accessor :updated_by   # Virtual attribute to enforce last_updated_by update.
+  attr_accessor :stripe_token # Virtual attribute to assist with Stripe payment.
 
   validates_presence_of :tool_id, :renter_id, :tool_id, :sample_description, :deadline, :price, :sample_deliverable, :sample_transit, :sample_disposal, :updated_by
   validates_inclusion_of :tos_accepted, in: [ "1", 1, true ], message: "Please accept the Terms of Service."
@@ -37,6 +38,7 @@ class Booking < ActiveRecord::Base
         b.renter     = renter
         b.updated_by = renter
         b.price      = b.tool.price_for b.deadline
+        b.currency   = b.tool.currency
 
         if !b.requires_address?
           b.address = nil
@@ -202,6 +204,16 @@ class Booking < ActiveRecord::Base
     end
   end
 
+  def outgoing_shipment_rates
+    ( outgoing_shipment.try(:rates) || [] ).map do |rate|
+      OpenStruct.new(
+        display_name: "#{rate.service} (#{rate.rate})",
+        service: rate.service,
+        rate: rate.rate
+      )
+    end
+  end
+
   def return_shipment
     if ship_return?
       to     = self.address.easypost_address(name: renter.display_name)
@@ -230,7 +242,38 @@ class Booking < ActiveRecord::Base
   alias_method :use_user_address?, :use_user_address
 
   def as_json(options)
-    super(options).merge(use_user_address: use_user_address)
+    super(options).merge(use_user_address: use_user_address, outgoing_shipment_rates: outgoing_shipment_rates)
+  end
+
+  def final_price
+    self.price + self.shipping_price + self.rareshare_fee
+  end
+
+  def final_price_in_cents
+    ( self.final_price * 100 ).to_i
+  end
+
+  def pay!
+    Stripe::Charge.create(
+      amount: self.final_price_in_cents,
+      currency: self.currency,
+      card: self.stripe_token,
+      description: self.display_name + " by " + self.renter.display_name
+    )
+
+    self.updated_by = renter
+    self.finalize!
+
+    Transaction.create! booking: @booking, customer: self.renter, amount: self.final_price
+  rescue Stripe::CardError => e
+    errors.add :stripe_token, "Your card has been declined."
+    false
+  rescue => e
+    errors.add_to_base "There has been a problem processing your transaction."
+    # TODO Capture this in a proper error handling service.
+    Rails.logger.error e.message
+    Rails.logger.error e.backtrace.join("\n")
+    false
   end
 
   protected

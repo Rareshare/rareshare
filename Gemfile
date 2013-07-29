@@ -44,8 +44,9 @@ gem 'friendly_id' # Standard slugged ID management
 gem 'ruby-units' # Definitions for standard and scientific units.
 gem 'country_select', git: "git://github.com/stefanpenner/country_select.git" # Use ISO codes.
 
-# Shipping
+# Shipping and payment
 gem 'easypost'
+gem 'stripe'
 
 # Rendering and style
 gem 'haml-rails'
