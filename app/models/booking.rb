@@ -1,6 +1,8 @@
+# encoding: UTF-8
 class Booking < ActiveRecord::Base
   include ActiveModel::Transitions
   include ActiveModel::ForbiddenAttributesProtection
+  include ActionView::Helpers::NumberHelper
 
   RARESHARE_FEE_PERCENT = BigDecimal.new("0.10")
 
@@ -193,36 +195,47 @@ class Booking < ActiveRecord::Base
   end
 
   def outgoing_shipment
-    if ship_outgoing?
-      from   = self.address.easypost_address(name: renter.display_name)
-      to     = tool.address.easypost_address(name: owner.display_name)
-      parcel = EasyPost::Parcel.create(predefined_package: self.shipping_package_size, weight: 16.0)
+    @outgoing_shipment ||= begin
+      if ship_outgoing?
+        from   = self.address.easypost_address(name: renter.display_name)
+        to     = tool.address.easypost_address(name: owner.display_name)
+        parcel = EasyPost::Parcel.create(predefined_package: self.shipping_package_size, weight: 16.0)
 
-      EasyPost::Shipment.create(to_address: to, from_address: from, parcel: parcel)
-    else
-      nil
+        EasyPost::Shipment.create(to_address: to, from_address: from, parcel: parcel)
+      else
+        nil
+      end
     end
+  end
+
+  def currency_symbol
+    ( self.currency.blank? || self.currency == "USD" ) ? "$" : "£"
   end
 
   def outgoing_shipment_rates
     ( outgoing_shipment.try(:rates) || [] ).map do |rate|
-      OpenStruct.new(
-        display_name: "#{rate.service} (#{rate.rate})",
-        service: rate.service,
-        rate: rate.rate
-      )
+      service = I18n.t("shipping.rates.#{rate.service}")
+      displayed_rate = number_to_currency rate.rate, unit: self.currency_symbol
+
+      {
+        display_name: "#{service} (#{displayed_rate})",
+        rate: rate.rate,
+        service: rate.service
+      }
     end
   end
 
   def return_shipment
-    if ship_return?
-      to     = self.address.easypost_address(name: renter.display_name)
-      from   = tool.address.easypost_address(name: owner.display_name)
-      parcel = EasyPost::Parcel.create(predefined_package: self.shipping_package_size, weight: 16.0)
+    @return_shipment ||= begin
+      if ship_return?
+        to     = self.address.easypost_address(name: renter.display_name)
+        from   = tool.address.easypost_address(name: owner.display_name)
+        parcel = EasyPost::Parcel.create(predefined_package: self.shipping_package_size, weight: 16.0)
 
-      EasyPost::Shipment.create(to_address: to, from_address: from, parcel: parcel)
-    else
-      nil
+        EasyPost::Shipment.create(to_address: to, from_address: from, parcel: parcel)
+      else
+        nil
+      end
     end
   end
 
@@ -242,7 +255,11 @@ class Booking < ActiveRecord::Base
   alias_method :use_user_address?, :use_user_address
 
   def as_json(options)
-    super(options).merge(use_user_address: use_user_address, outgoing_shipment_rates: outgoing_shipment_rates)
+    super(options).merge(
+      use_user_address: use_user_address,
+      outgoing_shipment_rates: outgoing_shipment_rates,
+      currency_symbol: currency_symbol
+    )
   end
 
   def final_price

@@ -14,6 +14,17 @@ window.Booking = (input) ->
   @canSubmit = ko.computed () =>
     @stepOneComplete() and @stepTwoComplete() and @stepThreeComplete()
 
+  @shipping_rate = ko.computed () =>
+    @shipping_service()?.rate || 0.00
+
+  # NOTE: This is used only for display purposes, and never used to charge the user.
+  @final_price = ko.computed () =>
+    parseFloat(@price()) + parseFloat(@shipping_rate()) + parseFloat(@rareshare_fee())
+
+  @money = (valueAccessor) =>
+    ko.computed () =>
+      accounting.formatMoney(valueAccessor(), @currency_symbol())
+
   this
 
 $ ->

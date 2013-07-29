@@ -1,5 +1,12 @@
 - nav_category "Find a Tool"
 
+- content_for :head do
+  :javascript
+    $(function() {
+      window.booking = new Booking(#{@booking.to_json});
+      ko.applyBindings({ booking: booking });
+    });
+
 %div.row.row-header
   %span.span2.header-avatar
     %i.avatar.icon-cogs
@@ -55,7 +62,7 @@
                   = link_to "guide to shipping biological samples", "http://www.dehs.umn.edu/bio_pracprin_std_ship_guide.htm"
                   for more information. RareShare does not supply any packaging materials.
 
-                = f.input :shipping_package_size, as: :radio, collection: Booking::PackageSize::ALL.map {|k| [ t("bookings.package_size.#{k}"), k]}, label: ""
+                = f.input :shipping_package_size, as: :radio, collection: Booking::PackageSize::ALL.map {|k| [ t("shipping.package_size.#{k}"), k]}, label: ""
 
                 %p Additionally, we need to know where you're sending the package from.
 
@@ -121,9 +128,3 @@
       %span.offset2.span10
         = f.submit "Reserve", class: "btn btn-primary", "data-bind" => "enable: canSubmit"
         = link_to "Cancel", :back, class: "btn"
-
-  :javascript
-    $(function() {
-      window.booking = new Booking(#{@booking.to_json});
-      ko.applyBindings({ booking: booking });
-    });

@@ -1,8 +1,3 @@
-window.Booking = (input) ->
-  this[k] = ko.observable(v) for k, v of input
-
-  this
-
 $ ->
   $("form.payment").each () ->
     form = $(this)
@@ -24,7 +19,6 @@ $ ->
       cvc: cvc.val(),
       exp_month: expiry.month,
       exp_year: expiry.year
-
 
     form.submit (evt) ->
       evt.preventDefault()

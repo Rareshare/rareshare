@@ -16,7 +16,7 @@
     %span.muted
       = @booking.display_name
 
-= simple_form_for :transaction, url: finalize_booking_path(@booking), html: { class: "payment", "data-stripe-key" => ENV["STRIPE_PUBLIC_KEY"] } do |f|
+= simple_form_for :transaction, url: finalize_booking_path(@booking), html: { class: "payment", "data-bind" => "with: booking" } do |f|
   %div.form-inputs
     %fieldset
       %div.row
@@ -31,33 +31,33 @@
 
               %legend Shipping
               %p You've selected outgoing shipping. Please indicate the type of shipping you'd like:
-              = f.input :shipping_service, as: :select, collection: @booking.outgoing_shipment_rates, label_method: :display_name, value_method: :service
-
-        %p
-          In order to finalize the booking, you must pay the booking price and RareShare commission.
-          RareShare charges a 10% fee on every booking.
-          = page_link_to "Learn more about our pricing.", page: "Learn More"
-
-          %table.table
-            %tbody
-              %tr
-                %th.span3 Base price
-                %td.span5= @booking.price
-              %tr
-                %th RareShare fee
-                %td{data: { bind: "text: rareshare_fee" }}= @booking.rareshare_fee
-              %tr
-                %th Shipping
-                %td{data: { bind: "text: shipping_price" }}= @booking.shipping_price
-              %tr
-                %th Final Price
-                %td{data: { bind: "text: final_price" }}= @booking.final_price
+              = f.input :shipping_service, as: :select, input_html: { "data-bind" => "value: shipping_service, options: outgoing_shipment_rates, optionsText: 'display_name', optionsCaption: \"Never mind; I'll provide shipping myself\"" }
 
     %fieldset
       %div.row
         %span.offset2.span8
           %legend Payment
           = f.hidden_field :stripe_token
+
+          %p
+            In order to finalize the booking, you must pay the booking price and RareShare commission.
+            RareShare charges a 10% fee on every booking.
+            = page_link_to "Learn more about our pricing.", page: "Learn More"
+
+            %table.table
+              %tbody
+                %tr
+                  %th.span3 Base price
+                  %td.span5{data: { bind: "text: money(price)" }}= @booking.price
+                %tr
+                  %th RareShare fee
+                  %td{data: { bind: "text: money(rareshare_fee)" }}= @booking.rareshare_fee
+                %tr
+                  %th Shipping
+                  %td{data: { bind: "text: money(shipping_rate)" }}= @booking.shipping_price
+                %tr
+                  %th Final Price
+                  %td{data: { bind: "text: money(final_price)" }}= @booking.final_price
 
           %div.row
             %span.span4

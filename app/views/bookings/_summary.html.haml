@@ -20,13 +20,7 @@
       %td= booking.sample_deliverable
     %tr
       %th Sample transit
-      %td
-        = t("bookings.sample_transit.#{booking.sample_transit}")
-        - if @booking.ship_outgoing?
-          %ul
-            - @booking.outgoing_shipment.rates.each do |rate|
-              %li #{rate.service} (#{rate.rate})
-
+      %td= t("bookings.sample_transit.#{booking.sample_transit}")
     %tr
       %th Sample disposal
       %td= t("bookings.sample_disposal.#{booking.sample_disposal}")
