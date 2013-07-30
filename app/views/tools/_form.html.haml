@@ -70,7 +70,7 @@
 
       %div.row
         %span.span2
-          %p.help-block The pricing structure for your tool. If you need help determining what the right values should be, please get in touch.
+          %p.help-block= t 'pricing.help'
         %span.span8
           %legend Pricing
           %div.row{style: "margin-bottom: 10px"}
@@ -84,23 +84,32 @@
                 GBP (£)
 
           %div.row
-            %span.span3
+            %span.span2
+              = f.input :samples_per_run, data: { bind: "value: samples_per_run" }
+            %span.span2
               = f.input :base_lead_time, input_html: { min: 1 }
             %span.span4
               = f.input :base_price, wrapper: "prepend" do
                 = content_tag :span, "", class: "add-on currency", data: { bind: "text: currencySymbol" }
                 = f.input_field :base_price, min: 0, type: "number", step: "any"
+
           %div.row
             %span.span8
               = f.input :can_expedite, label: false, inline_label: raw("Offer expedited pricing? " + content_tag(:span, "Recommended", class: "label label-info")), input_html: { "data-bind" => "checked: can_expedite" }
           %div.row
-            %span.span3
+            %span.span2
               = f.input :expedited_lead_time, input_html: { min: 1, "data-bind" => "enable: can_expedite" }
             %span.span4
               = f.input :expedited_price, wrapper: "prepend" do
                 = content_tag :span, "", class: "add-on currency", data: { bind: "text: currencySymbol" }
                 = f.input_field :expedited_price, min: 0, type: "number", step: "any", data: { bind: "enable: can_expedite" }
 
+          %div.row
+            %span.span8
+              = f.input :can_bulkify, label: false, inline_label: "Offer bulk pricing?", input_html: { "data-bind" => "checked: can_bulkify"}
+          %div.row
+            %span.span3
+              = f.input :bulk_runs, input_html: { "data-bind" => "enable: can_bulkify" }
 
     %fieldset
       %div.row
@@ -113,7 +122,7 @@
             Facility
           %div.row
             %span.span8
-              = f.input :facility, as: :select, collection: current_user.facilities, label_method: :title, include_blank: "Create a new facility", input_html: { "data-bind" => "value: facility_id" }
+              = f.input :facility_id, as: :select, collection: current_user.facilities, label_method: :title, include_blank: "Create a new facility", input_html: { "data-bind" => "value: facility_id" }
           = f.simple_fields_for :facility, Facility.new do |fa|
             %div.facility{data: { bind: "visible: showFacility" }}
               %div.row
@@ -123,30 +132,30 @@
                 = a.hidden_field :id
                 = render partial: 'addresses/form', object: a
 
-      - unless @tool.new_record?
-        = f.simple_fields_for :file_attachments_attributes, index: nil do |i|
-          %fieldset
-            %div.row
-              %span.span2
-                %p.help-block Add a picture or two.
-              %span.span8
-                %legend
-                  %i.icon-picture.icon-large
-                  Images
-                %ul.unstyled.file-list{data: { bind: "sortable: images" }}
-                  %li
-                    %a.destroy{data: { bind: "click: $parent.removeFile" } }
-                      %i.icon-remove-sign
-                    %img{data: { bind: "attr: { src: thumbnail }" }}
-                    = i.hidden_field :id,       data: { bind: "value: id" }
-                    = i.hidden_field :file_id,  data: { bind: "value: file_id" }
-                    = i.hidden_field :position, data: { bind: "value: $index" }
-                    = i.hidden_field :_destroy, class: "destroyed", data: { bind: "value: $data._destroy" }
-                    = i.hidden_field :category, value: FileAttachment::Categories::IMAGE
-                %ul.unstyled.file-list
-                  %li
-                    %a.add-file{data: { bind: "click: addFile", upload: files_path }}
-                      %i.icon-plus-sign
+
+      = f.simple_fields_for :file_attachments_attributes, index: nil do |i|
+        %fieldset
+          %div.row
+            %span.span2
+              %p.help-block Add a picture or two.
+            %span.span8
+              %legend
+                %i.icon-picture.icon-large
+                Images
+              %ul.unstyled.file-list{data: { bind: "sortable: images" }}
+                %li
+                  %a.destroy{data: { bind: "click: $parent.removeFile" } }
+                    %i.icon-remove-sign
+                  %img{data: { bind: "attr: { src: thumbnail }" }}
+                  = i.hidden_field :id,       data: { bind: "value: id" }
+                  = i.hidden_field :file_id,  data: { bind: "value: file_id" }
+                  = i.hidden_field :position, data: { bind: "value: $index" }
+                  = i.hidden_field :_destroy, class: "destroyed", data: { bind: "value: $data._destroy" }
+                  = i.hidden_field :category, value: FileAttachment::Categories::IMAGE
+              %ul.unstyled.file-list
+                %li
+                  %a.add-file{data: { bind: "click: addFile", upload: files_path }}
+                    %i.icon-plus-sign
 
   %div.row
     %span.offset2.span8

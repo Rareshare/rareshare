@@ -20,26 +20,41 @@
   = f.input :deadline, as: :hidden
   %div.form-inputs
     %fieldset
-      %div.row
-        %span.span2
-        %span.span8
-          %p
-            Request to book
-            = link_to @booking.tool.display_name, tool_path(@booking.tool)
-            to process a sample on or before #{@booking.deadline.to_date.to_s(:long)}.
-            The total cost for this reservation will be #{number_to_currency @booking.price, unit: currency_for(@booking)}.
-
       %div.row.step{ "data-bind" => "css: { complete: stepOneComplete }"}
         %span.span2
           %h1 1
           %small
-            What are you studying, and what results do you need?
+            What do you need, and when do you need it?
+
         %span.span8
+          %div.row
+            %span.span5
+              = f.input :deadline, as: :string, input_html: { class: "date", "data-bind" => "pickadate: { value: deadline, min: #{@booking.tool.minimum_future_lead_time}}" }
+            %span.span3
+              = f.input :samples, input_html: { "data-bind" => "value: samples", min: 1 }
+
           %div.row
             %span.span8
               = f.input :sample_description, input_html: { "data-bind" => "wysihtml5: sample_description" }
+          %div.row
             %span.span8
               = f.input :sample_deliverable, input_html: { "data-bind" => "wysihtml5: sample_deliverable" }
+
+        %span.span2.pricing{data: { spy: "affix", "offset-top" => "252" }}
+          %div{style: "margin: 10px;"}
+            %dl
+              %dt Samples / run
+              %dd{data: { bind: "text: tool().samples_per_run" }}
+              %dt Price / run
+              %dd{data: { bind: "text: money(est_price_per_run)" }}
+              %dt Runs required
+              %dd{data: { bind: "text: est_runs_required" }}
+              %dt Total run price
+              %dd{data: { bind: "text: money(est_total_price)" }}
+            %span.label.label-warning{data: { bind: "visible: must_expedite" }} Expedited
+            %span.label.label-success{data: { bind: "visible: must_bulkify" }} Bulk (-20%)
+
+
 
       %div.row.step{ "data-bind" => "css: { complete: stepTwoComplete }"}
         %span.span12.border
@@ -118,7 +133,7 @@
         %span.span12.border
         %span.span2
           %h1 3
-          %small Read the terms and conditions.
+          %small Review the pricing and read the terms and conditions.
         %span.span8
           %div.terms_and_conditions= terms_and_conditions
 

@@ -1,331 +1,498 @@
-
-
+/* ==========================================================================
+   $BASE-PICKER
+   ========================================================================== */
+/* ==========================================================================
+   $VARIABLES
+   ========================================================================== */
 /**
- * Classic styling for pickadate.js
- * Demo: http://amsul.github.com/pickadate.js/themes.htm#classic
+ * Base colors
  */
-
 /**
- * Colors used:
- *
- * #0089ec -> Base blue
- * #b1dcfb -> Hover blue bg
- *
- * #0059bc -> Dark blue for "today" tag
- * #aaa    -> Light grey for "today" tag if disabled
- *
- * #f5f5f5 -> Dimmed grey bg for disabled days
- * #ddd    -> Less dimmed grey for text in disabled & outfocus days
- *
- * #777    -> Grey for calendar border
- * #888    -> Slightly lighter grey for calendar top border
- *
- * #999    -> Medium grey used for year & weekday labels
- *
- * #e20    -> Red used for "clear" icon
- *
- * #000    -> Black
- * #fff    -> White
- *
+ * Backgrounds
  */
-
-
 /**
- * When the calendar is open
+ * Borders
  */
-
-/* And add the "active" state to the input */
-/*input*/.pickadate__input--active {
-    border-color: #0089ec !important;
+/**
+ * Buttons
+ */
+/**
+ * Picker base
+ */
+/**
+ * Date picker options
+ */
+/**
+ * Theme configurations
+ */
+/* ==========================================================================
+   $MIXINS
+   ========================================================================== */
+/**
+ * Common picker item states
+ */
+/**
+ * Opacity
+ */
+/**
+ * Vendor prefixes
+ */
+/**
+ * Note: the root picker element should __NOT__ be styled
+ * more than what’s here. Style the `.picker__holder` instead.
+ */
+.picker {
+  font-size: 16px;
+  text-align: left;
+  line-height: 1.2;
+  color: #000000;
+  position: absolute;
+  z-index: 10000;
+}
+/**
+ * The picker input element.
+ */
+.picker__input {
+  cursor: default;
+}
+/**
+ * When the picker is opened, the input element is “activated”.
+ */
+.picker__input.picker__input--active {
+  border-color: #0089ec;
+}
+/**
+ * The holder is the only “scrollable” top-level container element.
+ */
+.picker__holder {
+  width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-
-
-/**
- * The picker holder
+/*!
+ * Classic picker styling for pickadate.js
+ * Demo: http://amsul.github.io/pickadate.js/themes.htm#classic
  */
-.pickadate__holder {
-
-    /* The base font-size */
-    font-size: 16px;
-
-    line-height: 1.2;
-    color: #000;
-
-    position: absolute;
-    z-index: 10000;
-
-    width: 100%;
-    height: 0;
+/* ==========================================================================
+   $VARIABLES
+   ========================================================================== */
+/**
+ * Base colors
+ */
+/**
+ * Backgrounds
+ */
+/**
+ * Borders
+ */
+/**
+ * Buttons
+ */
+/**
+ * Picker base
+ */
+/**
+ * Date picker options
+ */
+/**
+ * Theme configurations
+ */
+/* ==========================================================================
+   $MIXINS
+   ========================================================================== */
+/**
+ * Common picker item states
+ */
+/**
+ * Opacity
+ */
+/**
+ * Vendor prefixes
+ */
+/**
+ * Note: the root picker element should __NOT__ be styled
+ * more than what’s here. Style the `.picker__holder` instead.
+ */
+.picker {
+  width: 100%;
+}
+/**
+ * The holder is the base of the picker.
+ */
+.picker__holder {
+  position: absolute;
+  background: #ffffff;
+  border: 1px solid #aaaaaa;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  min-width: 176px;
+  max-width: 466px;
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+  max-height: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  -moz-opacity: 0;
+  opacity: 0;
+  -webkit-transform: translateY(-1em) perspective(600px) rotateX(10deg);
+  -moz-transform: translateY(-1em) perspective(600px) rotateX(10deg);
+  transform: translateY(-1em) perspective(600px) rotateX(10deg);
+  -webkit-transition: all 0.15s ease-out, max-height 0 0.15s;
+  -moz-transition: all 0.15s ease-out, max-height 0 0.15s;
+  transition: all 0.15s ease-out, max-height 0 0.15s;
+}
+/**
+ * When the picker opens...
+ */
+.picker--opened .picker__holder {
+  max-height: 25em;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: alpha(opacity=100);
+  -moz-opacity: 1;
+  opacity: 1;
+  -webkit-transform: translateY(0) perspective(600px) rotateX(0);
+  -moz-transform: translateY(0) perspective(600px) rotateX(0);
+  transform: translateY(0) perspective(600px) rotateX(0);
+  -webkit-transition: all 0.15s ease-out, max-height 0;
+  -moz-transition: all 0.15s ease-out, max-height 0;
+  transition: all 0.15s ease-out, max-height 0;
+  -webkit-box-shadow: 0 6px 18px 1px rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: 0 6px 18px 1px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 18px 1px rgba(0, 0, 0, 0.12);
 }
 
-
+/* ==========================================================================
+   $BASE-DATE-PICKER
+   ========================================================================== */
+/* ==========================================================================
+   $VARIABLES
+   ========================================================================== */
 /**
- * The frame that bounds the calendar
+ * Base colors
  */
-.pickadate__frame {
-    position: relative;
-    max-width: 420px;
-    min-width: 256px;
-    max-height: 0;
-    overflow-y: hidden;
-
-    -webkit-transition: all .15s ease-out;
-       -moz-transition: all .15s ease-out;
-            transition: all .15s ease-out;
-}
-
-
 /**
- * When the calendar opens
+ * Backgrounds
  */
-.pickadate__holder--opened .pickadate__frame {
-    top: .5em;
-    max-height: 25em;
-
-    -webkit-box-shadow: 0 6px 18px 1px rgba(0,0,0,.12);
-       -moz-box-shadow: 0 6px 18px 1px rgba(0,0,0,.12);
-            box-shadow: 0 6px 18px 1px rgba(0,0,0,.12);
-}
-
-
 /**
- * The calendar itself
+ * Borders
  */
-
-.pickadate__calendar {
-    color: #000;
-    background: #fff;
-
-    padding: 1em;
-    font-size: 1em;
-
-    /* Add the borders */
-    border: 1px solid #ccc;
-
-    -webkit-border-radius: 6px;
-       -moz-border-radius: 6px;
-            border-radius: 6px;
+/**
+ * Buttons
+ */
+/**
+ * Picker base
+ */
+/**
+ * Date picker options
+ */
+/**
+ * Theme configurations
+ */
+/* ==========================================================================
+   $MIXINS
+   ========================================================================== */
+/**
+ * Common picker item states
+ */
+/**
+ * Opacity
+ */
+/**
+ * Vendor prefixes
+ */
+/**
+ * The picker box.
+ */
+.picker__box {
+  padding: 0 1em;
 }
-
-
-
+/**
+ * The header containing the month and year stuff.
+ */
+.picker__header {
+  text-align: center;
+  position: relative;
+  margin-top: .75em;
+}
+/**
+ * The month and year labels.
+ */
+.picker__month,
+.picker__year {
+  font-weight: 500;
+  display: inline-block;
+  margin-left: .25em;
+  margin-right: .25em;
+}
+.picker__year {
+  color: #999999;
+  font-size: .8em;
+  font-style: italic;
+}
+/**
+ * The month and year selectors.
+ */
+.picker__select--month,
+.picker__select--year {
+  font-size: .8em;
+  border: 1px solid #b7b7b7;
+  height: 2.5em;
+  padding: .66em .25em;
+  margin-left: .25em;
+  margin-right: .25em;
+  margin-top: -0.5em;
+}
+.picker__select--month {
+  width: 35%;
+}
+.picker__select--year {
+  width: 22.5%;
+}
+.picker__select--month:focus,
+.picker__select--year:focus {
+  border-color: #0089ec;
+}
+/**
+ * The month navigation buttons.
+ */
+.picker__nav--prev,
+.picker__nav--next {
+  position: absolute;
+  top: -0.33em;
+  padding: .5em 1.33em;
+  width: 1em;
+  height: 1em;
+}
+.picker__nav--prev {
+  left: -1em;
+  padding-right: 1.5em;
+}
+.picker__nav--next {
+  right: -1em;
+  padding-left: 1.5em;
+}
+.picker__nav--prev:before,
+.picker__nav--next:before {
+  content: " ";
+  border-top: .5em solid transparent;
+  border-bottom: .5em solid transparent;
+  border-right: 0.75em solid #000000;
+  width: 0;
+  height: 0;
+  display: block;
+  margin: 0 auto;
+}
+.picker__nav--next:before {
+  border-right: 0;
+  border-left: 0.75em solid #000000;
+}
+.picker__nav--prev:hover,
+.picker__nav--next:hover {
+  cursor: pointer;
+  color: #000000;
+  background: #b1dcfb;
+}
+.picker__nav--disabled,
+.picker__nav--disabled:hover,
+.picker__nav--disabled:before,
+.picker__nav--disabled:before:hover {
+  cursor: default;
+  background: none;
+  border-right-color: #f5f5f5;
+  border-left-color: #f5f5f5;
+}
 /**
  * The calendar table of dates
  */
-.pickadate__table {
-    text-align: center;
-    border-collapse: collapse;
-    border-spacing: 0;
-    table-layout: fixed;
-    font-size: inherit;
-    width: 100%;
-    margin-top: .75em;
+.picker__table {
+  text-align: center;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+  font-size: inherit;
+  width: 100%;
+  margin-top: .75em;
+  margin-bottom: .5em;
 }
-
-/* Remove browser stylings on a table cell */
-.pickadate__table td {
-    margin: 0;
-    padding: 0;
+@media (min-height: 33.875em) {
+  .picker__table {
+    margin-bottom: .75em;
+  }
 }
-
-
-
-/**
- * The header containing the month and year tags/selectors
- */
-.pickadate__header {
-    text-align: center;
-    position: relative;
+.picker__table td {
+  margin: 0;
+  padding: 0;
 }
-
-.pickadate__nav--prev,
-.pickadate__nav--next {
-    position: absolute;
-    top: -.1em;
-    padding: .5em;
-    margin: -.5em;
-    text-align: center;
-    min-width: 24px;
-    height: 24px;
-    line-height: 26px;
-}
-.pickadate__nav--prev {
-    left: 0;
-}
-.pickadate__nav--next {
-    right: 0;
-}
-
-
-.pickadate__month,
-.pickadate__year {
-    font-weight: 500;
-    display: inline-block;
-}
-.pickadate__year {
-    color: #999;
-    font-size: .8em;
-    font-style: italic;
-    margin-left: .5em;
-}
-
-
-
-.pickadate__select--month,
-.pickadate__select--year {
-    font-size: .8em;
-    border: 1px solid #ccc;
-    height: 2.5em;
-    margin-top: -.5em;
-}
-.pickadate__select--month {
-    width: 35%;
-}
-.pickadate__select--year {
-    width: 22.5%;
-    margin-left: .5em;
-}
-.pickadate__select--month:focus,
-.pickadate__select--year:focus {
-    border-color: #0089ec;
-}
-
-
-
-
 /**
  * The weekday labels
  */
-.pickadate__weekday {
-    width: 14.285714286%; /* 100/7 */
-    font-size: .75em;
-    padding-bottom: .5em;
-    color: #999;
-    font-weight: 500;
+.picker__weekday {
+  width: 14.285714286%;
+  font-size: .75em;
+  padding-bottom: .25em;
+  color: #999999;
+  font-weight: 500;
+  /* Increase the spacing a tad */
+
 }
-
-
+@media (min-height: 33.875em) {
+  .picker__weekday {
+    padding-bottom: .5em;
+  }
+}
 /**
  * The days on the calendar
  */
-.pickadate__day {
-    padding: .33em 0 .25em;
-    font-weight: 100;
-    border: 1px solid #fff;
-    margin-bottom: 1px;
+.picker__day {
+  padding: .3125em 0;
+  font-weight: 200;
+  border: 1px solid transparent;
 }
-
+.picker__day--today {
+  color: #0089ec;
+  position: relative;
+}
+.picker__day--today:before {
+  content: " ";
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 0;
+  height: 0;
+  border-top: 0.5em solid #0059bc;
+  border-left: .5em solid transparent;
+}
+.picker__day--selected,
+.picker__day--selected:hover {
+  border-color: #0089ec;
+}
+.picker__day--highlighted {
+  background: #b1dcfb;
+}
+.picker__day--disabled:before {
+  border-top-color: #aaaaaa;
+}
+.picker__day--outfocus {
+  color: #dddddd;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=66)";
+  filter: alpha(opacity=66);
+  -moz-opacity: 0.66;
+  opacity: 0.66;
+}
+.picker__day--infocus:hover,
+.picker__day--outfocus:hover {
+  cursor: pointer;
+  color: #000000;
+  background: #b1dcfb;
+}
+.picker__day--highlighted:hover,
+.picker--focused .picker__day--highlighted {
+  background: #0089ec;
+  color: #ffffff;
+}
+.picker__day--disabled,
+.picker__day--disabled:hover {
+  background: #f5f5f5;
+  border-color: #f5f5f5;
+  color: #dddddd;
+  cursor: default;
+}
+.picker__day--highlighted.picker__day--disabled,
+.picker__day--highlighted.picker__day--disabled:hover {
+  background: #bbbbbb;
+}
 /**
- * The various states of a day
+ * The footer containing the "today" and "clear" buttons.
  */
-.pickadate__day--today {
-    color: #0089ec;
-    position: relative;
+.picker__footer {
+  text-align: center;
 }
-.pickadate__day--today:before {
-    content: " ";
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    width: 0;
-    height: 0;
-    border-top: .5em solid #0059bc;
-    border-left: .5em solid transparent;
+.picker__button--today,
+.picker__button--clear {
+  border: 1px solid #ffffff;
+  background: #ffffff;
+  font-size: .8em;
+  padding: .66em 0;
+  font-weight: bold;
+  width: 50%;
+  display: inline-block;
+  vertical-align: bottom;
 }
-.pickadate__day--selected,
-.pickadate__day--selected:hover {
-    border-color: #0089ec;
+.picker__button--today:hover,
+.picker__button--clear:hover {
+  cursor: pointer;
+  color: #000000;
+  background: #b1dcfb;
+  border-bottom-color: #b1dcfb;
 }
-.pickadate__day--highlighted {
-    background: #fff;
+.picker__button--today:focus,
+.picker__button--clear:focus {
+  background: #b1dcfb;
+  border-color: #0089ec;
+  outline: none;
 }
-.pickadate__day--disabled:before {
-    border-top-color: #aaa;
+.picker__button--today:before,
+.picker__button--clear:before {
+  position: relative;
+  display: inline-block;
+  height: 0;
 }
-.pickadate__day--outfocus {
-    color: #ddd;
+.picker__button--today:before {
+  content: " ";
+  margin-right: .45em;
+  top: -0.05em;
+  width: 0;
+  border-top: 0.66em solid #0059bc;
+  border-left: .66em solid transparent;
+}
+.picker__button--clear:before {
+  content: "\D7";
+  margin-right: .35em;
+  top: -0.1em;
+  color: #ee2200;
+  vertical-align: top;
+  font-size: 1.1em;
+}
 
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-    filter: alpha(opacity=75);
-    -moz-opacity: .75;
-         opacity: .75;
-}
-
-
-
+/* ==========================================================================
+   $CLASSIC-DATE-PICKER
+   ========================================================================== */
+/* ==========================================================================
+   $VARIABLES
+   ========================================================================== */
 /**
- * The footer containing the "today" and "clear" buttons
+ * Base colors
  */
-.pickadate__footer {
-    text-align: center;
-    margin: .5em 0 -.5em;
-}
-
-.pickadate__button--today,
-.pickadate__button--clear {
-    border: 1px solid #fff;
-    background: #fff;
-    font-size: .8em;
-    padding: .66em 0;
-    margin: 0 2.5%;
-    font-weight: bold;
-    width: 40%;
-}
-.pickadate__button--today:before,
-.pickadate__button--clear:before {
-    position: relative;
-    display: inline-block;
-    height: 0;
-}
-.pickadate__button--today:before {
-    content: " ";
-    margin-right: .45em;
-    top: -.05em;
-    width: 0;
-    border-top: .66em solid #0059bc;
-    border-left: .66em solid transparent;
-}
-.pickadate__button--clear:before {
-    content: "\D7";
-    margin-right: .35em;
-    top: -.1em;
-    color: #e20;
-    vertical-align: top;
-    font-size: 1.1em;
-}
-.pickadate__button--today:focus,
-.pickadate__button--clear:focus {
-    background: #b1dcfb;
-    border-color: #0089ec;
-    outline: none;
-}
-
-
-
-
 /**
- * The hover effect on any buttons
+ * Backgrounds
  */
-.pickadate__day--infocus:hover,
-.pickadate__day--outfocus:hover,
-.pickadate__nav--prev:hover,
-.pickadate__nav--next:hover,
-.pickadate__button--today:hover,
-.pickadate__button--clear:hover {
-    cursor: pointer;
-    color: #000;
-    background: #b1dcfb;
-}
-.pickadate__day--disabled,
-.pickadate__day--disabled:hover {
-    background: #f5f5f5;
-    border-color: #f5f5f5;
-    color: #ddd;
-    cursor: default;
-}
-.pickadate__day--highlighted:hover,
-.pickadate__holder--focused .pickadate__day--highlighted {
-    background: #0089ec;
-    color: #fff;
-}
+/**
+ * Borders
+ */
+/**
+ * Buttons
+ */
+/**
+ * Picker base
+ */
+/**
+ * Date picker options
+ */
+/**
+ * Theme configurations
+ */
+/* ==========================================================================
+   $MIXINS
+   ========================================================================== */
+/**
+ * Common picker item states
+ */
+/**
+ * Opacity
+ */
+/**
+ * Vendor prefixes
+ */

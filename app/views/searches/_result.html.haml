@@ -21,14 +21,14 @@
     %span.span2
       %div.reserve-now
         %div.price
-          = number_to_currency result.price_for(@query.by), unit: currency_for(result)
-        %div.muted per sample
+          = number_to_currency result.price_for(@query.by, 1), unit: currency_for(result)
+        %div.samples= pluralize result.samples_per_run, "sample"
+        %div.muted per run
         - if user_signed_in?
-          - if result.owned_by?(current_user)
-            %div
+          %div{style: "padding-top: 10px;"}
+            - if result.owned_by?(current_user)
               = link_to "Edit", edit_tool_path(result), class: "btn"
-          - else
-            %div{style: "padding-top: 10px;"}
+            - else
               - if result.must_expedite?(@query.by)
                 = link_to "Expedite", new_booking_path(tool_id: result.id, date: @query.by), class: "btn btn-success"
               - else

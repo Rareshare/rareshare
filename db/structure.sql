@@ -190,7 +190,8 @@ CREATE TABLE bookings (
     shipping_price money DEFAULT 0.0,
     rareshare_fee money DEFAULT 0.0,
     shipping_weight numeric,
-    shipping_service character varying(255)
+    shipping_service character varying(255),
+    samples integer
 );
 
 
@@ -516,7 +517,10 @@ CREATE TABLE tools (
     sample_size_unit_id character varying(255),
     resolution_unit_id character varying(255),
     currency character varying(3),
-    facility_id integer
+    facility_id integer,
+    samples_per_run integer DEFAULT 1,
+    bulk_runs integer,
+    can_bulkify boolean DEFAULT false
 );
 
 
@@ -1110,3 +1114,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130728164032');
 INSERT INTO schema_migrations (version) VALUES ('20130728221705');
 
 INSERT INTO schema_migrations (version) VALUES ('20130729125543');
+
+INSERT INTO schema_migrations (version) VALUES ('20130730033828');

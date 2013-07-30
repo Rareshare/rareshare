@@ -19,11 +19,12 @@
             %th Price
             %th
         %tbody
-          - @tools.group_by(&:facility).each.with_index do |(facility, tools), index|
-            - tools.each do |t|
+          - @tools.group_by(&:facility).each do |facility, tools|
+            - tools.each.with_index do |t, index|
               %tr
                 - if index == 0
-                  %td{rowspan: tools.length}= link_to(facility.name, edit_facility_path(facility.id))
+                  %td{rowspan: tools.length}
+                    = link_to(facility.name, edit_facility_path(facility.id))
                 %td= link_to t.display_name, tool_path(t)
                 %td
                   = price_per_sample t, :base

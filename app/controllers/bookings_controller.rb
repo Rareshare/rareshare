@@ -11,8 +11,9 @@ class BookingsController < InternalController
       b.renter_id = current_user.id
       b.tool_id   = tool.id
       b.deadline  = params[:date]
-      b.price     = tool.price_for(params[:date])
+      b.price     = tool.price_for(params[:date], 1)
       b.currency  = tool.currency
+      b.samples   = 1
       b.use_user_address = current_user.address.present?
       b.build_address
     end
@@ -106,6 +107,7 @@ class BookingsController < InternalController
       :address_id,
       :use_user_address,
       :shipping_package_size,
+      :samples,
       :address_attributes => address_attributes
     )
   end

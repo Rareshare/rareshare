@@ -1,6 +1,8 @@
 class Tool < ActiveRecord::Base
   extend NameDelegator
 
+  BULK_DISCOUNT = BigDecimal.new("0.80")
+
   has_many :bookings
 
   belongs_to :owner, class_name: "User"
@@ -63,15 +65,29 @@ class Tool < ActiveRecord::Base
   end
 
   def bookable_by?(deadline)
-    [ base_lead_time, expedited_lead_time ].compact.min < days_to_deadline(deadline)
+    minimum_future_lead_time < days_to_deadline(deadline)
   end
 
   def must_expedite?(deadline)
     bookable_by?(deadline) && base_lead_time >= days_to_deadline(deadline)
   end
 
-  def price_for(deadline)
-    must_expedite?(deadline) ? expedited_price : base_price
+  def runs_required(samples)
+    ( samples.to_i / self.samples_per_run.to_f ).ceil
+  end
+
+  def price_per_run_for(deadline, samples)
+    price_per_run = must_expedite?(deadline) ? expedited_price : base_price
+    price_per_run *= BULK_DISCOUNT if should_bulkify?(samples)
+    price_per_run
+  end
+
+  def price_for(deadline, samples)
+    price_per_run_for(deadline, samples) * runs_required(samples)
+  end
+
+  def should_bulkify?(samples)
+    can_bulkify? && runs_required(samples) >= bulk_runs
   end
 
   def sample_size_unit
@@ -94,9 +110,20 @@ class Tool < ActiveRecord::Base
     file_attachments.where(category: FileAttachment::Categories::IMAGE)
   end
 
+  def minimum_future_lead_time
+    [ base_lead_time, expedited_lead_time ].compact.min
+  end
+
   def as_json(options={})
     options = options.merge(
-      methods: [:model_name, :tool_category_name, :manufacturer_name, :images, :errors]
+      methods: [
+        :model_name,
+        :tool_category_name,
+        :manufacturer_name,
+        :images,
+        :errors,
+        :minimum_future_lead_time
+      ]
     )
 
     super(options).merge(

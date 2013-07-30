@@ -19,7 +19,22 @@ class Booking < ActiveRecord::Base
   attr_accessor :updated_by   # Virtual attribute to enforce last_updated_by update.
   attr_accessor :stripe_token # Virtual attribute to assist with Stripe payment.
 
-  validates_presence_of :tool_id, :renter_id, :tool_id, :sample_description, :deadline, :price, :sample_deliverable, :sample_transit, :sample_disposal, :updated_by
+  validates :tool_id,
+            :renter_id,
+            :tool_id,
+            :sample_description,
+            :deadline,
+            :price,
+            :sample_deliverable,
+            :sample_transit,
+            :sample_disposal,
+            :updated_by,
+            :samples,
+            presence: true
+
+  validates :samples,
+            numericality: { greater_than: 0, allow_nil: false }
+
   validates_inclusion_of :tos_accepted, in: [ "1", 1, true ], message: "Please accept the Terms of Service."
   validate :renter_cannot_be_owner
 
@@ -39,7 +54,7 @@ class Booking < ActiveRecord::Base
       self.new(params).tap do |b|
         b.renter     = renter
         b.updated_by = renter
-        b.price      = b.tool.price_for b.deadline
+        b.price      = b.tool.price_for b.deadline, b.samples
         b.currency   = b.tool.currency
 
         if !b.requires_address?
@@ -254,12 +269,12 @@ class Booking < ActiveRecord::Base
 
   alias_method :use_user_address?, :use_user_address
 
-  def as_json(options)
-    super(options).merge(
-      use_user_address: use_user_address,
-      outgoing_shipment_rates: outgoing_shipment_rates,
-      currency_symbol: currency_symbol
+  def as_json(options={})
+    options = options.merge(
+      methods: [:use_user_address, :outgoing_shipment_rates, :currency_symbol, :tool]
     )
+
+    super options
   end
 
   def final_price

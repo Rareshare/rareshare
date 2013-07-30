@@ -17,4 +17,6 @@
 //= require twitter/bootstrap_ujs
 //= require jquery-fileupload
 //= require bootstrap-wysihtml5
+//= require vendor/picker
+//= require vendor/picker.date
 //= require_tree .
