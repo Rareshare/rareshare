@@ -16,7 +16,7 @@
     %span.muted
       = @booking.display_name
 
-= simple_form_for :transaction, url: finalize_booking_path(@booking), html: { class: "payment", "data-bind" => "with: booking" } do |f|
+= simple_form_for :transaction, url: finalize_booking_path(@booking), html: { class: "payment", "data-bind" => "with: booking", "data-stripe-key" => ENV["STRIPE_PUBLIC_KEY"] } do |f|
   %div.form-inputs
     %fieldset
       %div.row
@@ -65,14 +65,16 @@
                 %input.cc-number.string{type: "text", autocomplete: "on", data: { stripe: "number" }}
                 %span.add-on
                   %i.icon-credit-card
+
             %span.span2
               = f.input :cvv, label: "CVV", wrapper: :append do
                 %input.cc-cvv.string{type: "text", autocomplete: "off", data: { stripe: "cvc" }}
                 %span.add-on
                   %i.icon-lock
+
             %span.span2
               = f.input :expiration, wrapper: :append do
-                %input.cc-expiry{type: "text", autocomplete: "on", data: { stripe: "exp" }}
+                %input.cc-expiry.string{type: "text", autocomplete: "on", placeholder: "mm / yyyy", data: { stripe: "exp" }}
                 %span.add-on
                   %i.icon-calendar
 

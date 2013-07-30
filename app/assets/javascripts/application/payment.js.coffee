@@ -30,6 +30,10 @@ $ ->
       Stripe.createToken formToStripe(), (status, response) ->
         console.log response
         if (error = response.error)?
+          if error.param.match(/exp/)
+            error.param = "exp"
+            error.message = "You must provide a valid card expiration date."
+
           group = form.find("input[data-stripe=#{error.param}]").closest(".control-group")
           group.addClass("error")
           group.find(".controls").append $("<p>").addClass("help-block").text(error.message)

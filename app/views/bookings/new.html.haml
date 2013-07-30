@@ -42,6 +42,8 @@
 
         %span.span2.pricing{data: { spy: "affix", "offset-top" => "252" }}
           %div{style: "margin: 10px;"}
+            %h4 Subtotal Pricing
+            %small Shipping not included.
             %dl
               %dt Samples / run
               %dd{data: { bind: "text: tool().samples_per_run" }}
@@ -49,7 +51,7 @@
               %dd{data: { bind: "text: money(est_price_per_run)" }}
               %dt Runs required
               %dd{data: { bind: "text: est_runs_required" }}
-              %dt Total run price
+              %dt Total price
               %dd{data: { bind: "text: money(est_total_price)" }}
             %span.label.label-warning{data: { bind: "visible: must_expedite" }} Expedited
             %span.label.label-success{data: { bind: "visible: must_bulkify" }} Bulk (-20%)
