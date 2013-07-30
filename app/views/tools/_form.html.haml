@@ -111,10 +111,14 @@
             %a.tip{href: "#", title: t('data.private'), data: { toggle: "tooltip" }}
               %i.icon-lock.icon-large
             Facility
-          = f.input :facility, as: :select, collection: current_user.facilities, label_method: :title, include_blank: "Create a new facility", input_html: { "data-bind" => "value: facility_id" }
-          %div.facility{data: { bind: "visible: showFacility" }}
-            = f.simple_fields_for :facility, Facility.new do |fa|
-              = fa.input :name
+          %div.row
+            %span.span8
+              = f.input :facility, as: :select, collection: current_user.facilities, label_method: :title, include_blank: "Create a new facility", input_html: { "data-bind" => "value: facility_id" }
+          = f.simple_fields_for :facility, Facility.new do |fa|
+            %div.facility{data: { bind: "visible: showFacility" }}
+              %div.row
+                %span.span8
+                  = fa.input :name
               = fa.simple_fields_for :address, fa.object.build_address do |a|
                 = a.hidden_field :id
                 = render partial: 'addresses/form', object: a
