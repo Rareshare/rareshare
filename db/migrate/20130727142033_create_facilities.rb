@@ -12,8 +12,11 @@ class CreateFacilities < ActiveRecord::Migration
       f = t.build_facility user_id: t.owner_id
       f.save
       a = t.address
-      a.addressable = f
-      a.save
+
+      unless a.blank?
+        a.addressable = f
+        a.save
+      end
     end
   end
 end
