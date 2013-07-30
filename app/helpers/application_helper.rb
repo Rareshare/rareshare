@@ -101,6 +101,8 @@ module ApplicationHelper
   def breadcrumb_for(crumb)
     if crumb.is_a?(Array)
       crumb
+    elsif crumb.is_a?(String)
+      [ crumb, nil ]
     elsif crumb == :root
       [ "Home", root_path ]
     elsif crumb == :inbox
@@ -134,17 +136,18 @@ module ApplicationHelper
 
     content_tag :ul, class: "breadcrumb" do
       crumbs.map.with_index do |crumb, i|
-        if i == crumbs.length - 1
-          content_tag :li, class: "active" do
-            title, url = breadcrumb_for(crumb)
-            content_tag(:span, title)
-          end
+        title, url = breadcrumb_for(crumb)
+        active = ( i == crumbs.length - 1 )
+
+        link = if active || url.blank?
+          content_tag(:span, title)
         else
-          content_tag :li do
-            title, url = breadcrumb_for(crumb)
-            link_to(title, url) + divider
-          end
+          link_to(title, url)
         end
+
+        link += divider unless active
+
+        content_tag :li, link, class: active ? "active" : ""
       end.join.html_safe
     end
   end

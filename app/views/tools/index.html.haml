@@ -14,15 +14,16 @@
       %table.table.table-hover.table-bordered
         %thead
           %tr
-            %th Item description
-            %th Cost
-            %th Options
+            %th Facility
+            %th Tool description
+            %th Price
+            %th
         %tbody
           - @tools.group_by(&:facility).each.with_index do |(facility, tools), index|
             - tools.each do |t|
               %tr
                 - if index == 0
-                  %td{rowspan: tools.length}= facility.title
+                  %td{rowspan: tools.length}= link_to(facility.name, edit_facility_path(facility.id))
                 %td= link_to t.display_name, tool_path(t)
                 %td
                   = price_per_sample t, :base

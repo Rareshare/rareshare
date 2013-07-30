@@ -1,0 +1,29 @@
+%div.row.row-header
+  %span.span2.header-avatar
+    %i.avatar.icon-hospital
+  %span.span10.header-body
+    = breadcrumbs :root, Tool, "Facilities", @facility
+    %h1 Edit Facility
+    %span.muted
+      Last edited on
+      = @facility.updated_at.to_s(:long)
+
+= simple_form_for @facility do |f|
+  = f.error_notification
+  %div.form-inputs
+    %fieldset
+      %div.row
+        %span.offset2.span10
+          %legend About the facility
+
+          %div.row
+            %span.span6= f.input :name
+
+          = f.simple_fields_for :address, @facility.address || @facility.build_address do |a|
+            = a.hidden_field :id
+            = render partial: 'addresses/form', object: a
+
+    %div.row
+      %span.offset2.span8
+        = f.button :submit, class: "btn btn-primary"
+        = link_to "Cancel", tools_path, class: "btn btn-default"

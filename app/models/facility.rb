@@ -5,6 +5,8 @@ class Facility < ActiveRecord::Base
 
   accepts_nested_attributes_for :address
 
+  validates :name, presence: true
+
   def title
     if self.name.blank?
       self.address.full_street_address

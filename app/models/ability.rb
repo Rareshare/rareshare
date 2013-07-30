@@ -53,5 +53,9 @@ class Ability
     can :book, Tool do |t|
       !t.owned_by?(user)
     end
+
+    can :manage, Facility do |f|
+      f.user == user
+    end
   end
 end
