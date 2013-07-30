@@ -1,12 +1,7 @@
-%div.row.row-header
-  %span.span2.header-avatar
-    %i.avatar.icon-hospital
-  %span.span10.header-body
-    = breadcrumbs :root, Tool, "Facilities", @facility
-    %h1 Edit Facility
-    %span.muted
-      Last edited on
-      = @facility.updated_at.to_s(:long)
+= page_header "Edit Facility",
+  icon: "building",
+  crumbs: [:root, Tool, "Facilities", @facility],
+  updated_at: @facility.updated_at
 
 = simple_form_for @facility do |f|
   = f.error_notification

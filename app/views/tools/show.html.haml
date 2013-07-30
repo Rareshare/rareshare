@@ -3,18 +3,10 @@
 - else
   - nav_category "Find a Tool"
 
-%div.row.row-header
-  %span.span2.header-avatar
-    %i.avatar.icon-cogs
-  %span.span10.header-body
-    - if @tool.owned_by?(current_user)
-      = breadcrumbs :root, Tool, @tool
-    - else
-      = breadcrumbs :root, :search, @tool
-
-    %h1= @tool.display_name
-    %span.muted
-      = @tool.tool_category_name
+= page_header @tool.display_name,
+  icon: "cogs",
+  crumbs: @tool.owned_by?(current_user) ? [:root, Tool, @tool] : [:root, :search, @tool],
+  subtitle: @tool.tool_category_name
 
 %div.row
   %span.span2.sidebar.profile-sidebar

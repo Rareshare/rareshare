@@ -7,13 +7,10 @@
       ko.applyBindings({ booking: booking });
     });
 
-%div.row.row-header
-  %span.span2.header-avatar
-    %i.avatar.icon-cogs
-  %span.span10.header-body
-    = breadcrumbs :root, @booking
-    %h1 New Booking
-    %span.muted &nbsp;
+= page_header "New Booking",
+  icon: "cogs",
+  crumbs: [:root, @booking],
+  subtitle: @booking.tool.display_name
 
 = simple_form_for @booking, html: { "data-bind" => "with: booking" } do |f|
   = f.input :tool_id, as: :hidden

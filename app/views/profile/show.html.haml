@@ -1,15 +1,6 @@
-%div.row.row-header
-  %span.span2.header-avatar
-    - if current_user.avatar.present?
-      %img.avatar{src: current_user.avatar.url(:thumb)}
-    - else
-      %i.avatar.icon-user
-  %span.span10.header-body
-    = breadcrumbs :root
-    %h1= current_user.display_name
-    %span.muted
-      Joined on
-      = current_user.confirmed_at.to_date.to_s(:long)
+- opts = current_user.avatar.present? ? { avatar: current_user.avatar.url(:thumb) } : { icon: "user" }
+
+= page_header current_user.display_name, opts.merge(crumbs: [:root], confirmed_at: current_user.confirmed_at)
 
 %div.row
   %span.span2.sidebar

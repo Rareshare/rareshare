@@ -1,10 +1,7 @@
-%div.row.row-header
-  %span.span2.header-avatar
-    %i.avatar.icon-calendar
-  %span.span10.header-body
-    = breadcrumbs :root, :calendar
-    %h1 Calendar
-    %span.muted= @calendar.title
+= page_header "Calendar",
+  icon: "calendar",
+  crumbs: [:root, :calendar],
+  subtitle: @calendar.title
 
 %div.row
   %span.span2

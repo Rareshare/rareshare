@@ -1,17 +1,9 @@
 - nav_category "Calendar"
 
-%div.row.row-header
-  %span.span2.header-avatar
-    - if @booking.tool.images.any?
-      %a{href: "#images", role: "button", data: { toggle: "modal" }}
-        %img.avatar{src: @booking.tool.images.first.image.url(:thumb)}
-    - else
-      %i.avatar.icon-cogs
-  %span.span10.header-body
-    = breadcrumbs :root, :calendar, @booking
-    %h1= "Cancel Finalized Booking"
-    %span.muted
-      = @booking.display_name
+= page_header "Cancel Finalized Booking",
+  icon: "cogs",
+  crumbs: [:root, :calendar, @booking],
+  subtitle: @booking.display_name
 
 %div.row
   %span.span2

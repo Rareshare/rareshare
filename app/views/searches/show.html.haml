@@ -1,12 +1,7 @@
-%div.row.row-header
-  %span.span2.header-avatar
-    %i.avatar.icon-search
-  %span.span10.header-body
-    = breadcrumbs :root, :search
-    %h1 Search
-    %span.muted
-      = "Showing page #{@results.current_page} of #{@results.total_pages}."
-
+= page_header "Search",
+  icon: "search",
+  crumbs: [:root, :search],
+  subtitle: "Showing page #{@results.current_page} of #{@results.total_pages}."
 
 %div.row
   %span.span10.offset2

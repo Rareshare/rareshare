@@ -1,13 +1,4 @@
-%div.row.row-header
-  %span.span2.header-avatar
-    %i.avatar.icon-envelope
-  %span.span10.header-body
-    = breadcrumbs :root, :inbox
-    %h1 Inbox
-    %span.muted &nbsp;
-
-%div.row.row-header
-  %span.span12
+= page_header "Inbox", icon: "envelope", crumbs: [:root, :inbox]
 
 %div.row
   %span.span2

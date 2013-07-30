@@ -2,19 +2,16 @@
 
 - content_for :head do
   = javascript_include_tag "https://js.stripe.com/v2/"
+  :javascript
+    $(function() {
+      window.booking = new Booking(#{@booking.to_json});
+      ko.applyBindings({ booking: booking });
+    });
 
-%div.row.row-header
-  %span.span2.header-avatar
-    - if @booking.tool.images.any?
-      %a{href: "#images", role: "button", data: { toggle: "modal" }}
-        %img.avatar{src: @booking.tool.images.first.image.url(:thumb)}
-    - else
-      %i.avatar.icon-cogs
-  %span.span10.header-body
-    = breadcrumbs :root, :calendar, @booking, ["Finalize"]
-    %h1 Finalize #{t(:booking)}
-    %span.muted
-      = @booking.display_name
+= page_header "Finalize Booking",
+  icon: "cogs",
+  crumbs: [:root, :calendar, @booking, "Finalize"],
+  subtitle: @booking.display_name
 
 = simple_form_for :transaction, url: finalize_booking_path(@booking), html: { class: "payment", "data-bind" => "with: booking", "data-stripe-key" => ENV["STRIPE_PUBLIC_KEY"] } do |f|
   %div.form-inputs
@@ -82,10 +79,3 @@
     %span.offset2.span8
       = f.submit "Finalize & Pay", class: "btn btn-primary"
       = link_to "Cancel", booking_path(@booking), class: "btn btn-default"
-
-:javascript
-  $(function() {
-    window.booking = new Booking(#{@booking.to_json});
-    ko.applyBindings({ booking: booking });
-  });
-

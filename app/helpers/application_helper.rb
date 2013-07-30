@@ -152,6 +152,18 @@ module ApplicationHelper
     end
   end
 
+  def page_header(title, opts={})
+    if opts[:updated_at]
+      opts[:subtitle] = "Last edited on #{opts[:updated_at].to_s(:long)}"
+    elsif opts[:confirmed_at]
+      opts[:subtitle] = "Joined on #{opts[:confirmed_at].to_date.to_s(:long)}"
+    end
+
+    opts[:subtitle] ||= "&nbsp;".html_safe
+
+    render partial: "shared/page_header", locals: opts.merge(title: title)
+  end
+
   def filepicker_js_snippet
     <<-JS
       (function(a){if(window.filepicker){return}var b=a.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===a.location.protocol?"https:":"http:")+"//api.filepicker.io/v1/filepicker.js";var c=a.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c);var d={};d._queue=[];var e="pick,pickMultiple,pickAndStore,read,write,writeUrl,export,convert,store,storeUrl,remove,stat,setKey,constructWidget,makeDropPane".split(",");var f=function(a,b){return function(){b.push([a,arguments])}};for(var g=0;g<e.length;g++){d[e[g]]=f(e[g],d._queue)}window.filepicker=d})(document);

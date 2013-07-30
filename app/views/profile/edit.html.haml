@@ -1,10 +1,6 @@
-%div.row.row-header
-  %span.span2.header-avatar
-    %i.avatar.icon-user
-  %span.span10.header-body
-    = breadcrumbs :root, current_user
-    %h1 Edit Profile
-    %span.muted Last edited at #{current_user.updated_at.to_s(:long)}
+- opts = current_user.avatar.present? ? { avatar: current_user.avatar.url(:thumb) } : { icon: "user" }
+
+= page_header "Edit Profile", opts.merge(crumbs: [:root, current_user], updated_at: current_user.updated_at)
 
 = simple_form_for current_user, url: profile_path, :html => {:multipart => true} do |f|
   %div.form-inputs
@@ -26,7 +22,6 @@
           - if current_user.avatar.present?
             = image_tag current_user.avatar.url(:thumb)
           = f.input :bio
-
 
     %fieldset
       %div.row
