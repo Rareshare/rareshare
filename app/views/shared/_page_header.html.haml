@@ -1,6 +1,9 @@
 %div.row.row-header
   %span.span2.header-avatar
-    %i.avatar{class: "icon-#{icon}"}
+    - if defined?(icon)
+      %i.avatar{class: "icon-#{icon}"}
+    - else
+      %img.avatar{src: avatar}
   %span.span10.header-body
     = breadcrumbs *crumbs
     %h1= title
