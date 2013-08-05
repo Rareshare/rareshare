@@ -19,12 +19,23 @@
       = link_to glyph_text(:edit, "Edit tool"), edit_tool_path(@tool), class: "btn"
 
   %span.span8
-    %div.well.well-small
-      %form.no-margin{action: new_booking_path, method: :get, class: "form-inline"}
+    %div.well.well-small{style: "padding-bottom: 0;"}
+      %form.no-margin.form-inline{action: new_booking_path, method: :get, class: "form-inline"}
         %input{type: "hidden", name: "tool_id", value: @tool.id}
-        %input{type: "submit", value: "Reserve Now", class: "btn btn-primary"}
-        %span for a result by
-        %input{type: "date", name: "date", class: "date", value: SearchQuery.default_date.strftime("%d %B, %Y")}
+        %div.row
+          %span.span2
+            %strong{style: "line-height: 30px;"} Get a sample by
+          %span.span4
+            %div.control-group
+              %div.input-append
+                %input{type: "date", name: "date", class: "date", value: SearchQuery.default_date.strftime("%d %B, %Y"), data: { min: Date.today }}
+                %span{class: "add-on"}
+                  %i.icon-calendar
+
+
+          %span.span1
+            %input{type: "submit", value: "Reserve Now", class: "btn btn-primary"}
+        %div.clearfix
 
     %h3 Overview
     %table.table
