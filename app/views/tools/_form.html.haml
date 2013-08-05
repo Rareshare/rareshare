@@ -92,7 +92,7 @@
 
           %div.row
             %span.span2
-              = f.input :samples_per_run, data: { bind: "value: samples_per_run" }
+              = f.input :samples_per_run, input_html: { "data-bind" => "value: samples_per_run" }
             %span.span2
               = f.input :base_lead_time, input_html: { min: 1 }
             %span.span4
@@ -116,7 +116,13 @@
               = f.input :can_bulkify, label: false, inline_label: "Offer bulk pricing?", input_html: { "data-bind" => "checked: can_bulkify"}
           %div.row
             %span.span3
-              = f.input :bulk_runs, input_html: { "data-bind" => "enable: can_bulkify" }
+              = f.input :bulk_runs do
+                = f.input_field :bulk_runs, type: "number", min: 2, data: { bind: "enable: can_bulkify, value: bulk_runs" }
+                %p.help-block{data: { bind: "visible: samples_in_bulk_run" }}
+                  %span{data: { bind: "text: bulk_runs"}}
+                  runs =
+                  %span{data: { bind: "text: samples_in_bulk_run" }}
+                  samples
 
     %fieldset
       %div.row
