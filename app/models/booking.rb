@@ -14,7 +14,7 @@ class Booking < ActiveRecord::Base
   has_many :booking_logs
   has_many :user_messages, as: :messageable
 
-  accepts_nested_attributes_for :address, allow_destroy: true
+  accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :ignores_address?
 
   attr_accessor :updated_by   # Virtual attribute to enforce last_updated_by update.
   attr_accessor :stripe_token # Virtual attribute to assist with Stripe payment.
@@ -57,7 +57,7 @@ class Booking < ActiveRecord::Base
         b.price      = b.tool.price_for b.deadline, b.samples
         b.currency   = b.tool.currency
 
-        if !b.requires_address?
+        if b.ignores_address?
           b.address = nil
         elsif b.use_user_address?
           b.address = renter.address
@@ -254,8 +254,8 @@ class Booking < ActiveRecord::Base
     end
   end
 
-  def requires_address?
-    ship_outgoing? || ship_return?
+  def ignores_address?
+    !( ship_outgoing? || ship_return? )
   end
 
   def use_user_address=(val)
