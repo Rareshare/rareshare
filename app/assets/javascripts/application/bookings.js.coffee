@@ -58,7 +58,6 @@ $ ->
 
   ko.bindingHandlers.pickadate =
     init: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) ->
-      console.log "here we are"
       settings = valueAccessor()
 
       $(element).pickadate()

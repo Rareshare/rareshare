@@ -1,7 +1,9 @@
 jQuery ->
   $(".tip").tooltip().click (evt) -> evt.preventDefault()
 
-  $("input.date").pickadate()
+  $("input.date").each () ->
+    min = new Date($(this).data("min"))
+    $(this).pickadate min: min
 
   $('a[data-toggle="tab"]').on 'shown', (e) ->
     window.location.hash = $(e.target).attr("href")
