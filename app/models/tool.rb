@@ -38,6 +38,8 @@ class Tool < ActiveRecord::Base
             :resolution,
             numericality: { greater_than: 0, allow_nil: true }
 
+  validates :bulk_runs, numericality: { greater_than: 1, allow_nil: true }
+
   accepts_nested_attributes_for :facility, allow_destroy: true, reject_if: :facility_rejected?
 
   DEFAULT_SAMPLE_SIZE = [ -4, 4 ]
