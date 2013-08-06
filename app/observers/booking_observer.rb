@@ -12,9 +12,9 @@ class BookingObserver < ActiveRecord::Observer
   end
 
   def notify_users_of_state_change_in(booking)
-    notification_method = "notify_booking_#{booking.state}"
+    notification_method = "notify_booking_#{booking.state}".to_sym
 
-    if respond_to?(notification_method)
+    if self.methods.include?(notification_method)
       self.send notification_method, booking
     end
   end
