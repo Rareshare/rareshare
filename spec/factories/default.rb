@@ -31,18 +31,22 @@ FactoryGirl.define do
     tool_category
     facility
     can_expedite false
+    can_bulkify false
     association :owner, factory: :user
     resolution 10
     resolution_unit_id { AvailableUnit.for("<meter>") }
     currency "USD"
     base_price 200.00
     base_lead_time 7
+    samples_per_run 10
 
     factory :premium_tool do
       can_expedite true
       base_price 2000.00
       expedited_price 2500.00
       expedited_lead_time 3
+      can_bulkify true
+      bulk_runs 5
     end
   end
 
@@ -63,8 +67,10 @@ FactoryGirl.define do
     sample_disposal Booking::Disposal::IN_PERSON
     tos_accepted true
     currency "USD"
-    price 10000
+    price BigDecimal.new("10000.00")
+    rareshare_fee BigDecimal.new("1000.00")
     deadline { 2.weeks.from_now }
     updated_by { create(:user) }
+    samples 1
   end
 end

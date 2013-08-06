@@ -68,15 +68,22 @@ describe Booking do
   end
 
   context '.reserve' do
-    let(:tool)     { create(:tool, base_lead_time: 7, base_price: 200.0) }
+    let(:tool)     { create(:tool, base_lead_time: 7, base_price: 200.0, samples_per_run: 1) }
     let(:renter)   { create(:user) }
     let(:deadline) { 7.days.from_now }
-    let(:params)   { { tool_id: tool.id, deadline: deadline } }
+    let(:params)   {
+      attributes_for(:booking)
+        .slice(:sample_description, :sample_deliverable, :sample_transit, :sample_disposal, :tos_accepted)
+        .merge(tool_id: tool.id, deadline: deadline, samples: 1)
+    }
+
     subject { Booking.reserve renter, params }
 
+    specify { should be_valid }
+
     context 'pricing' do
-      its(:price) { should eq 200.0 }
-      its(:rareshare_fee) { should eq(200.0 * Booking::RARESHARE_FEE_PERCENT) }
+      its(:price) { should eq BigDecimal.new("200.00") }
+      its(:rareshare_fee) { should eq(BigDecimal.new("200.00") * Booking::RARESHARE_FEE_PERCENT) }
     end
 
     context 'address' do

@@ -25,3 +25,6 @@
 
 # Image uploads in dev mode.
 /public/uploads
+
+# rbenv Ruby version.
+/.ruby-version
