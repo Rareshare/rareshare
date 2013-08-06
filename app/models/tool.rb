@@ -159,7 +159,7 @@ class Tool < ActiveRecord::Base
   def days_to_deadline(deadline)
     deadline = Date.parse(deadline) if deadline.is_a?(String)
     deadline = deadline.to_date if !deadline.is_a?(Date)
-    deadline - Date.today - 1
+    ( deadline - Date.today ).to_i
   end
 
   def facility_rejected?(attrs)

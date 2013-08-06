@@ -14,7 +14,7 @@ Spork.prefork do
 
   require 'capybara/rails'
   require 'capybara/rspec'
-  require 'capybara-screenshot/rspec'
+  # require 'capybara-screenshot/rspec'
   require 'database_cleaner'
   # require 'capybara/poltergeist'
 
@@ -30,8 +30,8 @@ Spork.prefork do
     Warden.test_mode!
 
     config.before(:suite) do
-      DatabaseCleaner.strategy = :truncation
-      DatabaseCleaner.clean_with(:truncation)
+      DatabaseCleaner.strategy = :transaction
+      # DatabaseCleaner.clean_with(:truncation)
     end
 
     config.before(:each) do
@@ -41,6 +41,22 @@ Spork.prefork do
     config.after(:each) do
       DatabaseCleaner.clean
     end
+
+    Geocoder.configure(:lookup => :test)
+
+    Geocoder::Lookup::Test.set_default_stub(
+      [
+        {
+          'latitude'     => 40.7143528,
+          'longitude'    => -74.0059731,
+          'address'      => 'New York, NY, USA',
+          'state'        => 'New York',
+          'state_code'   => 'NY',
+          'country'      => 'United States',
+          'country_code' => 'US'
+        }
+      ]
+    )
   end
 end
 

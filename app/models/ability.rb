@@ -3,8 +3,8 @@ class Ability
 
   def initialize(user)
     user ||= User.new # guest user (not logged in)
-    # Admin access handled separately via admin-scoped controllers in ActiveAdmin.
-    # can :manage, :all if user.admin?
+    alias_action :create, :read, :update, :destroy, :to => :crud
+
     bookings user
     tools user
   end
@@ -38,7 +38,7 @@ class Ability
   end
 
   def tools(user)
-    can :manage, Tool do |t|
+    can :crud, Tool do |t|
       t.owned_by?(user)
     end
 
@@ -54,7 +54,7 @@ class Ability
       !t.owned_by?(user)
     end
 
-    can :manage, Facility do |f|
+    can :crud, Facility do |f|
       f.user == user
     end
   end

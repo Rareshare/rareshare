@@ -4,13 +4,13 @@ class BookingsController < InternalController
     tool = Tool.find(params[:tool_id])
 
     unless can? :book, tool
-      redirect_to :back, error: "You cannot book your own tool."
+      redirect_to :back, flash: { error: "You cannot book your own tool." }
     end
 
     @booking = Booking.new do |b|
       b.renter_id = current_user.id
       b.tool_id   = tool.id
-      b.deadline  = params[:date]
+      b.deadline  = Date.parse(params[:date])
       b.price     = tool.price_for(params[:date], 1)
       b.currency  = tool.currency
       b.samples   = 1

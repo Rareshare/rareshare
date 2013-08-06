@@ -66,11 +66,12 @@ end
 group :test do
   gem 'factory_girl'
   gem 'rspec-rails'
+  gem 'rspec-given' # Given-when-then for specs
   gem 'no_peeping_toms' # Disable observers during tests.
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'poltergeist'
   gem 'spork-rails'
   gem 'selenium-webdriver'
-  gem 'database_cleaner'
+  gem 'database_cleaner' # Reset database properly for browser specs.
 end

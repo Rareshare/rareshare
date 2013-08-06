@@ -3,102 +3,101 @@ require 'spec_helper'
 describe Booking do
   include EasyPost::Stubs
 
-  describe '#state' do
-    context 'initial' do
-      subject { Booking.new }
-      its(:state) { should eq("pending") }
+  Given(:booking) { create :booking }
+
+  context "with no changes" do
+    Then { expect(booking.state).to eq "pending" }
+    And  { expect(booking).to be_valid }
+  end
+
+  context "when performing updates to the booking" do
+    Given(:reloaded_booking) { Booking.find(booking.id) }
+
+    context "with no updated_by user" do
+      Then { expect(reloaded_booking).to have(1).error_on(:updated_by) }
+    end
+
+    context "with an updated_by user" do
+      When { reloaded_booking.updated_by = booking.owner }
+      Then { expect(reloaded_booking).to have(0).errors_on(:updated_by) }
+
+      context "on a successful save" do
+        When { reloaded_booking.save! }
+        Then { expect(reloaded_booking.last_updated_by).to eq booking.owner }
+      end
     end
   end
 
-  describe '#last_updated_by' do
-    context 'initial' do
-      specify { subject.should have(1).error_on(:updated_by) }
+  context "when handling sample delivery" do
+    context "without shipping" do
+      Then { expect(booking).to_not be_ship_outgoing }
+      And  { expect(booking).to_not be_ship_return }
     end
 
-    context 'with updated_by' do
-      let(:user) { create(:user) }
-      subject { Booking.new(updated_by: user) }
-      specify { subject.should have(0).errors_on(:updated_by) }
-    end
+    context "with shipping required" do
+      context "outgoing" do
+        When { booking.sample_transit = Booking::Transit::RARESHARE_SEND }
+        Then { expect(booking).to be_ship_outgoing }
+      end
 
-    context 'after save' do
-      let(:user) { create(:user) }
-      subject { create(:booking, updated_by: user) }
-      its(:last_updated_by) { should eq(user) }
-    end
-  end
+      context "return" do
+        When { booking.sample_disposal = Booking::Disposal::RARESHARE_SEND }
+        Then { expect(booking).to be_ship_return }
+      end
 
-  context 'sample shipping' do
-    context 'required' do
-      subject { build(:booking, sample_transit: Booking::Transit::RARESHARE_SEND, sample_disposal: Booking::Disposal::RARESHARE_SEND) }
-      its(:ship_outgoing?) { should be_true }
-      its(:ship_return?) { should be_true }
-    end
-
-    context 'not required' do
-      subject { build(:booking, sample_transit: Booking::Transit::IN_PERSON, sample_disposal: Booking::Disposal::IN_PERSON) }
-      its(:ship_outgoing?) { should be_false }
-      its(:ship_return?) { should be_false }
-    end
-
-    context 'outgoing' do
-      before { stub_easypost }
-
-      let(:tool)    { create(:tool, owner: owner) }
-      let(:renter)  { create(:user, address: create(:address)) }
-      let(:owner)   { create(:user) }
-      let(:booking) {
-        Booking.reserve(renter,
-          use_user_address: true,
-          sample_transit: Booking::Transit::RARESHARE_SEND,
-          tool: tool,
-          shipping_package_size: Booking::PackageSize::PAK,
-          deadline: (tool.base_lead_time + 2).days.from_now
-        )
-      }
-
-      subject { booking.outgoing_shipment }
-
-      specify {
-        subject.to_address.name.should eq(owner.display_name)
-        subject.from_address.name.should eq(renter.display_name)
-        subject.parcel.predefined_package.should eq(Booking::PackageSize::PAK)
-      }
+      context "when calculating rates" do
+        Given { stub_easypost }
+        When { booking.address = create(:address) }
+        When { booking.shipping_package_size = Booking::PackageSize::PAK }
+        When { booking.sample_transit = Booking::Transit::RARESHARE_SEND }
+        When(:shipment) { booking.outgoing_shipment }
+        Then { expect(shipment.to_address.name).to eq booking.owner.display_name }
+        And  { expect(shipment.from_address.name).to eq booking.renter.display_name }
+        And  { expect(shipment.parcel.predefined_package).to eq Booking::PackageSize::PAK }
+      end
     end
   end
 
-  context '.reserve' do
-    let(:tool)     { create(:tool, base_lead_time: 7, base_price: 200.0, samples_per_run: 1) }
-    let(:renter)   { create(:user) }
-    let(:deadline) { 7.days.from_now }
-    let(:params)   {
+  context "upon reserving" do
+    Given(:tool)     { create(:tool) }
+    Given(:owner)    { tool.owner }
+    Given(:renter)   { create(:user) }
+    Given(:deadline) { 7.days.from_now }
+    Given(:params)   {
       attributes_for(:booking)
-        .slice(:sample_description, :sample_deliverable, :sample_transit, :sample_disposal, :tos_accepted)
-        .merge(tool_id: tool.id, deadline: deadline, samples: 1)
+        .slice(
+          :sample_description,
+          :sample_deliverable,
+          :sample_transit,
+          :sample_disposal,
+          :tos_accepted
+        ).merge(tool_id: tool.id, deadline: deadline, samples: 1)
     }
 
-    subject { Booking.reserve renter, params }
+    Given(:booking) { Booking.reserve renter, params }
+    Then { expect(booking).to be_valid }
+    And  { expect(booking.currency).to eq tool.currency }
+    And  { expect(booking.renter).to eq renter }
+    And  { expect(booking.owner).to eq owner }
 
-    specify { should be_valid }
-
-    context 'pricing' do
-      its(:price) { should eq BigDecimal.new("200.00") }
-      its(:rareshare_fee) { should eq(BigDecimal.new("200.00") * Booking::RARESHARE_FEE_PERCENT) }
+    context "when calculating the booking fee" do
+      Given(:base_price) { BigDecimal.new("200.00") }
+      When { tool.stub(:price_for).and_return base_price }
+      Then { expect(booking.rareshare_fee).to eq(base_price * Booking::RARESHARE_FEE_PERCENT) }
     end
 
-    context 'address' do
-      let(:renter) { create(:user, address: create(:address)) }
-
-      context 'without shipping' do
-        before { params.merge! use_user_address: true, sample_transit: Booking::Transit::IN_PERSON }
-        its(:address) { should be_nil }
+    context "when calculating the address" do
+      context "and no shipping is required" do
+        Then { expect(booking.address).to be_nil }
       end
 
-      context 'with shipping, with user' do
-        before { params.merge! use_user_address: true, sample_transit: Booking::Transit::RARESHARE_SEND }
-        its(:address) { should eq renter.address }
+      context "and the user's address has been requested" do
+        Given(:an_address) { build :address }
+        When { renter.address = an_address }
+        When { params[:use_user_address] = true }
+        When { params[:sample_transit] = Booking::Transit::RARESHARE_SEND }
+        Then { expect(booking.address).to eq an_address }
       end
     end
   end
-
 end
