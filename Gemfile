@@ -59,6 +59,10 @@ gem 'twitter-bootstrap-rails'
 gem 'bootstrap-wysihtml5-rails'
 gem 'redcarpet'
 
+# Monitoring and reporting
+gem 'honeybadger'
+gem 'newrelic_rpm'
+
 group :development do
   gem 'foreman'
 end
