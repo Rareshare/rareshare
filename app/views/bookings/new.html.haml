@@ -25,8 +25,12 @@
 
         %span.span8
           %div.row
-            %span.span5
-              = f.input :deadline, as: :string, input_html: { class: "date", "data-bind" => "pickadate: { value: deadline, min: #{@booking.tool.minimum_future_lead_time}}" }
+            %span.span4
+              = f.input :deadline, wrapper: :append do
+                = f.input_field :deadline, as: "string", class: "date", data: { bind:  "pickadate: { value: deadline, min: #{@booking.tool.minimum_future_lead_time} }" }
+                %span.add-on
+                  %i.icon-calendar
+
             %span.span3
               = f.input :samples, input_html: { "data-bind" => "value: samples", min: 1 }
 
@@ -38,7 +42,7 @@
               = f.input :sample_deliverable, input_html: { "data-bind" => "wysihtml5: sample_deliverable" }
 
         %span.span2.pricing{data: { spy: "affix", "offset-top" => "252" }}
-          %div{style: "margin: 10px;"}
+          %div
             %h4 Subtotal Pricing
             %small Shipping not included.
             %dl
@@ -48,8 +52,8 @@
               %dd{data: { bind: "text: money(est_price_per_run)" }}
               %dt Runs required
               %dd{data: { bind: "text: est_runs_required" }}
-              %dt Total price
-              %dd{data: { bind: "text: money(est_total_price)" }}
+              %dt.total_price Total price
+              %dd.total_price{data: { bind: "text: money(est_total_price)" }}
             %span.label.label-warning{data: { bind: "visible: must_expedite" }} Expedited
             %span.label.label-success{data: { bind: "visible: must_bulkify" }} Bulk (-20%)
 
