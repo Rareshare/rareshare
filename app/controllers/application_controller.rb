@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(user)
     return_to = session[:user_return_to]
+
     if return_to && !return_to.match(user_omniauth_callback_path(:linkedin))
       return_to
     else
@@ -36,5 +37,15 @@ class ApplicationController < ActionController::Base
       :postal_code,
       :country
     ]
+  end
+
+  def back_or_home
+    default, back, return_to = profile_path, request.env["HTTP_REFERER"], session[:user_return_to]
+
+    if back.present? && return_to != request.fullpath
+      back
+    else
+      default
+    end
   end
 end

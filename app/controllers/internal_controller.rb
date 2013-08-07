@@ -7,6 +7,6 @@ class InternalController < ApplicationController
   private
 
   def tos_accepted?
-    redirect_to welcome_path unless current_user && current_user.tos_accepted?
+    redirect_to(welcome_path) if current_user && !current_user.tos_accepted?
   end
 end

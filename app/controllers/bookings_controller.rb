@@ -4,7 +4,7 @@ class BookingsController < InternalController
     tool = Tool.find(params[:tool_id])
 
     unless can? :book, tool
-      redirect_to :back, flash: { error: "You cannot book your own tool." }
+      redirect_to back_or_home, flash: { error: "You cannot book your own tool." }
     end
 
     @booking = Booking.new do |b|
@@ -34,7 +34,7 @@ class BookingsController < InternalController
     @booking = Booking.find(params[:id])
 
     unless can? :read, @booking
-      redirect_to profile_path, flash: { error: "You don't have permission to view the requested booking." }
+      redirect_to back_or_home, flash: { error: "You don't have permission to view this booking." }
     end
   end
 
@@ -42,7 +42,7 @@ class BookingsController < InternalController
     @booking = Booking.find(params[:id])
 
     unless can? :cancel, @booking
-      redirect_to profile_path, flash: { error: "This booking cannot be cancelled." }
+      redirect_to back_or_home, flash: { error: "This booking cannot be cancelled." }
     end
   end
 
