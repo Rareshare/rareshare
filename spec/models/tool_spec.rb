@@ -63,9 +63,9 @@ describe Tool do
     context "with expedited deadlines" do
       When { tool.expedited_lead_time = 4 }
       Then { expect(tool.must_expedite?(3.days.from_now)).to be false }
-      Then { expect(tool.must_expedite?(5.days.from_now)).to be true  }
-      Then { expect(tool.must_expedite?(7.days.from_now)).to be true  }
-      Then { expect(tool.must_expedite?(9.days.from_now)).to be false }
+      And  { expect(tool.must_expedite?(5.days.from_now)).to be true  }
+      And  { expect(tool.must_expedite?(7.days.from_now)).to be true  }
+      And  { expect(tool.must_expedite?(9.days.from_now)).to be false }
     end
   end
 
