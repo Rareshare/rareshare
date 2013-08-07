@@ -14,6 +14,9 @@
       %p= @booking.state_summary_for(current_user)
       = render partial: 'bookings/actions', locals: { booking: @booking }
 
+    %h3 Booking Information
+    = render partial: "summary", locals: { booking: @booking }
+
 
     %h3
       Tool Overview
@@ -49,28 +52,8 @@
             to 10
             %sup= @booking.tool.sample_size_max
 
-    %h3 Booking Information
-    = render partial: "summary", locals: { booking: @booking }
-
     - if @booking.tool.images.any?
-      = modal_dialog id: "images" do
-        = modal_header do
-          %h3#imagesLabel Images
-        = modal_body do
-          %div#carousel.carousel.slide
-            %ol.carousel-indicators
-              - @booking.tool.images.each.with_index do |image, i|
-                %li{class: i == 0 ? "active" : "", data: { "target" => "#mycarousel", "slide-to" => i}}
-
-            %div.carousel-inner
-              - @booking.tool.images.each.with_index do |image, i|
-                %div.item{class: i == 0 ? "active" : ""}
-                  = image_tag image.image.url
-
-            %a.carousel-control.left{href: "#carousel", data: { slide: "prev" }}
-              %i.icon-arrow-left
-            %a.carousel-control.right{href: "#carousel", data: { slide: "next" }}
-              %i.icon-arrow-right
+      = render partial: "tools/images", object: @booking.tool.images
 
 %div.row
   %span.span8.offset2
