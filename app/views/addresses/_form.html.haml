@@ -1,9 +1,9 @@
 %div.row
-  %span.span5= form.input :address_line_1
-  %span.span3= form.input :country, collection: [["United States", "us"], ["United Kingdom", "gb"]]
+  %div.span5= form.input :address_line_1
+  %div.span3= form.input :country, collection: [["United States", "us"], ["United Kingdom", "gb"]]
 %div.row
-  %span.span5= form.input :address_line_2, required: false
+  %div.span5= form.input :address_line_2, required: false
 %div.row
-  %span.span4= form.input :city
-  %span.span2= form.input :state, required: false
-  %span.span2= form.input :postal_code
+  %div.span4= form.input :city
+  %div.span2= form.input :state, required: false
+  %div.span2= form.input :postal_code

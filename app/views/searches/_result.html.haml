@@ -1,6 +1,6 @@
 %div.result{id: "tool_#{result.id}"}
   %div.row
-    %span.span2.header-avatar
+    %div.span2.header-avatar
       = link_to tool_path(result.id) do
         - if result.images.any?
           %a{href: "#images", role: "button", data: { toggle: "modal" }}
@@ -8,7 +8,7 @@
         - else
           %i.avatar.icon-cogs
 
-    %span.span8
+    %div.span8
       %div.title
         %h3= link_to result.display_name, tool_path(result.id)
         %div.muted= result.tool_category_name
@@ -18,7 +18,7 @@
           %td= result.resolution
           %td Sample size
           %td= sample_size_text(result)
-    %span.span2
+    %div.span2
       %div.reserve-now
         %div.price
           = number_to_currency result.price_for(@query.by, 1), unit: currency_for(result)

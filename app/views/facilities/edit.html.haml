@@ -12,7 +12,7 @@
           %legend About the facility
 
           %div.row
-            %span.span6= f.input :name
+            %div.span6= f.input :name
 
           = f.simple_fields_for :address, @facility.address || @facility.build_address do |a|
             = a.hidden_field :id

@@ -6,10 +6,10 @@
   subtitle: @booking.display_name
 
 %div.row
-  %span.span2.header-avatar
+  %div.span2.header-avatar
     = avatar_of @booking.opposite_party_to(current_user)
 
-  %span.span8
+  %div.span8
     %div.well.well-small
       %p= @booking.state_summary_for(current_user)
       = render partial: 'bookings/actions', locals: { booking: @booking }
@@ -56,7 +56,7 @@
       = render partial: "tools/images", object: @booking.tool.images
 
 %div.row
-  %span.span8.offset2
+  %div.span8.offset2
     %h3 Address
     %h4.address
       %strong
@@ -65,26 +65,26 @@
 
 - unless @booking.user_messages.empty?
   %div.row#messages
-    %span.span8.offset2
+    %div.span8.offset2
       %h3 Messages
 
   - @booking.message_chain.each do |message|
     %div.row
-      %span.span2.header-avatar
+      %div.span2.header-avatar
         - if message.sender.try(:avatar).present?
           %img.avatar{src: message.sender.avatar.url(:thumb), style: "margin-top: 0; margin-bottom: 10px"}
         - else
           %i.avatar.icon-user{style: "margin-top: 0; margin-bottom: 10px"}
 
-      %span.span8
+      %div.span8
         %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
           %p= sanitize message.body
           %small.muted
             #{message.sender_name} at #{message.created_at}
 
   %div.row
-    %span.span2
-    %span.span8
+    %div.span2
+    %div.span8
       = simple_form_for UserMessage.new, as: :message, url: reply_message_path(@booking.user_messages.last) do |f|
         .form-inputs
           = f.input :body, label: false, input_html: { rows: 4, cols: nil }

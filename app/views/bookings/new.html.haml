@@ -18,30 +18,30 @@
   %div.form-inputs
     %fieldset
       %div.row.step{ "data-bind" => "css: { complete: stepOneComplete }"}
-        %span.span2
+        %div.span2
           %h1 1
           %small
             What do you need, and when do you need it?
 
-        %span.span8
+        %div.span8
           %div.row
-            %span.span4
+            %div.span4
               = f.input :deadline, wrapper: :append do
                 = f.input_field :deadline, as: "string", class: "date", data: { bind:  "pickadate: { value: deadline, min: #{@booking.tool.minimum_future_lead_time} }" }
                 %span.add-on
                   %i.icon-calendar
 
-            %span.span3
+            %div.span3
               = f.input :samples, input_html: { "data-bind" => "value: samples", min: 1 }
 
           %div.row
-            %span.span8
+            %div.span8
               = f.input :sample_description, input_html: { "data-bind" => "wysihtml5: sample_description" }
           %div.row
-            %span.span8
+            %div.span8
               = f.input :sample_deliverable, input_html: { "data-bind" => "wysihtml5: sample_deliverable" }
 
-        %span.span2.pricing{data: { spy: "affix", "offset-top" => "252" }}
+        %div.span2.pricing{data: { spy: "affix", "offset-top" => "252" }}
           %div
             %h4 Subtotal Pricing
             %small Shipping not included.
@@ -60,17 +60,17 @@
 
 
       %div.row.step{ "data-bind" => "css: { complete: stepTwoComplete }"}
-        %span.span12.border
-        %span.span2
+        %div.span12.border
+        %div.span2
           %h1 2
           %small How would you like to send and dispose of the sample?
-        %span.span8
+        %div.span8
           %div.row
-            %span.span8
+            %div.span8
               = f.input :sample_transit, as: :select, collection: Booking::Transit::ALL.map {|k| [ t("bookings.sample_transit.#{k}"), k ]}, input_html: { "data-bind" => "value: sample_transit" }
 
           %div.row
-            %span.span8
+            %div.span8
               %div.transit.in_person{ "data-bind" => "visible: sample_transit() == 'in_person'" }
                 %p We'll let you know the address of the tool when the owner approves the booking.
 
@@ -114,11 +114,11 @@
               %div.transit.none_required{ "data-bind" => "visible: sample_transit() == 'none_required'" }
 
           %div.row
-            %span.span8
+            %div.span8
               = f.input :sample_disposal, as: :select, collection: Booking::Disposal::ALL.map {|k| [ t("bookings.sample_disposal.#{k}"), k ]}, input_html: { "data-bind" => "value: sample_disposal" }
 
           %div.row
-            %span.span8
+            %div.span8
               %div.disposal.in_person{ "data-bind" => "visible: sample_disposal() == 'in_person'" }
                 %p We'll let you know the address of the tool when the owner approves the booking.
 
@@ -127,17 +127,17 @@
 
               %div.disposal.owner_dispose{ "data-bind" => "visible: sample_disposal() == 'owner_dispose'" }
                 %div.row
-                  %span.span8
+                  %div.span8
                     = f.input :disposal_instructions, input_html: { "data-bind" => "wysihtml5: disposal_instructions" }
 
               %div.transit.none_required{ "data-bind" => "visible: sample_disposal() == 'none_required'" }
 
       %div.row.step{ "data-bind" => "css: { complete: stepThreeComplete }"}
-        %span.span12.border
-        %span.span2
+        %div.span12.border
+        %div.span2
           %h1 3
           %small Review the pricing and read the terms and conditions.
-        %span.span8
+        %div.span8
           %div.terms_and_conditions= terms_and_conditions
 
           = f.input :tos_accepted, label: false, input_html: { class: "primary", "data-bind" => "checked: tos_accepted" }, inline_label: t('simple_form.labels.booking.tos_accepted', terms_link: page_link_to('Terms & Conditions', target: "_blank")).html_safe

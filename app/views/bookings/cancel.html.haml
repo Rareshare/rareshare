@@ -6,8 +6,8 @@
   subtitle: @booking.display_name
 
 %div.row
-  %span.span2
-  %span.span8
+  %div.span2
+  %div.span8
     %p You are about to cancel this booking. This might cost money. Cool? (yes/no)
     = simple_form_for @booking do |f|
       = f.button :submit, value: "Yes, cancel", class: "btn btn-danger"

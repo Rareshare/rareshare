@@ -4,7 +4,7 @@
   subtitle: "Showing page #{@results.current_page} of #{@results.total_pages}."
 
 %div.row
-  %span.span10.offset2
+  %div.span10.offset2
     = render partial: "searches/form"
 
 - if @results.any?

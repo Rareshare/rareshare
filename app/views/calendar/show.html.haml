@@ -4,7 +4,7 @@
   subtitle: @calendar.title
 
 %div.row
-  %span.span2
+  %div.span2
     %table.calendar
       %thead
         %tr
@@ -21,7 +21,7 @@
     %div.pull-right
       = link_to glyph("angle-right"), calendar_path(@calendar.next)
 
-  %span.span10
+  %div.span10
     - if @calendar.bookings.empty?
       %p You have no bookings this month.
     - else

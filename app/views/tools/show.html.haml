@@ -9,24 +9,24 @@
   subtitle: @tool.tool_category_name
 
 %div.row
-  %span.span2.sidebar.profile-sidebar
+  %div.span2.sidebar.profile-sidebar
     %div.row.row-header
-      %span.span2.header-avatar
+      %div.span2.header-avatar
         %h4{style: "text-align: center"} Owner
         = avatar_of @tool.owner
 
     - if can?(:edit, @tool)
       = link_to glyph_text(:edit, "Edit tool"), edit_tool_path(@tool), class: "btn"
 
-  %span.span8
+  %div.span8
     - if can?(:book, @tool)
       %div.well.well-small{style: "padding-bottom: 0;"}
         %form.no-margin.form-inline{action: new_booking_path, method: :get, class: "form-inline"}
           %input{type: "hidden", name: "tool_id", value: @tool.id}
           %div.row
-            %span.span2
+            %div.span2
               %strong{style: "line-height: 30px;"} Get a sample by
-            %span.span4
+            %div.span4
               %div.control-group
                 %div.input-append
                   %input{type: "date", name: "date", class: "date", value: SearchQuery.default_date.strftime("%d %B, %Y"), data: { min: Date.today }}
@@ -34,7 +34,7 @@
                     %i.icon-calendar
 
 
-            %span.span1
+            %div.span1
               %input{type: "submit", value: "Reserve Now", class: "btn btn-primary"}
 
     %h3 Overview
@@ -89,7 +89,7 @@
       = render partial: "tools/images", object: @tool.images
 
 %div.row
-  %span.span8.offset2
+  %div.span8.offset2
     %h3 Location
     %h4.address
       %strong

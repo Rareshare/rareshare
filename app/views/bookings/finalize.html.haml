@@ -57,19 +57,19 @@
                   %td{data: { bind: "text: money(final_price)" }}= @booking.final_price
 
           %div.row
-            %span.span4
+            %div.span4
               = f.input :number, wrapper: :append do
                 %input.cc-number.string{type: "text", autocomplete: "on", data: { stripe: "number" }}
                 %span.add-on
                   %i.icon-credit-card
 
-            %span.span2
+            %div.span2
               = f.input :cvv, label: "CVV", wrapper: :append do
                 %input.cc-cvv.string{type: "text", autocomplete: "off", data: { stripe: "cvc" }}
                 %span.add-on
                   %i.icon-lock
 
-            %span.span2
+            %div.span2
               = f.input :expiration, wrapper: :append do
                 %input.cc-expiry.string{type: "text", autocomplete: "on", placeholder: "mm / yyyy", data: { stripe: "exp" }}
                 %span.add-on
