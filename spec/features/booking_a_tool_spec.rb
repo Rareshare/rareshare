@@ -37,7 +37,7 @@
 #   def create_a_tool
 #     login_as owner; visit profile_path
 
-#     click_nav_link "Share a Tool"
+#     click_nav_link "My Tools"
 
 #     within "#new_tool" do
 #       fill_in "Category",         with: "Biology"

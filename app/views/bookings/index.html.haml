@@ -1,6 +1,6 @@
-= page_header "Calendar",
+= page_header "Bookings",
   icon: "calendar",
-  crumbs: [:root, :calendar],
+  crumbs: [:root, Booking],
   subtitle: @calendar.title
 
 %div.row
@@ -17,13 +17,14 @@
               %td{class: date_class_for(@calendar, date)}= date.day
 
     %div.pull-left
-      = link_to glyph("angle-left"), calendar_path(@calendar.prev)
+      = link_to glyph("angle-left"), bookings_path(@calendar.prev)
     %div.pull-right
-      = link_to glyph("angle-right"), calendar_path(@calendar.next)
+      = link_to glyph("angle-right"), bookings_path(@calendar.next)
 
   %div.span10
-    - if @calendar.bookings.empty?
-      %p You have no bookings this month.
+    %h3 Recent
+    - if current_user.all_recent_bookings.empty?
+      %p You don't have any bookings with recent activity.
     - else
-      = render partial: 'bookings/list', object: @calendar.bookings
+      = render partial: 'bookings/list', object: current_user.all_recent_bookings
 

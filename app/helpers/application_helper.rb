@@ -107,8 +107,6 @@ module ApplicationHelper
       [ "Home", root_path ]
     elsif crumb == :inbox
       [ "Inbox", messages_path ]
-    elsif crumb == :calendar
-      [ "Calendar", calendar_path ]
     elsif crumb == :search
       [ "Find a Tool", search_path ]
     elsif crumb.is_a?(ActiveModel::Naming)

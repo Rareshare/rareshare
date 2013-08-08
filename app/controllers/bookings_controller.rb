@@ -19,6 +19,17 @@ class BookingsController < InternalController
     end
   end
 
+  def index
+    if params[:month].present? && params[:month] =~ /(\d{4})-(\d{2})/
+      year, month = [ $1, $2 ].map &:to_i
+    else
+      now = Date.today
+      year, month = now.year, now.month
+    end
+
+    @calendar = Calendar.new(year: year, month: month, user: current_user)
+  end
+
   def create
     @booking = Booking.reserve current_user, booking_params
 
