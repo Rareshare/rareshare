@@ -10,7 +10,7 @@
 
 = page_header "Finalize Booking",
   icon: "cogs",
-  crumbs: [:root, :calendar, @booking, "Finalize"],
+  crumbs: [:root, Booking, @booking, "Finalize"],
   subtitle: @booking.display_name
 
 = simple_form_for :transaction, url: finalize_booking_path(@booking), html: { class: "payment", "data-bind" => "with: booking", "data-stripe-key" => ENV["STRIPE_PUBLIC_KEY"] } do |f|
