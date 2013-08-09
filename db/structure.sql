@@ -173,7 +173,7 @@ CREATE TABLE bookings (
     renter_id integer,
     tool_id integer,
     price money DEFAULT 0.0,
-    deadline timestamp without time zone,
+    deadline date,
     sample_description text,
     state character varying(255),
     tos_accepted boolean,
@@ -1116,3 +1116,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130728221705');
 INSERT INTO schema_migrations (version) VALUES ('20130729125543');
 
 INSERT INTO schema_migrations (version) VALUES ('20130730033828');
+
+INSERT INTO schema_migrations (version) VALUES ('20130809155039');

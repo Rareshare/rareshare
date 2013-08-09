@@ -55,7 +55,8 @@ FactoryGirl.define do
     sequence(:last_name) { |n| "Person#{n}" }
     sequence(:email) {|n| "person#{n}@example.com" }
     confirmed_at { Time.now }
-    password { "password" }
+    tos_accepted true
+    password "password"
   end
 
   factory :booking do

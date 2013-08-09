@@ -116,6 +116,10 @@ class Tool < ActiveRecord::Base
     [ base_lead_time, expedited_lead_time ].compact.min
   end
 
+  def earliest_bookable_date
+    minimum_future_lead_time.days.from_now.to_date
+  end
+
   def as_json(options={})
     options = options.merge(
       methods: [
