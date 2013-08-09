@@ -1,6 +1,5 @@
 - content_for :head do
-  :javascript
-    #{filepicker_js_snippet}
+  %script= raw filepicker_js_snippet
 
 = render layout: 'layouts/application' do
   %div.modal.hide.fade#modalConfirm(tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true")

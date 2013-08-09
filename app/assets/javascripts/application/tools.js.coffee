@@ -49,7 +49,6 @@ window.Tool = (input) ->
 
   @samples_in_bulk_run = ko.computed () =>
     [ runs, samples_per_run ] = [ @bulk_runs(), @samples_per_run() ]
-    console.log runs, samples_per_run
     unless ( runs? and samples_per_run? ) then return null
 
     runs * samples_per_run
