@@ -11,12 +11,12 @@ describe BookingsController do
     Given(:booking)  { response; assigns :booking }
 
     context "without logging in" do
-      Then { expect(response).to be_redirect }
+      Then { expect(response).to redirect_to(new_user_session_path) }
     end
 
     context "when logged in as the owner" do
       When { sign_in owner }
-      Then { expect(response).to be_redirect }
+      Then { expect(response).to redirect_to(profile_path) }
     end
 
     context "when logged in as a renter" do
@@ -44,6 +44,25 @@ describe BookingsController do
   end
 
   context "PUT#create" do
+    Given(:params)   { attributes_for(:booking).merge(tool_id: tool.id) }
+    Given(:response) { post :create, booking: params }
+    Given(:booking)  { create :booking, params }
+
+    context "without logging in" do
+      Then { expect(response).to redirect_to(new_user_session_path) }
+    end
+
+    context "when logged in as the owner" do
+      When { Booking.stub(:reserve).and_return booking }
+      When { sign_in owner }
+      Then { expect(response).to redirect_to(profile_path) }
+    end
+
+    context "with a valid booking" do
+      When { Booking.stub(:reserve).and_return booking }
+      When { sign_in renter }
+      Then { expect(response).to redirect_to(booking_path(booking)) }
+    end
   end
 
   context "POST#update" do
