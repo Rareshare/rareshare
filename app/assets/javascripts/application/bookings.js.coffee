@@ -29,9 +29,7 @@ window.Booking = (input) ->
 
   ko.computed () =>
     baseUrl = "/tools/#{@tool().id}/pricing"
-    console.log "retrieving for", @deadline(), @samples()
     $.get baseUrl, date: @deadline().toJSON(), samples: @samples(), (resp) =>
-      console.log "pricing", resp.pricing
       @est_must_expedite resp.pricing.must_expedite
       @est_runs_required resp.pricing.runs_required
       @est_price_per_run resp.pricing.price_per_run
