@@ -699,7 +699,9 @@ CREATE TABLE users (
     tools_count integer DEFAULT 0,
     avatar character varying(255),
     admin boolean,
-    tos_accepted boolean DEFAULT false
+    tos_accepted boolean DEFAULT false,
+    can_email_news boolean DEFAULT true,
+    can_email_status boolean DEFAULT true
 );
 
 
@@ -1182,3 +1184,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130730033828');
 INSERT INTO schema_migrations (version) VALUES ('20130809155039');
 
 INSERT INTO schema_migrations (version) VALUES ('20130810233337');
+
+INSERT INTO schema_migrations (version) VALUES ('20130811163617');

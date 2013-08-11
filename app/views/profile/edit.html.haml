@@ -48,6 +48,16 @@
               = a.hidden_field :id
               = render partial: 'addresses/form', object: a
 
+      %fieldset
+        %div.row
+          %div.span8.offset2
+            %legend
+              %i.icon-envelope.icon-large
+              Email Preferences
+
+            = f.input :can_email_news, label: false, inline_label: raw(t('simple_form.labels.user.can_email_news') + lbl("Recommended"))
+            = f.input :can_email_status, label: false, inline_label: t('simple_form.labels.user.can_email_status')
+
   %div.row
     %div.span10.offset2
       = f.button :submit, value: "Save", class: "btn btn-primary"

@@ -102,7 +102,7 @@
 
           %div.row
             %div.span8
-              = f.input :can_expedite, label: false, inline_label: raw("Offer expedited pricing? " + content_tag(:span, "Recommended", class: "label label-info")), input_html: { "data-bind" => "checked: can_expedite" }
+              = f.input :can_expedite, label: false, inline_label: raw("Offer expedited pricing? " + lbl("Recommended")), input_html: { "data-bind" => "checked: can_expedite" }
           %div.row
             %div.span2
               = f.input :expedited_lead_time, input_html: { min: 1, "data-bind" => "enable: can_expedite" }

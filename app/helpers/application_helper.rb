@@ -177,4 +177,8 @@ module ApplicationHelper
   def address_for_map(address)
     address.gsub(/,\s,/, ',').gsub(/\s/, '+').gsub(/#/, '%23')
   end
+
+  def lbl(text, type="info")
+    " " + content_tag(:span, text, class: "label label-#{type}").html_safe
+  end
 end

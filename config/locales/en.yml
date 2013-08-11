@@ -84,6 +84,8 @@ en:
         avatar: 'Picture'
         title: 'Position/Job Title'
         qualifications: "Professional qualifications"
+        can_email_news: "Subscribe to periodic updates from RareShare about the site"
+        can_email_status: "Subscribe to email updates whenever my booking status changes"
       booking:
         tos_accepted: 'I have read and agree to the %{terms_link} for this booking.'
     hints:
