@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rareshare::Application.routes.draw do
   root to: "home#index"
 
@@ -8,6 +10,10 @@ Rareshare::Application.routes.draw do
   }
 
   ActiveAdmin.routes(self)
+
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/admin/sidekiq'
+  end
 
   resource :profile, controller: "profile"
 

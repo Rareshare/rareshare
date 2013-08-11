@@ -9,7 +9,12 @@ gem 'uglifier' # JS asset compression
 gem 'unicorn' # High-performance Ruby web server
 gem 'seed-fu' # Seed test data
 gem 'redis-rails' # Store sessions in Redis
-gem 'activerecord-postgres-hstore'
+gem 'activerecord-postgres-hstore' # HStore support for ARec
+
+# Background jobs
+gem 'sidekiq' # Main lib
+gem 'slim', '>= 1.1.0'
+gem 'sinatra', '>= 1.3.0', :require => nil
 
 # Payment
 gem 'braintree'
