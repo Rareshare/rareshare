@@ -17,6 +17,6 @@
           %th Education
           %td= @user.education
     %h3 Bio
-    = @user.bio
+    = sanitize @user.bio
     %h3 Qualifications
-    = @user.qualifications
+    = sanitize @user.qualifications
