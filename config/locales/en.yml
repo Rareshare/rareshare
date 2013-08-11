@@ -107,3 +107,10 @@ en:
       booking: |
         Consider including details such as material, quantity, size, handling requirements,
         and specific hazards in order to allow the tool owner to evaluate your request.
+
+  active_admin:
+    executed_search:
+      params:
+        q: "Query"
+        loc: "Location"
+        by: "Deadline"

@@ -22,6 +22,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION hstore; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
+
+
 SET search_path = public, pg_catalog;
 
 SET default_tablespace = '';
@@ -212,6 +226,39 @@ CREATE SEQUENCE bookings_id_seq
 --
 
 ALTER SEQUENCE bookings_id_seq OWNED BY bookings.id;
+
+
+--
+-- Name: executed_searches; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE executed_searches (
+    id integer NOT NULL,
+    user_id integer,
+    search_params hstore,
+    results_count integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: executed_searches_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE executed_searches_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: executed_searches_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE executed_searches_id_seq OWNED BY executed_searches.id;
 
 
 --
@@ -714,6 +761,13 @@ ALTER TABLE ONLY bookings ALTER COLUMN id SET DEFAULT nextval('bookings_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY executed_searches ALTER COLUMN id SET DEFAULT nextval('executed_searches_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY facilities ALTER COLUMN id SET DEFAULT nextval('facilities_id_seq'::regclass);
 
 
@@ -832,6 +886,14 @@ ALTER TABLE ONLY booking_logs
 
 ALTER TABLE ONLY bookings
     ADD CONSTRAINT bookings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: executed_searches_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY executed_searches
+    ADD CONSTRAINT executed_searches_pkey PRIMARY KEY (id);
 
 
 --
@@ -1118,3 +1180,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130729125543');
 INSERT INTO schema_migrations (version) VALUES ('20130730033828');
 
 INSERT INTO schema_migrations (version) VALUES ('20130809155039');
+
+INSERT INTO schema_migrations (version) VALUES ('20130810233337');

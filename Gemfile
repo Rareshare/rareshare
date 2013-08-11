@@ -9,6 +9,7 @@ gem 'uglifier' # JS asset compression
 gem 'unicorn' # High-performance Ruby web server
 gem 'seed-fu' # Seed test data
 gem 'redis-rails' # Store sessions in Redis
+gem 'activerecord-postgres-hstore'
 
 # Payment
 gem 'braintree'
