@@ -6,7 +6,8 @@ class Ability
     alias_action :create, :read, :update, :destroy, :to => :crud
 
     bookings user
-    tools user
+    tools    user
+    messages user
   end
 
   private
@@ -56,6 +57,12 @@ class Ability
 
     can :crud, Facility do |f|
       f.user == user
+    end
+  end
+
+  def messages(user)
+    can :read, UserMessage do |m|
+      m.sender == user || m.receiver == user
     end
   end
 end

@@ -7,7 +7,7 @@ class MessagesController < InternalController
   def show
     @message = UserMessage.find(params[:id])
 
-    if current_user.can_read?(@message)
+    if can? :read, @message
       current_user.acknowledge_message!(@message)
 
       if @message.messageable.present?

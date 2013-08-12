@@ -37,14 +37,14 @@ describe Tool do
     context "with standard deadlines" do
       When { tool.expedited_lead_time = nil }
       Then { expect(tool).to_not be_bookable_by(5.days.from_now) }
-      And  { expect(tool).to_not be_bookable_by(7.days.from_now) }
+      And  { expect(tool).to_not be_bookable_by(7.days.from_now.to_date) }
       And  { expect(tool).to     be_bookable_by(9.days.from_now) }
     end
 
     context "with expedited deadlines" do
       When { tool.expedited_lead_time = 4 }
       Then { expect(tool).to_not be_bookable_by(3.days.from_now) }
-      And  { expect(tool).to_not be_bookable_by(4.days.from_now) }
+      And  { expect(tool).to_not be_bookable_by(4.days.from_now.to_date) }
       And  { expect(tool).to     be_bookable_by(5.days.from_now) }
       And  { expect(tool).to     be_bookable_by(7.days.from_now) }
     end

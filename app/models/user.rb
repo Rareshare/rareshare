@@ -33,10 +33,6 @@ class User < ActiveRecord::Base
     ).update_all(acknowledged: true)
   end
 
-  def can_read?(message)
-    message.sender == self || message.receiver == self
-  end
-
   def display_name
     "#{first_name} #{last_name}"
   end
@@ -56,14 +52,16 @@ class User < ActiveRecord::Base
     ( owned_bookings.recent + requested_bookings.recent ).sort_by(&:updated_at).reverse
   end
 
+  SUPPORT_EMAIL = "support@rare-share.com"
+
   def self.administrative
-    scope = User.where(
+    scope = self.where(email: SUPPORT_EMAIL)
+
+    @administrative ||= scope.first || scope.create(
       first_name: "RareShare",
       last_name:  "Support",
-      email:      "support@rare-share.com"
+      password:   SecureRandom.hex(16)
     )
-
-    scope.first || scope.create
   end
 
   def self.find_for_linkedin_oauth(auth, signed_in_resource=nil)
@@ -71,6 +69,7 @@ class User < ActiveRecord::Base
       user.link_profile(auth) unless user.provider_linked?
     elsif user = User.where(:provider => auth.provider, :uid => auth.uid).first
       # We have the user, but they've changed addresses in LinkedIn.
+      user.skip_reconfirmation!
       user.email = auth.info.email
     else
       user = User.new(
