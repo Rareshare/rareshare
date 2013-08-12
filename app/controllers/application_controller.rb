@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
     redirect_to profile_path
   end
 
+  def not_found!
+    raise ActionController::RoutingError.new('Not Found')
+  end
+
   def after_sign_in_path_for(user)
     return_to = session[:user_return_to]
 

@@ -4,7 +4,7 @@ class BookingsController < InternalController
     tool = Tool.where(id: params[:tool_id]).first
 
     if tool.nil?
-      not_found
+      self.not_found!
     elsif !can?(:book, tool)
       redirect_to back_or_home, flash: { error: "You cannot book your own tool." }
     else
@@ -42,7 +42,7 @@ class BookingsController < InternalController
     tool = Tool.where(id: params[:booking][:tool_id]).first
 
     if tool.nil?
-      not_found
+      not_found!
     elsif !can?(:book, tool)
       redirect_to back_or_home, flash: { error: "You cannot book your own tool." }
     else
