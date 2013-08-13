@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RareShare: Coming Soon</title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slabText/2.3/jquery.slabtext.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Share+Tech">
+
+  <style type="text/css">
+
+    body {
+     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+     font-weight: 300;
+      background: url(https://beta.rare-share.com/assets/tunnel-9dbeb0e30faf287a3a732f64f37fb22c.jpg) no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      color: white;
+    }
+
+    h1 {
+      font-family: 'Share Tech', sans-serif;
+      font-weight: normal;
+      text-shadow: 0 0 1em #0F4, 0 0 0.8em #000;
+    }
+
+    h2, h3, h4 { font-weight: 100; }
+    h1, h2, h3, h4 { margin: 0; }
+
+    #main {
+      width: 100%;
+      text-align: center;
+      display: block;
+      height: 100%;
+      background: rgba(0,0,0,0.3);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .first { margin-top: 10%; }
+
+    @media (max-width: 767px) {
+      body { font-size: 10px !important; }
+      .first { margin-top: 30%; }
+    }
+
+    .slabtexted .slabtext {
+      display:-moz-inline-box;
+      display:inline-block;
+      white-space:nowrap;
+    }
+
+    .slabtextinactive .slabtext {
+      display:inline;
+      white-space:normal;
+      font-size:1em !important;
+      letter-spacing:inherit !important;
+      word-spacing:inherit !important;
+      *letter-spacing:0 !important;
+      *word-spacing:0 !important;
+    }
+
+    .slabtextdone .slabtext { display:block; }
+  </style>
+
+  <script type="text/javascript">
+    $(function() {
+      // $("h1, h2, h3").slabText();
+      resizer = function() {
+        var magicNumber = 11,
+            minSize = 14,
+            ratio = ( $(this).width() / 1024 ) * magicNumber;
+
+        if (ratio < minSize) { ratio = minSize; }
+        $("body").css({ fontSize: ratio + "px" });
+      };
+      $(window).resize(resizer);
+      resizer();
+    });
+  </script>
+</head>
+<body>
+  <container id="main">
+    <h3 class="first" style="font-size: 295%;">the best scientific equipment</h3>
+    <h3 style="font-size: 740%;">in the world</h3>
+    <h1 style="font-size: 1200%;">RARESHARE</h1>
+    <h2 style="font-size: 460%;">No science friction.</h2>
+    <h4 style="font-size: 350%; color: #FFF07D;">LAUNCHING FALL 2013</h4>
+  </container>
+</body>
+</html>
