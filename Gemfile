@@ -2,14 +2,15 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 # Basic infrastructure
-gem 'rails', '3.2.12'
+gem 'rails', '~> 4.0.0'
 gem 'pg' # Basic Postgres driver.
 gem 'therubyracer' # Javascript integration from within Ruby
 gem 'uglifier' # JS asset compression
 gem 'unicorn' # High-performance Ruby web server
 gem 'seed-fu' # Seed test data
-gem 'redis-rails' # Store sessions in Redis
-gem 'activerecord-postgres-hstore' # HStore support for ARec
+gem 'redis-rails', github: 'jodosha/redis-store' # Store sessions in Redis
+# gem 'activerecord-postgres-hstore' # HStore support for ARec
+gem 'rails-observers' # Add in support for ActiveRecord observers.
 
 # Background jobs
 gem 'sidekiq' # Main lib
@@ -28,14 +29,14 @@ gem 'filepicker-rails'
 gem 'mime-types'
 
 # Admin
-gem 'activeadmin'
-gem 'active_admin_editor'
-gem 'meta_search', '>= 1.1.0.pre'
+gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
+# gem 'active_admin_editor' # No Rails 4
+# gem 'meta_search'
 
 # User management
-gem 'devise' # A set of tools for user authentication
+gem 'devise', '~> 3.0.0' # A set of tools for user authentication
 gem 'cancan' # A small set of tools for defining user permissions
-gem 'texticle', require: 'texticle/rails' # Postgres full-text searching
+gem 'textacular', '~> 3.0' # Postgres full-text searching
 gem 'omniauth' # Integrate Devise with OAuth providers
 gem 'omniauth-linkedin' # Integrate Linkedin specifically.
 
@@ -43,10 +44,9 @@ gem 'omniauth-linkedin' # Integrate Linkedin specifically.
 gem 'active_attr' # Treat basic Ruby objects like models
 gem 'transitions', :require => ["transitions", "active_model/transitions"]
 gem 'geocoder' # Geocoding support
-gem 'simple_form', '~> 2.0.4' # Easy form builder.
-gem 'strong_parameters' # Better parameter support.
+gem 'simple_form', '~> 3.0.0rc' # Easy form builder.
 gem 'kaminari' # ARec pagination
-gem 'friendly_id' # Standard slugged ID management
+gem 'friendly_id', github: 'norman/friendly_id' # Standard slugged ID management
 gem 'ruby-units' # Definitions for standard and scientific units.
 gem 'country_select', git: "git://github.com/stefanpenner/country_select.git" # Use ISO codes.
 
@@ -69,6 +69,10 @@ gem 'redcarpet'
 gem 'honeybadger'
 gem 'newrelic_rpm'
 
+group :production do
+  gem 'rails_12factor'
+end
+
 group :development do
   gem 'foreman'
 end
@@ -77,11 +81,11 @@ group :test do
   gem 'factory_girl'
   gem 'rspec-rails'
   gem 'rspec-given' # Given-when-then for specs
-  gem 'no_peeping_toms' # Disable observers during tests.
+  gem 'no_peeping_toms', require: false # Disable observers during tests.
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'poltergeist'
-  gem 'spork-rails'
+  gem 'spork-rails', github: 'sporkrb/spork-rails' # Not happy with Rails 4
   gem 'selenium-webdriver'
   gem 'database_cleaner' # Reset database properly for browser specs.
 end

@@ -110,7 +110,7 @@ module ApplicationHelper
     elsif crumb == :search
       [ "Find a Tool", search_path ]
     elsif crumb.is_a?(ActiveModel::Naming)
-      [ "All #{crumb.model_name.pluralize}", url_for(crumb) ]
+      [ "All #{crumb.model_name.plural}", url_for(crumb) ]
     elsif name = polymorphic_name_of(crumb)
       [ name, url_for(crumb) ]
     else

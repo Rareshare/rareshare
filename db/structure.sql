@@ -1075,6 +1075,8 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 -- PostgreSQL database dump complete
 --
 
+SET search_path TO "$user",public;
+
 INSERT INTO schema_migrations (version) VALUES ('20121112004616');
 
 INSERT INTO schema_migrations (version) VALUES ('20121114130555');

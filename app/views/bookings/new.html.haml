@@ -80,7 +80,7 @@
                   = link_to "guide to shipping biological samples", "http://www.dehs.umn.edu/bio_pracprin_std_ship_guide.htm"
                   for more information. RareShare does not supply any packaging materials.
 
-                = f.input :shipping_package_size, as: :radio, collection: Booking::PackageSize::ALL.map {|k| [ t("shipping.package_size.#{k}"), k]}, label: ""
+                = f.input :shipping_package_size, as: :radio_buttons, collection: Booking::PackageSize::ALL.map {|k| [ t("shipping.package_size.#{k}"), k]}, label: ""
 
                 %p Additionally, we need to know where you're sending the package from.
 

@@ -40,7 +40,7 @@ class Booking < ActiveRecord::Base
 
   before_save :persist_updated_by
 
-  scope :active, where(state: [:pending, :confirmed, :finalized, :overdue])
+  scope :active, lambda { where(state: [:pending, :confirmed, :finalized, :overdue]) }
   scope :recent, lambda { where("#{table_name}.updated_at > ?", 1.month.ago)}
 
   scope :can, lambda {|state|
@@ -99,7 +99,7 @@ class Booking < ActiveRecord::Base
     ALL = [ ENVELOPE, PAK, BOX_SMALL, BOX_MEDIUM, BOX_LARGE ]
   end
 
-  state_machine auto_scopes: true do
+  state_machine do
     state :pending
     state :confirmed
     state :denied
@@ -138,6 +138,10 @@ class Booking < ActiveRecord::Base
     end
   end
 
+  state_machine.states.each do |state|
+    scope state.name, lambda { where(state: state.name) }
+  end
+
   def message_chain
     chain = user_messages.first.try(:message_chain) || []
 
@@ -157,7 +161,7 @@ class Booking < ActiveRecord::Base
   end
 
   def title
-    self.state.titleize + " " + self.class.model_name.titleize
+    self.state.titleize + " " + self.class.model_name.name.titleize
   end
 
   def display_name
@@ -293,15 +297,16 @@ class Booking < ActiveRecord::Base
       description: self.display_name + " by " + self.renter.display_name
     )
 
-    self.updated_by = renter
-    self.finalize!
-
-    Transaction.create! booking: @booking, customer: self.renter, amount: self.final_price
+    self.class.transaction do
+      self.updated_by = renter
+      self.finalize!
+      Transaction.create! booking: self, customer: self.renter, amount: self.final_price
+    end
   rescue Stripe::CardError => e
-    errors.add :stripe_token, "Your card has been declined."
+    errors.add :stripe_token, I18n.t("payment.declined")
     false
   rescue => e
-    errors.add_to_base "There has been a problem processing your transaction."
+    errors.add :base, I18n.t("payment.error", message: e.message)
     # TODO Capture this in a proper error handling service.
     Rails.logger.error e.message
     Rails.logger.error e.backtrace.join("\n")

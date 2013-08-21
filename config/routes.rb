@@ -17,9 +17,9 @@ Rareshare::Application.routes.draw do
 
   resource :profile, controller: "profile"
 
-  match "welcome",        to: "profile#welcome", as: :welcome
-  match "search",         to: "searches#show",   as: :search
-  match "typeahead/:id",  to: "typeahead#show",  as: :typeahead
+  get "welcome"       => "profile#welcome", as: :welcome
+  get "search"        => "searches#show",   as: :search
+  get "typeahead/:id" => "typeahead#show",  as: :typeahead
 
   resources :tools do
     member { get :pricing }
@@ -43,5 +43,5 @@ Rareshare::Application.routes.draw do
     member { post :reply }
   end
 
-  match "/:page" => 'pages#show', as: :page
+  get "/:page" => 'pages#show', as: :page
 end

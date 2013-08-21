@@ -64,6 +64,10 @@ en:
       Scheduling is based on the number of days to process a sample once received. If you need
       help determining what the right values should be, please get in touch.
 
+  payment:
+    declined: "Your card has been declined."
+    error: "There has been a problem processing your transaction: %{message}"
+
   data:
     private: "This information is collected and handled by Rare Share subject to the Rare Share Privacy Policy and will not be displayed on rare-share.com."
 
