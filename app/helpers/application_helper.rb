@@ -21,7 +21,7 @@ module ApplicationHelper
 
     content_tag(:li, class: active ? "active" : "") do
       icon = opts[:icon] ? glyph(opts[:icon]) : ""
-      link_to icon + name, url
+      link_to icon + content_tag(:span, name), url
     end
   end
 
