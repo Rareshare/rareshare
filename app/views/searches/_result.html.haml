@@ -12,12 +12,7 @@
       %div.title
         %h3= link_to result.display_name, tool_path(result.id)
         %div.muted= result.tool_category_name
-      %table.table
-        %tr
-          %td Resolution
-          %td= result.resolution
-          %td Sample size
-          %td= sample_size_text(result)
+      %p= sanitize result.description.truncate(150)
     %div.span2
       %div.reserve-now
         %div.price
