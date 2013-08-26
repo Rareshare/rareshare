@@ -38,8 +38,8 @@
                   %li= page_link_to "Privacy Policy"
                   %li
                     %a{href: messages_path}
-                      Messages
-                      = unread_message_count current_user
+                      Notifications
+                      = new_notifications_count current_user
                   - if current_user.admin?
                     %li
                       = link_to admin_root_path, class: "text-warning" do

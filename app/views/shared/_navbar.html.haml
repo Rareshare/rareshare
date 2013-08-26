@@ -8,8 +8,22 @@
       %li{class: current_page?(messages_path) ? "active" : ""}
         = link_to messages_path do
           %i.icon-inbox
-          Messages
-          = unread_message_count current_user
+          Inbox
+    %ul.nav.pull-right
+      %li.notifications
+        - notifications = current_user.notifications.recent
+        %a.dropdown-toggle{class: notifications.select(&:unseen?).length > 0 ? "unseen" : "", href: "#", title: "Notifications", data: { toggle: "dropdown" }}
+          %i.icon-globe.icon-large
+        %ul.dropdown-menu
+          %li.header
+            %span Notifications
+          - if notifications.empty?
+            %li
+              %a{href: "#"} You have no new notifications.
+          - else
+            - notifications.each do |n|
+              %li
+                %a{href: notification_path(n), class: n.seen? ? "" : "active"}= render_notification n
 %div.container.inner-content
   %div.row
     %div.span12

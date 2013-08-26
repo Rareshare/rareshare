@@ -49,8 +49,8 @@ module ApplicationHelper
     }[booking.state.to_sym]
   end
 
-  def unread_message_count(user)
-    count = user.unread_message_count
+  def new_notifications_count(user)
+    count = user.new_notifications.count
     badge_type = count > 0 ? "badge-info" : "badge-default"
     content_tag :span, count.to_s, class: "badge #{badge_type}"
   end
@@ -180,5 +180,10 @@ module ApplicationHelper
 
   def lbl(text, type="info")
     " " + content_tag(:span, text, class: "label label-#{type}").html_safe
+  end
+
+  def render_notification(n)
+    views = n.notifiable.class.model_name.collection
+    render partial: "#{views}/notification", object: n
   end
 end

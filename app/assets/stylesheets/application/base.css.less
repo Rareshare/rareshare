@@ -72,19 +72,34 @@ a.tip {
 
   .dropdown-menu {
     width: 100%;
-    margin-top: 0;
-    border-radius: 0;
-    -webkit-border-radius: 0;
     background-color: lighten(@darkBlueGrey, 20%);
-    margin-right: -1px;
-
-    a { color: @paleBlue; }
-
-    li a.text-warning {
-      color: @warningText;
+    > li > a {
+      color: @paleBlue;
+      &.text-warning { color: @warningText; }
     }
   }
 }
+
+.navbar .nav > li > .dropdown-menu {
+  margin-top: 0;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+
+  margin-right: -1px;
+
+  &:before, &:after { display: none; } // Hide dropdown carets.
+
+  .header span {
+    display: block;
+    background-color: #eee;
+    border-bottom: 1px solid #ccc;
+    padding: 5px 20px;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-top: -5px;
+  }
+}
+
 
 .content-root {
   min-height: 100%;
@@ -274,6 +289,28 @@ form {
   .nav > li > a:hover {
     background-color: @navbarInverseLinkBackgroundHover;
     color: @altNavbarLinkColorActive;
+  }
+
+  .nav > li.notifications {
+    margin-right: -18px;
+    &.open { > a, > a.unseen { text-shadow: 0 0 10px rgba(255,255,255,0.8); } }
+    > a.unseen { color: @infoText; text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+
+    .dropdown-menu {
+      right: -20px;
+
+      li a {
+        white-space: inherit;
+        width: 300px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        font-size: 14px;
+
+        &.active {
+          background-color: @lightMossGreen;
+        }
+      }
+    }
   }
 }
 

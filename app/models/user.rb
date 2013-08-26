@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :sent_messages, foreign_key: :sender_id, class_name: "UserMessage"
   has_one :address, as: :addressable
   has_many :facilities
+  has_many :notifications
 
   has_many :requested_bookings, class_name: "Booking", foreign_key: :renter_id
   has_many :owned_bookings, through: :tools, source: :bookings
@@ -19,8 +20,8 @@ class User < ActiveRecord::Base
 
   mount_uploader :avatar, ImageUploader
 
-  def unread_message_count
-    received_messages.unread.count
+  def new_notifications
+    self.notifications.unseen
   end
 
   def all_messages

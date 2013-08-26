@@ -38,6 +38,7 @@ Rareshare::Application.routes.draw do
   resources :users, only: :show
   resources :units, only: :show
   resources :facilities, only: [:edit, :update]
+  resources :notifications, only: :show
 
   resources :messages do
     member { post :reply }

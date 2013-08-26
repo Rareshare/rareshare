@@ -7,17 +7,15 @@ en:
   bookings:
     notify:
       pending: |
-        You've received a request to book your tool %{tool_name}
-        from %{renter_name}. Here's what they'd like to do with it:
-        <blockquote>%{description}</blockquote>
-        Please reply back with any questions you have for them, or click
-        Approve to approve the booking.
+        You've received a booking request for <strong>%{tool_name}</strong>.
       confirmed: |
-        This booking has been approved by %{owner_name}.
+        Congratulations! Your request to reserve <strong>%{tool_name}</strong> has been approved.
       cancelled: |
-        This request has been cancelled.
+        A reservation for <strong>%{tool_name}</strong> has been cancelled.
       denied: |
-        This request has been denied by %{owner_name}.
+        Your request to reserve <strong>%{tool_name}</strong> has been denied by the owner.
+      finalized: |
+        Congratulations! You've finalized a booking. <strong>Click here</strong> to get started.
     sample_transit:
       in_person: "I'll deliver the sample and receive the results in person."
       rareshare_send: "I'd like RareShare to arrange shipping for the sample."

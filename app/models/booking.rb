@@ -12,7 +12,7 @@ class Booking < ActiveRecord::Base
   belongs_to :address
   has_one :owner, through: :tool
   has_many :booking_logs
-  has_many :user_messages, as: :messageable
+  has_many :notifications, as: :notifiable
 
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :ignores_address?
 
