@@ -256,6 +256,14 @@ form {
   }
 }
 
+.badge.badge-mini {
+  border-radius: 2px;
+  font-size: 10px;
+  line-height: 12px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
 .navbar .nav {
   li > a > i + span {
     margin-left: 5px;
@@ -294,7 +302,16 @@ form {
   .nav > li.notifications {
     margin-right: -18px;
     &.open { > a, > a.unseen { text-shadow: 0 0 10px rgba(255,255,255,0.8); } }
-    > a.unseen { color: @infoText; text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+    > a {
+      position: relative;
+      &.unseen { color: white; }
+
+      > .badge {
+        position: absolute;
+        top: 4px;
+        right: 7px;
+      }
+    }
 
     .dropdown-menu {
       right: -20px;

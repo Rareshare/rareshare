@@ -10,20 +10,19 @@
           %i.icon-inbox
           Inbox
     %ul.nav.pull-right
-      %li.notifications
-        - notifications = current_user.notifications.recent
-        %a.dropdown-toggle{class: notifications.select(&:unseen?).length > 0 ? "unseen" : "", href: "#", title: "Notifications", data: { toggle: "dropdown" }}
+      %li.notifications{data: {bind: "with: updater"}}
+        %a.dropdown-toggle{href: "#", title: "Notifications", data: { toggle: "dropdown", bind: "css: { unseen: unseen() > 0 }" }}
           %i.icon-globe.icon-large
+          %span.badge.badge-important.badge-mini{data: {bind: "visible: unseen() > 0, text: unseen"}}
         %ul.dropdown-menu
           %li.header
             %span Notifications
-          - if notifications.empty?
-            %li
-              %a{href: "#"} You have no new notifications.
-          - else
-            - notifications.each do |n|
-              %li
-                %a{href: notification_path(n), class: n.seen? ? "" : "active"}= render_notification n
+          %li{data: {bind: "visible: isEmpty"}}
+            %a{href: "#"} You have no new notifications.
+          / ko foreach: notifications
+          %li
+            %a{data: {bind: "attr: { href: path }, css: { active: !seen }, html: html"}}
+          / /ko
 %div.container.inner-content
   %div.row
     %div.span12

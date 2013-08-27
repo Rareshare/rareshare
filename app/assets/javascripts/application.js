@@ -18,4 +18,5 @@
 //= require bootstrap-wysihtml5
 //= require vendor/picker
 //= require vendor/picker.date
+//= require vendor/bootstrap
 //= require_tree .
