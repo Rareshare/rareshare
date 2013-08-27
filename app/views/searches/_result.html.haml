@@ -12,7 +12,7 @@
       %div.title
         %h3= link_to result.display_name, tool_path(result.id)
         %div.muted= result.tool_category_name
-      %p= sanitize(result.description, tags: []).truncate(150)
+      %p= sanitize(result.description, tags: []).truncate(150).html_safe
     %div.span2
       %div.reserve-now
         %div.price
