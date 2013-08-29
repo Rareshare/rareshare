@@ -10,11 +10,6 @@ body {
 
 a:hover { text-decoration: none; }
 
-.brand {
-  font-family: @brandFontFamily;
-  text-transform: uppercase;
-}
-
 a.tip {
   text-decoration: none;
   color: @mossGreen;
@@ -41,10 +36,14 @@ a.tip {
     border-radius: 0;
     border: 0;
     border-bottom: 1px solid @navbarBorderColor;
+
+    ul.nav > li {
+      line-height: 42px;
+    }
   }
 
   .brand {
-    font-size: 200%;
+    width: 80px;
   }
 
   .welcome-message {
@@ -52,7 +51,11 @@ a.tip {
   }
 
   .navbar-search {
-    @borderRadius: 15px;
+    @borderRadius: 4px;
+    margin-top: 0;
+    position: relative;
+    line-height: 60px;
+
     input[name=q] {
       border-radius: @borderRadius;
       background-color: @lightMossGreen;
@@ -66,6 +69,7 @@ a.tip {
       position: absolute;
       top: 5px;
       right: 10px;
+      line-height: 50px;
       color: @darkBlueGrey;
     }
   }
@@ -108,7 +112,7 @@ a.tip {
   margin: 0 auto -@footerHeight;
 
   > .content.container {
-    padding-top: 60px;
+    padding-top: 80px;
 
     > .inner-content {
       min-height: 450px;
@@ -136,12 +140,6 @@ body > footer {
 
   > .container {
     padding-top: 20px;
-  }
-
-  .brand {
-    font-size: 24px;
-    line-height: 30px;
-    // color: @darkMossGreen;
   }
 
   ul.nav {

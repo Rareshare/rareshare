@@ -19,8 +19,9 @@
     %header.rareshare.navbar.navbar-top
       %div.navbar-inner
         %div.container
-          %a.brand{href: root_path} Rareshare
-          = form_tag search_path, method: "get", class: "navbar-search", id: "navbar-search", style: "position: relative" do
+          %a.brand{href: root_path, title: "RareShare home"}
+            = image_tag "logo.png"
+          = form_tag search_path, method: "get", class: "navbar-search", id: "navbar-search" do
             %input(type="text" name="q" placeholder="What do you need?" style="border-right: none")
             %span.search_append
               %i(class="icon-search")
