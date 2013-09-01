@@ -13,4 +13,4 @@ NotificationUpdater = () ->
   return this
 
 $ ->
-  ko.applyBindings updater: new NotificationUpdater()
+  ko.applyBindings { updater: new NotificationUpdater() }, $("li.notifications")[0]

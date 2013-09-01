@@ -19,7 +19,6 @@ Rareshare::Application.configure do
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
-
   # Do not compress assets
   config.assets.compress = false
 
@@ -32,4 +31,13 @@ Rareshare::Application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
   config.eager_load = false
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.smtp_settings = {
+    :authentication => :plain,
+    :address => "localhost",
+    :port => 1025
+  }
 end

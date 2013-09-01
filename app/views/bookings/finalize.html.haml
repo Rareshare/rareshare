@@ -5,7 +5,7 @@
   :javascript
     $(function() {
       window.booking = new Booking(#{@booking.to_json});
-      ko.applyBindings({ booking: booking });
+      ko.applyBindings({ booking: booking }, $("form.payment")[0]);
     });
 
 = page_header "Finalize Booking",

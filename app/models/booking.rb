@@ -39,6 +39,8 @@ class Booking < ActiveRecord::Base
   validate :renter_cannot_be_owner
 
   before_save :persist_updated_by
+  after_save :create_booking_log
+  after_save :notify_booking_state
 
   scope :active, lambda { where(state: [:pending, :confirmed, :finalized, :overdue]) }
   scope :recent, lambda { where("#{table_name}.updated_at > ?", 1.month.ago)}
@@ -329,5 +331,22 @@ class Booking < ActiveRecord::Base
   def persist_updated_by
     self.last_updated_by_id = self.updated_by.id
   end
+
+  def create_booking_log
+    booking_logs.create(state: state, updated_by: last_updated_by)
+  end
+
+  def notify_booking_state
+    receiver = opposite_party_to(last_updated_by)
+
+    n = notifications.create(
+      user: receiver,
+      properties: { state: state }
+    )
+
+    # if
+    NotificationMailer.delay.email(n.id)
+  end
+
 
 end

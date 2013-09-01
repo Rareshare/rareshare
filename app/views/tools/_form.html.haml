@@ -2,7 +2,7 @@
   :javascript
     $(function() {
       window.tool = new Tool(#{@tool.to_json});
-      ko.applyBindings({ tool: tool });
+      ko.applyBindings({ tool: tool }, $("form.new_tool, form.edit_tool")[0]);
     });
 
 = simple_form_for @tool, html: { data: { bind: "with: tool" } } do |f|

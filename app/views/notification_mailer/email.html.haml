@@ -1,0 +1,21 @@
+!!!html
+%html{lang: "en"}
+  %head
+    %meta(content='text/html; charset=UTF-8' http-equiv='Content-Type')A
+  %body
+    %h1 Your booking has changed!
+
+    %p Hi #{@user.first_name},
+
+    %p= @body
+
+    %p To check on your booking, follow this link: #{@url}
+
+    %p Thanks,
+
+    %p The RareShare Team
+
+    %small
+      You've received this update because you're subscribed to email
+      notifications of booking changes. To change these settings, please
+      %a{href: profile_url(@user)} edit your profile.

@@ -4,7 +4,7 @@
   :javascript
     $(function() {
       window.booking = new Booking(#{@booking.to_json});
-      ko.applyBindings({ booking: booking });
+      ko.applyBindings({ booking: booking }, $("form.new_booking")[0]);
     });
 
 = page_header "New Booking",
