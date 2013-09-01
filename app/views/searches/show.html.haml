@@ -12,4 +12,10 @@
     = paginate @results
   = render collection: @results, partial: 'result'
 - elsif @query.valid?
-  %p No results found.
+  %div.row
+    %div.span8.offset2
+      %p No results found.
+      - if signed_in?
+        = simple_form_for RequestedSearch.new, url: search_request_path, remote: true do |f|
+          = f.input :request, label: "Can you tell us a little about what you were looking for?"
+          = f.button :submit, value: "Suggest", class: "btn btn-primary"

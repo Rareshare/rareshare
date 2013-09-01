@@ -17,9 +17,10 @@ Rareshare::Application.routes.draw do
 
   resource :profile, controller: "profile"
 
-  get "welcome"       => "profile#welcome", as: :welcome
-  get "search"        => "searches#show",   as: :search
-  get "typeahead/:id" => "typeahead#show",  as: :typeahead
+  get "welcome"         => "profile#welcome", as: :welcome
+  get "search"          => "searches#show",   as: :search
+  post "search/request" => "searches#create_request", as: :search_request
+  get "typeahead/:id"   => "typeahead#show",  as: :typeahead
 
   resources :tools do
     member { get :pricing }

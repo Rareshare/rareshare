@@ -9,6 +9,19 @@ class SearchesController < ApplicationController
     @results = @query.results
   end
 
+  def create_request
+    request = RequestedSearch.create(
+      request: params[:requested_search][:request],
+      user: current_user
+    )
+
+    if request.valid?
+      render json: { text: "Thanks for the suggestion!" }
+    else
+      head 422
+    end
+  end
+
   private
 
   def track_search_results

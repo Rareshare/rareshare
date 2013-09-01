@@ -531,6 +531,36 @@ ALTER SEQUENCE pages_id_seq OWNED BY pages.id;
 
 
 --
+-- Name: requested_searches; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE requested_searches (
+    id integer NOT NULL,
+    request text,
+    user_id integer
+);
+
+
+--
+-- Name: requested_searches_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE requested_searches_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: requested_searches_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE requested_searches_id_seq OWNED BY requested_searches.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -857,6 +887,13 @@ ALTER TABLE ONLY pages ALTER COLUMN id SET DEFAULT nextval('pages_id_seq'::regcl
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY requested_searches ALTER COLUMN id SET DEFAULT nextval('requested_searches_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY tool_categories ALTER COLUMN id SET DEFAULT nextval('tool_categories_id_seq'::regclass);
 
 
@@ -998,6 +1035,14 @@ ALTER TABLE ONLY notifications
 
 ALTER TABLE ONLY pages
     ADD CONSTRAINT pages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: requested_searches_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY requested_searches
+    ADD CONSTRAINT requested_searches_pkey PRIMARY KEY (id);
 
 
 --
@@ -1250,3 +1295,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130810233337');
 INSERT INTO schema_migrations (version) VALUES ('20130811163617');
 
 INSERT INTO schema_migrations (version) VALUES ('20130826192156');
+
+INSERT INTO schema_migrations (version) VALUES ('20130901050515');
