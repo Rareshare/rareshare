@@ -15,7 +15,7 @@ en:
       denied: |
         Your request to reserve <strong>%{tool_name}</strong> has been denied by the owner.
       finalized: |
-        Congratulations! You've finalized a booking. <strong>Click here</strong> to get started.
+        Congratulations! You've finalized a booking. The booking page should help you get started with delivery of your sample.
     sample_transit:
       in_person: "I'll deliver the sample and receive the results in person."
       rareshare_send: "I'd like RareShare to arrange shipping for the sample."

@@ -1,7 +1,7 @@
 !!!html
 %html{lang: "en"}
   %head
-    %meta(content='text/html; charset=UTF-8' http-equiv='Content-Type')A
+    %meta(content='text/html; charset=UTF-8' http-equiv='Content-Type')
   %body
     %h1 Your booking has changed!
 
@@ -9,7 +9,9 @@
 
     %p= @body
 
-    %p To check on your booking, follow this link: #{@url}
+    %p
+      To check on your booking, follow this link:
+      %a{href: @url}= @url
 
     %p Thanks,
 
