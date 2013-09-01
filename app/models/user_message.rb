@@ -2,6 +2,7 @@ class UserMessage < ActiveRecord::Base
 
   belongs_to :sender, class_name: "User"
   belongs_to :receiver, class_name: "User"
+  belongs_to :messageable, polymorphic: true
 
   after_create :make_self_originator_if_first
 

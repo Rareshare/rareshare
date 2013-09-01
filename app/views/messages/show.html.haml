@@ -3,14 +3,14 @@
 %fieldset
   %legend Messages
   %div.row
-    %div.span3
+    %div.span2
       %div.messageable(data-spy="affix" data-offset-top="176")
         %small.muted This is a message regarding:
         = render @message.messageable
-    %div.span9
+    %div.span10
       - @message.message_chain.each do |message|
         %div.row
-          %div.span7
+          %div.span8
             %div.well.email{class: message.sender == current_user ? "email-sent" : "email-received"}
               %p= sanitize message.body
               %small.muted
@@ -22,7 +22,7 @@
               %i.avatar.icon-user
 
       %div.row
-        %div.span7
+        %div.span8
           = simple_form_for UserMessage.new, as: :message, url: reply_message_path(@message) do |f|
             .form-inputs
               = f.input :body, label: false, input_html: { rows: 4, cols: nil }

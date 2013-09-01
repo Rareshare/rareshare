@@ -699,7 +699,9 @@ CREATE TABLE user_messages (
     body text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    originating_message_id integer
+    originating_message_id integer,
+    messageable_id integer,
+    messageable_type character varying(255)
 );
 
 
@@ -1142,6 +1144,13 @@ CREATE INDEX index_notifications_on_user_id_and_seen_at ON notifications USING b
 
 
 --
+-- Name: index_user_messages_on_messageable_id_and_messageable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_user_messages_on_messageable_id_and_messageable_type ON user_messages USING btree (messageable_id, messageable_type);
+
+
+--
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1297,3 +1306,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130811163617');
 INSERT INTO schema_migrations (version) VALUES ('20130826192156');
 
 INSERT INTO schema_migrations (version) VALUES ('20130901050515');
+
+INSERT INTO schema_migrations (version) VALUES ('20130901171248');

@@ -17,6 +17,8 @@
 
     - if can?(:edit, @tool)
       = link_to glyph_text(:edit, "Edit tool"), edit_tool_path(@tool), class: "btn"
+    - if can?(:book, @tool)
+      = link_to glyph_text(:envelope, "Questions?"), new_message_path(tool_id: @tool), class: "btn btn-success"
 
   %div.span8
     - if can?(:book, @tool)

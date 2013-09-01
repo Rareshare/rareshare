@@ -21,6 +21,22 @@ class MessagesController < InternalController
   end
 
   def create
+    @message = UserMessage.new(
+      messageable: self.messageable,
+      sender: self.current_user,
+      receiver: self.messageable.owner,
+      body: message_params[:body]
+    )
+
+    if @message.valid?
+      redirect_to polymorphic_path(@message.messageable), flash: { notice: "Message sent." }
+    else
+      render :new
+    end
+  end
+
+  def new
+    @message = UserMessage.new(messageable: self.messageable)
   end
 
   def reply
@@ -29,9 +45,17 @@ class MessagesController < InternalController
     redirect_to message_path(@message)
   end
 
-  private
+  protected
 
   def message_params
     params.require(:message)
+  end
+
+  def messageable
+    if params.has_key?(:tool_id)
+      Tool.find(params[:tool_id])
+    elsif params.has_key?(:booking_id)
+      Booking.find(params[:booking_id])
+    end
   end
 end

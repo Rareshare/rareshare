@@ -1,1 +1,12 @@
-
+%p
+  = link_to tool.display_name, tool
+%p
+  %dl
+    %dt Price per run
+    %dd= number_to_currency tool.price_for(tool.earliest_bookable_date, 1), unit: currency_for(tool)
+    %dt Samples per run
+    %dd= tool.samples_per_run
+    %dt Location
+    %dd= tool.partial_address
+- if can? :book, tool
+  = link_to "Reserve", tool_path(tool), class: "btn btn-success"

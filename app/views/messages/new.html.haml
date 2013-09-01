@@ -1,0 +1,17 @@
+- nav_category "Messages"
+
+%fieldset
+  %legend Messages
+  %div.row
+    %div.span2
+      %div.messageable(data-spy="affix" data-offset-top="176")
+        %small.muted This is a message regarding:
+        = render @message.messageable
+    %div.span10
+      %div.row
+        %div.span8
+          = simple_form_for @message, as: :message, url: messages_path(tool_id: params[:tool_id]) do |f|
+            .form-inputs
+              = f.input :body, label: false, input_html: { rows: 4, cols: nil }
+            .form-actions
+              = f.button :submit, "Reply", class: "btn btn-primary"
