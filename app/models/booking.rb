@@ -107,6 +107,7 @@ class Booking < ActiveRecord::Base
     state :completed
     state :overdue
     state :finalized
+    state :processing
     state :expired
 
     event :confirm do
@@ -122,11 +123,11 @@ class Booking < ActiveRecord::Base
     end
 
     event :complete do
-      transitions from: [:finalized, :overdue], to: :completed
+      transitions from: [:processing, :overdue], to: :completed
     end
 
     event :warn do
-      transitions from: :confirmed, to: :overdue
+      transitions from: :processing, to: :overdue
     end
 
     event :finalize do
@@ -135,6 +136,10 @@ class Booking < ActiveRecord::Base
 
     event :expire do
       transitions from: [:pending, :confirmed], to: :expired
+    end
+
+    event :begin do
+      transitions from: :finalized, to: :processing
     end
   end
 

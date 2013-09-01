@@ -94,6 +94,14 @@ class BookingsController < InternalController
       authorize! :finalize, @booking
       @booking.finalize!
       redirect_to profile_path, notice: "Successfully finalized booking."
+    when /begin/i
+      authorize! :begin, @booking
+      @booking.begin!
+      redirect_to profile_path, notice: "Booking now being processed."
+    when /complete/i
+      authorize! :complete, @booking
+      @booking.complete!
+      redirect_to profile_path, notice: "Booking has finished processed."
     else
       redirect_to booking_path(@booking), error: "Unrecognized booking operation."
     end

@@ -6,6 +6,10 @@
     = f.button :submit, value: "Approve", class: "btn btn-success #{btn_size}", data: { toggle: "confirm", title: "Approve Booking" }
   - if can? :deny, booking
     = f.button :submit, value: "Deny", class: "btn btn-danger #{btn_size}", data: { toggle: "confirm", title: "Deny Booking" }
+  - if can? :begin, booking
+    = f.button :begin, value: "Begin processing", class: "btn btn-success #{btn_size}", data: { toggle: "confirm", title: "Begin Booking" }
+  - if can? :complete, booking
+    = f.button :complete, value: "Complete processing", class: "btn btn-success #{btn_size}", data: { toggle: "confirm", title: "Complete Booking" }
   - if can? :cancel, booking
     - if booking.finalized?
       = link_to "Cancel", cancel_booking_path(booking), class: "btn btn-danger #{btn_size}"

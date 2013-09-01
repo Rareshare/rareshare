@@ -17,7 +17,6 @@
     %h3 Booking Information
     = render partial: "summary", locals: { booking: @booking }
 
-
     %h3
       Tool Overview
       %small= link_to glyph_text("Tool Details", :angle_right), tool_path(@booking.tool)

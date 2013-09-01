@@ -36,6 +36,14 @@ class Ability
     can :finalize, Booking do |b|
       b.renter?(user) && b.can_finalize?
     end
+
+    can :begin, Booking do |b|
+      b.owner?(user) && b.can_begin?
+    end
+
+    can :complete, Booking do |b|
+      b.owner?(user) && b.can_complete?
+    end
   end
 
   def tools(user)
