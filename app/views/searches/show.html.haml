@@ -8,8 +8,7 @@
     = render partial: "searches/form"
 
 - if @results.any?
-  - if @results.total_pages > 1
-    = paginate @results
+  = paginate @results
   = render collection: @results, partial: 'result'
 - elsif @query.valid?
   %div.row
