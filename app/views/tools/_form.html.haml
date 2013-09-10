@@ -14,7 +14,7 @@
         %div.span2
           %p.help-block Please describe the instrument you'd like to share.
         %div.span10
-          %legend About the tool
+          %legend Basic Information
           %div.row
             %div.span8
               = f.input :tool_category_name, required: true, wrapper: :append do
@@ -38,6 +38,29 @@
           %div.row
             %div.span8
               = f.input :description
+
+    %fieldset
+      %div.row
+        %div.span2
+          %p.help-block If applicable, indicate tool calibration and condition.
+
+        %div.span10
+          %legend Resolution and Calibration
+          %div.row
+            %div.span3= f.input :calibrated, input_html: { data: { bind: "value: calibrated" } }
+
+            %div.span3
+              = f.input :last_calibrated_at, wrapper: :append do
+                = f.input_field :last_calibrated_at, class: "date", as: :string
+                %span.add-on
+                  %i.icon-calendar
+
+      %div.row
+        %div.span4.offset2= f.input :condition, collection: %w{Excellent Good Fair Poor}
+
+      %div.row
+        %div.span8.offset2= f.input :condition_notes
+
 
       %div.row
         %div.span2

@@ -603,7 +603,11 @@ CREATE TABLE tools (
     bulk_runs integer,
     can_bulkify boolean DEFAULT false,
     sample_size_unit_id integer,
-    resolution_unit_id integer
+    resolution_unit_id integer,
+    calibrated boolean,
+    last_calibrated_at timestamp without time zone,
+    condition character varying(255),
+    condition_notes text
 );
 
 
@@ -1313,3 +1317,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130901050515');
 INSERT INTO schema_migrations (version) VALUES ('20130901171248');
 
 INSERT INTO schema_migrations (version) VALUES ('20130910123306');
+
+INSERT INTO schema_migrations (version) VALUES ('20130910135749');
