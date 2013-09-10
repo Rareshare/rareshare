@@ -1,5 +1,5 @@
 class NotificationMailer < ActionMailer::Base
-  default from: "no-reply@rare-share.com"
+  default from: "RareShare <no-reply@rare-share.com>"
 
   def email(notification_id)
     notification = Notification.find(notification_id)
