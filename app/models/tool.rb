@@ -93,11 +93,11 @@ class Tool < ActiveRecord::Base
   end
 
   def sample_size_unit
-    Unit.definitions[self.sample_size_unit_id]
+    Unit.where(self.sample_size_unit_id)
   end
 
   def resolution_unit
-    Unit.definitions[self.resolution_unit_id]
+    Unit.where(self.resolution_unit_id)
   end
 
   def sample_size_unit_name

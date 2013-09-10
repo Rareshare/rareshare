@@ -47,12 +47,13 @@ gem 'geocoder' # Geocoding support
 gem 'simple_form', '~> 3.0.0rc' # Easy form builder.
 gem 'kaminari' # ARec pagination
 gem 'friendly_id', github: 'norman/friendly_id' # Standard slugged ID management
-gem 'ruby-units' # Definitions for standard and scientific units.
+# gem 'ruby-units' # Definitions for standard and scientific units.
 gem 'country_select', git: "git://github.com/stefanpenner/country_select.git" # Use ISO codes.
 
 # Shipping and payment
 gem 'easypost'
 gem 'stripe'
+# gem 'active_shipping'
 
 # Rendering and style
 gem 'haml-rails'

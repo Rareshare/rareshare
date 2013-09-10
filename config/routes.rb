@@ -9,11 +9,11 @@ Rareshare::Application.routes.draw do
     passwords:          "users/passwords"
   }
 
-  ActiveAdmin.routes(self)
-
   authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/admin/sidekiq'
   end
+
+  ActiveAdmin.routes(self)
 
   resource :profile, controller: "profile"
 

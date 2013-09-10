@@ -117,35 +117,6 @@ ALTER SEQUENCE addresses_id_seq OWNED BY addresses.id;
 
 
 --
--- Name: available_units; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE available_units (
-    id integer NOT NULL,
-    name character varying(255)
-);
-
-
---
--- Name: available_units_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE available_units_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: available_units_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE available_units_id_seq OWNED BY available_units.id;
-
-
---
 -- Name: booking_logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -626,13 +597,13 @@ CREATE TABLE tools (
     latitude double precision,
     longitude double precision,
     resolution integer,
-    sample_size_unit_id character varying(255),
-    resolution_unit_id character varying(255),
     currency character varying(3),
     facility_id integer,
     samples_per_run integer DEFAULT 1,
     bulk_runs integer,
-    can_bulkify boolean DEFAULT false
+    can_bulkify boolean DEFAULT false,
+    sample_size_unit_id integer,
+    resolution_unit_id integer
 );
 
 
@@ -686,6 +657,38 @@ CREATE SEQUENCE transactions_id_seq
 --
 
 ALTER SEQUENCE transactions_id_seq OWNED BY transactions.id;
+
+
+--
+-- Name: units; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE units (
+    id integer NOT NULL,
+    name character varying(255),
+    label character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: units_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE units_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: units_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE units_id_seq OWNED BY units.id;
 
 
 --
@@ -805,13 +808,6 @@ ALTER TABLE ONLY addresses ALTER COLUMN id SET DEFAULT nextval('addresses_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY available_units ALTER COLUMN id SET DEFAULT nextval('available_units_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY booking_logs ALTER COLUMN id SET DEFAULT nextval('booking_logs_id_seq'::regclass);
 
 
@@ -917,6 +913,13 @@ ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY units ALTER COLUMN id SET DEFAULT nextval('units_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY user_messages ALTER COLUMN id SET DEFAULT nextval('user_messages_id_seq'::regclass);
 
 
@@ -941,14 +944,6 @@ ALTER TABLE ONLY addresses
 
 ALTER TABLE ONLY active_admin_comments
     ADD CONSTRAINT admin_notes_pkey PRIMARY KEY (id);
-
-
---
--- Name: available_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY available_units
-    ADD CONSTRAINT available_units_pkey PRIMARY KEY (id);
 
 
 --
@@ -1069,6 +1064,14 @@ ALTER TABLE ONLY tools
 
 ALTER TABLE ONLY transactions
     ADD CONSTRAINT transactions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: units_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY units
+    ADD CONSTRAINT units_pkey PRIMARY KEY (id);
 
 
 --
@@ -1308,3 +1311,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130826192156');
 INSERT INTO schema_migrations (version) VALUES ('20130901050515');
 
 INSERT INTO schema_migrations (version) VALUES ('20130901171248');
+
+INSERT INTO schema_migrations (version) VALUES ('20130910123306');

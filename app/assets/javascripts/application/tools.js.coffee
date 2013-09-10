@@ -1,13 +1,9 @@
 window.SampleSize = (input) ->
   this[k] = ko.observable(v) for k, v of input
 
-  @unit.writeable = ko.computed
-    read: () -> ""
-    write: (val) =>
-      unless val is ""
-        $.get "/units/#{val}", (resp) => @unit resp
-
-  @unitName = ko.computed () => @unit()?.display_name
+  @unitName = ko.computed () =>
+    @unit()
+    $("select#tool_sample_size_unit_id option:selected").text()
 
   this
 
