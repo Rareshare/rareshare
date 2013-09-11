@@ -295,6 +295,7 @@ form {
   .nav > li.notifications {
     margin-right: -18px;
     &.open { > a, > a.unseen { text-shadow: 0 0 10px rgba(255,255,255,0.8); } }
+
     > a {
       position: relative;
       &.unseen { color: white; }
@@ -306,8 +307,11 @@ form {
       }
     }
 
-    .dropdown-menu {
+    > .dropdown-menu {
       right: -20px;
+      &:before, &:after { display: block; } // Show dropdown caret again.
+      &:before { right: 19px; }
+      &:after  { right: 20px; border-bottom-color: #eee; }
 
       li a {
         white-space: inherit;
