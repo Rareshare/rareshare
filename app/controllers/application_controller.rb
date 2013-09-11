@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :logged_in?
   layout "external"
+  before_filter :configure_permitted_parameters, if: :devise_controller?
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = exception.message
@@ -27,6 +28,12 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) do |u|
+      u.permit :email, :first_name, :last_name, :password, :password_confirmation
+    end
+  end
 
   def address_attributes
     [

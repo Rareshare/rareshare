@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :lockable, and :timeoutable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :omniauthable
+         :confirmable, :omniauthable, :async
 
   has_many :tools, foreign_key: :owner_id
   has_many :received_messages, foreign_key: :receiver_id, class_name: "UserMessage"

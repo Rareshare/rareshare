@@ -34,7 +34,8 @@ gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
 # gem 'meta_search'
 
 # User management
-gem 'devise', '~> 3.0.0' # A set of tools for user authentication
+gem 'devise', '~> 3.1.0' # A set of tools for user authentication
+gem 'devise-async'
 gem 'cancan' # A small set of tools for defining user permissions
 gem 'textacular', '~> 3.0' # Postgres full-text searching
 gem 'omniauth' # Integrate Devise with OAuth providers

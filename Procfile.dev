@@ -1,4 +1,6 @@
 web: bundle exec unicorn -p $PORT -c ./config/unicorn.rb
-worker: bundle exec sidekiq
+worker: bundle exec sidekiq -q mailer -q default
 log: tail -n0 -f log/development.log
 redis: redis-server
+# Bundler insists on loading this when it runs, which doesn't work.
+# smtp: mailcatcher -f
