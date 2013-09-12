@@ -67,7 +67,7 @@
         %div.span8
           %div.row
             %div.span8
-              = f.input :sample_transit, as: :select, collection: Booking::Transit::ALL.map {|k| [ t("bookings.sample_transit.#{k}"), k ]}, input_html: { "data-bind" => "value: sample_transit" }
+              = f.input :sample_transit, as: :select, collection: Booking::Transit::COLLECTION, input_html: { "data-bind" => "value: sample_transit" }
 
           %div.row
             %div.span8
@@ -80,7 +80,7 @@
                   = link_to "guide to shipping biological samples", "http://www.dehs.umn.edu/bio_pracprin_std_ship_guide.htm"
                   for more information. RareShare does not supply any packaging materials.
 
-                = f.input :shipping_package_size, as: :radio_buttons, collection: Booking::PackageSize::ALL.map {|k| [ t("shipping.package_size.#{k}"), k]}, label: ""
+                = f.input :shipping_package_size, as: :radio_buttons, collection: Booking::PackageSize::COLLECTION, label: ""
 
                 %p Additionally, we need to know where you're sending the package from.
 
@@ -115,7 +115,7 @@
 
           %div.row
             %div.span8
-              = f.input :sample_disposal, as: :select, collection: Booking::Disposal::ALL.map {|k| [ t("bookings.sample_disposal.#{k}"), k ]}, input_html: { "data-bind" => "value: sample_disposal" }
+              = f.input :sample_disposal, as: :select, collection: Booking::Disposal::COLLECTION, input_html: { "data-bind" => "value: sample_disposal" }
 
           %div.row
             %div.span8

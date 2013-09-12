@@ -2,8 +2,17 @@ jQuery ->
   $(".tip").tooltip().click (evt) -> evt.preventDefault()
 
   $("input.date").each () ->
-    min = new Date($(this).data("min"))
-    $(this).pickadate min: min
+    elt = $(this)
+    data = elt.data()
+
+    min = if data["min"]? then new Date(data["min"]) else null
+    max = if data["max"]? then new Date(data["max"]) else null
+
+    elt.pickadate min: min, max: max
+    elt.nextAll(".add-on").click (evt) ->
+      elt.pickadate('open')
+      evt.stopPropagation()
+      evt.preventDefault()
 
   $('a[data-toggle="tab"]').on 'shown', (e) ->
     window.location.hash = $(e.target).attr("href")

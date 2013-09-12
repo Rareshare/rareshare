@@ -79,7 +79,8 @@ class Booking < ActiveRecord::Base
     DIGITAL_SEND   = :digital_send
     NONE_REQUIRED  = :none_required
 
-    ALL = [ IN_PERSON, RARESHARE_SEND, RENTER_SEND, DIGITAL_SEND, NONE_REQUIRED ]
+    ALL        = [ IN_PERSON, RARESHARE_SEND, RENTER_SEND, DIGITAL_SEND, NONE_REQUIRED ]
+    COLLECTION = ALL.map {|k| [ I18n.t("bookings.sample_transit.#{k}"), k ]}
   end
 
   module Disposal
@@ -88,7 +89,8 @@ class Booking < ActiveRecord::Base
     OWNER_DISPOSE  = :owner_dispose
     NONE_REQUIRED  = :none_required
 
-    ALL = [ IN_PERSON, RARESHARE_SEND, OWNER_DISPOSE, NONE_REQUIRED ]
+    ALL        = [ IN_PERSON, RARESHARE_SEND, OWNER_DISPOSE, NONE_REQUIRED ]
+    COLLECTION = ALL.map {|k| [ I18n.t("bookings.sample_disposal.#{k}"), k ]}
   end
 
   module PackageSize
@@ -98,7 +100,8 @@ class Booking < ActiveRecord::Base
     BOX_MEDIUM = "MediumExpressBox"
     BOX_LARGE  = "LargeExpressBox"
 
-    ALL = [ ENVELOPE, PAK, BOX_SMALL, BOX_MEDIUM, BOX_LARGE ]
+    ALL        = [ ENVELOPE, PAK, BOX_SMALL, BOX_MEDIUM, BOX_LARGE ]
+    COLLECTION = ALL.map {|k| [ I18n.t("shipping.package_size.#{k}"), k]}
   end
 
   state_machine do

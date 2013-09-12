@@ -42,34 +42,38 @@
     %fieldset
       %div.row
         %div.span2
-          %p.help-block If applicable, indicate tool calibration and condition.
+          %p.help-block What condition is the tool in?
 
         %div.span10
-          %legend Resolution and Calibration
+          %legend Condition
+          %div.row
+            %div.span4= f.input :condition, collection: Tool::Condition::COLLECTION
+
+          %div.row
+            %div.span8= f.input :condition_notes
+
           %div.row
             %div.span3= f.input :calibrated, input_html: { data: { bind: "value: calibrated" } }
 
             %div.span3
               = f.input :last_calibrated_at, wrapper: :append do
-                = f.input_field :last_calibrated_at, class: "date", as: :string
+                = f.input_field :last_calibrated_at, class: "date", as: :string, data: { max: Date.today, bind: "value: last_calibrated_at, enabled: calibrated" }
                 %span.add-on
                   %i.icon-calendar
 
-      %div.row
-        %div.span4.offset2= f.input :condition, collection: %w{Excellent Good Fair Poor}
 
-      %div.row
-        %div.span8.offset2= f.input :condition_notes
-
-
+    %fieldset
       %div.row
         %div.span2
           %p.help-block If applicable, indicate the sample size and resolution of the tool.
 
         %div.span10
+          %legend Technical Details
           %div.row
-            %div.span5= f.input :resolution, input_html: { min: 0, type: "number", step: "any" }
-            %div.span3= f.input :resolution_unit_id, as: :select, collection: Unit.all, value_method: :id, label_method: :name
+            %div.span10= f.input :has_resolution, label: false, inline_label: "Tool used for measurement", input_html: { data: { bind: "checked: has_resolution" } }
+          %div.row
+            %div.span5= f.input :resolution, input_html: { min: 0, type: "number", step: "any", data: { bind: "enable: has_resolution" } }
+            %div.span3= f.input :resolution_unit_id, as: :select, collection: Unit.all, value_method: :id, label_method: :name, input_html: { data: { bind: "enable: has_resolution" } }
 
           %div.row
             %div.span5

@@ -607,7 +607,9 @@ CREATE TABLE tools (
     calibrated boolean,
     last_calibrated_at timestamp without time zone,
     condition character varying(255),
-    condition_notes text
+    condition_notes text,
+    has_resolution boolean,
+    access_type character varying(255)
 );
 
 
@@ -1319,3 +1321,9 @@ INSERT INTO schema_migrations (version) VALUES ('20130901171248');
 INSERT INTO schema_migrations (version) VALUES ('20130910123306');
 
 INSERT INTO schema_migrations (version) VALUES ('20130910135749');
+
+INSERT INTO schema_migrations (version) VALUES ('20130911124052');
+
+INSERT INTO schema_migrations (version) VALUES ('20130911134559');
+
+INSERT INTO schema_migrations (version) VALUES ('20130912043152');

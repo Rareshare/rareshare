@@ -57,12 +57,17 @@
           %td
             = link_to search_path(q: @tool.model_name) do
               = @tool.model_name
-        %tr
-          %th Year manufactured
-          %td= @tool.year_manufactured
-        %tr
-          %th Resolution
-          %td= @tool.resolution
+
+        - if @tool.year_manufactured.present?
+          %tr
+            %th Year manufactured
+            %td= @tool.year_manufactured
+
+        - if @tool.resolution_with_unit.present?
+          %tr
+            %th Resolution
+            %td= @tool.resolution_with_unit
+
         %tr
           %th Price per run
           %td

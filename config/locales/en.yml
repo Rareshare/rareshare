@@ -47,6 +47,17 @@ en:
         cancelled: "This booking has been cancelled."
         expired:   "This booking has expired."
 
+  tools:
+    access_type:
+      none: "No access"
+      partial: "Partial access"
+      full: "Full access"
+    condition:
+      excellent: "Excellent"
+      good: "Good"
+      fair: "Fair"
+      poor: "Poor"
+
   shipping:
     rates:
       2ndDayAir: "Second-day air"

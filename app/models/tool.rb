@@ -26,6 +26,8 @@ class Tool < ActiveRecord::Base
             :owner,
             :base_lead_time,
             :base_price,
+            :condition,
+            :access_type,
             presence: true
 
   validates :expedited_price,
@@ -43,7 +45,29 @@ class Tool < ActiveRecord::Base
   accepts_nested_attributes_for :facility, allow_destroy: true, reject_if: :facility_rejected?
 
   DEFAULT_SAMPLE_SIZE = [ -4, 4 ]
-  after_initialize :set_default_sample_size
+
+  after_initialize :set_default_values
+
+  module Condition
+    EXCELLENT = :excellent
+    GOOD      = :good
+    FAIR      = :fair
+    POOR      = :poor
+
+    DEFAULT   = EXCELLENT
+
+    ALL = [ EXCELLENT, GOOD, FAIR, POOR ]
+    COLLECTION = ALL.map {|k| [ I18n.t("tools.condition.#{k}"), k ]}
+  end
+
+  module AccessType
+    NONE    = :none
+    PARTIAL = :partial
+    FULL    = :full
+
+    ALL = [ NONE, PARTIAL, FULL ]
+    COLLECTION = ALL.map {|k| [ I18n.t("tools.access_type.#{k}"), k ]}
+  end
 
   scope :bookable_by, lambda {|deadline|
     days_to_deadline = ( deadline - Date.today ).to_i
@@ -93,19 +117,25 @@ class Tool < ActiveRecord::Base
   end
 
   def sample_size_unit
-    Unit.where(self.sample_size_unit_id)
+    Unit.where(self.sample_size_unit_id).first
   end
 
   def resolution_unit
-    Unit.where(self.resolution_unit_id)
+    Unit.where(self.resolution_unit_id).first
   end
 
   def sample_size_unit_name
-    sample_size_unit.try :display_name
+    sample_size_unit.try :name
   end
 
   def resolution_unit_name
-    resolution_unit.try :display_name
+    resolution_unit.try :name
+  end
+
+  def resolution_with_unit
+    if resolution.present? && tool.has_resolution?
+      "#{self.resolution} #{self.resolution_unit_name}"
+    end
   end
 
   def images
@@ -154,10 +184,11 @@ class Tool < ActiveRecord::Base
     ].compact.join(" ")
   end
 
-  def set_default_sample_size
+  def set_default_values
     min, max = DEFAULT_SAMPLE_SIZE
     self.sample_size_min ||= min
     self.sample_size_max ||= max
+    self.condition       ||= Tool::Condition::DEFAULT
   end
 
   def days_to_deadline(deadline)
