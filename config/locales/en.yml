@@ -82,7 +82,7 @@ en:
     error: "There has been a problem processing your transaction: %{message}"
 
   data:
-    private: "This information is collected and handled by Rare Share subject to the Rare Share Privacy Policy and will not be displayed on rare-share.com."
+    private: "This information is collected and handled by Rare Share subject to the Rare Share Privacy Policy and won't be displayed publicly on the site."
 
   simple_form:
     labels:

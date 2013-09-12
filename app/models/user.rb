@@ -59,6 +59,7 @@ class User < ActiveRecord::Base
   def skills_tags=(skills)
     skills = skills.split(",") if skills.is_a? String
     skills = skills.compact
+
     existing_skills = Skill.where(name: skills)
     new_skills = skills - existing_skills.map(&:name)
     new_skills = new_skills.map {|s| Skill.create(name: s)}

@@ -102,6 +102,13 @@ class ToolsController < InternalController
       :model_name,
       :address_id,
       :facility_id,
+      :access_type,
+      :access_type_notes,
+      :calibrated,
+      :last_calibrated_at,
+      :condition,
+      :condition_notes,
+      :has_resolution,
       :facility_attributes => [
         :name,
         { :address_attributes => address_attributes }

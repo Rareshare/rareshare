@@ -668,7 +668,8 @@ CREATE TABLE tools (
     condition character varying(255),
     condition_notes text,
     has_resolution boolean,
-    access_type character varying(255)
+    access_type character varying(255),
+    access_type_notes text
 );
 
 
@@ -1418,3 +1419,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130911134559');
 INSERT INTO schema_migrations (version) VALUES ('20130912043152');
 
 INSERT INTO schema_migrations (version) VALUES ('20130912152223');
+
+INSERT INTO schema_migrations (version) VALUES ('20130912173527');

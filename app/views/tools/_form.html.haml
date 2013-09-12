@@ -53,14 +53,13 @@
             %div.span8= f.input :condition_notes
 
           %div.row
-            %div.span3= f.input :calibrated, input_html: { data: { bind: "value: calibrated" } }
+            %div.span3= f.input :calibrated, label: false, inline_label: "Tool must be calibrated", input_html: { data: { bind: "checked: calibrated" } }
 
-            %div.span3
+            %div.span3{data: { bind: "visible: calibrated" } }
               = f.input :last_calibrated_at, wrapper: :append do
-                = f.input_field :last_calibrated_at, class: "date", as: :string, data: { max: Date.today, bind: "value: last_calibrated_at, enabled: calibrated" }
+                = f.input_field :last_calibrated_at, class: "date", as: :string, data: { max: Date.today, bind: "value: last_calibrated_at" }
                 %span.add-on
                   %i.icon-calendar
-
 
     %fieldset
       %div.row
@@ -158,11 +157,11 @@
         %div.span8
           %legend
             %a.tip{href: "#", title: t('data.private'), data: { toggle: "tooltip" }}
-              %i.icon-lock.icon-large
-            Facility
+              %i.icon-map-marker.icon-large
+            Physical location
           %div.row
             %div.span8
-              = f.input :facility_id, as: :select, collection: current_user.facilities, label_method: :title, include_blank: "Create a new facility", input_html: { "data-bind" => "value: facility_id" }
+              = f.input :facility_id, as: :select, collection: current_user.facilities, label_method: :title, include_blank: "Create a new facility", hint: content_tag(:i, "", class: "icon-lock") + " " + t('data.private'), input_html: { "data-bind" => "value: facility_id" }
           = f.simple_fields_for :facility, Facility.new do |fa|
             %div.facility{data: { bind: "visible: showFacility" }}
               %div.row
@@ -172,6 +171,11 @@
                 = a.hidden_field :id
                 = render partial: 'addresses/form', object: a
 
+          %div.row
+            %div.span8
+              = f.input :access_type, collection: Tool::AccessType::COLLECTION, label: "Physical access to tool", input_html: { data: { bind: "value: access_type" } }
+              %div{data: { bind: "visible: requiresAccessNotes" }}
+                = f.input :access_type_notes, label: "What kind of access is allowed?"
 
       = f.simple_fields_for :file_attachments_attributes, index: nil do |i|
         %fieldset

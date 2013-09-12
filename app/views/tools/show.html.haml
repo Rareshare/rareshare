@@ -58,6 +58,10 @@
             = link_to search_path(q: @tool.model_name) do
               = @tool.model_name
 
+        %tr
+          %th Physical access
+          %td= tool_access_description(@tool)
+
         - if @tool.year_manufactured.present?
           %tr
             %th Year manufactured

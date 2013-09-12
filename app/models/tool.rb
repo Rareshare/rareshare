@@ -49,10 +49,10 @@ class Tool < ActiveRecord::Base
   after_initialize :set_default_values
 
   module Condition
-    EXCELLENT = :excellent
-    GOOD      = :good
-    FAIR      = :fair
-    POOR      = :poor
+    EXCELLENT = "excellent"
+    GOOD      = "good"
+    FAIR      = "fair"
+    POOR      = "poor"
 
     DEFAULT   = EXCELLENT
 
@@ -61,9 +61,11 @@ class Tool < ActiveRecord::Base
   end
 
   module AccessType
-    NONE    = :none
-    PARTIAL = :partial
-    FULL    = :full
+    NONE    = "none"
+    PARTIAL = "partial"
+    FULL    = "full"
+
+    DEFAULT = NONE
 
     ALL = [ NONE, PARTIAL, FULL ]
     COLLECTION = ALL.map {|k| [ I18n.t("tools.access_type.#{k}"), k ]}

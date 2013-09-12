@@ -186,4 +186,12 @@ module ApplicationHelper
     views = n.notifiable.class.model_name.collection
     render partial: "#{views}/notification", object: n
   end
+
+  def tool_access_description(t)
+    if t.access_type == Tool::AccessType::PARTIAL && t.access_type_notes.present?
+      sanitize "Partial: " + t.access_type_notes
+    else
+      t("tools.access_type.#{t.access_type}")
+    end
+  end
 end

@@ -19,6 +19,9 @@ window.Tool = (input) ->
   @currencySymbol = ko.computed () =>
     if @currency() is "USD" then "$" else "£"
 
+  @requiresAccessNotes = ko.computed () =>
+    @access_type() is "partial"
+
   @addFile = (tool, evt) =>
     uploadUrl = $(evt.currentTarget).data("upload")
     filepicker.pick (blob) =>
