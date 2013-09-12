@@ -47,3 +47,6 @@ jQuery ->
     modal.find("button.btn-primary").off("click").on "click", () -> form.trigger "submit", commit: commitType
 
     modal.modal()
+
+  $("input.tags").each () ->
+    $(this).select2 tags: $(this).data("tags").split(",")

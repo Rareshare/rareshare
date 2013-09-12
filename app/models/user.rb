@@ -14,6 +14,9 @@ class User < ActiveRecord::Base
 
   has_many :requested_bookings, class_name: "Booking", foreign_key: :renter_id
   has_many :owned_bookings, through: :tools, source: :bookings
+
+  has_and_belongs_to_many :skills
+
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :all_blank
 
   validates :first_name, :last_name, :email, presence: true
@@ -51,6 +54,20 @@ class User < ActiveRecord::Base
 
   def all_recent_bookings
     ( owned_bookings.recent + requested_bookings.recent ).sort_by(&:updated_at).reverse
+  end
+
+  def skills_tags=(skills)
+    skills = skills.split(",") if skills.is_a? String
+    skills = skills.compact
+    existing_skills = Skill.where(name: skills)
+    new_skills = skills - existing_skills.map(&:name)
+    new_skills = new_skills.map {|s| Skill.create(name: s)}
+
+    self.skills = new_skills + existing_skills
+  end
+
+  def skills_tags
+    self.skills.map &:name
   end
 
   SUPPORT_EMAIL = "support@rare-share.com"

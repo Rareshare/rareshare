@@ -16,6 +16,11 @@
         %tr
           %th Education
           %td= @user.education
+        %tr
+          %th Skills
+          %td
+            - @user.skills.each do |s|
+              %span.label= s.name
     %h3 Bio
     = sanitize @user.bio
     %h3 Qualifications

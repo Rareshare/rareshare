@@ -32,7 +32,10 @@
           %div.row
             %div.span3= f.input :title
             %div.span5= f.input :organization
-          = f.input :education
+          %div.row
+            %div.span8= f.input :education
+          %div.row
+            %div.span8= f.input :skills_tags, input_html: { class: "tags", value: f.object.skills_tags.join(","), data: { tags: Skill.all.order(:name).join(",") }}
           = f.input :qualifications
 
       %fieldset

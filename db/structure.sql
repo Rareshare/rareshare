@@ -541,6 +541,65 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: skills; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skills (
+    id integer NOT NULL,
+    name character varying(255)
+);
+
+
+--
+-- Name: skills_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skills_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skills_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skills_id_seq OWNED BY skills.id;
+
+
+--
+-- Name: skills_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skills_users (
+    id integer NOT NULL,
+    user_id integer,
+    skill_id integer
+);
+
+
+--
+-- Name: skills_users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skills_users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skills_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skills_users_id_seq OWNED BY skills_users.id;
+
+
+--
 -- Name: tool_categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -898,6 +957,20 @@ ALTER TABLE ONLY requested_searches ALTER COLUMN id SET DEFAULT nextval('request
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY skills ALTER COLUMN id SET DEFAULT nextval('skills_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skills_users ALTER COLUMN id SET DEFAULT nextval('skills_users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY tool_categories ALTER COLUMN id SET DEFAULT nextval('tool_categories_id_seq'::regclass);
 
 
@@ -1046,6 +1119,22 @@ ALTER TABLE ONLY pages
 
 ALTER TABLE ONLY requested_searches
     ADD CONSTRAINT requested_searches_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skills_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY skills
+    ADD CONSTRAINT skills_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skills_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY skills_users
+    ADD CONSTRAINT skills_users_pkey PRIMARY KEY (id);
 
 
 --
@@ -1327,3 +1416,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130911124052');
 INSERT INTO schema_migrations (version) VALUES ('20130911134559');
 
 INSERT INTO schema_migrations (version) VALUES ('20130912043152');
+
+INSERT INTO schema_migrations (version) VALUES ('20130912152223');

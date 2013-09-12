@@ -43,6 +43,7 @@ class ProfileController < InternalController
       :avatar,
       :address_id,
       :tos_accepted,
+      :skills_tags,
       :address_attributes => address_attributes
     )
   end
