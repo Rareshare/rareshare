@@ -19,4 +19,5 @@
 //= require vendor/picker
 //= require vendor/picker.date
 //= require vendor/bootstrap
+//= require vendor/select2
 //= require_tree .
