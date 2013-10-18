@@ -12,12 +12,14 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.sortable
+//= require jquery.ui.slider
 //= require twitter/bootstrap
 //= require twitter/bootstrap_ujs
 //= require jquery-fileupload
 //= require bootstrap-wysihtml5
 //= require vendor/picker
 //= require vendor/picker.date
-//= require vendor/bootstrap
 //= require vendor/select2
-//= require_tree .
+//= require_tree ./vendor/.
+//= require_tree ./application/.

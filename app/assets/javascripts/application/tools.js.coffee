@@ -52,21 +52,45 @@ window.Tool = (input) ->
 
     runs * samples_per_run
 
+  @toolPrices = ko.observableArray()
+
+  @toolPrices.push(new ToolPrice(price)) for price in input.tool_prices
+
+  @appendPrice = ()      => @toolPrices.push new ToolPrice({}) if @canAddPrice()
+  @removePrice = (price) => () => @toolPrices.destroy(price)
+
+  @canAddPrice = ko.computed () =>
+    validOrDestroyed = (acc, obj) -> acc and (obj._destroy || obj.isValid())
+    @toolPrices().reduce validOrDestroyed, true
+
+  this
+
+window.ToolPrice = (input) ->
+  @subtype            = ko.observable(input.subtype)
+  @base_amount        = ko.observable(input.base_amount)
+  @setup_amount       = ko.observable(input.setup_amount)
+  @lead_time_days     = ko.observable(input.lead_time_days)
+  @expedite_time_days = ko.observable(input.expedite_time_days)
+  @id                 = ko.observable(input.id)
+
+  @isValid = ko.computed () =>
+    @subtype()? and @base_amount()? and @lead_time_days()?
+
   this
 
 $ ->
-  ko.bindingHandlers.slider =
-    init: (elt, val, all, vm) ->
-      sampleSize = val()
-      sizes = sampleSize.all()
-      $(elt).slider
-        range: true
-        min: sizes[0].exponent
-        max: sizes[sizes.length - 1].exponent
-        values: [ sampleSize.min(), sampleSize.max() ]
-        slide: (evt, ui) ->
-          sampleSize.min ui.values[0]
-          sampleSize.max ui.values[1]
+  # ko.bindingHandlers.slider =
+  #   init: (elt, val, all, vm) ->
+  #     sampleSize = val()
+  #     sizes = sampleSize.all()
+  #     $(elt).slider
+  #       range: true
+  #       min: sizes[0].exponent
+  #       max: sizes[sizes.length - 1].exponent
+  #       values: [ sampleSize.min(), sampleSize.max() ]
+  #       slide: (evt, ui) ->
+  #         sampleSize.min ui.values[0]
+  #         sampleSize.max ui.values[1]
 
   # Necessary for managing typeahead clicks. Replace with select2.
   ko.bindingHandlers.typeahead =
@@ -77,6 +101,10 @@ $ ->
           typeahead.query = ""
           items = typeahead.source("*", $.proxy(typeahead.process, typeahead))
           typeahead.process(items) if items?
-          typeahead.$menu.off("mouseleave", "li") # Without this, menu disappears on mouse move.
+          # Without this, menu disappears on mouse move.
+          typeahead.$menu.off("mouseleave", "li")
 
-
+  ko.bindingHandlers.btnEnable =
+    update: (elt, val, all, vm) ->
+      predicate = ko.utils.unwrapObservable(val())
+      $(elt).attr 'disabled', !predicate

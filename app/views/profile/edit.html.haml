@@ -44,7 +44,7 @@
             %p.help-block We use this to help you locate new tools and services.
           %div.span8
             %legend
-              %a.tip{href: "#", title: t('data.private'), data: { toggle: "tooltip" }}
+              %a.tip{href: "#", title: t('data.private')}
                 %i.icon-lock.icon-large
               Address
             = f.simple_fields_for :address, current_user.address || current_user.build_address do |a|

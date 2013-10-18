@@ -1,4 +1,6 @@
 jQuery ->
+  $("a[rel~=popover], .has-popover").popover()
+  $("a[rel~=tooltip], .has-tooltip").tooltip()
   $(".tip").tooltip().click (evt) -> evt.preventDefault()
 
   $("input.date").each () ->

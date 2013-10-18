@@ -106,49 +106,50 @@
           %p.help-block= t 'pricing.help'
         %div.span8
           %legend Pricing
-          %div.row{style: "margin-bottom: 10px"}
-            %div.span2
+          %div.row
+            %div.span8
+              = f.input :price_type, as: :radio_buttons, collection: Tool::PriceType::COLLECTION
+
               %label.radio
                 = f.radio_button :currency, "USD", data: { bind: "checked: currency" }
-                USD ($)
-            %div.span2
+                in USD ($)
               %label.radio
                 = f.radio_button :currency, "GBP", data: { bind: "checked: currency" }
-                GBP (£)
+                in GBP (£)
 
-          %div.row
-            %div.span2
-              = f.input :samples_per_run, input_html: { "data-bind" => "value: samples_per_run" }
-            %div.span2
-              = f.input :base_lead_time, input_html: { min: 1 }
-            %div.span4
-              = f.input :base_price, wrapper: "prepend" do
-                = content_tag :span, "", class: "add-on currency", data: { bind: "text: currencySymbol" }
-                = f.input_field :base_price, min: 0, type: "number", step: "any"
+              = f.simple_fields_for :tool_price_attributes, index: nil do |p|
+                %table.table
+                  %thead
+                    %tr
+                      %th
+                        %div Sample type
+                        %small.muted{style: "font-weight: 300"} Standard of work
+                      %th{style: "min-width: 200px"}
+                        %div Price
+                        %small.muted{style: "font-weight: 300"} Each sample / One-time setup
+                      %th{style: "min-width: 200px"}
+                        %div Lead time
+                        %small.muted{style: "font-weight: 300"} Days / Days to expedite
+                      %th
+                        %a.has-tooltip.add-price{title: "Add price", data: { bind: "click: appendPrice, btnEnable: canAddPrice" }}
+                          %i.icon-plus
 
-          %div.row
-            %div.span8
-              = f.input :can_expedite, label: false, inline_label: raw("Offer expedited pricing? " + lbl("Recommended")), input_html: { "data-bind" => "checked: can_expedite" }
-          %div.row
-            %div.span2
-              = f.input :expedited_lead_time, input_html: { min: 1, "data-bind" => "enable: can_expedite" }
-            %div.span4
-              = f.input :expedited_price, wrapper: "prepend" do
-                = content_tag :span, "", class: "add-on currency", data: { bind: "text: currencySymbol" }
-                = f.input_field :expedited_price, min: 0, type: "number", step: "any", data: { bind: "enable: can_expedite" }
-
-          %div.row
-            %div.span8
-              = f.input :can_bulkify, label: false, inline_label: "Offer bulk pricing?", input_html: { "data-bind" => "checked: can_bulkify"}
-          %div.row
-            %div.span3
-              = f.input :bulk_runs do
-                = f.input_field :bulk_runs, type: "number", min: 2, data: { bind: "enable: can_bulkify, value: bulk_runs" }
-                %p.help-block{data: { bind: "visible: samples_in_bulk_run" }}
-                  %span{data: { bind: "text: bulk_runs"}}
-                  runs =
-                  %span{data: { bind: "text: samples_in_bulk_run" }}
-                  samples
+                  %tbody{data: { bind: "foreach: toolPrices" }}
+                    %tr
+                      %td
+                        = p.input_field :subtype, as: :select, collection: ToolPrice::Subtype::COLLECTION, data: { bind: "value: subtype" }
+                      %td
+                        = p.input_field :base_amount, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: base_amount" }
+                        %div.pull-left{style: "line-height: 25px; width: 20px; text-align: center"} /
+                        = p.input_field :setup_amount, type: "number", min: "0", style: "width: 60px; float: left", data: { bind: "value: setup_amount" }
+                      %td
+                        = p.input_field :lead_time_days, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: lead_time_days" }
+                        %div.pull-left{style: "line-height: 25px; width: 20px; text-align: center"} /
+                        = p.input_field :expedite_time_days, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: expedite_time_days" }
+                      %td
+                        = p.input_field :id, type: "hidden", data: { bind: "value: id" }
+                        %a.rm-price{title: "Remove price", style: "line-height: 30px;", data: { bind: "click: $parent.removePrice($data)" }}
+                          %i.icon-trash
 
     %fieldset
       %div.row

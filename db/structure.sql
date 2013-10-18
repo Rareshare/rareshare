@@ -631,6 +631,42 @@ ALTER SEQUENCE tool_categories_id_seq OWNED BY tool_categories.id;
 
 
 --
+-- Name: tool_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE tool_prices (
+    id integer NOT NULL,
+    tool_id integer,
+    subtype character varying(255),
+    base_amount money DEFAULT 0.0,
+    setup_amount money DEFAULT 0.0,
+    lead_time_days integer,
+    expedite_time_days integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: tool_prices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE tool_prices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tool_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE tool_prices_id_seq OWNED BY tool_prices.id;
+
+
+--
 -- Name: tools; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -669,7 +705,8 @@ CREATE TABLE tools (
     condition_notes text,
     has_resolution boolean,
     access_type character varying(255),
-    access_type_notes text
+    access_type_notes text,
+    price_type character varying(255)
 );
 
 
@@ -979,6 +1016,13 @@ ALTER TABLE ONLY tool_categories ALTER COLUMN id SET DEFAULT nextval('tool_categ
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY tool_prices ALTER COLUMN id SET DEFAULT nextval('tool_prices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY tools ALTER COLUMN id SET DEFAULT nextval('tools_id_seq'::regclass);
 
 
@@ -1147,6 +1191,14 @@ ALTER TABLE ONLY tool_categories
 
 
 --
+-- Name: tool_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY tool_prices
+    ADD CONSTRAINT tool_prices_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: tools_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1240,6 +1292,13 @@ CREATE INDEX index_notifications_on_notifiable_id_and_notifiable_type ON notific
 --
 
 CREATE INDEX index_notifications_on_user_id_and_seen_at ON notifications USING btree (user_id, seen_at);
+
+
+--
+-- Name: index_tool_prices_on_tool_id_and_subtype; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_tool_prices_on_tool_id_and_subtype ON tool_prices USING btree (tool_id, subtype);
 
 
 --
@@ -1421,3 +1480,7 @@ INSERT INTO schema_migrations (version) VALUES ('20130912043152');
 INSERT INTO schema_migrations (version) VALUES ('20130912152223');
 
 INSERT INTO schema_migrations (version) VALUES ('20130912173527');
+
+INSERT INTO schema_migrations (version) VALUES ('20131002181600');
+
+INSERT INTO schema_migrations (version) VALUES ('20131013155412');

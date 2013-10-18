@@ -14,7 +14,10 @@ class Tool < ActiveRecord::Base
 
   has_many :user_messages, as: :topic
   has_many :file_attachments, as: :attachable
+  has_many :tool_prices, dependent: :destroy
+
   accepts_nested_attributes_for :file_attachments, allow_destroy: true
+  accepts_nested_attributes_for :tool_prices, allow_destroy: true
 
   before_save :update_search_document
   after_validation :geocode
@@ -69,6 +72,16 @@ class Tool < ActiveRecord::Base
 
     ALL = [ NONE, PARTIAL, FULL ]
     COLLECTION = ALL.map {|k| [ I18n.t("tools.access_type.#{k}"), k ]}
+  end
+
+  module PriceType
+    PER_TIME   = "time"
+    PER_SAMPLE = "sample"
+
+    DEFAULT = PER_SAMPLE
+
+    ALL = [ PER_SAMPLE, PER_TIME ]
+    COLLECTION = ALL.map {|k| [ I18n.t("tools.price_type.#{k}"), k ]}
   end
 
   scope :bookable_by, lambda {|deadline|
@@ -152,6 +165,10 @@ class Tool < ActiveRecord::Base
     minimum_future_lead_time.days.from_now.to_date
   end
 
+  def tool_prices_for_edit
+    self.tool_prices.build if self.tool_prices.empty?; self.tool_prices
+  end
+
   def as_json(options={})
     options = options.merge(
       methods: [
@@ -169,8 +186,9 @@ class Tool < ActiveRecord::Base
         min: self.sample_size_min,
         max: self.sample_size_max,
         unit: self.sample_size_unit,
-        all: SampleSize.all_sizes
-      }
+        all: SampleSize.all_sizes,
+      },
+      tool_prices: tool_prices_for_edit
     )
   end
 
@@ -191,6 +209,7 @@ class Tool < ActiveRecord::Base
     self.sample_size_min ||= min
     self.sample_size_max ||= max
     self.condition       ||= Tool::Condition::DEFAULT
+    self.price_type      ||= Tool::PriceType::DEFAULT
   end
 
   def days_to_deadline(deadline)

@@ -57,6 +57,19 @@ en:
       good: "Good"
       fair: "Fair"
       poor: "Poor"
+    price_type:
+      time:   "By unit of time"
+      sample: "By number of samples processed"
+
+  tool_prices:
+    subtype:
+      bench_standard: "Bench R&D Standard"
+      gmp:            "GMP (Good Manufacturing Practice)"
+      glp:            "GLP (Good Laboratory Practice)"
+      clia:           "CLIA (Clinical Laboratory Improvement Amendmends)"
+      iso_9000:       "ISO 9000 (Quality management)"
+      iso_13485:      "ISO 13485 (Quality management, medical devices)"
+      iso_14000:      "ISO 14000 (Environmental management)"
 
   shipping:
     rates:
@@ -97,6 +110,7 @@ en:
         resolution_unit_id: 'Unit'
         base_lead_time: 'Lead time - days'
         base_price: 'Price'
+        price_type: 'How would you like to price your tool?'
       user:
         avatar: 'Picture'
         title: 'Position/Job Title'
