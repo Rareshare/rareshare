@@ -17,7 +17,7 @@ class Tool < ActiveRecord::Base
   has_many :tool_prices, dependent: :destroy
 
   accepts_nested_attributes_for :file_attachments, allow_destroy: true
-  accepts_nested_attributes_for :tool_prices, allow_destroy: true
+  accepts_nested_attributes_for :tool_prices,      allow_destroy: true
 
   before_save :update_search_document
   after_validation :geocode
@@ -188,7 +188,8 @@ class Tool < ActiveRecord::Base
         unit: self.sample_size_unit,
         all: SampleSize.all_sizes,
       },
-      tool_prices: tool_prices_for_edit
+      tool_prices: tool_prices_for_edit,
+      tool_price_categories: ToolPrice::Subtype::COLLECTION
     )
   end
 

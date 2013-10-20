@@ -52,20 +52,29 @@ window.Tool = (input) ->
 
     runs * samples_per_run
 
-  @toolPrices = ko.observableArray()
+  @toolPriceCollection = new ToolPriceCollection(input)
 
-  @toolPrices.push(new ToolPrice(price)) for price in input.tool_prices
+  this
 
-  @appendPrice = ()      => @toolPrices.push new ToolPrice({}) if @canAddPrice()
+window.ToolPriceCollection = (input) ->
+  @toolPrices  = ko.observableArray()
+  @appendPrice = ()      => @toolPrices.push new ToolPrice({}, this) if @canAddPrice()
   @removePrice = (price) => () => @toolPrices.destroy(price)
+  @priceTypes  = ko.observableArray(input.tool_price_categories)
 
   @canAddPrice = ko.computed () =>
     validOrDestroyed = (acc, obj) -> acc and (obj._destroy || obj.isValid())
     @toolPrices().reduce validOrDestroyed, true
 
+  @selectedPrices = ko.computed () =>
+    toolPrice.subtype() for toolPrice in @toolPrices()
+
+  for price in input.tool_prices
+    @toolPrices.push(new ToolPrice(price, this))
+
   this
 
-window.ToolPrice = (input) ->
+window.ToolPrice = (input, collection) ->
   @subtype            = ko.observable(input.subtype)
   @base_amount        = ko.observable(input.base_amount)
   @setup_amount       = ko.observable(input.setup_amount)
@@ -73,26 +82,32 @@ window.ToolPrice = (input) ->
   @expedite_time_days = ko.observable(input.expedite_time_days)
   @id                 = ko.observable(input.id)
 
+
+  @selectablePriceTypes = ko.computed () =>
+    for price in collection.priceTypes()
+      continue if collection.selectedPrices().indexOf(price[1]) >= 0 and price[1] isnt @subtype()
+      { label: price[0], id: price[1] }
+
   @isValid = ko.computed () =>
     @subtype()? and @base_amount()? and @lead_time_days()?
 
   this
 
 $ ->
-  # ko.bindingHandlers.slider =
-  #   init: (elt, val, all, vm) ->
-  #     sampleSize = val()
-  #     sizes = sampleSize.all()
-  #     $(elt).slider
-  #       range: true
-  #       min: sizes[0].exponent
-  #       max: sizes[sizes.length - 1].exponent
-  #       values: [ sampleSize.min(), sampleSize.max() ]
-  #       slide: (evt, ui) ->
-  #         sampleSize.min ui.values[0]
-  #         sampleSize.max ui.values[1]
+  ko.bindingHandlers.slider =
+    init: (elt, val, all, vm) ->
+      sampleSize = val()
+      sizes = sampleSize.all()
+      $(elt).slider
+        range: true
+        min: sizes[0].exponent
+        max: sizes[sizes.length - 1].exponent
+        values: [ sampleSize.min(), sampleSize.max() ]
+        slide: (evt, ui) ->
+          sampleSize.min ui.values[0]
+          sampleSize.max ui.values[1]
 
-  # Necessary for managing typeahead clicks. Replace with select2.
+  # Necessary for managing typeahead clicks.
   ko.bindingHandlers.typeahead =
     init: (elt, val, all, vm) ->
       if ( typeahead = $(elt).data("typeahead") ) and ( button = $(elt).nextAll("button") )
@@ -108,3 +123,9 @@ $ ->
     update: (elt, val, all, vm) ->
       predicate = ko.utils.unwrapObservable(val())
       $(elt).attr 'disabled', !predicate
+
+  # Bind automatically to add remote form submit support.
+  ko.bindingHandlers.remote =
+    init: (elt, val, all, vm) ->
+      $(elt).on "submit", () ->
+

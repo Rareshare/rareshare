@@ -117,13 +117,14 @@
                 = f.radio_button :currency, "GBP", data: { bind: "checked: currency" }
                 in GBP (£)
 
-              = f.simple_fields_for :tool_price_attributes, index: nil do |p|
-                %table.table
+              = f.simple_fields_for :tool_prices_attributes, index: nil do |p|
+                %table.table{data: { bind: "with: toolPriceCollection" }}
                   %thead
                     %tr
                       %th
                         %div Sample type
                         %small.muted{style: "font-weight: 300"} Standard of work
+                        %span{data: { bind: "text: selectedPrices"}}
                       %th{style: "min-width: 200px"}
                         %div Price
                         %small.muted{style: "font-weight: 300"} Each sample / One-time setup
@@ -137,7 +138,7 @@
                   %tbody{data: { bind: "foreach: toolPrices" }}
                     %tr
                       %td
-                        = p.input_field :subtype, as: :select, collection: ToolPrice::Subtype::COLLECTION, data: { bind: "value: subtype" }
+                        = p.input_field :subtype, as: :select, collection: ToolPrice::Subtype::COLLECTION, data: { bind: "value: subtype, options: selectablePriceTypes, optionsValue: 'id', optionsText: 'label'" }
                       %td
                         = p.input_field :base_amount, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: base_amount" }
                         %div.pull-left{style: "line-height: 25px; width: 20px; text-align: center"} /
