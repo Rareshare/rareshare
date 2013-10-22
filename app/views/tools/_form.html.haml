@@ -122,15 +122,14 @@
                   %thead
                     %tr
                       %th
-                        %div Sample type
-                        %small.muted{style: "font-weight: 300"} Standard of work
-                        %span{data: { bind: "text: selectedPrices"}}
+                        Sample type
+                        %small Standard of work
                       %th{style: "min-width: 200px"}
-                        %div Price
-                        %small.muted{style: "font-weight: 300"} Each sample / One-time setup
+                        Price
+                        %small Each sample / One-time setup
                       %th{style: "min-width: 200px"}
-                        %div Lead time
-                        %small.muted{style: "font-weight: 300"} Days / Days to expedite
+                        Lead time
+                        %small Days / Days to expedite
                       %th
                         %a.has-tooltip.add-price{title: "Add price", data: { bind: "click: appendPrice, btnEnable: canAddPrice" }}
                           %i.icon-plus
@@ -158,7 +157,7 @@
           %p.help-block We keep this information hidden from users until they've confirmed a reservation with you.
         %div.span8
           %legend
-            %a.tip{href: "#", title: t('data.private'), data: { toggle: "tooltip" }}
+            %a.has-tooltip{href: "#", title: t('data.private')}
               %i.icon-map-marker.icon-large
             Physical location
           %div.row

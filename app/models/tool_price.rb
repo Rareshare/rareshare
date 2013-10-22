@@ -15,4 +15,18 @@ class ToolPrice < ActiveRecord::Base
   validates :tool_id, :subtype, :base_amount, presence: true
   validates :tool_id, uniqueness: { scope: [:subtype] }
   validates :subtype, inclusion: { in: ToolPrice::Subtype::ALL }
+
+  ZERO = BigDecimal.new('0.0')
+
+  def requires_setup?
+    self.setup_amount.present? && self.setup_amount > ZERO
+  end
+
+  def can_expedite?
+    self.expedite_time_days.present? && self.expedite_time_days.nonzero?
+  end
+
+  def expedite_amount
+    self.base_amount + ( self.base_amount / 2 )
+  end
 end

@@ -106,6 +106,13 @@ a {
   }
 }
 
+table {
+  thead > tr > th > small {
+    color: #999;
+    display: block;
+    font-weight: 300;
+  }
+}
 
 .content-root {
   min-height: 100%;
@@ -188,6 +195,8 @@ form {
       color: @mossGreen;
       text-transform: uppercase;
       border-bottom: none;
+
+      .tooltip { text-transform: none; }
     }
 
     &:first-child { border: none; }
