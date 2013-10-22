@@ -75,8 +75,7 @@
         %tr
           %th
             Price per run
-            %div
-              %small.muted on a per-#{@tool.price_type} basis
+            %small on a per-#{@tool.price_type} basis
           %td
             %ul.unstyled
               - @tool.tool_prices.each do |price|

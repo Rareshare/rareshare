@@ -29,4 +29,41 @@ class ToolPrice < ActiveRecord::Base
   def expedite_amount
     self.base_amount + ( self.base_amount / 2 )
   end
+
+  def bookable_by?(deadline)
+    minimum_future_lead_time < days_to_deadline(deadline)
+  end
+
+  def must_expedite?(deadline)
+    can_expedite? && bookable_by?(deadline) && lead_time_days >= days_to_deadline(deadline)
+  end
+
+  def runs_required(samples)
+    ( samples.to_i / self.samples_per_run.to_f ).ceil
+  end
+
+  def price_per_run_for(deadline, samples)
+    must_expedite?(deadline) ? expedite_amount : base_amount
+  end
+
+  def price_for(deadline, samples)
+    price_per_run_for(deadline, samples) * runs_required(samples)
+  end
+
+  def minimum_future_lead_time
+    [ lead_time_days, expedite_time_days ].compact.min
+  end
+
+  def samples_per_run
+    1
+  end
+
+  private
+
+  def days_to_deadline(deadline)
+    deadline = Date.parse(deadline) if deadline.is_a?(String)
+    deadline = deadline.to_date if !deadline.is_a?(Date)
+    ( deadline - Date.today ).to_i
+  end
+
 end

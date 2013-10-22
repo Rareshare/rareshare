@@ -75,7 +75,6 @@ describe Tool do
     Given { tool.samples_per_run = 1 }
 
     context "without bulk or expediting" do
-      When { tool.can_bulkify = false }
       When { tool.can_expedite = false }
       Then { expect(tool.price_for(8.days.from_now, 1)).to eq tool.base_price }
       And  { expect(tool.price_for(8.days.from_now, 5)).to eq(tool.base_price * 5) }

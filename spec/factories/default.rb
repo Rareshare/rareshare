@@ -31,7 +31,6 @@ FactoryGirl.define do
     tool_category
     facility
     can_expedite false
-    can_bulkify false
     association :owner, factory: :user
     resolution 10
     resolution_unit_id { AvailableUnit.for("<meter>") }
@@ -45,7 +44,6 @@ FactoryGirl.define do
       base_price 2000.00
       expedited_price 2500.00
       expedited_lead_time 3
-      can_bulkify true
       bulk_runs 5
     end
   end

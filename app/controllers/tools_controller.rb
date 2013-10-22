@@ -63,10 +63,8 @@ class ToolsController < InternalController
 
     render json: {
       pricing: {
-        can_bulkify:   tool.can_bulkify?,
         can_expedite:  tool.can_expedite?,
         must_expedite: tool.must_expedite?(date),
-        must_bulkify:  tool.should_bulkify?(samples),
         runs_required: tool.runs_required(samples),
         price_per_run: tool.price_per_run_for(date, samples),
         total_price:   tool.price_for(date, samples)
@@ -95,7 +93,6 @@ class ToolsController < InternalController
       :can_expedite,
       :expedited_price,
       :expedited_lead_time,
-      :can_bulkify,
       :bulk_runs,
       :tool_category_name,
       :manufacturer_name,

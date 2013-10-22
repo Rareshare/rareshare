@@ -33,15 +33,15 @@ class Tool < ActiveRecord::Base
             :access_type,
             presence: true
 
-  validates :expedited_price,
-            :expedited_lead_time,
-            presence: true,
-            if: :can_expedite?
+  # validates :expedited_price,
+  #           :expedited_lead_time,
+  #           presence: true,
+  #           if: :can_expedite?
 
-  validates :base_lead_time,
-            :expedited_lead_time,
-            :resolution,
-            numericality: { greater_than: 0, allow_nil: true }
+  # validates :base_lead_time,
+  #           :expedited_lead_time,
+  #           :resolution,
+  #           numericality: { greater_than: 0, allow_nil: true }
 
   validates :bulk_runs, numericality: { greater_than: 1, allow_nil: true }
 
@@ -105,30 +105,12 @@ class Tool < ActiveRecord::Base
     user == self.owner
   end
 
-  def bookable_by?(deadline)
-    minimum_future_lead_time < days_to_deadline(deadline)
-  end
-
-  def must_expedite?(deadline)
-    bookable_by?(deadline) && base_lead_time >= days_to_deadline(deadline)
-  end
-
-  def runs_required(samples)
-    ( samples.to_i / self.samples_per_run.to_f ).ceil
-  end
-
-  def price_per_run_for(deadline, samples)
-    price_per_run = must_expedite?(deadline) ? expedited_price : base_price
-    price_per_run *= BULK_DISCOUNT if should_bulkify?(samples)
-    price_per_run
+  def lowest_price
+    self.tool_prices.min {|p| p.base_amount}
   end
 
   def price_for(deadline, samples)
-    price_per_run_for(deadline, samples) * runs_required(samples)
-  end
-
-  def should_bulkify?(samples)
-    can_bulkify? && runs_required(samples) >= bulk_runs
+    self.lowest_price.price_for(deadline, samples)
   end
 
   def sample_size_unit
@@ -157,12 +139,8 @@ class Tool < ActiveRecord::Base
     file_attachments.where(category: FileAttachment::Categories::IMAGE)
   end
 
-  def minimum_future_lead_time
-    [ base_lead_time, expedited_lead_time ].compact.min
-  end
-
   def earliest_bookable_date
-    minimum_future_lead_time.days.from_now.to_date
+    tool_prices.map(&:minimum_future_lead_time).min.days.from_now.to_date
   end
 
   def tool_prices_for_edit
@@ -211,12 +189,6 @@ class Tool < ActiveRecord::Base
     self.sample_size_max ||= max
     self.condition       ||= Tool::Condition::DEFAULT
     self.price_type      ||= Tool::PriceType::DEFAULT
-  end
-
-  def days_to_deadline(deadline)
-    deadline = Date.parse(deadline) if deadline.is_a?(String)
-    deadline = deadline.to_date if !deadline.is_a?(Date)
-    ( deadline - Date.today ).to_i
   end
 
   def facility_rejected?(attrs)
