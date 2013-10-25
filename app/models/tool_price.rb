@@ -46,8 +46,16 @@ class ToolPrice < ActiveRecord::Base
     must_expedite?(deadline) ? expedite_amount : base_amount
   end
 
-  def price_for(deadline, samples)
+  def base_price_for(deadline, samples)
     price_per_run_for(deadline, samples) * runs_required(samples)
+  end
+
+  def setup_price
+    self.setup_amount || ZERO
+  end
+
+  def price_for(deadline, samples)
+     base_price_for(deadline, samples) + setup_price
   end
 
   def minimum_future_lead_time

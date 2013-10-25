@@ -52,6 +52,25 @@ class Booking < ActiveRecord::Base
   }
 
   class << self
+    def default(renter, tool, params={})
+      deadline = if params[:date].present?
+        Date.parse(params[:date])
+      else
+        tool.earliest_bookable_date
+      end
+
+      self.new do |b|
+        b.renter_id = renter.id
+        b.tool_id   = tool.id
+        b.deadline  = deadline
+        b.price     = tool.price_for(deadline, 1)
+        b.currency  = tool.currency
+        b.samples   = 1
+        b.use_user_address = renter.address.present?
+        b.build_address
+      end
+    end
+
     def reserve(renter, params={})
       self.new(params).tap do |b|
         b.renter     = renter

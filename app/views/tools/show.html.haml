@@ -8,6 +8,13 @@
   crumbs: @tool.owned_by?(current_user) ? [:root, Tool, @tool] : [:root, :search, @tool],
   subtitle: @tool.tool_category_name
 
+- content_for :head do
+  :javascript
+    $(function() {
+      window.booking = new Booking(#{@booking.to_json});
+      ko.applyBindings({ booking: booking }, $("form.new_booking")[0]);
+    });
+
 %div.row
   %div.span2.sidebar.profile-sidebar
     %div.row.row-header
@@ -23,21 +30,27 @@
   %div.span8
     - if can?(:book, @tool)
       %div.well.well-small{style: "padding-bottom: 0;"}
-        %form.no-margin.form-inline{action: new_booking_path, method: :get, class: "form-inline"}
+        %form.new_booking.no-margin.form-inline{action: new_booking_path, method: :get, class: "form-inline", data: { bind: "with: booking" }}
           %input{type: "hidden", name: "tool_id", value: @tool.id}
           %div.row
             %div.span2
-              %strong{style: "line-height: 30px;"} Get a sample by
+              %strong{style: "line-height: 30px;"} Get a result by
             %div.span4
               %div.control-group
                 %div.input-append
-                  %input{type: "date", name: "date", class: "date", value: SearchQuery.default_date.strftime("%d %B, %Y"), data: { min: Date.today }}
+                  %input{type: "string", name: "deadline", class: "date", data: { bind:  "pickadate: { value: deadline, min: '#{@booking.tool.earliest_bookable_date}' }" }}
                   %span{class: "add-on"}
                     %i.icon-calendar
-
-
+            %div.span1
+              %span{data: { bind: "text: money(est_total_price)"}}
+          %div.row
+            %div.span4.offset2
+              %div.control-group
+                %div.input
+                  %select{name: "subtype"}
             %div.span1
               %input{type: "submit", value: "Reserve Now", class: "btn btn-primary"}
+
 
     %h3 Overview
     %table.table

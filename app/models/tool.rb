@@ -43,7 +43,7 @@ class Tool < ActiveRecord::Base
   #           :resolution,
   #           numericality: { greater_than: 0, allow_nil: true }
 
-  validates :bulk_runs, numericality: { greater_than: 1, allow_nil: true }
+  # validates :bulk_runs, numericality: { greater_than: 1, allow_nil: true }
 
   accepts_nested_attributes_for :facility, allow_destroy: true, reject_if: :facility_rejected?
 
@@ -105,12 +105,16 @@ class Tool < ActiveRecord::Base
     user == self.owner
   end
 
+  def tool_price_for(subtype=nil)
+    subtype.blank? ? self.lowest_price : self.tool_prices.where(subtype: subtype)
+  end
+
   def lowest_price
     self.tool_prices.min {|p| p.base_amount}
   end
 
-  def price_for(deadline, samples)
-    self.lowest_price.price_for(deadline, samples)
+  def price_for(deadline, samples, subtype=nil)
+    self.tool_price_for(subtype).price_for(deadline, samples)
   end
 
   def sample_size_unit
@@ -155,7 +159,7 @@ class Tool < ActiveRecord::Base
         :manufacturer_name,
         :images,
         :errors,
-        :minimum_future_lead_time
+        :earliest_bookable_date
       ]
     )
 

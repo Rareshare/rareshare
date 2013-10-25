@@ -5,7 +5,8 @@ class ToolsController < InternalController
   end
 
   def show
-    @tool = Tool.find(params[:id])
+    @tool    = Tool.find(params[:id])
+    @booking = Booking.default(current_user, @tool, params.permit(:date))
     authorize! :read, @tool
     add_breadcrumb @tool.display_name, tool_path(@tool)
   end
@@ -57,17 +58,20 @@ class ToolsController < InternalController
   end
 
   def pricing
-    tool = Tool.find(params[:id])
-    date = params[:date]
+    tool    = Tool.find(params[:id])
+    date    = params[:date]
     samples = params[:samples]
+    subtype = params[:subtype]
+
+    price = tool.tool_price_for(subtype)
 
     render json: {
       pricing: {
-        can_expedite:  tool.can_expedite?,
-        must_expedite: tool.must_expedite?(date),
-        runs_required: tool.runs_required(samples),
-        price_per_run: tool.price_per_run_for(date, samples),
-        total_price:   tool.price_for(date, samples)
+        setup_price:   price.setup_price,
+        base_price:    price.base_price_for(date, samples),
+        can_expedite:  price.can_expedite?,
+        must_expedite: price.must_expedite?(date),
+        total_price:   price.price_for(date, samples)
       }
     }
   end

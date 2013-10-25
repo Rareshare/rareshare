@@ -36,7 +36,6 @@ window.Booking = (input) ->
       @est_total_price   resp.pricing.total_price
       @must_expedite     resp.pricing.must_expedite
 
-
   @est_must_expedite = ko.observable(false)
   @est_runs_required = ko.observable(1)
   @est_price_per_run = ko.observable()
