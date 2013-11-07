@@ -176,7 +176,9 @@ CREATE TABLE bookings (
     rareshare_fee money DEFAULT 0.0,
     shipping_weight numeric,
     shipping_service character varying(255),
-    samples integer
+    samples integer,
+    tool_price_id integer,
+    expedited boolean DEFAULT false
 );
 
 
@@ -1484,3 +1486,7 @@ INSERT INTO schema_migrations (version) VALUES ('20130912173527');
 INSERT INTO schema_migrations (version) VALUES ('20131002181600');
 
 INSERT INTO schema_migrations (version) VALUES ('20131013155412');
+
+INSERT INTO schema_migrations (version) VALUES ('20131027213304');
+
+INSERT INTO schema_migrations (version) VALUES ('20131107175214');

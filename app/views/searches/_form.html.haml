@@ -1,21 +1,13 @@
 = form_tag search_path, method: "get", class: "search-tools" do |f|
   %div.row
-    %div.span10
+    %div.span5
       %div.control-group
         %div.input-append
           %input{name: "q", type: "text", placeholder: "Search", class: "string", value: params[:q]}
           %span{class: "add-on"}
             %i.icon-search
 
-  %div.row
-    %div.span4
-      %div.control-group
-        %div.input-append
-          %input{name: "by", type: "text", class: "date", value: params[:by] || SearchQuery.default_date.strftime("%d %B, %Y"), data: { min: Date.today }}
-          %span{class: "add-on"}
-            %i.icon-calendar
-
-    %div.span4
+    %div.span3
       %div.control-group
         %div.input-append
           %input{name: "loc", type: "text", class: "string", placeholder: "Location (optional)", value: params[:loc]}

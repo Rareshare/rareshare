@@ -14,7 +14,6 @@
 
 = simple_form_for @booking, html: { "data-bind" => "with: booking" } do |f|
   = f.input :tool_id, as: :hidden
-  = f.input :deadline, as: :hidden
   %div.form-inputs
     %fieldset
       %div.row.step{ "data-bind" => "css: { complete: stepOneComplete }"}
@@ -26,10 +25,7 @@
         %div.span8
           %div.row
             %div.span4
-              = f.input :deadline, wrapper: :append do
-                = f.input_field :deadline, as: "string", class: "date", data: { bind:  "pickadate: { value: deadline, min: #{@booking.tool.minimum_future_lead_time} }" }
-                %span.add-on
-                  %i.icon-calendar
+              / = f.input :tool_price, as: :select, input_html: { "data-bind" => "value: booking.tool_price, options: booking.tool.toolPriceCollection.toolPrices, optionsText: 'label'" }
 
             %div.span3
               = f.input :samples, input_html: { "data-bind" => "value: samples", min: 1 }
@@ -46,15 +42,15 @@
             %h4 Subtotal Pricing
             %small Shipping not included.
             %dl
-              %dt Samples / run
-              %dd{data: { bind: "text: tool().samples_per_run" }}
-              %dt Price / run
-              %dd{data: { bind: "text: money(est_price_per_run)" }}
-              %dt Runs required
-              %dd{data: { bind: "text: est_runs_required" }}
+              %dt Price per sample
+              %dd{data: { bind: "text: money(tool_price_visible)"}}
+              %dt Samples
+              %dd{data: { bind: "text: booking.samples" }}
+              %dt Setup price
+              %dd{data: { bind: "text: money(tool_price().setup_price)"}}
               %dt.total_price Total price
-              %dd.total_price{data: { bind: "text: money(est_total_price)" }}
-            %span.label.label-warning{data: { bind: "visible: must_expedite" }} Expedited
+              %dd.total_price{data: { bind: "text: money(final_price)" }}
+            %span.label.label-warning{data: { bind: "visible: expedited" }} Expedited
 
 
 

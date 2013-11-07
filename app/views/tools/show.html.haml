@@ -29,27 +29,24 @@
 
   %div.span8
     - if can?(:book, @tool)
-      %div.well.well-small{style: "padding-bottom: 0;"}
+      %div.well.well-small.well-inverted{style: "padding-bottom: 0;"}
+        %p.upcase{style: "font-size: 12px"} Reserve Now
         %form.new_booking.no-margin.form-inline{action: new_booking_path, method: :get, class: "form-inline", data: { bind: "with: booking" }}
           %input{type: "hidden", name: "tool_id", value: @tool.id}
+          %input{type: "hidden", name: "subtype", data: { bind: "value: tool_price_subtype" }}
           %div.row
-            %div.span2
-              %strong{style: "line-height: 30px;"} Get a result by
             %div.span4
               %div.control-group
-                %div.input-append
-                  %input{type: "string", name: "deadline", class: "date", data: { bind:  "pickadate: { value: deadline, min: '#{@booking.tool.earliest_bookable_date}' }" }}
-                  %span{class: "add-on"}
-                    %i.icon-calendar
-            %div.span1
-              %span{data: { bind: "text: money(est_total_price)"}}
-          %div.row
-            %div.span4.offset2
-              %div.control-group
                 %div.input
-                  %select{name: "subtype"}
+                  %select{data: { bind: "value: booking.tool_price, options: booking.tool.toolPriceCollection.toolPrices, optionsText: 'label'" } }}
+            %div.span2{style: "line-height: 32px"}
+              %span{data: { bind: "text: money(tool_price_visible)" }}
+              \/
+              %span
+                %span{data: { bind: "text: tool_price_days" }}
+                days
             %div.span1
-              %input{type: "submit", value: "Reserve Now", class: "btn btn-primary"}
+              %input.btn.btn-primary.btn-success{type: "submit", value: "Reserve Now"}
 
 
     %h3 Overview

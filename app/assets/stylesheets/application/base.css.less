@@ -414,9 +414,12 @@ form.new_message {
   a.btn { width: 114px; }
 }
 
-.search-tools {
-  .row .control-group .input-append input[name=q] { width: 738px; }
-  input[type=submit] { width: 138px; }
+form.search-tools {
+  .row .control-group .input-append {
+    input[name=q]   { width: 348px; }
+    input[name=loc] { width: 188px; }
+  }
+  input[type=submit] { width: 140px; }
   .control-group {
     margin-bottom: 0;
     // .input-append { margin-bottom: 0; }
@@ -468,4 +471,13 @@ ul.nav-pills.devise {
   margin-bottom: 10px;
   background-color: @lightMossGreen;
   color: #444;
+}
+
+.well.well-inverted {
+  background-color: @darkBlueGrey;
+  color: #ddd;
+}
+
+.upcase {
+  text-transform: uppercase;
 }

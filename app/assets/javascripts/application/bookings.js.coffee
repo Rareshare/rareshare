@@ -17,30 +17,27 @@ window.Booking = (input) ->
   @shipping_rate = ko.computed () =>
     @shipping_service()?.rate || 0.00
 
-  # NOTE: This is used only for display purposes, and never used to charge the user.
-  @final_price = ko.computed () =>
-    parseFloat(@price()) + parseFloat(@shipping_rate()) + parseFloat(@rareshare_fee())
-
   @deadline = ko.observable new Date(input.deadline)
 
   @money = (valueAccessor) =>
     ko.computed () =>
-      accounting.formatMoney(valueAccessor(), @currency_symbol())
+      accounting.formatMoney(valueAccessor(), @currency_symbol()) if valueAccessor()?
 
-  ko.computed () =>
-    baseUrl = "/tools/#{@tool().id}/pricing"
-    $.get baseUrl, date: @deadline().toJSON(), samples: @samples(), (resp) =>
-      @est_must_expedite resp.pricing.must_expedite
-      @est_runs_required resp.pricing.runs_required
-      @est_price_per_run resp.pricing.price_per_run
-      @est_total_price   resp.pricing.total_price
-      @must_expedite     resp.pricing.must_expedite
+  if input.tool_price? then @tool_price(new window.ToolPrice(input.tool_price))
 
-  @est_must_expedite = ko.observable(false)
-  @est_runs_required = ko.observable(1)
-  @est_price_per_run = ko.observable()
-  @est_total_price   = ko.observable()
-  @must_expedite     = ko.observable(false)
+  console.log("tool price", typeof @tool_price(), @tool_price());
+
+  @tool_price_visible = ko.computed () => @tool_price()? and @tool_price().visible_price()
+  @tool_price_subtype = ko.computed () => @tool_price()? and @tool_price().subtype()
+  @tool_price_days    = ko.computed () => @tool_price()? and @tool_price().lead_time_days()
+  @tool_price_id      = ko.computed () => @tool_price()? and @tool_price().id()
+  @tool_price_setup   = ko.computed () => @tool_price()? and @tool_price().setup_price()
+
+  @tool = new window.Tool(input.tool)
+
+  # NOTE: This is used only for display purposes, and never used to charge the user.
+  @final_price = ko.computed () =>
+    ( parseFloat(@tool_price_visible()) * parseFloat(@samples()) ) + parseFloat(@tool_price_setup()) + parseFloat(@shipping_rate()) + parseFloat(@rareshare_fee())
 
   this
 

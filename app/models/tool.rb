@@ -144,7 +144,7 @@ class Tool < ActiveRecord::Base
   end
 
   def earliest_bookable_date
-    tool_prices.map(&:minimum_future_lead_time).min.days.from_now.to_date
+    lowest_price.earliest_bookable_date
   end
 
   def tool_prices_for_edit

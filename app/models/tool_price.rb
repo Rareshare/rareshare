@@ -54,6 +54,14 @@ class ToolPrice < ActiveRecord::Base
     self.setup_amount || ZERO
   end
 
+  def base_price
+    setup_price + base_amount
+  end
+
+  def expedite_price
+    ( setup_price + expedite_amount ) if can_expedite?
+  end
+
   def price_for(deadline, samples)
      base_price_for(deadline, samples) + setup_price
   end
@@ -64,6 +72,36 @@ class ToolPrice < ActiveRecord::Base
 
   def samples_per_run
     1
+  end
+
+  def earliest_bookable_date
+    ( lead_time_days || 0 ).days.from_now.to_date
+  end
+
+  def earliest_expedite_date
+    ( expedite_time_days || 0 ).days.from_now.to_date if can_expedite?
+  end
+
+  def label
+    I18n.t("tool_prices.subtype.#{subtype}")
+  end
+
+  def as_json(options={})
+    super options.merge(
+      methods: [
+        :earliest_bookable_date,
+        :earliest_expedite_date,
+        :samples_per_run,
+        :minimum_future_lead_time,
+        :setup_price,
+        :base_price,
+        :expedite_price,
+        :requires_setup?,
+        :can_expedite?,
+        :expedite_amount,
+        :label
+      ]
+    )
   end
 
   private

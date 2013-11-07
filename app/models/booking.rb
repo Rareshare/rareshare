@@ -9,10 +9,11 @@ class Booking < ActiveRecord::Base
   belongs_to :renter, class_name: "User"
   belongs_to :last_updated_by, class_name: "User"
   belongs_to :tool
+  belongs_to :tool_price
   belongs_to :address
-  has_one :owner, through: :tool
-  has_many :booking_logs
-  has_many :notifications, as: :notifiable
+  has_one    :owner, through: :tool
+  has_many   :booking_logs
+  has_many   :notifications, as: :notifiable
 
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :ignores_address?
 
@@ -60,12 +61,13 @@ class Booking < ActiveRecord::Base
       end
 
       self.new do |b|
-        b.renter_id = renter.id
-        b.tool_id   = tool.id
-        b.deadline  = deadline
-        b.price     = tool.price_for(deadline, 1)
-        b.currency  = tool.currency
-        b.samples   = 1
+        b.renter_id  = renter.id
+        b.tool_id    = tool.id
+        b.deadline   = deadline
+        b.tool_price = tool.tool_price_for(params[:subtype])
+        b.currency   = tool.currency
+        b.expedited  = false
+        b.samples    = 1
         b.use_user_address = renter.address.present?
         b.build_address
       end
@@ -197,10 +199,6 @@ class Booking < ActiveRecord::Base
     tool.display_name + " - " + deadline.to_date.to_s(:long)
   end
 
-  def expedited?
-    tool.must_expedite? deadline.to_date
-  end
-
   def public_address
     if pending?
       tool.partial_address
@@ -304,7 +302,7 @@ class Booking < ActiveRecord::Base
 
   def as_json(options={})
     options = options.merge(
-      methods: [:use_user_address, :outgoing_shipment_rates, :currency_symbol, :tool]
+      methods: [:use_user_address, :outgoing_shipment_rates, :currency_symbol, :tool, :tool_price]
     )
 
     super options

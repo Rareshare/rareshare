@@ -58,7 +58,7 @@ window.Tool = (input) ->
 
 window.ToolPriceCollection = (input) ->
   @toolPrices  = ko.observableArray()
-  @appendPrice = ()      => @toolPrices.push new ToolPrice({}, this) if @canAddPrice()
+  @appendPrice = ()      => if @canAddPrice() then @toolPrices.push(new ToolPrice({}, this))
   @removePrice = (price) => () => @toolPrices.destroy(price)
   @priceTypes  = ko.observableArray(input.tool_price_categories)
 
@@ -75,21 +75,23 @@ window.ToolPriceCollection = (input) ->
   this
 
 window.ToolPrice = (input, collection) ->
-  @subtype            = ko.observable(input.subtype)
-  @base_amount        = ko.observable(input.base_amount)
-  @setup_amount       = ko.observable(input.setup_amount)
-  @lead_time_days     = ko.observable(input.lead_time_days)
-  @expedite_time_days = ko.observable(input.expedite_time_days)
-  @id                 = ko.observable(input.id)
-
+  this[k] = ko.observable(v) for k, v of input
 
   @selectablePriceTypes = ko.computed () =>
+    if !collection? then return []
+
     for price in collection.priceTypes()
-      continue if collection.selectedPrices().indexOf(price[1]) >= 0 and price[1] isnt @subtype()
+      [ label, id ] = price
+      if collection.selectedPrices().indexOf(id) >= 0 and id isnt @subtype() then continue
       { label: price[0], id: price[1] }
 
   @isValid = ko.computed () =>
     @subtype()? and @base_amount()? and @lead_time_days()?
+
+  @should_expedite = ko.observable(false)
+
+  @visible_price = ko.computed () =>
+    if @should_expedite() then @expedite_price() else @base_price()
 
   this
 
@@ -115,7 +117,7 @@ $ ->
           evt.preventDefault()
           typeahead.query = ""
           items = typeahead.source("*", $.proxy(typeahead.process, typeahead))
-          typeahead.process(items) if items?
+          if items? then typeahead.process(items)
           # Without this, menu disappears on mouse move.
           typeahead.$menu.off("mouseleave", "li")
 
