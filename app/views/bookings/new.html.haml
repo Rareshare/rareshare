@@ -14,6 +14,7 @@
 
 = simple_form_for @booking, html: { "data-bind" => "with: booking" } do |f|
   = f.input :tool_id, as: :hidden
+  = f.input :tool_price_id, as: :hidden, input_html: { "data-bind" => "value: tool_price_id" }
   %div.form-inputs
     %fieldset
       %div.row.step{ "data-bind" => "css: { complete: stepOneComplete }"}

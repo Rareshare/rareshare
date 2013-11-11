@@ -68,6 +68,13 @@ class ToolPrice < ActiveRecord::Base
      base_price_for(deadline, samples) + setup_price
   end
 
+  def revised_price_for(samples, opts={})
+    price   = opts[:expedited] ? expedite_amount : base_amount
+    samples = samples.to_i
+
+    setup_price + ( price * samples )
+  end
+
   def minimum_future_lead_time
     [ lead_time_days, expedite_time_days ].compact.min
   end

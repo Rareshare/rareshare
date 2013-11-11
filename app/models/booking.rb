@@ -77,8 +77,9 @@ class Booking < ActiveRecord::Base
       self.new(params).tap do |b|
         b.renter     = renter
         b.updated_by = renter
-        b.price      = b.tool.price_for b.deadline, b.samples
+        b.price      = b.tool_price.revised_price_for(b.samples, expedited: b.expedited)
         b.currency   = b.tool.currency
+        b.deadline   = b.expedited ? b.tool_price.earliest_expedite_date : b.tool_price.earliest_bookable_date
 
         if b.ignores_address?
           b.address = nil

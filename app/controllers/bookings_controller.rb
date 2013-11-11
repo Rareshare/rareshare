@@ -117,6 +117,7 @@ class BookingsController < InternalController
   def booking_params
     params.require(:booking).permit(
       :tool_id,
+      :tool_price_id,
       :deadline,
       :tos_accepted,
       :sample_description,
