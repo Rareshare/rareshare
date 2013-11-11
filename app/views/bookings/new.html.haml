@@ -24,11 +24,17 @@
 
         %div.span8
           %div.row
-            %div.span4
-              / = f.input :tool_price, as: :select, input_html: { "data-bind" => "value: booking.tool_price, options: booking.tool.toolPriceCollection.toolPrices, optionsText: 'label'" }
+            %div.span5
+              = f.input :tool_price, as: :select, input_html: { "data-bind" => "options: tool.toolPriceCollection.toolPrices, optionsText: 'label', value: tool_price" }
 
             %div.span3
               = f.input :samples, input_html: { "data-bind" => "value: samples", min: 1 }
+
+          %div.row{data: { bind: "with: tool_price" }}
+            %div.span8{data: { bind: "visible: can_expedite"}}
+              %div.control-group.boolean.optional.booking_expedited
+                %div.controls
+                  = f.input :expedited, label: false, inline_label: true, input_html: { "data-bind" => "checked: $parent.expedited" }
 
           %div.row
             %div.span8

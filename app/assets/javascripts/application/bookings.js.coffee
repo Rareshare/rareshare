@@ -23,15 +23,19 @@ window.Booking = (input) ->
     ko.computed () =>
       accounting.formatMoney(valueAccessor(), @currency_symbol()) if valueAccessor()?
 
+
   if input.tool_price? then @tool_price(new window.ToolPrice(input.tool_price))
 
-  console.log("tool price", typeof @tool_price(), @tool_price());
+  # Using a null object might be preferable to this.
+  @tool_price_visible  = ko.computed () =>
+    @tool_price()? and
+      if @expedited() then @tool_price().expedite_price() else @tool_price().base_price()
 
-  @tool_price_visible = ko.computed () => @tool_price()? and @tool_price().visible_price()
-  @tool_price_subtype = ko.computed () => @tool_price()? and @tool_price().subtype()
-  @tool_price_days    = ko.computed () => @tool_price()? and @tool_price().lead_time_days()
-  @tool_price_id      = ko.computed () => @tool_price()? and @tool_price().id()
-  @tool_price_setup   = ko.computed () => @tool_price()? and @tool_price().setup_price()
+  @tool_price_subtype  = ko.computed () => @tool_price()? and @tool_price().subtype()
+  @tool_price_days     = ko.computed () => @tool_price()? and @tool_price().lead_time_days()
+  @tool_price_id       = ko.computed () => @tool_price()? and @tool_price().id()
+  @tool_price_setup    = ko.computed () => @tool_price()? and @tool_price().setup_price()
+  @tool_price_expedite = ko.computed () => @tool_price()? and @tool_price().can_expedite()
 
   @tool = new window.Tool(input.tool)
 
@@ -62,3 +66,17 @@ $ ->
       picker.on 'set', (val) ->
         date = new Date(val.select)
         settings.value(date)
+
+  ko.bindingHandlers.textMoney =
+    update: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) ->
+      console.log "accessor", valueAccessor
+      [ observable, currency ] = if ko.isObservable(valueAccessor())
+        console.log "was an observable"
+        [ ko.utils.unwrapObservable(valueAccessor()), "$" ]
+      else
+        console.log "was not an observable"
+        [ ko.utils.unwrapObservable(valueAccessor().value), ko.utils.unwrapObservable(valueAccessor().currency) ]
+
+      console.log "observable", observable, "currency", currency
+
+      $(element).text accounting.formatMoney(observable, currency)

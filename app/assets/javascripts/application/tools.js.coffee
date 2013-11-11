@@ -58,6 +58,7 @@ window.Tool = (input) ->
 
 window.ToolPriceCollection = (input) ->
   @toolPrices  = ko.observableArray()
+
   @appendPrice = ()      => if @canAddPrice() then @toolPrices.push(new ToolPrice({}, this))
   @removePrice = (price) => () => @toolPrices.destroy(price)
   @priceTypes  = ko.observableArray(input.tool_price_categories)

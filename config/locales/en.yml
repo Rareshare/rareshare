@@ -119,6 +119,11 @@ en:
         can_email_status: "Subscribe to email updates whenever my booking status changes"
       booking:
         tos_accepted: 'I have read and agree to the %{terms_link} for this booking.'
+        expedited: |
+          Expedite this booking at a price of <strong data-bind="textMoney: { value: expedite_price, currency: $parent.currency_symbol }"></strong>
+          per sample and receive it in <strong data-bind="text: expedite_time_days"></strong>
+          days instead of <span data-bind="text: lead_time_days"></span>.
+
     hints:
       address:
         state: 'Please leave blank if outside US.'

@@ -21,10 +21,12 @@ class ToolPrice < ActiveRecord::Base
   def requires_setup?
     self.setup_amount.present? && self.setup_amount > ZERO
   end
+  alias_method :requires_setup, :requires_setup?
 
   def can_expedite?
-    self.expedite_time_days.present? && self.expedite_time_days.nonzero?
+    !!(self.expedite_time_days.present? && self.expedite_time_days.nonzero?)
   end
+  alias_method :can_expedite, :can_expedite?
 
   def expedite_amount
     self.base_amount + ( self.base_amount / 2 )
@@ -96,8 +98,8 @@ class ToolPrice < ActiveRecord::Base
         :setup_price,
         :base_price,
         :expedite_price,
-        :requires_setup?,
-        :can_expedite?,
+        :requires_setup,
+        :can_expedite,
         :expedite_amount,
         :label
       ]
