@@ -118,9 +118,6 @@
             %sup= @tool.sample_size_min
             to 10
             %sup= @tool.sample_size_max
-        %tr
-          %th Location
-          %td= @tool.partial_address
 
     %h3 Description
     - if @tool.description.blank?
@@ -134,9 +131,13 @@
 %div.row
   %div.span8.offset2
     %h3 Location
+
     %h4.address
-      %strong
-        = @tool.partial_address
+      %strong= @tool.facility.name
+      %small= @tool.partial_address
+
+    %p= @tool.facility.description
+
     %iframe{width: "100%", height: "350", frameborder: "0", scrolling: "no", marginheight: "0", marginwidth: "0", src: google_maps_address_for(@tool.partial_address)}
 
 

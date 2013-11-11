@@ -243,7 +243,8 @@ CREATE TABLE facilities (
     user_id integer,
     name character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    description text
 );
 
 
@@ -1490,3 +1491,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131013155412');
 INSERT INTO schema_migrations (version) VALUES ('20131027213304');
 
 INSERT INTO schema_migrations (version) VALUES ('20131107175214');
+
+INSERT INTO schema_migrations (version) VALUES ('20131111200254');
