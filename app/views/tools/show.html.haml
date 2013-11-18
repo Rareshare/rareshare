@@ -11,8 +11,12 @@
 - content_for :head do
   :javascript
     $(function() {
-      window.booking = new Booking(#{@booking.to_json});
-      ko.applyBindings({ booking: booking }, $("form.new_booking")[0]);
+      var form = $("form.new_booking")[0];
+
+      if (form) {
+        window.booking = new Booking(#{@booking.to_json});
+        ko.applyBindings({ booking: booking }, form);
+      }
     });
 
 %div.row
