@@ -21,6 +21,8 @@ class FacilitiesController < InternalController
   def facility_params
     params.require(:facility).permit(
       :name,
+      :description,
+      :department,
       :address_attributes => address_attributes
     )
   end

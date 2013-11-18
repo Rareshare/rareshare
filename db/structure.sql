@@ -244,7 +244,8 @@ CREATE TABLE facilities (
     name character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    description text
+    description text,
+    department character varying(255)
 );
 
 
@@ -1493,3 +1494,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131027213304');
 INSERT INTO schema_migrations (version) VALUES ('20131107175214');
 
 INSERT INTO schema_migrations (version) VALUES ('20131111200254');
+
+INSERT INTO schema_migrations (version) VALUES ('20131118170218');
