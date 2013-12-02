@@ -21,8 +21,7 @@ en:
       processing: |
         Your booking for <strong>%{tool_name}</strong> is currently being processed.
       asked: |
-        You've been asked a question about <strong>%{tool_name}</strong>. The question was:
-        <br>
+        You've been asked a question about <strong>%{tool_name}</strong>:
         <blockquote>%{question}</blockquote>
       responded: |
         You've received a response to your question about <strong>%{tool_name}</strong>. The response was:

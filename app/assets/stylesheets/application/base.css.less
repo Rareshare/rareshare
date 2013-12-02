@@ -329,9 +329,25 @@ form {
         padding-top: 12px;
         padding-bottom: 12px;
         font-size: 14px;
+        position: relative;
 
         &.active {
           background-color: @lightMossGreen;
+        }
+
+        > i {
+          position: absolute;
+          top: 18px;
+          left: 10px;
+          color: #aaa;
+        }
+
+        > div {
+          margin-left: 15px;
+        }
+
+        blockquote {
+          margin-bottom: 0;
         }
       }
     }

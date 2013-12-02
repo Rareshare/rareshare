@@ -23,6 +23,10 @@ class Notification < ActiveRecord::Base
 
   def unseen?; !seen?; end
 
+  def body
+    I18n.t(self.properties['key'], self.properties.with_indifferent_access).html_safe
+  end
+
   protected
 
   def send_email
