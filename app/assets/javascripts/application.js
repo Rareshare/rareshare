@@ -21,5 +21,6 @@
 //= require vendor/picker
 //= require vendor/picker.date
 //= require vendor/select2
+//= require vendor/knockout
 //= require_tree ./vendor/.
 //= require_tree ./application/.

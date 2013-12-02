@@ -144,11 +144,11 @@ class Tool < ActiveRecord::Base
   end
 
   def earliest_bookable_date
-    lowest_price.earliest_bookable_date
+    lowest_price.try(:earliest_bookable_date)
   end
 
   def tool_prices_for_edit
-    self.tool_prices.build if self.tool_prices.empty?; self.tool_prices
+    self.tool_prices.build; self.tool_prices
   end
 
   def as_json(options={})

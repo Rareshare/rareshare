@@ -40,7 +40,6 @@ window.Tool = (input) ->
           @images.push(file_id: file.id, thumbnail: file.thumbnail, id: null)
 
   @removeFile = (image, evt) =>
-    console.log "target", evt.currentTarget, $(evt.currentTarget).closest("li")
     @images.destroy image
     root = $(evt.currentTarget).closest("li")
     root.hide()
@@ -59,9 +58,13 @@ window.Tool = (input) ->
 window.ToolPriceCollection = (input) ->
   @toolPrices  = ko.observableArray()
 
-  @appendPrice = ()      => if @canAddPrice() then @toolPrices.push(new ToolPrice({}, this))
+  emptyToolPrice = input.tool_prices[input.tool_prices.length - 1]
+
+  @appendPrice = ()      => if @canAddPrice() then @toolPrices.push(new ToolPrice(emptyToolPrice, this))
   @removePrice = (price) => () => @toolPrices.destroy(price)
   @priceTypes  = ko.observableArray(input.tool_price_categories)
+
+  @priceTypes.unshift(["", null])
 
   @canAddPrice = ko.computed () =>
     validOrDestroyed = (acc, obj) -> acc and (obj._destroy || obj.isValid())
@@ -87,7 +90,7 @@ window.ToolPrice = (input, collection) ->
       { label: price[0], id: price[1] }
 
   @isValid = ko.computed () =>
-    @subtype()? and @base_amount()? and @lead_time_days()?
+    @subtype()? and @subtype() != "" and @base_amount()? and @lead_time_days()?
 
   @should_expedite = ko.observable(false)
 
