@@ -4,7 +4,7 @@ class NotificationMailer < ActionMailer::Base
   def email(notification_id)
     notification = Notification.find(notification_id)
 
-    @body = t("bookings.notify.#{notification.properties["state"]}", tool_name: notification.notifiable.tool.display_name).html_safe
+    @body = t(notification.properties['key'], notification.properties).html_safe
     @user = notification.user
     @url  = polymorphic_url(notification.notifiable)
 

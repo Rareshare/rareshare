@@ -34,6 +34,10 @@ Rareshare::Application.routes.draw do
       post :finalize, to: "bookings#pay"
       get  :cancel
     end
+
+    resources :questions do
+      post :reply, to: "questions#reply"
+    end
   end
 
   get "/users/skills" => "users#skills"

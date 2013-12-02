@@ -1,0 +1,18 @@
+class Question < ActiveRecord::Base
+  validates :body, :user_id, :topic, presence: true
+
+  belongs_to :user
+  belongs_to :questionable, polymorphic: true
+  has_many :question_responses
+
+  module Topics
+    TRANSIT = "transit"
+    SAFETY  = "safety"
+    PRICING = "pricing"
+    IP      = "ip"
+    OTHER   = "other"
+
+    ALL = [ TRANSIT, SAFETY, PRICING, IP, OTHER ]
+    COLLECTION = ALL.map {|k| [ I18n.t("questions.topic.#{k}"), k ]}
+  end
+end

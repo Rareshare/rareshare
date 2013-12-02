@@ -3,6 +3,7 @@ class Notification < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :user
   default_scope { order("created_at DESC") }
+  after_create :send_email
 
   def self.unseen
     where(seen_at: nil)
@@ -21,4 +22,10 @@ class Notification < ActiveRecord::Base
   end
 
   def unseen?; !seen?; end
+
+  protected
+
+  def send_email
+    NotificationMailer.delay.email(self.id)
+  end
 end

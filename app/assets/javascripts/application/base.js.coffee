@@ -30,7 +30,7 @@ jQuery ->
     $("input[data-provide='typeahead']").each ->
       $(this).data('typeahead').hide()
 
-  $("form textarea:not([readonly])").each () ->
+  $("form textarea").not("[readonly]").not(".plain").each () ->
     $(this).wysihtml5(link: false, lists: false, image: false)
 
   $("[data-toggle='confirm']").click (evt) ->

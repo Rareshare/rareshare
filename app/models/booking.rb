@@ -14,6 +14,7 @@ class Booking < ActiveRecord::Base
   has_one    :owner, through: :tool
   has_many   :booking_logs
   has_many   :notifications, as: :notifiable
+  has_many   :questions, as: :questionable
 
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :ignores_address?
 
@@ -174,24 +175,6 @@ class Booking < ActiveRecord::Base
     scope state.name, lambda { where(state: state.name) }
   end
 
-  def message_chain
-    chain = user_messages.first.try(:message_chain) || []
-
-    if chain.present?
-      chain.order("created_at ASC")
-    else
-      []
-    end
-  end
-
-  def append_message(attrs)
-    if message_chain.empty?
-      user_messages.create attrs
-    else
-      user_messages.first.append attrs
-    end
-  end
-
   def title
     self.state.titleize + " " + self.class.model_name.name.titleize
   end
@@ -341,6 +324,21 @@ class Booking < ActiveRecord::Base
     false
   end
 
+  def ask_question(params={})
+    self.questions.create(params).tap do |question|
+      if question.valid?
+        self.notifications.create(
+          user: self.opposite_party_to(question.user),
+          properties: {
+            key: "bookings.notify.asked",
+            tool_name: self.tool.display_name,
+            question: question.body.truncate(100)
+          }
+        )
+      end
+    end
+  end
+
   protected
 
   def renter_cannot_be_owner
@@ -362,11 +360,12 @@ class Booking < ActiveRecord::Base
 
     n = notifications.create(
       user: receiver,
-      properties: { state: state }
+      properties: {
+        key: "bookings.notify.#{state}", # This should maybe be a column.
+        state: state,
+        tool_name: tool.display_name
+      }
     )
-
-    # if
-    NotificationMailer.delay.email(n.id)
   end
 
 

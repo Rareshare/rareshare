@@ -20,6 +20,14 @@ en:
         Your reservation for %{tool_name} has expired because the deadline has passed.
       processing: |
         Your booking for <strong>%{tool_name}</strong> is currently being processed.
+      asked: |
+        You've been asked a question about <strong>%{tool_name}</strong>. The question was:
+        <br>
+        <blockquote>%{question}</blockquote>
+      responded: |
+        You've received a response to your question about <strong>%{tool_name}</strong>. The response was:
+        <br>
+        <blockquote>%{response}</blockquote>
     sample_transit:
       in_person: "I'll deliver the sample and receive the results in person."
       rareshare_send: "I'd like RareShare to arrange shipping for the sample."
@@ -83,6 +91,14 @@ en:
       SmallExpressBox: 'Small box (roughly 13" x 11" x 2" or 33cm x 28cm x 5cm)'
       MediumExpressBox: 'Medium box (roughly 15" x 11" x 3" or 38cm x 28cm x 7cm)'
       LargeExpressBox: 'Large box (roughly 18" x 13" x 3" or 45cm x 33cm x 7cm)'
+
+  questions:
+    topic:
+      transit: "Transit"
+      safety: "Safety"
+      pricing: "Pricing"
+      ip: "Intellectual Property"
+      other: "Other"
 
   pricing:
     help: |

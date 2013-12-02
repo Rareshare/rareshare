@@ -506,6 +506,74 @@ ALTER SEQUENCE pages_id_seq OWNED BY pages.id;
 
 
 --
+-- Name: question_responses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE question_responses (
+    id integer NOT NULL,
+    question_id integer,
+    user_id integer,
+    body text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: question_responses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE question_responses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: question_responses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE question_responses_id_seq OWNED BY question_responses.id;
+
+
+--
+-- Name: questions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE questions (
+    id integer NOT NULL,
+    user_id integer,
+    questionable_id integer,
+    questionable_type integer,
+    topic character varying(255),
+    body text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE questions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE questions_id_seq OWNED BY questions.id;
+
+
+--
 -- Name: requested_searches; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -992,6 +1060,20 @@ ALTER TABLE ONLY pages ALTER COLUMN id SET DEFAULT nextval('pages_id_seq'::regcl
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY question_responses ALTER COLUMN id SET DEFAULT nextval('question_responses_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY questions ALTER COLUMN id SET DEFAULT nextval('questions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY requested_searches ALTER COLUMN id SET DEFAULT nextval('requested_searches_id_seq'::regclass);
 
 
@@ -1160,6 +1242,22 @@ ALTER TABLE ONLY notifications
 
 ALTER TABLE ONLY pages
     ADD CONSTRAINT pages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: question_responses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY question_responses
+    ADD CONSTRAINT question_responses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY questions
+    ADD CONSTRAINT questions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1496,3 +1594,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131107175214');
 INSERT INTO schema_migrations (version) VALUES ('20131111200254');
 
 INSERT INTO schema_migrations (version) VALUES ('20131118170218');
+
+INSERT INTO schema_migrations (version) VALUES ('20131125172041');
