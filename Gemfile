@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.0.0p353'
+ruby '2.0.0'
 
 # Basic infrastructure
 gem 'rails', '~> 4.0.0'
@@ -9,7 +9,6 @@ gem 'uglifier' # JS asset compression
 gem 'unicorn' # High-performance Ruby web server
 gem 'seed-fu' # Seed test data
 gem 'redis-rails', github: 'jodosha/redis-store' # Store sessions in Redis
-# gem 'activerecord-postgres-hstore' # HStore support for ARec
 gem 'rails-observers' # Add in support for ActiveRecord observers.
 
 # Background jobs
@@ -29,7 +28,7 @@ gem 'filepicker-rails'
 gem 'mime-types'
 
 # Admin
-gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
+gem 'activeadmin', github: 'gregbell/active_admin'
 # gem 'active_admin_editor' # No Rails 4
 # gem 'meta_search'
 
