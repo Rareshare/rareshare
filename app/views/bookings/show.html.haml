@@ -71,14 +71,9 @@
 
 %div#questions.row{data: { bind: "with: questions" }}
   %div.span8.offset2
-    %h3 Questions
-
-    %ul.unstyled{data: { bind: "foreach: collection" }}
-      %li
-        %div{data: { bind: "html: body" }}
+    %h3 Ask a question
 
     = simple_form_for [ @booking, @booking.questions.build ], html: { style: "padding-top: 20px; border-top: 1px solid #eee", data: { bind: "with: newQuestion, submit: newQuestion.save" }} do |f|
-      %p Ask a question about:
       %div.row
         %div.span2
           = f.input :topic, as: :select, label: false, collection: Question::Topics::COLLECTION, include_blank: "Topic", input_html: { data: { bind: "value: topic" } }
@@ -86,4 +81,14 @@
           = f.input :body, label: false, input_html: { placeholder: "Question", class: "plain", style: "height: 80px", data: { bind: "value: body, valueUpdate: 'afterkeydown'" } }
         %div.span1
           = f.button :submit, value: "Ask", data: { bind: "enable: valid" }
+
+    %ul.unstyled{data: { bind: "foreach: collection" }}
+      %li.row
+        %div.span1.header-avatar.mini
+          = ko_avatar_of "user"
+        %div.span7
+          %p{data: { bind: "html: body" }}
+          %small.muted
+            Asked at
+            %span{style: "font-size: 12px;", data: { bind: "html: updated_at"}}
 

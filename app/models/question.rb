@@ -15,4 +15,10 @@ class Question < ActiveRecord::Base
     ALL = [ TRANSIT, SAFETY, PRICING, IP, OTHER ]
     COLLECTION = ALL.map {|k| [ I18n.t("questions.topic.#{k}"), k ]}
   end
+
+  def as_json(opts={})
+    super(opts).merge(
+      user: self.user.as_json
+    )
+  end
 end

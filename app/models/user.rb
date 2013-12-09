@@ -106,4 +106,8 @@ class User < ActiveRecord::Base
     user.save
     user
   end
+
+  def as_json(opts={})
+    super opts.merge(methods: %w{display_name})
+  end
 end

@@ -73,7 +73,23 @@ module ApplicationHelper
         content_tag :i, nil, class: "avatar icon-user"
       end
 
-      image + content_tag(:p, user.display_name, style: "text-align: center", class: "small")
+      image + content_tag(:p, user.display_name, class: "small")
+    end
+  end
+
+  def ko_avatar_of(user_key)
+    content_tag :a, "data-bind" => "attr: { href: '/users/' + #{user_key}.id }" do
+      image = content_tag :div, "data-bind" => "if: #{user_key}.avatar.thumb.url" do
+        content_tag :img, nil, "data-bind" => "attr: { src: #{user_key}.avatar.thumb.url"
+      end
+
+      icon = content_tag :div, "data-bind" => "ifnot: #{user_key}.avatar.thumb.url" do
+        content_tag :i, nil, class: "avatar icon-user"
+      end
+
+      user_name = content_tag :p, nil, class: "small", "data-bind" => "text: #{user_key}.display_name"
+
+      image + icon + user_name
     end
   end
 

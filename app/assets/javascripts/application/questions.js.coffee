@@ -2,6 +2,7 @@ window.Questions = (input) ->
   input ||= {}
 
   @collection = collection = ko.observableArray(input.questions || [])
+  console.log input.questions
 
   Question = () ->
     @topic = ko.observable()
