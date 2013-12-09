@@ -23,7 +23,9 @@ class Question < ActiveRecord::Base
   def as_json(opts={})
     super(opts).merge(
       user: self.user.as_json,
-      body: self.class.markdown.render(self.body)
+      body: self.class.markdown.render(self.body),
+      created_at: self.created_at.to_s(:short),
+      updated_at: self.updated_at.to_s(:short)
     )
   end
 end

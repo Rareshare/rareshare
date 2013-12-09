@@ -75,10 +75,10 @@
 
     = simple_form_for [ @booking, @booking.questions.build ], html: { style: "padding-top: 20px; border-top: 1px solid #eee", data: { bind: "with: newQuestion, submit: newQuestion.save" }} do |f|
       %div.row
-        %div.span2
-          = f.input :topic, as: :select, label: false, collection: Question::Topics::COLLECTION, include_blank: "Topic", input_html: { data: { bind: "value: topic" } }
         %div.span5
           = f.input :body, label: false, input_html: { placeholder: "Question", class: "plain", style: "height: 80px", data: { bind: "value: body, valueUpdate: 'afterkeydown'" } }
+        %div.span2
+          = f.input :topic, as: :select, label: false, collection: Question::Topics::COLLECTION, include_blank: "Topic", input_html: { data: { bind: "value: topic" } }
         %div.span1
           = f.button :submit, value: "Ask", data: { bind: "enable: valid" }
 
