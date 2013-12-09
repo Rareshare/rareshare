@@ -17,7 +17,8 @@ class Tool < ActiveRecord::Base
   has_many :tool_prices, dependent: :destroy, inverse_of: :tool
 
   accepts_nested_attributes_for :file_attachments, allow_destroy: true
-  accepts_nested_attributes_for :tool_prices,      allow_destroy: true
+  accepts_nested_attributes_for :tool_prices,      allow_destroy: true, reject_if: :tool_price_rejected?
+  accepts_nested_attributes_for :facility,         allow_destroy: true, reject_if: :facility_rejected?
 
   before_save :update_search_document
   after_validation :geocode
@@ -30,8 +31,6 @@ class Tool < ActiveRecord::Base
             :condition,
             :access_type,
             presence: true
-
-  accepts_nested_attributes_for :facility, allow_destroy: true, reject_if: :facility_rejected?
 
   DEFAULT_SAMPLE_SIZE = [ -4, 4 ]
 
@@ -183,6 +182,10 @@ class Tool < ActiveRecord::Base
 
   def facility_rejected?(attrs)
     attrs[:address_attributes][:address_line_1].blank?
+  end
+
+  def tool_price_rejected?(attrs)
+    attrs[:subtype].blank? || attrs[:base_amount].blank? || attrs[:lead_time_days].blank?
   end
 
 end
