@@ -83,12 +83,14 @@
           = f.button :submit, value: "Ask", data: { bind: "enable: valid" }
 
     %ul.unstyled{data: { bind: "foreach: collection" }}
-      %li.row
+      %li.row{style: "margin-bottom: 8px;"}
         %div.span1.header-avatar.mini
           = ko_avatar_of "user"
         %div.span7
           %p{data: { bind: "html: body" }}
-          %small.muted
-            Asked at
-            %span{style: "font-size: 12px;", data: { bind: "html: updated_at"}}
+          %small.muted{style: "font-size: 12px;"}
+            Asked by
+            %span{data: { bind: "html: user.display_name" }}
+            at
+            %span{data: { bind: "html: updated_at" }}
 

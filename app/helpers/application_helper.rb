@@ -89,7 +89,7 @@ module ApplicationHelper
 
       user_name = content_tag :p, nil, class: "small", "data-bind" => "text: #{user_key}.display_name"
 
-      image + icon + user_name
+      image + icon # + user_name
     end
   end
 
