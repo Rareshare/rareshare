@@ -14,7 +14,7 @@ class Tool < ActiveRecord::Base
 
   has_many :user_messages, as: :topic
   has_many :file_attachments, as: :attachable
-  has_many :tool_prices, dependent: :destroy
+  has_many :tool_prices, dependent: :destroy, inverse_of: :tool
 
   accepts_nested_attributes_for :file_attachments, allow_destroy: true
   accepts_nested_attributes_for :tool_prices,      allow_destroy: true

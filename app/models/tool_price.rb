@@ -12,7 +12,10 @@ class ToolPrice < ActiveRecord::Base
     COLLECTION = ALL.map {|k| [ I18n.t("tool_prices.subtype.#{k}"), k ]}
   end
 
-  validates :tool_id, :subtype, :base_amount, presence: true
+  belongs_to :tool, inverse_of: :tool_prices
+  validates_presence_of :tool
+
+  validates :subtype, :base_amount, presence: true
   validates :tool_id, uniqueness: { scope: [:subtype] }
   validates :subtype, inclusion: { in: ToolPrice::Subtype::ALL }
 
