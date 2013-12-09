@@ -8,6 +8,11 @@
 = simple_form_for @tool, html: { data: { bind: "with: tool" } } do |f|
   = f.error_notification
 
+  - f.object.errors.full_messages.each do |e|
+    %ul
+      %li.error= e
+
+
   %div.form-inputs
     %fieldset
       %div.row

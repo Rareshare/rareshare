@@ -27,23 +27,9 @@ class Tool < ActiveRecord::Base
             :manufacturer_name,
             :tool_category_name,
             :owner,
-            :base_lead_time,
-            :base_price,
             :condition,
             :access_type,
             presence: true
-
-  # validates :expedited_price,
-  #           :expedited_lead_time,
-  #           presence: true,
-  #           if: :can_expedite?
-
-  # validates :base_lead_time,
-  #           :expedited_lead_time,
-  #           :resolution,
-  #           numericality: { greater_than: 0, allow_nil: true }
-
-  # validates :bulk_runs, numericality: { greater_than: 1, allow_nil: true }
 
   accepts_nested_attributes_for :facility, allow_destroy: true, reject_if: :facility_rejected?
 

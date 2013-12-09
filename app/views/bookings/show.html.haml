@@ -109,4 +109,4 @@
               = simple_form_for QuestionResponse.new, url: "", html: { style: "margin-bottom: 0", data: { bind: "with: newResponse, submit: newResponse.save, attr: { action: question_reply_path, id: 'new_question_response_' + id }" }} do |f|
                 %div.row
                   %div.span6= f.input :body, label: false, as: :string, input_html: { placeholder: "Reply", data: { bind: "value: body, valueUpdate: 'afterkeydown'" }}
-                  %div.span1= f.button :submit, value: "Reply"
+                  %div.span1= f.button :submit, value: "Reply", data: { bind: "enable: valid" }
