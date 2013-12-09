@@ -83,14 +83,30 @@
           = f.button :submit, value: "Ask", data: { bind: "enable: valid" }
 
     %ul.unstyled{data: { bind: "foreach: collection" }}
-      %li.row{style: "margin-bottom: 8px;"}
+      %li.row{style: "padding-top: 20px; border-top: 1px solid #eee"}
         %div.span1.header-avatar.mini
           = ko_avatar_of "user"
         %div.span7
-          %p{data: { bind: "html: body" }}
-          %small.muted{style: "font-size: 12px;"}
-            Asked by
-            %span{data: { bind: "html: user.display_name" }}
-            at
-            %span{data: { bind: "html: updated_at" }}
-
+          %ul.unstyled
+            %li{style: "margin-bottom: 5px"}
+              %small{style: "color: #FFA733", data: { bind: "html: topic_translated" }}
+              %p{style: "margin-bottom: 2px;", data: { bind: "html: body" }}
+              %small.muted{style: "font-size: 12px;"}
+                Asked by
+                %span{data: { bind: "html: user.display_name" }}
+                at
+                %span{data: { bind: "html: updated_at" }}
+            / ko foreach: question_responses
+            %li{style: "margin-bottom: 5px"}
+              %p{style: "margin-bottom: 2px;", data: { bind: "html: body" }}
+              %small.muted{style: "font-size: 12px;"}
+                Response by
+                %span{data: { bind: "html: user.display_name" }}
+                at
+                %span{data: { bind: "html: updated_at" }}
+            / /ko
+            %li
+              = simple_form_for QuestionResponse.new, url: "", html: { style: "margin-bottom: 0", data: { bind: "with: newResponse, submit: newResponse.save, attr: { action: question_reply_path, id: 'new_question_response_' + id }" }} do |f|
+                %div.row
+                  %div.span6= f.input :body, label: false, as: :string, input_html: { placeholder: "Reply", data: { bind: "value: body, valueUpdate: 'afterkeydown'" }}
+                  %div.span1= f.button :submit, value: "Reply"

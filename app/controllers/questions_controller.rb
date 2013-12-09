@@ -15,9 +15,9 @@ class QuestionsController < InternalController
   end
 
   def reply
-    question = booking.questions.find(params[:id])
+    question = booking.questions.find(params[:question_id])
 
-    response = question.question_responses.create(params[:question_response])
+    response = question.question_responses.create(reply_params)
 
     if response.valid?
       render json: response, status: :created
@@ -32,5 +32,9 @@ class QuestionsController < InternalController
 
   def question_params
     params.require(:question).permit(:topic, :body).merge(user_id: current_user.id)
+  end
+
+  def reply_params
+    params.require(:question_response).permit(:body).merge(user_id: current_user.id)
   end
 end
