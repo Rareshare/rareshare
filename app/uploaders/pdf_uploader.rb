@@ -8,6 +8,6 @@ class PdfUploader < CarrierWave::Uploader::Base
 
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_white_list
-    %w(pdf doc)
+    %w(pdf)
   end
 end
