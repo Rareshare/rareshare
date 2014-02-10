@@ -144,9 +144,11 @@
             %div.terms_and_conditions= terms_and_conditions
           - else
             %p The owner of this tool has supplied their own terms for all bookings.
-            %a.btn.btn-success{href: @booking.tool.terms_document.pdf.url, download: true, style: "margin-bottom: 10px"}
-              %i.icon-download
-              = @booking.tool.terms_document.title
+            %p
+              %a{href: @booking.tool.terms_document.pdf.url, download: true}
+                %i.icon-download
+                = @booking.tool.terms_document.title
+            %embed{src: @booking.tool.terms_document.pdf.url, width: 600, height: 300, style: "border: 1px solid #ddd; margin-bottom: 10px"}
 
           = f.input :tos_accepted, label: false, input_html: { class: "primary", "data-bind" => "checked: tos_accepted" }, inline_label: t('simple_form.labels.booking.tos_accepted', terms_link: page_link_to('Terms & Conditions', target: "_blank")).html_safe
 
