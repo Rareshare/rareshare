@@ -140,7 +140,13 @@
           %h1 3
           %small Review the pricing and read the terms and conditions.
         %div.span8
-          %div.terms_and_conditions= terms_and_conditions
+          - if @booking.tool.terms_document.blank?
+            %div.terms_and_conditions= terms_and_conditions
+          - else
+            %p The owner of this tool has supplied their own terms for all bookings.
+            %a.btn.btn-success{href: @booking.tool.terms_document.pdf.url, download: true, style: "margin-bottom: 10px"}
+              %i.icon-download
+              = @booking.tool.terms_document.title
 
           = f.input :tos_accepted, label: false, input_html: { class: "primary", "data-bind" => "checked: tos_accepted" }, inline_label: t('simple_form.labels.booking.tos_accepted', terms_link: page_link_to('Terms & Conditions', target: "_blank")).html_safe
 

@@ -185,7 +185,6 @@ class Tool < ActiveRecord::Base
     self.sample_size_max ||= max
     self.condition       ||= Tool::Condition::DEFAULT
     self.price_type      ||= Tool::PriceType::DEFAULT
-    self.terms_document_id = 0
   end
 
   def facility_rejected?(attrs)

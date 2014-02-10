@@ -97,6 +97,7 @@ class ToolsController < InternalController
       :can_expedite,
       :expedited_price,
       :expedited_lead_time,
+      :price_type,
       :bulk_runs,
       :tool_category_name,
       :manufacturer_name,
