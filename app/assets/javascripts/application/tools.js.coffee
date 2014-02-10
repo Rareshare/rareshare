@@ -11,6 +11,7 @@ window.Tool = (input) ->
   this[k] = ko.observable(v) for k, v of input
 
   @images = ko.observableArray(input.images)
+  @possible_terms_documents = ko.observableArray(input.possible_terms_documents)
   @sampleSize = new SampleSize(input.sample_size)
 
   @showFacility = ko.computed () =>
@@ -50,6 +51,12 @@ window.Tool = (input) ->
     unless ( runs? and samples_per_run? ) then return null
 
     runs * samples_per_run
+
+  @updateTermsDocuments = (doc) =>
+    @possible_terms_documents.push doc
+    @terms_document_id doc.id
+
+
 
   @toolPriceCollection = new ToolPriceCollection(input)
 
@@ -134,4 +141,15 @@ $ ->
   ko.bindingHandlers.remote =
     init: (elt, val, all, vm) ->
       $(elt).on "submit", () ->
+
+  ko.bindingHandlers.upload =
+    init: (elt, val, all, vm) ->
+      $(elt).fileupload
+        dataType: "json"
+        submit: (e, data) ->
+          data.formData = {}
+
+        done: (e, data) ->
+          val()(data.result)
+
 

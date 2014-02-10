@@ -12,7 +12,6 @@
     %ul
       %li.error= e
 
-
   %div.form-inputs
     %fieldset
       %div.row
@@ -159,11 +158,11 @@
     %fieldset
       %div.row
         %div.span2
-          %p.help-block We keep this information hidden from users until they've confirmed a reservation with you.
+          %p.help-block
+            We keep this information hidden from users until they've confirmed a reservation with you.
         %div.span8
           %legend
-            %a.has-tooltip{href: "#", title: t('data.private')}
-              %i.icon-map-marker.icon-large
+            %i.icon-map-marker.icon-large
             Physical location
           %div.row
             %div.span8
@@ -182,6 +181,19 @@
               = f.input :access_type, collection: Tool::AccessType::COLLECTION, label: "Physical access to tool", input_html: { data: { bind: "value: access_type" } }
               %div{data: { bind: "visible: requiresAccessNotes" }}
                 = f.input :access_type_notes, label: "What kind of access is allowed?"
+
+      %fieldset
+        %div.row
+          %div.span2
+            %p.help-block Optionally, you may choose to upload your own terms of service for the tools you own.
+          %div.span8
+            %legend Terms of Service
+
+            %div.row
+              %div.span8
+                = f.input :terms_document_id, as: :select, collection: [], input_html: { "data-bind" => "value: terms_document_id, options: possible_terms_documents, optionsValue: 'id', optionsText: 'title', optionsCaption: 'Use RareShare terms (default)'" }
+                %input#terms-upload{type: "file", name: "terms_document[pdf]", data: { bind: "upload: updateTermsDocuments", url: terms_documents_path }}
+
 
       = f.simple_fields_for :file_attachments_attributes, index: nil do |i|
         %fieldset

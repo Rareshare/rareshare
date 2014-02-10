@@ -16,7 +16,7 @@
 //= require jquery.ui.slider
 //= require twitter/bootstrap
 //= require twitter/bootstrap_ujs
-//= require jquery-fileupload
+//= require jquery-fileupload/basic
 //= require bootstrap-wysihtml5
 //= require vendor/picker
 //= require vendor/picker.date

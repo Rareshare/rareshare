@@ -26,6 +26,9 @@ Rareshare::Application.routes.draw do
     member { get :pricing }
   end
 
+  resources :terms_documents
+  patch "/terms_documents" => "terms_documents#create"
+
   resources :files
 
   resources :bookings do

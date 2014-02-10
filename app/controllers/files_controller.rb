@@ -6,7 +6,7 @@ class FilesController < InternalController
     if file.valid?
       redirect_to file_path(file.id)
     else
-      render json: { error: file.errors.full_messages.join(".") }
+      render json: { error: file.errors.full_messages.join(".") },  status: :bad_request
     end
   end
 
@@ -14,7 +14,7 @@ class FilesController < InternalController
     if file = StoredFile.where(id: params[:id]).first
       render json: file
     else
-      render json: { error: "File not found" }
+      render json: { error: "File not found" }, status: :not_found
     end
   end
 

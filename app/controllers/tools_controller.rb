@@ -110,6 +110,7 @@ class ToolsController < InternalController
       :condition,
       :condition_notes,
       :has_resolution,
+      :terms_document_id,
       :facility_attributes => [
         :name,
         { :address_attributes => address_attributes }

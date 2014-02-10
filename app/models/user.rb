@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_one :address, as: :addressable
   has_many :facilities
   has_many :notifications
+  has_many :terms_documents
 
   has_many :requested_bookings, class_name: "Booking", foreign_key: :renter_id
   has_many :owned_bookings, through: :tools, source: :bookings

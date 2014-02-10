@@ -672,6 +672,39 @@ ALTER SEQUENCE skills_users_id_seq OWNED BY skills_users.id;
 
 
 --
+-- Name: terms_documents; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE terms_documents (
+    id integer NOT NULL,
+    pdf character varying(255),
+    title character varying(255),
+    user_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: terms_documents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE terms_documents_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: terms_documents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE terms_documents_id_seq OWNED BY terms_documents.id;
+
+
+--
 -- Name: tool_categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -778,7 +811,8 @@ CREATE TABLE tools (
     has_resolution boolean,
     access_type character varying(255),
     access_type_notes text,
-    price_type character varying(255)
+    price_type character varying(255),
+    terms_document_id integer
 );
 
 
@@ -1095,6 +1129,13 @@ ALTER TABLE ONLY skills_users ALTER COLUMN id SET DEFAULT nextval('skills_users_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY terms_documents ALTER COLUMN id SET DEFAULT nextval('terms_documents_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY tool_categories ALTER COLUMN id SET DEFAULT nextval('tool_categories_id_seq'::regclass);
 
 
@@ -1285,6 +1326,14 @@ ALTER TABLE ONLY skills_users
 
 
 --
+-- Name: terms_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY terms_documents
+    ADD CONSTRAINT terms_documents_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: tool_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1394,6 +1443,13 @@ CREATE INDEX index_notifications_on_notifiable_id_and_notifiable_type ON notific
 --
 
 CREATE INDEX index_notifications_on_user_id_and_seen_at ON notifications USING btree (user_id, seen_at);
+
+
+--
+-- Name: index_terms_documents_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_terms_documents_on_user_id ON terms_documents USING btree (user_id);
 
 
 --
@@ -1596,3 +1652,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131111200254');
 INSERT INTO schema_migrations (version) VALUES ('20131118170218');
 
 INSERT INTO schema_migrations (version) VALUES ('20131125172041');
+
+INSERT INTO schema_migrations (version) VALUES ('20140210150054');

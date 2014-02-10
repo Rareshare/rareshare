@@ -16,6 +16,8 @@ class Tool < ActiveRecord::Base
   has_many :file_attachments, as: :attachable
   has_many :tool_prices, dependent: :destroy, inverse_of: :tool
 
+  belongs_to :terms_document
+
   accepts_nested_attributes_for :file_attachments, allow_destroy: true
   accepts_nested_attributes_for :tool_prices,      allow_destroy: true, reject_if: :tool_price_rejected?
   accepts_nested_attributes_for :facility,         allow_destroy: true, reject_if: :facility_rejected?
@@ -136,6 +138,10 @@ class Tool < ActiveRecord::Base
     self.tool_prices.build; self.tool_prices
   end
 
+  def possible_terms_documents
+    self.owner.terms_documents
+  end
+
   def as_json(options={})
     options = options.merge(
       methods: [
@@ -144,7 +150,8 @@ class Tool < ActiveRecord::Base
         :manufacturer_name,
         :images,
         :errors,
-        :earliest_bookable_date
+        :earliest_bookable_date,
+        :possible_terms_documents
       ]
     )
 
@@ -178,6 +185,7 @@ class Tool < ActiveRecord::Base
     self.sample_size_max ||= max
     self.condition       ||= Tool::Condition::DEFAULT
     self.price_type      ||= Tool::PriceType::DEFAULT
+    self.terms_document_id = 0
   end
 
   def facility_rejected?(attrs)
