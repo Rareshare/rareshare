@@ -18,7 +18,7 @@
           %li.header
             %span Notifications
           %li{data: {bind: "visible: isEmpty"}}
-            %a{href: "#"} You have no new notifications.
+            %a{href: "#", style: "cursor: default"} You have no new notifications.
           / ko foreach: notifications
           %li
             %a{data: {bind: "attr: { href: path }, css: { active: !seen }, html: html"}}

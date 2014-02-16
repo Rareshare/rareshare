@@ -71,10 +71,8 @@ $ ->
     update: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) ->
       console.log "accessor", valueAccessor
       [ observable, currency ] = if ko.isObservable(valueAccessor())
-        console.log "was an observable"
         [ ko.utils.unwrapObservable(valueAccessor()), "$" ]
       else
-        console.log "was not an observable"
         [ ko.utils.unwrapObservable(valueAccessor().value), ko.utils.unwrapObservable(valueAccessor().currency) ]
 
       console.log "observable", observable, "currency", currency
