@@ -98,6 +98,11 @@ en:
       pricing: "Pricing"
       ip: "Intellectual Property"
       other: "Other"
+    notify:
+      replied: |
+        You've received a reply to your question about <strong>%{tool_name}</strong>:
+        <blockquote>%{reply}</blockquote>
+
 
   pricing:
     help: |

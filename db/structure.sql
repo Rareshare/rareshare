@@ -546,11 +546,11 @@ CREATE TABLE questions (
     id integer NOT NULL,
     user_id integer,
     questionable_id integer,
-    questionable_type integer,
     topic character varying(255),
     body text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    questionable_type character varying(255)
 );
 
 
@@ -1654,3 +1654,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131118170218');
 INSERT INTO schema_migrations (version) VALUES ('20131125172041');
 
 INSERT INTO schema_migrations (version) VALUES ('20140210150054');
+
+INSERT INTO schema_migrations (version) VALUES ('20140216223327');

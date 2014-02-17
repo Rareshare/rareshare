@@ -16,8 +16,8 @@ class QuestionsController < InternalController
 
   def reply
     question = booking.questions.find(params[:question_id])
-
-    response = question.question_responses.create(reply_params)
+    # response = question.question_responses.create(reply_params)
+    response = question.reply_with(reply_params)
 
     if response.valid?
       render json: response, status: :created
