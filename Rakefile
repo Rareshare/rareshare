@@ -11,3 +11,5 @@ begin
   task :default => :spec
 rescue LoadError
 end
+
+Rake::Task["db:structure:dump"].clear if defined?(Rails) && Rails.env.production?
