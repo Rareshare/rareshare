@@ -20,11 +20,7 @@
                   %td{rowspan: tools.length}
                     = link_to(facility.name, edit_facility_path(facility.id))
                 %td= link_to t.display_name, tool_path(t)
-                %td
-                  = price_per_sample t, :base
-                  - if t.can_expedite?
-                    %br
-                    = price_per_sample t, :expedited
+                %td= t.tool_prices.map {|tp| format_tool_price(tp) }.join("<br/>").html_safe
                 %td
                   = simple_form_for t, method: :delete, html: { class: "no-margin" } do |f|
                     .form-actions

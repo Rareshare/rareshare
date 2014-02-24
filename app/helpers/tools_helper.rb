@@ -13,4 +13,12 @@ module ToolsHelper
       number_to_currency(price, unit: currency_for(tool)) + " / " + content_tag(:span, pluralize(lead_time, "day"), class: "muted")
     end
   end
+
+  def format_tool_price(tp)
+    base = "%s: $%0.02f/%d days" % [ tp.label, tp.base_price, tp.lead_time_days ]
+    if tp.can_expedite?
+      base << ", $%0.02f/%d days" % [ tp.expedite_price, tp.expedite_time_days ]
+    end
+    base
+  end
 end
