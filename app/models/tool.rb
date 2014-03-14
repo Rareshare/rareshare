@@ -71,11 +71,6 @@ class Tool < ActiveRecord::Base
     COLLECTION = ALL.map {|k| [ I18n.t("tools.price_type.#{k}"), k ]}
   end
 
-  scope :bookable_by, lambda {|deadline|
-    days_to_deadline = ( deadline - Date.today ).to_i
-    where("LEAST(base_lead_time, expedited_lead_time) < ?", days_to_deadline)
-  }
-
   delegate :address, to: :facility
   delegate :full_street_address, :partial_address, to: :address
   name_delegator :manufacturer, :model, :tool_category
