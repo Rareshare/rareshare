@@ -192,7 +192,12 @@
             %div.row
               %div.span8
                 = f.input :terms_document_id, as: :select, collection: [], input_html: { "data-bind" => "value: terms_document_id, options: possible_terms_documents, optionsValue: 'id', optionsText: 'title', optionsCaption: 'Use RareShare terms (default)'" }
-                %input#terms-upload{type: "file", name: "terms_document[pdf]", data: { bind: "upload: updateTermsDocuments", url: terms_documents_path }}
+
+                %span.fileupload
+                  %a.btn.btn-success{data: { bind: "click: promptFileUpload" }}
+                    %i.icon-upload
+                    Upload Terms Sheet
+                  %input#terms-upload.hide{type: "file", name: "terms_document[pdf]", data: { bind: "fileupload: updateTermsDocuments", url: terms_documents_path }}
 
 
       = f.simple_fields_for :file_attachments_attributes, index: nil do |i|

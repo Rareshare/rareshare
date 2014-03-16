@@ -40,6 +40,10 @@ window.Tool = (input) ->
         if @images().map((i) -> i.file_id).indexOf(file.id) is -1
           @images.push(file_id: file.id, thumbnail: file.thumbnail, id: null)
 
+  @promptFileUpload = (tool, evt) ->
+    console.log "evt", evt
+    $(evt.target).next("input[type=file]").click()
+
   @removeFile = (image, evt) =>
     @images.destroy image
     root = $(evt.currentTarget).closest("li")
@@ -142,14 +146,14 @@ $ ->
     init: (elt, val, all, vm) ->
       $(elt).on "submit", () ->
 
-  ko.bindingHandlers.upload =
+  ko.bindingHandlers.fileupload =
     init: (elt, val, all, vm) ->
       $(elt).fileupload
         dataType: "json"
         submit: (e, data) ->
+          console.log "submit", data
           data.formData = {}
 
         done: (e, data) ->
+          console.log "done", data
           val()(data.result)
-
-
