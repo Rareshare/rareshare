@@ -58,7 +58,5 @@ module Rareshare
     config.generators do |g|
       g.test_framework :rspec
     end
-
-    config.filepicker_rails.api_key = ENV["FILEPICKER_API_KEY"]
   end
 end

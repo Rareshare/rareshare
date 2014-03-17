@@ -179,13 +179,6 @@ module ApplicationHelper
     render partial: "shared/page_header", locals: opts.merge(title: title)
   end
 
-  def filepicker_js_snippet
-    <<-JS
-      (function(a){if(window.filepicker){return}var b=a.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===a.location.protocol?"https:":"http:")+"//api.filepicker.io/v1/filepicker.js";var c=a.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c);var d={};d._queue=[];var e="pick,pickMultiple,pickAndStore,read,write,writeUrl,export,convert,store,storeUrl,remove,stat,setKey,constructWidget,makeDropPane".split(",");var f=function(a,b){return function(){b.push([a,arguments])}};for(var g=0;g<e.length;g++){d[e[g]]=f(e[g],d._queue)}window.filepicker=d})(document);
-      (function(fp) { fp.setKey("#{ENV['FILEPICKER_API_KEY']}") })(window.filepicker);
-    JS
-  end
-
   def google_maps_address_for(address)
     formatted_address = address_for_map(address)
     raw("//maps.google.com/maps?f=q&q=#{formatted_address}&source=s_q&hl=en&geocode=&aq=&ie=UTF8&spn=0.706779,1.187897&t=m&z=10&output=embed")

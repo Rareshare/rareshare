@@ -24,7 +24,6 @@ gem 'carrierwave'
 gem 'fog'
 gem 'mini_magick'
 gem 'jquery-fileupload-rails'
-gem 'filepicker-rails'
 gem 'mime-types'
 
 # Admin
