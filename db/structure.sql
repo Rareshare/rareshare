@@ -313,7 +313,9 @@ CREATE TABLE files (
     url character varying(255),
     user_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    file character varying(255),
+    type character varying(255)
 );
 
 
@@ -736,6 +738,38 @@ ALTER SEQUENCE tool_categories_id_seq OWNED BY tool_categories.id;
 
 
 --
+-- Name: tool_images; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE tool_images (
+    id integer NOT NULL,
+    file character varying(255),
+    tool_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: tool_images_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE tool_images_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tool_images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE tool_images_id_seq OWNED BY tool_images.id;
+
+
+--
 -- Name: tool_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1143,6 +1177,13 @@ ALTER TABLE ONLY tool_categories ALTER COLUMN id SET DEFAULT nextval('tool_categ
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY tool_images ALTER COLUMN id SET DEFAULT nextval('tool_images_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY tool_prices ALTER COLUMN id SET DEFAULT nextval('tool_prices_id_seq'::regclass);
 
 
@@ -1342,6 +1383,14 @@ ALTER TABLE ONLY tool_categories
 
 
 --
+-- Name: tool_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY tool_images
+    ADD CONSTRAINT tool_images_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: tool_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1429,6 +1478,13 @@ CREATE UNIQUE INDEX index_file_attachments_for_uniqueness ON file_attachments US
 --
 
 CREATE INDEX index_file_attachments_on_attachable_type_and_attachable_id ON file_attachments USING btree (attachable_type, attachable_id);
+
+
+--
+-- Name: index_files_on_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_files_on_type ON files USING btree (type);
 
 
 --
@@ -1656,3 +1712,7 @@ INSERT INTO schema_migrations (version) VALUES ('20131125172041');
 INSERT INTO schema_migrations (version) VALUES ('20140210150054');
 
 INSERT INTO schema_migrations (version) VALUES ('20140216223327');
+
+INSERT INTO schema_migrations (version) VALUES ('20140316141758');
+
+INSERT INTO schema_migrations (version) VALUES ('20140316225515');

@@ -6,8 +6,10 @@ class PdfUploader < CarrierWave::Uploader::Base
     storage :fog
   end
 
+  EXTENSIONS = %w(pdf)
+
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_white_list
-    %w(pdf)
+    EXTENSIONS
   end
 end

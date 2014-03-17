@@ -1,12 +1,28 @@
 class FilesController < InternalController
 
   def create
-    file = StoredFile.where(url: file_params[:url]).first || StoredFile.create(file_params)
+    file = params[:uploads].try(:[], :file)
+    content_type = file.try(:content_type)
 
-    if file.valid?
-      redirect_to file_path(file.id)
+    file_class = case content_type
+    when /image\/*/
+      ImageFile
+    when /application\/pdf/
+      PdfFile
+    end
+
+    if file_class.blank?
+      render json: { error: "Not acceptable: #{content_type}" }, status: :not_acceptable
     else
-      render json: { error: file.errors.full_messages.join(".") },  status: :bad_request
+      query = file_class.where(user_id: current_user.id, name: file.original_filename)
+      file = query.first || query.create(file: file, content_type: content_type)
+
+      if file.valid?
+        response.headers['Location'] = file_path(file, format: :json)
+        render json: file, status: :created
+      else
+        render json: { error: terms.errors.full_messages.join(".") }, status: :bad_request
+      end
     end
   end
 

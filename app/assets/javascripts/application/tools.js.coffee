@@ -24,21 +24,7 @@ window.Tool = (input) ->
     @access_type() is "partial"
 
   @addFile = (tool, evt) =>
-    uploadUrl = $(evt.currentTarget).data("upload")
-    filepicker.pick (blob) =>
-      req = $.ajax
-        url: uploadUrl
-        type: 'post'
-        data:
-          file:
-            name: blob.filename
-            url: blob.url
-            size: blob.size
-            content_type: blob.mimetype
-
-      req.done (file) =>
-        if @images().map((i) -> i.file_id).indexOf(file.id) is -1
-          @images.push(file_id: file.id, thumbnail: file.thumbnail, id: null)
+    $(evt.currentTarget).next("input[type=file]").click()
 
   @promptFileUpload = (tool, evt) ->
     console.log "evt", evt
@@ -60,7 +46,9 @@ window.Tool = (input) ->
     @possible_terms_documents.push doc
     @terms_document_id doc.id
 
-
+  @updateImageThumbs = (file) =>
+    if @images().map((i) -> i.file_id).indexOf(file.id) is -1
+      @images.push(file_id: file.id, thumbnail: file.thumbnail, id: null)
 
   @toolPriceCollection = new ToolPriceCollection(input)
 

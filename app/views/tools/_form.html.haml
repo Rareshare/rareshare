@@ -222,8 +222,9 @@
                   = i.hidden_field :category, value: FileAttachment::Categories::IMAGE
               %ul.unstyled.file-list
                 %li
-                  %a.add-file{data: { bind: "click: addFile", upload: files_path }}
+                  %a.add-file{data: { bind: "click: addFile" }}
                     %i.icon-plus-sign
+                  %input#terms-upload.hide{type: "file", name: "uploads[file]", data: { bind: "fileupload: updateImageThumbs", url: files_path }}
 
   %div.row
     %span.offset2.span8
