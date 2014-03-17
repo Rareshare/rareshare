@@ -116,7 +116,7 @@ class ToolsController < InternalController
         :name,
         { :address_attributes => address_attributes }
       ],
-      :file_attachments_attributes => [
+      :images_attributes => [
         :id,
         :file_id,
         :position,

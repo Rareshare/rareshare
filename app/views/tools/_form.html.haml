@@ -200,7 +200,7 @@
                   %input#terms-upload.hide{type: "file", name: "terms_document[pdf]", data: { bind: "fileupload: updateTermsDocuments", url: terms_documents_path }}
 
 
-      = f.simple_fields_for :file_attachments_attributes, index: nil do |i|
+      = f.simple_fields_for :images_attributes, index: nil do |i|
         %fieldset
           %div.row
             %div.span2
