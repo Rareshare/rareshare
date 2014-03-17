@@ -15,7 +15,7 @@ class FilesController < InternalController
       render json: { error: "Not acceptable: #{content_type}" }, status: :not_acceptable
     else
       query = file_class.where(user_id: current_user.id, name: file.original_filename)
-      file = query.first || query.create(file: file, content_type: content_type)
+      file = query.first || query.create(file: file, content_type: content_type, size: file.size)
 
       if file.valid?
         response.headers['Location'] = file_path(file, format: :json)

@@ -46,11 +46,12 @@ window.Tool = (input) ->
     @terms_document_id doc.id
 
   @updateImageThumbs = (file) =>
+    console.log "uploaded image", file
     if @images().map((i) -> i.file_id).indexOf(file.id) is -1
       @images.push(file_id: file.id, thumbnail: file.thumbnail, id: null)
 
   @updateDocumentList = (file) =>
-    console.log "file was", file
+    console.log "uploaded doc", file
     @documents.push(file_id: file.id, filename: file.name, url: file.file.url, id: null)
 
   @toolPriceCollection = new ToolPriceCollection(input)

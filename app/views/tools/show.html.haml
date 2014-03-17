@@ -132,6 +132,21 @@
     - if @tool.images.any?
       = render partial: "tools/images", object: @tool.images
 
+    - if @tool.documents.any?
+      %h3 Specifications
+      %ul.unstyled
+        - @tool.documents.each do |doc|
+          %li
+            %a{href: doc.url}
+              %i.icon-file-alt
+              &nbsp;
+              = doc.filename
+            %span
+              (#{number_to_human_size(doc.file.size)})
+
+
+
+
 %div.row
   %div.span8.offset2
     %h3 Location
