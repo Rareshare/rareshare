@@ -14,12 +14,13 @@ class Tool < ActiveRecord::Base
 
   has_many :user_messages, as: :topic
   has_many :images, -> { where(category: FileAttachment::Categories::IMAGE) }, class_name: "FileAttachment", as: :attachable
-  # has_many :doc_attachments, -> { where(category: FileAttachment::Categories::DOCUMENT) } as: :attachable
+  has_many :documents, -> { where(category: FileAttachment::Categories::DOCUMENT) }, class_name: "FileAttachment", as: :attachable
   has_many :tool_prices, dependent: :destroy, inverse_of: :tool
 
   belongs_to :terms_document
 
   accepts_nested_attributes_for :images,      allow_destroy: true
+  accepts_nested_attributes_for :documents,   allow_destroy: true
   accepts_nested_attributes_for :tool_prices, allow_destroy: true, reject_if: :tool_price_rejected?
   accepts_nested_attributes_for :facility,    allow_destroy: true, reject_if: :facility_rejected?
 
@@ -141,6 +142,7 @@ class Tool < ActiveRecord::Base
         :tool_category_name,
         :manufacturer_name,
         :images,
+        :documents,
         :errors,
         :earliest_bookable_date,
         :possible_terms_documents

@@ -11,6 +11,7 @@ window.Tool = (input) ->
   this[k] = ko.observable(v) for k, v of input
 
   @images = ko.observableArray(input.images)
+  @documents = ko.observableArray(input.documents)
   @possible_terms_documents = ko.observableArray(input.possible_terms_documents)
   @sampleSize = new SampleSize(input.sample_size)
 
@@ -27,11 +28,9 @@ window.Tool = (input) ->
     $(evt.currentTarget).next("input[type=file]").click()
 
   @promptFileUpload = (tool, evt) ->
-    console.log "evt", evt
     $(evt.target).next("input[type=file]").click()
 
   @removeFile = (image, evt) =>
-    # @images.destroy image
     root = $(evt.currentTarget).closest("li")
     root.addClass("hide")
     root.find("input.destroyed").val("1")
@@ -49,6 +48,10 @@ window.Tool = (input) ->
   @updateImageThumbs = (file) =>
     if @images().map((i) -> i.file_id).indexOf(file.id) is -1
       @images.push(file_id: file.id, thumbnail: file.thumbnail, id: null)
+
+  @updateDocumentList = (file) =>
+    console.log "file was", file
+    @documents.push(file_id: file.id, filename: file.name, url: file.file.url, id: null)
 
   @toolPriceCollection = new ToolPriceCollection(input)
 

@@ -6,11 +6,12 @@ class FileAttachment < ActiveRecord::Base
   default_scope { order(:position) }
 
   def as_json(options={})
-    super(options.merge(methods: [:url, :thumbnail]))
+    super(options.merge(methods: [:url, :thumbnail, :filename]))
   end
 
   def url; file.url; end
-  def thumbnail; file.thumbnail; end
+  def thumbnail; file.try(:thumbnail); end
+  def filename; file.name; end
 
   module Categories
     IMAGE    = "image"

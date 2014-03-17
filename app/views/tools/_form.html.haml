@@ -196,7 +196,7 @@
                 %span.fileupload
                   %a.btn.btn-success{data: { bind: "click: promptFileUpload" }}
                     %i.icon-upload
-                    Upload Terms Sheet
+                    Upload new terms sheet
                   %input#terms-upload.hide{type: "file", name: "terms_document[pdf]", data: { bind: "fileupload: updateTermsDocuments", url: terms_documents_path }}
 
 
@@ -222,9 +222,34 @@
                   = i.hidden_field :category, value: FileAttachment::Categories::IMAGE
               %ul.unstyled.file-list
                 %li
-                  %a.add-file{data: { bind: "click: addFile" }}
+                  %a.add-file{alt: "Upload image", data: { bind: "click: addFile" }}
                     %i.icon-plus-sign
-                  %input#terms-upload.hide{type: "file", name: "uploads[file]", data: { bind: "fileupload: updateImageThumbs", url: files_path }}
+                  %input#image-upload.hide{type: "file", name: "uploads[file]", data: { bind: "fileupload: updateImageThumbs", url: files_path }}
+
+      = f.simple_fields_for :documents_attributes, index: nil do |i|
+        %fieldset
+          %div.row
+            %div.span2
+              %p.help-block If you have specifications or marketing materials for the tool, please upload them.
+            %div.span8
+              %legend
+                %i.icon-file
+                Documents
+              %ul.unstyled{data: { bind: "foreach: documents" }}
+                %li
+                  %i.icon-file-alt
+                  %a{data: { bind: "text: filename, attr: { href: url }" }}
+                  = i.hidden_field :id,       data: { bind: "value: id" }
+                  = i.hidden_field :file_id,  data: { bind: "value: file_id" }
+                  = i.hidden_field :position, data: { bind: "value: $index" }
+                  = i.hidden_field :_destroy, class: "destroyed", data: { bind: "value: $data._destroy" }
+                  = i.hidden_field :category, value: FileAttachment::Categories::DOCUMENT
+              %span.upload
+                %a.btn.btn-success.add-file{data: { bind: "click: addFile" }}
+                  %i.icon-upload
+                  Upload document
+                %input#document-upload.hide{type: "file", name: "uploads[file]", data: { bind: "fileupload: updateDocumentList", url: files_path }}
+
 
   %div.row
     %span.offset2.span8

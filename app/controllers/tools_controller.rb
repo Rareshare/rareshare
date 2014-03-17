@@ -123,6 +123,13 @@ class ToolsController < InternalController
         :category,
         :_destroy
       ],
+      :documents_attributes => [
+        :id,
+        :file_id,
+        :position,
+        :category,
+        :_destroy
+      ],
       :tool_prices_attributes => [
         :id,
         :subtype,

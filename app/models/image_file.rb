@@ -9,8 +9,4 @@ class ImageFile < StoredFile
     self.file.thumb.url
   end
 
-  def as_json(options={})
-    super(options.merge(methods: [:thumbnail, :url]))
-  end
-
 end
