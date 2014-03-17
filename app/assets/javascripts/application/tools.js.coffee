@@ -31,9 +31,9 @@ window.Tool = (input) ->
     $(evt.target).next("input[type=file]").click()
 
   @removeFile = (image, evt) =>
-    @images.destroy image
+    # @images.destroy image
     root = $(evt.currentTarget).closest("li")
-    root.hide()
+    root.addClass("hide")
     root.find("input.destroyed").val("1")
 
   @samples_in_bulk_run = ko.computed () =>
