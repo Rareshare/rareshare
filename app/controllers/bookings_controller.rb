@@ -58,6 +58,14 @@ class BookingsController < InternalController
     end
   end
 
+  def approve
+    @booking = Booking.find(params[:id])
+
+    unless can? :confirm, @booking
+      redirect_to back_or_home, flash: { error: "This booking cannot be approved." }
+    end
+  end
+
   def update
     @booking = Booking.find(params[:id])
     @booking.updated_by = current_user

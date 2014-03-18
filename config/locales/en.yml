@@ -38,6 +38,12 @@ en:
       rareshare_send: "I'd like RareShare to arrange return shipping for the sample."
       owner_dispose: "I'd like the owner to arrange for the sample to be disposed."
       none_required: "No sample disposal required."
+    confirm: |
+      By confirming this booking, you are committing to provide the equipment, services and/or
+      deliverables set out in the applicable listing and subject to the specifications, requirements,
+      pricing, timetable and terms & conditions agreed between you and the Buyer through Rare Share
+      and subject to the Rare Share Terms and Conditions. This agreement is entered into between you
+      and the Buyer and Rare Share is not a party to this agreement.
     state:
       owner:
         pending:   "You have not yet responded to this request."

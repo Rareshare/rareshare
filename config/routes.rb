@@ -35,6 +35,7 @@ Rareshare::Application.routes.draw do
     member do
       get  :finalize, to: "bookings#finalize"
       post :finalize, to: "bookings#pay"
+      get  :approve
       get  :cancel
     end
 

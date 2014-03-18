@@ -1,0 +1,14 @@
+= page_header "Approve Booking",
+  icon: "calendar",
+  crumbs: [:root, @booking, "Approve"],
+  subtitle: @booking.tool.display_name
+
+= simple_form_for @booking do |f|
+  %div.row
+    %div.span8.offset2
+      %p= t 'bookings.confirm'
+
+  %div.row
+    %span.offset2.span10
+      = f.submit "Approve", class: "btn btn-primary"
+      = link_to "Cancel", :back, class: "btn"
