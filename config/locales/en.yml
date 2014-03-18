@@ -44,6 +44,12 @@ en:
       pricing, timetable and terms & conditions agreed between you and the Buyer through Rare Share
       and subject to the Rare Share Terms and Conditions. This agreement is entered into between you
       and the Buyer and Rare Share is not a party to this agreement.
+    finalize: |
+      By making payment, you are confirming your acceptance of the equipment, services and/or deliverables
+      offered by the Provider in the applicable listing and subject to the specifications, requirements,
+      pricing, timetable and terms & conditions agreed between you and the Provider through Rare Share
+      and subject to the Rare Share Terms and Conditions. This agreement is entered into between you and
+      the Provider and Rare Share is not a party this agreement.
     state:
       owner:
         pending:   "You have not yet responded to this request."
