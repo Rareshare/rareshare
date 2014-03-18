@@ -16,4 +16,7 @@ NotificationUpdater = () ->
   return this
 
 $ ->
-  ko.applyBindings { updater: new NotificationUpdater() }, $("li.notifications")[0]
+  notifications = $("li.notifications")[0]
+
+  if notifications?
+    ko.applyBindings { updater: new NotificationUpdater() }, notifications
