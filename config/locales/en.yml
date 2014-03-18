@@ -156,9 +156,9 @@ en:
         can_expedite: 'Offer researchers priority processing for an additional fee.'
         samples_per_run: 'The number of samples or units per usage of the tool.'
       user:
-        primary_phone: "The quickest way to reach you."
-        secondary_phone: "The other way to reach you."
+        primary_phone: "The quickest way to reach you"
         qualifications: "Equipment expertise, credentials"
+        education: "Highest degree and institution"
       booking: |
         Consider including details such as material, quantity, size, handling requirements,
         and specific hazards in order to allow the tool owner to evaluate your request.
