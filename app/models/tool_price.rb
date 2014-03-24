@@ -15,7 +15,7 @@ class ToolPrice < ActiveRecord::Base
   belongs_to :tool, inverse_of: :tool_prices
   validates_presence_of :tool
 
-  validates :subtype, :base_amount, presence: true
+  validates :subtype, :base_amount, :lead_time_days, presence: true
   validates :tool_id, uniqueness: { scope: [:subtype] }
   validates :subtype, inclusion: { in: ToolPrice::Subtype::ALL }
 

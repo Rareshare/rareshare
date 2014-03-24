@@ -738,38 +738,6 @@ ALTER SEQUENCE tool_categories_id_seq OWNED BY tool_categories.id;
 
 
 --
--- Name: tool_images; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE tool_images (
-    id integer NOT NULL,
-    file character varying(255),
-    tool_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: tool_images_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE tool_images_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: tool_images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE tool_images_id_seq OWNED BY tool_images.id;
-
-
---
 -- Name: tool_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -822,11 +790,6 @@ CREATE TABLE tools (
     year_manufactured integer,
     serial_number character varying(255),
     tool_category_id integer,
-    base_lead_time integer,
-    base_price money,
-    can_expedite boolean,
-    expedited_lead_time integer,
-    expedited_price money,
     document text,
     latitude double precision,
     longitude double precision,
@@ -834,8 +797,6 @@ CREATE TABLE tools (
     currency character varying(3),
     facility_id integer,
     samples_per_run integer DEFAULT 1,
-    bulk_runs integer,
-    can_bulkify boolean DEFAULT false,
     sample_size_unit_id integer,
     resolution_unit_id integer,
     calibrated boolean,
@@ -1177,13 +1138,6 @@ ALTER TABLE ONLY tool_categories ALTER COLUMN id SET DEFAULT nextval('tool_categ
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY tool_images ALTER COLUMN id SET DEFAULT nextval('tool_images_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY tool_prices ALTER COLUMN id SET DEFAULT nextval('tool_prices_id_seq'::regclass);
 
 
@@ -1383,14 +1337,6 @@ ALTER TABLE ONLY tool_categories
 
 
 --
--- Name: tool_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY tool_images
-    ADD CONSTRAINT tool_images_pkey PRIMARY KEY (id);
-
-
---
 -- Name: tool_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1492,6 +1438,13 @@ CREATE INDEX index_files_on_type ON files USING btree (type);
 --
 
 CREATE INDEX index_notifications_on_notifiable_id_and_notifiable_type ON notifications USING btree (notifiable_id, notifiable_type);
+
+
+--
+-- Name: index_notifications_on_user_id_and_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_user_id_and_created_at ON notifications USING btree (user_id, created_at);
 
 
 --
@@ -1713,6 +1666,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140210150054');
 
 INSERT INTO schema_migrations (version) VALUES ('20140216223327');
 
-INSERT INTO schema_migrations (version) VALUES ('20140316141758');
-
 INSERT INTO schema_migrations (version) VALUES ('20140316225515');
+
+INSERT INTO schema_migrations (version) VALUES ('20140324152138');

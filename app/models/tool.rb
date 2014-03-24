@@ -5,12 +5,12 @@ class Tool < ActiveRecord::Base
 
   has_many :bookings
 
-  belongs_to :owner, class_name: "User"
   belongs_to :model
   belongs_to :manufacturer
   belongs_to :tool_category
-  belongs_to :user, counter_cache: true, foreign_key: :owner_id
+  belongs_to :owner, counter_cache: true, class_name: "User"
   belongs_to :facility
+  belongs_to :resolution_unit, class_name: "Unit"
 
   has_many :user_messages, as: :topic
   has_many :images, -> { where(category: FileAttachment::Categories::IMAGE) }, class_name: "FileAttachment", as: :attachable
@@ -103,10 +103,6 @@ class Tool < ActiveRecord::Base
 
   def sample_size_unit
     Unit.where(self.sample_size_unit_id).first
-  end
-
-  def resolution_unit
-    Unit.where(self.resolution_unit_id).first
   end
 
   def sample_size_unit_name

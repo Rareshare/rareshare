@@ -59,7 +59,8 @@ describe Booking do
   end
 
   context "upon reserving" do
-    Given(:tool)     { create(:tool) }
+    Given(:price)    { create(:tool_price, lead_time_days: 5) }
+    Given(:tool)     { price.tool }
     Given(:owner)    { tool.owner }
     Given(:renter)   { create(:user) }
     Given(:deadline) { 7.days.from_now }
@@ -71,7 +72,7 @@ describe Booking do
           :sample_transit,
           :sample_disposal,
           :tos_accepted
-        ).merge(tool_id: tool.id, deadline: deadline, samples: 1)
+        ).merge(tool_id: tool.id, deadline: deadline, samples: 1, tool_price_id: price.id)
     }
 
     Given(:booking) { Booking.reserve renter, params }
@@ -81,9 +82,9 @@ describe Booking do
     And  { expect(booking.owner).to eq owner }
 
     context "when calculating the booking fee" do
-      Given(:base_price) { BigDecimal.new("200.00") }
-      When { tool.stub(:price_for).and_return base_price }
-      Then { expect(booking.rareshare_fee).to eq(base_price * Booking::RARESHARE_FEE_PERCENT) }
+      # Given(:base_price) { BigDecimal.new("200.00") }
+      # When { tool.stub(:price_for).and_return base_price }
+      Then { expect(booking.rareshare_fee).to eq(price.base_amount * Booking::RARESHARE_FEE_PERCENT) }
     end
 
     context "when calculating the address" do

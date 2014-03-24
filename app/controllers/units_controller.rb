@@ -1,6 +1,6 @@
 class UnitsController < ApplicationController
   def show
-    unit = AvailableUnit.where(name: params[:id]).first
+    unit = Unit.where(name: params[:id]).first
 
     if unit.present?
       render json: unit.as_json

@@ -25,27 +25,29 @@ FactoryGirl.define do
     address
   end
 
+  factory :unit do
+    name "m"
+    label "meters"
+  end
+
   factory :tool do
     model
     manufacturer
     tool_category
     facility
-    can_expedite false
     association :owner, factory: :user
     resolution 10
-    resolution_unit_id { AvailableUnit.for("<meter>") }
+    resolution_unit factory: :unit
     currency "USD"
-    base_price 200.00
-    base_lead_time 7
     samples_per_run 10
+    access_type Tool::AccessType::FULL
+  end
 
-    factory :premium_tool do
-      can_expedite true
-      base_price 2000.00
-      expedited_price 2500.00
-      expedited_lead_time 3
-      bulk_runs 5
-    end
+  factory :tool_price do
+    subtype ToolPrice::Subtype::BENCH_STANDARD
+    base_amount BigDecimal.new("10.0")
+    lead_time_days 10
+    tool
   end
 
   factory :user do
