@@ -29,4 +29,10 @@
 # rbenv Ruby version.
 /.ruby-version
 
+# Ignore Rubymine files
+/.idea
+
+# Ignore files for running zeus in Rubymine
+/script/start_zeus
+/script/rspec_runner.rb
 .DS_Store
