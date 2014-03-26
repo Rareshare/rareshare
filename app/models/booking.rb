@@ -356,17 +356,31 @@ class Booking < ActiveRecord::Base
   end
 
   def notify_booking_state
-    receiver = opposite_party_to(last_updated_by)
+    if state == "finalized"
+      # sending to both parties
+      ["owner", "renter"].each do |receiver|
+        notifications.create(
+          user: send(receiver.to_sym),
+          properties: {
+            key: "bookings.notify.finalized_#{receiver}",
+            state: state,
+            tool_name: tool.display_name,
+            tool_id: tool.id
+          }
+        )
+      end
+    else
+      receiver = opposite_party_to(last_updated_by)
 
-    n = notifications.create(
-      user: receiver,
-      properties: {
-        key: "bookings.notify.#{state}", # This should maybe be a column.
-        state: state,
-        tool_name: tool.display_name
-      }
-    )
+      n = notifications.create(
+        user: receiver,
+        properties: {
+          key: "bookings.notify.#{state}", # This should maybe be a column.
+          state: state,
+          tool_name: tool.display_name,
+          tool_id: tool.id
+        }
+      )
+    end
   end
-
-
 end

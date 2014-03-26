@@ -10,6 +10,12 @@
 
     %p= @body
 
+    - if @notification.properties["state"] == "finalized"
+      %h1 Pending questions and answers
+
+
+      %h1= link_to "Terms and conditions", "#"
+
     %p
       To check on your booking, follow this link:
       %a{href: @url}= @url

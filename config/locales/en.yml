@@ -14,8 +14,10 @@ en:
         A reservation for <strong>%{tool_name}</strong> has been cancelled.
       denied: |
         Your request to reserve <strong>%{tool_name}</strong> has been denied by the owner.
-      finalized: |
-        Congratulations! You've finalized a booking. The booking page should help you get started with delivery of your sample.
+      finalized_owner: |
+        Congratulations! The renter finalized booking for <strong>%{tool_name}</strong>. Please process the order.
+      finalized_renter: |
+        You've successfully booked <strong>%{tool_name}</strong>. The owner will process the order shortly.
       expired: |
         Your reservation for %{tool_name} has expired because the deadline has passed.
       processing: |
