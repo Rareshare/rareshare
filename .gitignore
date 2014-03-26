@@ -32,7 +32,11 @@
 # Ignore Rubymine files
 /.idea
 
+# Ignore local environment variables
+/config/local_env.yml
+
 # Ignore files for running zeus in Rubymine
 /script/start_zeus
 /script/rspec_runner.rb
+
 .DS_Store
