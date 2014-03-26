@@ -110,7 +110,7 @@ class BookingsController < InternalController
 
     transaction_params = params.require(:transaction).permit(:stripe_token, :shipping_service)
 
-    @booking.update_columns(transaction_params)
+    @booking.attributes = transaction_params
 
     if @booking.pay!
       redirect_to booking_path(@booking), notice: "Successfully finalized booking."
