@@ -77,6 +77,7 @@ group :development do
   gem 'foreman'
   gem 'heroku'
   gem 'zeus'
+  gem 'mailcatcher'
 end
 
 group :test do
