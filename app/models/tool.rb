@@ -36,6 +36,8 @@ class Tool < ActiveRecord::Base
             :access_type,
             presence: true
 
+  validate :has_at_least_one_tool_price
+
   DEFAULT_SAMPLE_SIZE = [ -4, 4 ]
 
   after_initialize :set_default_values
@@ -182,8 +184,13 @@ class Tool < ActiveRecord::Base
   end
 
   def tool_price_rejected?(attrs)
-    attrs[:subtype].blank? || attrs[:base_amount].blank? || attrs[:lead_time_days].blank? ||
-      attrs[:lead_time_days] < attrs[:expedite_time_days]
+    attrs[:subtype].blank? || attrs[:base_amount].blank? || attrs[:lead_time_days].blank?
+  end
+
+  def has_at_least_one_tool_price
+    if tool_prices.empty?
+      errors.add(:base, 'You must fill out the pricing info.')
+    end
   end
 
 end

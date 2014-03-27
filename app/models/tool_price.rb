@@ -18,7 +18,7 @@ class ToolPrice < ActiveRecord::Base
   validates :subtype, :base_amount, :lead_time_days, presence: true
   validates :tool_id, uniqueness: { scope: [:subtype] }
   validates :subtype, inclusion: { in: ToolPrice::Subtype::ALL }
-  validates_numericality_of :expedite_time_days, less_than_or_equal_to: :lead_time_days
+  validates_numericality_of :expedite_time_days, less_than_or_equal_to: :lead_time_days, message: "must be less than lead time days"
 
   ZERO = BigDecimal.new('0.0')
 
