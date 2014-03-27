@@ -12,14 +12,16 @@
 
     - if @notification.properties["state"] == "finalized"
       - if @notification.properties["key"] == "bookings.notify.finalized_renter"
-        %h3 Pending answers for your questions
-        - @booking.pending_answer_notifications.each do |notification|
-          %p= "Q: #{notification.properties["question"]}"
-          %p= "A: #{notification.properties["reply"]}"
+        - if @booking.pending_answer_notifications.any?
+          %h3 Pending answers for your questions
+          - @booking.pending_answer_notifications.each do |notification|
+            %p= "Q: #{notification.properties["question"]}"
+            %p= "A: #{notification.properties["reply"]}"
       - else
-        %h3 Pending questions you need to answer
-        - @booking.pending_question_notifications.each do |notification|
-          %p= "Q: #{notification.properties["question"]}"
+        - if @booking.pending_question_notifications.any?
+          %h3 Pending questions you need to answer
+          - @booking.pending_question_notifications.each do |notification|
+            %p= "Q: #{notification.properties["question"]}"
 
       - if @tool.try(:terms_document_id)
         -# pdf url needs to be clarified
