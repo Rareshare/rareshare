@@ -71,7 +71,7 @@ class Tool < ActiveRecord::Base
 
     DEFAULT = PER_SAMPLE
 
-    ALL = [ PER_SAMPLE ] # taking out PER_TIME for now
+    ALL = [ PER_SAMPLE, PER_TIME ]
     COLLECTION = ALL.map {|k| [ I18n.t("tools.price_type.#{k}"), k ]}
   end
 

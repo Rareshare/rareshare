@@ -112,7 +112,11 @@
           %legend Pricing
           %div.row
             %div.span8
-              -# Commenting out price type because there's only one option
+              - Tool::PriceType::COLLECTION.each do |price_type|
+                %label.radio
+                  = f.radio_button :price_type, price_type[0], disabled: price_type[1] == 'time'
+                  = price_type[0]
+
               -#= f.input :price_type, as: :radio_buttons, collection: Tool::PriceType::COLLECTION
 
               %label.radio

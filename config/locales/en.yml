@@ -79,7 +79,7 @@ en:
       fair: "Fair"
       poor: "Poor"
     price_type:
-      time:   "By unit of time"
+      time:   "By unit of time (coming soon)"
       sample: "By number of samples processed"
 
   tool_prices:
