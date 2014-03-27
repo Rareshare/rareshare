@@ -137,10 +137,10 @@
       %ul.unstyled
         - @tool.documents.each do |doc|
           %li
-            %a{href: doc.url}
+            = link_to doc.file_url, target: "_blank" do
               %i.icon-file-alt
               &nbsp;
-              = doc.filename
+              = doc.file_name
             %span
               (#{number_to_human_size(doc.file.size)})
 
