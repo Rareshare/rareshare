@@ -65,42 +65,42 @@
                 %span.add-on
                   %i.icon-calendar
 
-    %fieldset
-      %div.row
-        %div.span2
-          %p.help-block If applicable, indicate the sample size and resolution of the tool.
-
-        %div.span10
-          %legend Technical Details
-          %div.row
-            %div.span10= f.input :has_resolution, label: false, inline_label: "Tool used for measurement", input_html: { data: { bind: "checked: has_resolution" } }
-          %div.row
-            %div.span5= f.input :resolution, input_html: { min: 0, type: "number", step: "any", data: { bind: "enable: has_resolution" } }
-            %div.span3= f.input :resolution_unit_id, as: :select, collection: Unit.all, value_method: :id, label_method: :name, input_html: { data: { bind: "enable: has_resolution" } }
-
-          %div.row
-            %div.span5
-              %div.control-group.optional.tool_sample_size
-                %label.optional.control-label{for: "tool_sample_size"} Sample size
-
-                %div.controls
-                  = f.hidden_field :sample_size_min, data: { bind: "value: sampleSize.min" }
-                  = f.hidden_field :sample_size_max, data: { bind: "value: sampleSize.max" }
-                  %div.slider-input{data: { bind: "slider: sampleSize" }}
-                  %p.help-block{style: "margin-top: 10px"}
-                    %span.exponent
-                      10
-                      %sup{data: { bind: "text: sampleSize.min"} }
-                      %span.unit{data: { bind: "text: sampleSize.unitName" } }
-                    \ -
-                    %span.exponent
-                      10
-                      %sup{data: { bind: "text: sampleSize.max"} }
-                      %span.unit{data: { bind: "text: sampleSize.unitName" } }
-
-
-            %div.span3
-              = f.input :sample_size_unit_id, as: :select, collection: Unit.all, value_method: :id, label_method: :name, wrapper_html: { class: "tool_sample_size_unit" }, input_html: { data: { bind: "value: sampleSize.unit" } }
+    -#%fieldset
+    -#  %div.row
+    -#    %div.span2
+    -#      %p.help-block If applicable, indicate the sample size and resolution of the tool.
+    -#
+    -#    %div.span10
+    -#      %legend Technical Details
+    -#      %div.row
+    -#        %div.span10= f.input :has_resolution, label: false, inline_label: "Tool used for measurement", input_html: { data: { bind: "checked: has_resolution" } }
+    -#      %div.row
+    -#        %div.span5= f.input :resolution, input_html: { min: 0, type: "number", step: "any", data: { bind: "enable: has_resolution" } }
+    -#        %div.span3= f.input :resolution_unit_id, as: :select, collection: Unit.all, value_method: :id, label_method: :name, input_html: { data: { bind: "enable: has_resolution" } }
+    -#
+    -#      %div.row
+    -#        %div.span5
+    -#          %div.control-group.optional.tool_sample_size
+    -#            %label.optional.control-label{for: "tool_sample_size"} Sample size
+    -#
+    -#            %div.controls
+    -#              = f.hidden_field :sample_size_min, data: { bind: "value: sampleSize.min" }
+    -#              = f.hidden_field :sample_size_max, data: { bind: "value: sampleSize.max" }
+    -#              %div.slider-input{data: { bind: "slider: sampleSize" }}
+    -#              %p.help-block{style: "margin-top: 10px"}
+    -#                %span.exponent
+    -#                  10
+    -#                  %sup{data: { bind: "text: sampleSize.min"} }
+    -#                  %span.unit{data: { bind: "text: sampleSize.unitName" } }
+    -#                \ -
+    -#                %span.exponent
+    -#                  10
+    -#                  %sup{data: { bind: "text: sampleSize.max"} }
+    -#                  %span.unit{data: { bind: "text: sampleSize.unitName" } }
+    -#
+    -#
+    -#        %div.span3
+    -#          = f.input :sample_size_unit_id, as: :select, collection: Unit.all, value_method: :id, label_method: :name, wrapper_html: { class: "tool_sample_size_unit" }, input_html: { data: { bind: "value: sampleSize.unit" } }
 
 
     %fieldset
