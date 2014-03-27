@@ -12,6 +12,10 @@ class NotificationMailer < ActionMailer::Base
       @tool = Tool.find(tool_id)
     end
 
+    if booking_id = @notification.properties["booking_id"]
+      @booking = Booking.find(booking_id)
+    end
+
     if @user.can_email_status
       mail to: @user.email, subject: "Your booking has been updated"
     end

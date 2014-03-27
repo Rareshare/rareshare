@@ -15,6 +15,9 @@ class Booking < ActiveRecord::Base
   has_many   :booking_logs
   has_many   :notifications, as: :notifiable
   has_many   :questions, as: :questionable
+  has_many   :question_notifications, through: :questions
+  has_many   :question_responses, through: :questions
+  has_many   :answer_notifications, through: :question_responses
 
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :ignores_address?
 
@@ -339,6 +342,14 @@ class Booking < ActiveRecord::Base
     end
   end
 
+  def pending_answer_notifications
+    notifications.answers.unseen
+  end
+
+  def pending_question_notifications
+    notifications.questions.unseen
+  end
+
   protected
 
   def renter_cannot_be_owner
@@ -365,7 +376,8 @@ class Booking < ActiveRecord::Base
             key: "bookings.notify.finalized_#{receiver}",
             state: state,
             tool_name: tool.display_name,
-            tool_id: tool.id
+            tool_id: tool.id,
+            booking_id: id
           }
         )
       end

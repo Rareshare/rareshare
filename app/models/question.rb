@@ -32,6 +32,7 @@ class Question < ActiveRecord::Base
           properties: {
             key: "questions.notify.replied",
             tool_name: self.questionable.is_a?(Tool) ? self.questionable.display_name : self.questionable.tool.display_name,
+            question: body,
             reply: reply.body.truncate(100)
           }
         )

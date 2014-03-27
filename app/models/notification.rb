@@ -2,8 +2,11 @@ class Notification < ActiveRecord::Base
   belongs_to :notifiable, polymorphic: true
   belongs_to :user
   validates_presence_of :user
-  default_scope { order("created_at DESC") }
+  default_scope { order("notifications.created_at DESC") }
   after_create :send_email
+
+  scope :questions, -> { where("properties -> :key LIKE :value", key: 'key', value: "%asked%") }
+  scope :answers, -> { where("properties -> :key LIKE :value", key: 'key', value: "%replied%") }
 
   def self.unseen
     where(seen_at: nil)
