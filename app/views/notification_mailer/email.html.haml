@@ -21,7 +21,9 @@
         - @booking.pending_question_notifications.each do |notification|
           %p= "Q: #{notification.properties["question"]}"
 
-      %h1= link_to "Terms and conditions", "#"
+      - if @tool.try(:terms_document_id)
+        -# pdf url needs to be clarified
+        %h3= link_to "Terms and conditions", root_url + @tool.terms_document.pdf.url, target: "_blank"
 
     %p
       To check on your booking, follow this link:
