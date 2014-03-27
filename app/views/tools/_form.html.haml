@@ -116,11 +116,11 @@
               -#= f.input :price_type, as: :radio_buttons, collection: Tool::PriceType::COLLECTION
 
               %label.radio
-                = f.radio_button :currency, "USD", data: { bind: "checked: currency" }
-                in USD ($)
-              %label.radio
                 = f.radio_button :currency, "GBP", data: { bind: "checked: currency" }
                 in GBP (£)
+              %label.radio
+                = f.radio_button :currency, "USD", data: { bind: "checked: currency" }
+                in USD ($)
 
               = f.simple_fields_for :tool_prices_attributes, index: nil do |p|
                 %table.table{data: { bind: "with: toolPriceCollection" }}

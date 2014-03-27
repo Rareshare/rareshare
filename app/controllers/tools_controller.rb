@@ -12,7 +12,7 @@ class ToolsController < InternalController
   end
 
   def new
-    @tool = current_user.tools.build(params[:tool] || { currency: "USD" })
+    @tool = current_user.tools.build(params[:tool] || { currency: "GBP" })
     authorize! :create, @tool
     add_breadcrumb "New " + @tool.display_name, new_tool_path
   end
