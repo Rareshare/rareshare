@@ -112,7 +112,8 @@
           %legend Pricing
           %div.row
             %div.span8
-              = f.input :price_type, as: :radio_buttons, collection: Tool::PriceType::COLLECTION
+              -# Commenting out price type because there's only one option
+              -#= f.input :price_type, as: :radio_buttons, collection: Tool::PriceType::COLLECTION
 
               %label.radio
                 = f.radio_button :currency, "USD", data: { bind: "checked: currency" }
