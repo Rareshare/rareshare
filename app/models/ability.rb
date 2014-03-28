@@ -13,6 +13,10 @@ class Ability
   private
 
   def bookings(user)
+    can :update_draft, Booking do |b|
+      b.renter?(user) && b.draft?
+    end
+
     can :cancel, Booking do |b|
       b.can_cancel? && b.cancellable_by?(user)
     end

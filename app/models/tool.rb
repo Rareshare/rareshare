@@ -89,6 +89,7 @@ class Tool < ActiveRecord::Base
   def status
     online ? "Live" : "Offline"
   end
+
   def possible_years
     Date.today.year.downto(1970).to_a
   end

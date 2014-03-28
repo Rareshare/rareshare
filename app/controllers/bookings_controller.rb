@@ -24,22 +24,7 @@ class BookingsController < InternalController
   end
 
   def create
-    tool = Tool.where(id: params[:booking][:tool_id]).first
-
-    if tool.nil?
-      not_found!
-    elsif !can?(:book, tool)
-      redirect_to back_or_home, flash: { error: "You cannot book your own tool." }
-    else
-      @booking = Booking.reserve current_user, booking_params
-
-      if @booking.valid?
-        redirect_to booking_path(@booking), flash: { notice: "Booking requested!" }
-      else
-        flash[:error] = @booking.errors.full_messages
-        render 'bookings/new'
-      end
-    end
+    save_draft_or_reserve
   end
 
   def show
@@ -66,11 +51,23 @@ class BookingsController < InternalController
     end
   end
 
+  def edit
+    @booking = Booking.find(params[:id])
+  end
+
   def update
     @booking = Booking.find(params[:id])
     @booking.updated_by = current_user
 
     case params[:commit]
+    when /save/i
+      authorize! :update_draft, @booking
+      @booking.assign_attributes(booking_params)
+      save_draft_or_reserve
+    when /reserve/i
+      authorize! :update_draft, @booking
+      @booking.assign_attributes(booking_params)
+      save_draft_or_reserve
     when /approve/i
       authorize! :confirm, @booking
       @booking.confirm!
@@ -140,5 +137,31 @@ class BookingsController < InternalController
       :samples,
       :address_attributes => address_attributes
     )
+  end
+
+  def save_draft_or_reserve
+    tool = Tool.where(id: params[:booking][:tool_id]).first
+
+    if tool.nil?
+      not_found!
+    elsif !can?(:book, tool)
+      redirect_to back_or_home, flash: { error: "You cannot book your own tool." }
+    else
+      @booking ||= Booking.new(booking_params)
+
+      if params[:commit] == t('bookings.action_type.draft')
+        @booking.save_draft(current_user)
+        redirect_to booking_path(@booking), flash: { notice: "Booking draft saved!" }
+      else
+        @booking.reserve(current_user)
+
+        if @booking.valid?
+          redirect_to booking_path(@booking), flash: { notice: "Booking requested!" }
+        else
+          flash[:error] = @booking.errors.full_messages
+          render 'bookings/new'
+        end
+      end
+    end
   end
 end

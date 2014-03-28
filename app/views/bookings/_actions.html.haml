@@ -1,5 +1,7 @@
 - btn_size = "" unless defined?(btn_size)
 = simple_form_for booking, html: { class: "no-margin form-inline" } do |f|
+  - if can? :update_draft, booking
+    = link_to "Update draft", edit_booking_path(booking), class: "btn btn-success #{btn_size}"
   - if can? :finalize, booking
     = link_to "Finalize & Pay", finalize_booking_path(booking), class: "btn btn-success #{btn_size}"
   - if can? :confirm, booking

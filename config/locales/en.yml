@@ -61,12 +61,16 @@ en:
         cancelled: "This booking has been cancelled."
         expired:   "This booking has expired."
       renter:
+        draft:     "You still need to finish the booking request."
         pending:   "The owner of this tool has not yet responded to this request."
         confirmed: "The owner of the tool has agreed to this booking."
         denied:    "The owner of the tool has declined this booking."
         finalized: "You have finalized this booking and the owner of the tool has not yet fulfilled it."
         cancelled: "This booking has been cancelled."
         expired:   "This booking has expired."
+    action_type:
+      draft: "Save and Finish Later"
+      reserve: "Reserve"
 
   tools:
     access_type:

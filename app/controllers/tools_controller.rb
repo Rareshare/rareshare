@@ -57,16 +57,6 @@ class ToolsController < InternalController
         render 'tools/new'
       end
     end
-
-    #
-    #@tool = current_user.tools.create tool_params
-    #authorize! :create, @tool
-    #
-    #if @tool.valid?
-    #  redirect_to tools_path, flash: { notify: "Tool created." }
-    #else
-    #  render 'tools/new'
-    #end
   end
 
   def destroy

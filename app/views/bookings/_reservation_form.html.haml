@@ -1,0 +1,157 @@
+- nav_category "Find a Tool"
+
+- content_for :head do
+  :javascript
+    $(function() {
+      window.booking = new Booking(#{@booking.to_json});
+      ko.applyBindings({ booking: booking }, $("form.#{action}_booking")[0]);
+    });
+
+= page_header "New Booking",
+  icon: "calendar",
+  crumbs: [:root, @booking],
+  subtitle: @booking.tool.display_name
+
+= simple_form_for @booking, html: { "data-bind" => "with: booking" } do |f|
+  = f.input :tool_id, as: :hidden
+  = f.input :tool_price_id, as: :hidden, input_html: { "data-bind" => "value: tool_price_id" }
+  %div.form-inputs
+    %fieldset
+      %div.row.step{ "data-bind" => "css: { complete: stepOneComplete }"}
+        %div.span2
+          %h1 1
+          %small
+            What do you need, and when do you need it?
+
+        %div.span8
+          %div.row
+            %div.span5
+              = f.input :tool_price, as: :select, input_html: { "data-bind" => "options: tool.toolPriceCollection.toolPrices, optionsText: 'label', value: tool_price" }
+
+            %div.span3
+              = f.input :samples, input_html: { "data-bind" => "value: samples", min: 1 }
+
+          %div.row{data: { bind: "with: tool_price" }}
+            %div.span8{data: { bind: "visible: can_expedite"}}
+              %div.control-group.boolean.optional.booking_expedited
+                %div.controls
+                  = f.input :expedited, label: false, inline_label: true, input_html: { "data-bind" => "checked: $parent.expedited" }
+
+          %div.row
+            %div.span8
+              = f.input :sample_description, input_html: { "data-bind" => "wysihtml5: sample_description" }
+          %div.row
+            %div.span8
+              = f.input :sample_deliverable, input_html: { "data-bind" => "wysihtml5: sample_deliverable" }
+
+        %div.span2
+          %div.pricing{data: { spy: "affix", "offset-top" => "252" }}
+            %h4 Subtotal Pricing
+            %small Shipping not included.
+            %dl
+              %dt Price per sample
+              %dd{data: { bind: "text: money(tool_price_visible)"}}
+              %dt Samples
+              %dd{data: { bind: "text: booking.samples" }}
+              %dt Setup price
+              %dd{data: { bind: "text: money(tool_price().setup_price)"}}
+              %dt.total_price Total price
+              %dd.total_price{data: { bind: "text: money(final_price)" }}
+            %span.label.label-warning{data: { bind: "visible: expedited" }} Expedited
+
+      %div.row.step{ "data-bind" => "css: { complete: stepTwoComplete }"}
+        %div.span12.border
+        %div.span2
+          %h1 2
+          %small How would you like to send and dispose of the sample?
+        %div.span8
+          %div.row
+            %div.span8
+              = f.input :sample_transit, as: :select, collection: Booking::Transit::COLLECTION, input_html: { "data-bind" => "value: sample_transit" }
+
+          %div.row
+            %div.span8
+              %div.transit.in_person{ "data-bind" => "visible: sample_transit() == 'in_person'" }
+                %p We'll let you know the address of the tool when the owner approves the booking.
+
+              %div.transit.rareshare_send{ "data-bind" => "visible: sample_transit() == 'rareshare_send'" }
+                %p
+                  Please let us know what size package you need, and we'll get you a label. If you're sending biological samples, please read this
+                  = link_to "guide to shipping biological samples", "http://www.dehs.umn.edu/bio_pracprin_std_ship_guide.htm"
+                  for more information. RareShare does not supply any packaging materials.
+
+                = f.input :shipping_package_size, as: :radio_buttons, collection: Booking::PackageSize::COLLECTION, label: ""
+
+                %p Additionally, we need to know where you're sending the package from.
+
+                - has_address  = current_user.address.present?
+                - full_address = has_address ? current_user.address.full_street_address : t('addresses.none_found')
+
+                - if has_address
+                  = f.input :address_id, as: :hidden, value: current_user.address.id
+
+                %label.radio
+                  %input{type: "radio", name: "booking[use_user_address]", value: 1, disabled: current_user.address.blank?, "data-bind" => "checked: use_user_address.writeable"}
+
+                  Use my address (#{full_address})
+
+                %label.radio
+                  %input{type: "radio", name: "booking[use_user_address]", value: 0, "data-bind" => "checked: use_user_address.writeable"}
+                  Add a new shipping address
+
+                %div.row.address
+                  %div.span8.slide-down{"data-bind" => "css: { slid: !use_user_address() }"}
+                    = f.simple_fields_for :address do |a|
+                      = render partial: 'addresses/form', object: a
+
+
+              %div.transit.renter_send{ "data-bind" => "visible: sample_transit() == 'renter_send'" }
+                %p We'll let you know the address of the tool when the owner approves the booking.
+
+              %div.transit.digital_send{ "data-bind" => "visible: sample_transit() == 'digital_send'" }
+                %p You'll have to come to a separate arrangement with the owner of the tool over data transfer.
+
+              %div.transit.none_required{ "data-bind" => "visible: sample_transit() == 'none_required'" }
+
+          %div.row
+            %div.span8
+              = f.input :sample_disposal, as: :select, collection: Booking::Disposal::COLLECTION, input_html: { "data-bind" => "value: sample_disposal" }
+
+          %div.row
+            %div.span8
+              %div.disposal.in_person{ "data-bind" => "visible: sample_disposal() == 'in_person'" }
+                %p We'll let you know the address of the tool when the owner approves the booking.
+
+              %div.disposal.rareshare_send{ "data-bind" => "visible: sample_disposal() == 'rareshare_send'" }
+                %p We can only take care of the round trip if you give us an address above.
+
+              %div.disposal.owner_dispose{ "data-bind" => "visible: sample_disposal() == 'owner_dispose'" }
+                %div.row
+                  %div.span8
+                    = f.input :disposal_instructions, input_html: { "data-bind" => "wysihtml5: disposal_instructions" }
+
+              %div.transit.none_required{ "data-bind" => "visible: sample_disposal() == 'none_required'" }
+
+      %div.row.step{ "data-bind" => "css: { complete: stepThreeComplete }"}
+        %div.span12.border
+        %div.span2
+          %h1 3
+          %small Review the pricing and read the terms and conditions.
+        %div.span8
+          - if @booking.tool.terms_document.blank?
+            %div.terms_and_conditions= terms_and_conditions
+          - else
+            %p The owner of this tool has supplied their own terms for all bookings.
+            %p
+              %a{href: @booking.tool.terms_document.pdf.url, target: "_blank", download: true}
+                %i.icon-download
+                = @booking.tool.terms_document.title
+            %embed{src: @booking.tool.terms_document.pdf.url, width: 600, height: 300, style: "border: 1px solid #ddd; margin-bottom: 10px"}
+
+          = f.input :tos_accepted, label: false, input_html: { class: "primary", "data-bind" => "checked: tos_accepted" }, inline_label: t('simple_form.labels.booking.tos_accepted', terms_link: page_link_to('Terms & Conditions', target: "_blank")).html_safe
+
+    %div.row
+      %span.offset2.span10
+        = f.submit t('bookings.action_type.draft'), class: "btn btn-primary"
+        = f.submit t('bookings.action_type.reserve'), class: "btn btn-success", "data-bind" => "enable: canSubmit"
+        = link_to "Cancel", :back, class: "btn"

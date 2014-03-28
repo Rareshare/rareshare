@@ -77,26 +77,6 @@ class Booking < ActiveRecord::Base
         b.build_address
       end
     end
-
-    def reserve(renter, params={})
-      self.new(params).tap do |b|
-        b.renter     = renter
-        b.updated_by = renter
-        b.price      = b.tool_price.revised_price_for(b.samples, expedited: b.expedited)
-        b.currency   = b.tool.currency
-        b.deadline   = b.expedited ? b.tool_price.earliest_expedite_date : b.tool_price.earliest_bookable_date
-
-        if b.ignores_address?
-          b.address = nil
-        elsif b.use_user_address?
-          b.address = renter.address
-        end
-
-        b.rareshare_fee = b.price * RARESHARE_FEE_PERCENT
-
-        b.save
-      end
-    end
   end
 
   module Transit
@@ -132,6 +112,7 @@ class Booking < ActiveRecord::Base
   end
 
   state_machine do
+    state :draft
     state :pending
     state :confirmed
     state :denied
@@ -177,6 +158,34 @@ class Booking < ActiveRecord::Base
 
   state_machine.states.each do |state|
     scope state.name, lambda { where(state: state.name) }
+  end
+
+  def save_draft(renter)
+    self.renter     = renter
+    self.updated_by = renter
+    self.price      = tool_price.revised_price_for(samples, expedited: expedited)
+    self.currency   = tool.currency
+    self.deadline   = expedited ? tool_price.earliest_expedite_date : tool_price.earliest_bookable_date
+    save(validate: false)
+  end
+
+  def reserve(renter)
+    self.state      = "pending"
+    self.renter     = renter
+    self.updated_by = renter
+    self.price      = tool_price.revised_price_for(samples, expedited: expedited)
+    self.currency   = tool.currency
+    self.deadline   = expedited ? tool_price.earliest_expedite_date : tool_price.earliest_bookable_date
+
+    if ignores_address?
+      self.address = nil
+    elsif b.use_user_address?
+      self.address = renter.address
+    end
+
+    self.rareshare_fee = price * RARESHARE_FEE_PERCENT
+
+    save
   end
 
   def title
@@ -382,7 +391,7 @@ class Booking < ActiveRecord::Base
           }
         )
       end
-    else
+    elseif state != "draft"
       receiver = opposite_party_to(last_updated_by)
 
       n = notifications.create(
