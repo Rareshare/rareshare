@@ -20,10 +20,14 @@
       %td= booking.sample_deliverable
     %tr
       %th Sample transit
-      %td= t("bookings.sample_transit.#{booking.sample_transit}")
+      %td
+        = t("bookings.sample_transit.#{booking.sample_transit}") if booking.sample_transit.present?
+
     %tr
       %th Sample disposal
-      %td= t("bookings.sample_disposal.#{booking.sample_disposal}")
+      %td
+        = t("bookings.sample_disposal.#{booking.sample_disposal}") if booking.sample_disposal.present?
+
     - unless booking.disposal_instructions.blank?
       %tr
         %th Disposal instructions
