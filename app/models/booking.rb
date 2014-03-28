@@ -392,7 +392,7 @@ class Booking < ActiveRecord::Base
           }
         )
       end
-    elseif state != "draft"
+    elsif state != "draft"
       receiver = opposite_party_to(last_updated_by)
 
       n = notifications.create(
