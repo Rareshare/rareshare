@@ -74,8 +74,6 @@ class ToolPrice < ActiveRecord::Base
 
   def revised_price_for(samples, opts={})
     price   = opts[:expedited] ? expedite_amount : base_amount
-    samples = samples.to_i
-
     setup_price + ( price * samples )
   end
 
