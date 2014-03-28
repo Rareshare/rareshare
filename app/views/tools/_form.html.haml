@@ -1,7 +1,7 @@
 - content_for :head do
   :javascript
     $(function() {
-      window.tool = new Tool(#{@tool.to_json});
+      window.tool = new Tool(#{@tool.to_json_for_build});
       ko.applyBindings({ tool: tool }, $("form.new_tool, form.edit_tool")[0]);
     });
 

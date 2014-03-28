@@ -125,8 +125,12 @@ class Tool < ActiveRecord::Base
     lowest_price.try(:earliest_bookable_date)
   end
 
-  def tool_prices_for_edit
-    self.tool_prices.build; self.tool_prices
+  def tool_prices_for_json(build)
+    if build
+      self.tool_prices.build; self.tool_prices
+    else
+      self.tool_prices
+    end
   end
 
   def possible_terms_documents
@@ -135,6 +139,10 @@ class Tool < ActiveRecord::Base
 
   def current_renter
     bookings.rented.first.try(:renter)
+  end
+
+  def to_json_for_build
+    to_json(build: true)
   end
 
   def as_json(options={})
@@ -158,7 +166,7 @@ class Tool < ActiveRecord::Base
         unit: self.sample_size_unit,
         all: SampleSize.all_sizes,
       },
-      tool_prices: tool_prices_for_edit,
+      tool_prices: tool_prices_for_json(options[:build]),
       tool_price_categories: ToolPrice::Subtype::COLLECTION
     )
   end
