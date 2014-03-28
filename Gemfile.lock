@@ -37,9 +37,10 @@ GIT
 
 GIT
   remote: git://github.com/norman/friendly_id.git
-  revision: 9a2086d8f2e3260318470674104be3b1254c8b2d
+  revision: fd11923c97fefb459ecd9e099ff6f318886361dc
   specs:
-    friendly_id (5.0.0.beta1)
+    friendly_id (5.0.3)
+      activerecord (>= 4.0.0)
 
 GIT
   remote: git://github.com/sporkrb/spork-rails.git

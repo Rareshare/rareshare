@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
 
   def show
-    @page = Page.where(slug: params[:page]).first
+    @page = Page.find(params[:page])
     not_found if @page.nil?
   end
 
