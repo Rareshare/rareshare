@@ -5,21 +5,21 @@
 
 %div.row
   %div.span2
-    %table.calendar
-      %thead
-        %tr
-          - @calendar.days_of_week.each do |d|
-            %th= d
-      %tbody
-        - @calendar.weeks.each do |week|
-          %tr
-            - week.each do |date|
-              %td{class: date_class_for(@calendar, date)}= date.day
+    -#%table.calendar
+    -#  %thead
+    -#    %tr
+    -#      - @calendar.days_of_week.each do |d|
+    -#        %th= d
+    -#  %tbody
+    -#    - @calendar.weeks.each do |week|
+    -#      %tr
+    -#        - week.each do |date|
+    -#          %td{class: date_class_for(@calendar, date)}= date.day
 
-    %div.pull-left
-      = link_to glyph("angle-left"), bookings_path(@calendar.prev)
-    %div.pull-right
-      = link_to glyph("angle-right"), bookings_path(@calendar.next)
+    -#%div.pull-left
+    -#  = link_to glyph("angle-left"), bookings_path(@calendar.prev)
+    -#%div.pull-right
+    -#  = link_to glyph("angle-right"), bookings_path(@calendar.next)
 
   %div.span10
     %h3 Recent
