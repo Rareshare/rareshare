@@ -6,6 +6,8 @@
       %th Tool
       %th Cost
       %th
+      %th Provider
+      %th Renter
   %tbody
     - list.each do |b|
       %tr{class: classes_for_booking_row(b)}
@@ -15,3 +17,5 @@
         %td= link_to b.display_name, booking_path(b)
         %td= number_to_currency b.price, unit: currency_for(b)
         %td= render partial: "bookings/actions", locals: { booking: b, btn_size: "btn-mini" }
+        %td= b.owner.try(:display_name)
+        %td= b.renter.try(:display_name)
