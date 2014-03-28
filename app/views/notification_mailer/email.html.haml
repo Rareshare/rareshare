@@ -24,7 +24,6 @@
             %p= "Q: #{notification.properties["question"]}"
 
       - if @tool.try(:terms_document_id)
-        -# pdf url needs to be clarified
         %h3= link_to "Terms and conditions", root_url + @tool.terms_document.pdf.url, target: "_blank"
 
     %p
