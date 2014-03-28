@@ -81,11 +81,14 @@ class Tool < ActiveRecord::Base
 
   scope :live, -> { where(online: true) }
   scope :offline, -> { where(online: false) }
-  
+
   def display_name
     "#{manufacturer_name} #{model_name}"
   end
 
+  def status
+    online ? "Live" : "Offline"
+  end
   def possible_years
     Date.today.year.downto(1970).to_a
   end

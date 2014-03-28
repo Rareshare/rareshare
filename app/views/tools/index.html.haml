@@ -27,7 +27,7 @@
                 %td= link_to t.display_name, tool_path(t)
                 %td= t.tool_prices.map {|tp| format_tool_price(tp) }.join("<br/>").html_safe
                 %td= t.current_renter.try(:display_name)
-                %td= t.online ? "Live" : "Offline"
+                %td= t.status
                 %td
                   = simple_form_for t, method: :delete, html: { class: "no-margin" } do |f|
                     .form-actions
