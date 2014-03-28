@@ -133,6 +133,10 @@ class Tool < ActiveRecord::Base
     self.owner.terms_documents
   end
 
+  def current_renter
+    bookings.rented.first.try(:renter)
+  end
+
   def as_json(options={})
     options = options.merge(
       methods: [
