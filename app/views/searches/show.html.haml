@@ -8,8 +8,11 @@
     = render partial: "searches/form"
 
 - if @results.any?
-  = paginate @results
+  .row
+    .pull-right= paginate @results
   = render collection: @results, partial: 'result'
+  .row
+    .pull-right= paginate @results
 - elsif @query.valid?
   %div.row
     %div.span8.offset2
