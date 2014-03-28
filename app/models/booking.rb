@@ -106,7 +106,7 @@ class Booking < ActiveRecord::Base
     DIGITAL_SEND   = :digital_send
     NONE_REQUIRED  = :none_required
 
-    ALL        = [ IN_PERSON, RARESHARE_SEND, RENTER_SEND, DIGITAL_SEND, NONE_REQUIRED ]
+    ALL        = [ IN_PERSON, RENTER_SEND, DIGITAL_SEND, NONE_REQUIRED ]
     COLLECTION = ALL.map {|k| [ I18n.t("bookings.sample_transit.#{k}"), k ]}
   end
 
@@ -116,7 +116,7 @@ class Booking < ActiveRecord::Base
     OWNER_DISPOSE  = :owner_dispose
     NONE_REQUIRED  = :none_required
 
-    ALL        = [ IN_PERSON, RARESHARE_SEND, OWNER_DISPOSE, NONE_REQUIRED ]
+    ALL        = [ IN_PERSON, OWNER_DISPOSE, NONE_REQUIRED ]
     COLLECTION = ALL.map {|k| [ I18n.t("bookings.sample_disposal.#{k}"), k ]}
   end
 
