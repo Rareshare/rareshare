@@ -81,6 +81,12 @@ en:
     price_type:
       time:   "By unit of time (coming soon)"
       sample: "By number of samples processed"
+    action_type:
+      create_sandbox: "Create Tool and sandbox Listing"
+      create_live:    "Create Tool and go-live with Listing"
+      update_sandbox: "Update Tool and sandbox Listing"
+      update_live:    "Update Tool and go-live with Listing"
+
 
   tool_prices:
     subtype:

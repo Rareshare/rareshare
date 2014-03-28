@@ -25,24 +25,48 @@ class ToolsController < InternalController
 
   def update
     @tool = Tool.find(params[:id])
+
     authorize! :update, @tool
 
-    if @tool.update_attributes(tool_params)
-      redirect_to tool_path(@tool), flash: { notify: "Tool saved."}
+    @tool.assign_attributes(tool_params)
+
+    if params[:commit] == t('tools.action_type.update_sandbox')
+      @tool.sandbox_listing
+      redirect_to tool_path(@tool), flash: { notify: "Tool updated."}
     else
-      render 'tools/edit'
+      if @tool.go_live_with_listing
+        redirect_to tool_path(@tool), flash: { notify: "Tool updated."}
+      else
+        render 'tools/edit'
+      end
     end
   end
 
   def create
-    @tool = current_user.tools.create tool_params
+    @tool = current_user.tools.new tool_params
+
     authorize! :create, @tool
 
-    if @tool.valid?
-      redirect_to tools_path, flash: { notify: "Tool created." }
+    if params[:commit] == t('tools.action_type.create_sandbox')
+      @tool.sandbox_listing
+      redirect_to tool_path(@tool), flash: { notify: "Tool created."}
     else
-      render 'tools/new'
+      if @tool.go_live_with_listing
+        redirect_to tools_path, flash: { notify: "Tool created." }
+      else
+        render 'tools/new'
+      end
     end
+
+    #
+    #@tool = current_user.tools.create tool_params
+    #authorize! :create, @tool
+    #
+    #if @tool.valid?
+    #  redirect_to tools_path, flash: { notify: "Tool created." }
+    #else
+    #  render 'tools/new'
+    #end
   end
 
   def destroy

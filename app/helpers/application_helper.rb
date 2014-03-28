@@ -185,7 +185,7 @@ module ApplicationHelper
   end
 
   def address_for_map(address)
-    address.gsub(/,\s,/, ',').gsub(/\s/, '+').gsub(/#/, '%23')
+    address.gsub(/,\s,/, ',').gsub(/\s/, '+').gsub(/#/, '%23') if address
   end
 
   def lbl(text, type="info")
@@ -200,7 +200,7 @@ module ApplicationHelper
   def tool_access_description(t)
     if t.access_type == Tool::AccessType::PARTIAL && t.access_type_notes.present?
       sanitize "Partial: " + t.access_type_notes
-    else
+    elsif t.access_type.present?
       t("tools.access_type.#{t.access_type}")
     end
   end

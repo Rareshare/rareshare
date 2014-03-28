@@ -12,6 +12,7 @@
             %th Tool description
             %th Price
             %th Current Renter
+            %th Status
             %th
         %tbody
           - @tools.group_by(&:facility).each do |facility, tools|
@@ -19,10 +20,14 @@
               %tr
                 - if index == 0
                   %td{rowspan: tools.length}
-                    = link_to(facility.name, edit_facility_path(facility.id))
+                    - if facility
+                      = link_to(facility.name, edit_facility_path(facility.id))
+                    - else
+                      = link_to("Set facility", edit_tool_path(t))
                 %td= link_to t.display_name, tool_path(t)
                 %td= t.tool_prices.map {|tp| format_tool_price(tp) }.join("<br/>").html_safe
                 %td= t.current_renter.try(:display_name)
+                %td= t.online ? "Live" : "Offline"
                 %td
                   = simple_form_for t, method: :delete, html: { class: "no-margin" } do |f|
                     .form-actions

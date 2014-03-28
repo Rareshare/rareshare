@@ -75,10 +75,13 @@ class Tool < ActiveRecord::Base
     COLLECTION = ALL.map {|k| [ I18n.t("tools.price_type.#{k}"), k ]}
   end
 
-  delegate :address, to: :facility
-  delegate :full_street_address, :partial_address, to: :address
+  delegate :address, to: :facility, allow_nil: true
+  delegate :full_street_address, :partial_address, to: :address, allow_nil: true
   name_delegator :manufacturer, :model, :tool_category
 
+  scope :live, -> { where(online: true) }
+  scope :offline, -> { where(online: false) }
+  
   def display_name
     "#{manufacturer_name} #{model_name}"
   end
@@ -169,6 +172,16 @@ class Tool < ActiveRecord::Base
       tool_prices: tool_prices_for_json(options[:build]),
       tool_price_categories: ToolPrice::Subtype::COLLECTION
     )
+  end
+
+  def sandbox_listing
+    self.online = false
+    save(validate: false)
+  end
+
+  def go_live_with_listing
+    self.online = true
+    save
   end
 
   private

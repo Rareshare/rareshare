@@ -16,7 +16,7 @@ class SearchQuery
   def results
     self.by ||= default_date
 
-    scope = Tool
+    scope = Tool.live
     scope = scope.near(self.loc, 25) if self.loc.present?
     scope = scope.advanced_search "'#{self.q}':*" if self.q.present?
     scope = scope.page(self.page).per(self.per_page)
