@@ -98,6 +98,7 @@ class ToolsController < InternalController
       :year_manufactured,
       :serial_number,
       :model_id,
+      :key_words,
       :description,
       :resolution,
       :resolution_unit_id,
@@ -156,6 +157,11 @@ class ToolsController < InternalController
     ).tap do |params|
       if params[:facility_attributes].present?
         params[:facility_attributes][:user_id] = current_user.id
+      end
+
+      if params[:key_words].present?
+        puts "splitting!!!!!!!!!!!!!!!!!!!"
+        params[:key_words] = params[:key_words].split(", ")
       end
     end
   end
