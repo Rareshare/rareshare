@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -172,9 +173,9 @@ CREATE TABLE bookings (
     disposal_instructions text,
     currency character varying(3),
     shipping_package_size character varying(255),
+    shipping_weight numeric,
     shipping_price money DEFAULT 0.0,
     rareshare_fee money DEFAULT 0.0,
-    shipping_weight numeric,
     shipping_service character varying(255),
     samples integer,
     tool_price_id integer,
@@ -807,7 +808,8 @@ CREATE TABLE tools (
     access_type character varying(255),
     access_type_notes text,
     price_type character varying(255),
-    terms_document_id integer
+    terms_document_id integer,
+    online boolean DEFAULT true
 );
 
 
@@ -1434,6 +1436,13 @@ CREATE INDEX index_files_on_type ON files USING btree (type);
 
 
 --
+-- Name: index_files_on_url; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_files_on_url ON files USING btree (url);
+
+
+--
 -- Name: index_notifications_on_notifiable_id_and_notifiable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1549,8 +1558,6 @@ INSERT INTO schema_migrations (version) VALUES ('20121209200927');
 INSERT INTO schema_migrations (version) VALUES ('20130106164258');
 
 INSERT INTO schema_migrations (version) VALUES ('20130106214054');
-
-INSERT INTO schema_migrations (version) VALUES ('20130118235802');
 
 INSERT INTO schema_migrations (version) VALUES ('20130119175020');
 
@@ -1669,3 +1676,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140216223327');
 INSERT INTO schema_migrations (version) VALUES ('20140316225515');
 
 INSERT INTO schema_migrations (version) VALUES ('20140324152138');
+
+INSERT INTO schema_migrations (version) VALUES ('20140328164623');
