@@ -47,9 +47,10 @@ class Booking < ActiveRecord::Base
   after_save :create_booking_log
   after_save :notify_booking_state
 
-  scope :rented, lambda { where(state: [:finalized, :processing, :completed, :overdue]) }
-  scope :active, lambda { where(state: [:pending, :confirmed, :finalized, :overdue]) }
-  scope :recent, lambda { where("#{table_name}.updated_at > ?", 1.month.ago)}
+  scope :non_draft, lambda { where.not(state: :draft) }
+  scope :rented,    lambda { where(state: [:finalized, :processing, :completed, :overdue]) }
+  scope :active,    lambda { where(state: [:pending, :confirmed, :finalized, :overdue]) }
+  scope :recent,    lambda { where("#{table_name}.updated_at > ?", 1.month.ago)}
 
   scope :can, lambda {|state|
     # TODO Fix the library and replace once patch accepted.

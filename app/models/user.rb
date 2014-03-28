@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
   end
 
   def all_recent_bookings
-    ( owned_bookings.recent + requested_bookings.recent ).sort_by(&:updated_at).reverse
+    ( owned_bookings.non_draft.recent + requested_bookings.recent ).sort_by(&:updated_at).reverse
   end
 
   def skills_tags=(skills)
