@@ -12,7 +12,7 @@ class BookingLog < ActiveRecord::Base
   end
 
   def state_transition_description
-    if old_state.blank? && state == "pending"
+    if state == "pending"
       "requested the booking"
     elsif state == "draft"
       "saved draft for the booking"
