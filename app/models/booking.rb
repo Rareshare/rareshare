@@ -401,7 +401,8 @@ class Booking < ActiveRecord::Base
           key: "bookings.notify.#{state}", # This should maybe be a column.
           state: state,
           tool_name: tool.display_name,
-          tool_id: tool.id
+          tool_id: tool.id,
+          booking_id: id
         }
       )
     end

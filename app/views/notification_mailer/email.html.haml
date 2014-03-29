@@ -26,6 +26,8 @@
       - if @tool.try(:terms_document_id)
         %h3= link_to "Terms and conditions", root_url + @tool.terms_document.pdf.url, target: "_blank"
 
+    - unless @booking.pending?
+      %p Booking number: #{@booking.id}
     %p
       To check on your booking, follow this link:
       %a{href: @url}= @url

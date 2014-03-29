@@ -1,5 +1,9 @@
 %table.table
   %tbody
+    - unless booking.draft? || booking.pending?
+      %tr
+        %th.span3 Booking Number
+        %td= booking.id
     %tr
       %th.span3 Tool
       %td.span5= link_to booking.tool.display_name, tool_path(booking.tool)
