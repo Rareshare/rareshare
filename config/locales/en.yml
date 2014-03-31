@@ -179,7 +179,7 @@ en:
         base_lead_time: 'If you received a sample today, how many days would it take you to finish processing it?'
         can_expedite: 'Offer researchers priority processing for an additional fee.'
         samples_per_run: 'The number of samples or units per usage of the tool.'
-        key_words: 'Enter key words separted by comma and a space. Example: science, rareshare, experiment'
+        key_words: 'Enter key words separted by comma and a space. e.g. Assay, Measuring, DNA, RNA, Fluorescence, Genomics...'
       user:
         primary_phone: "The quickest way to reach you"
         qualifications: "Equipment expertise, credentials"

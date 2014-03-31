@@ -40,7 +40,7 @@
               = f.input :year_manufactured, as: :select, collection: @tool.possible_years, prompt: "Unknown", include_blank: true
           %div.row
             %div.span8
-              = f.input :key_words, input_html: { value: @tool.key_words.empty? ? "" : @tool.key_words.join(", ") }
+              = f.input :key_words, label: "Keywords", input_html: { value: @tool.key_words.empty? ? "" : @tool.key_words.join(", ") }
           %div.row
             %div.span8
               = f.input :description
