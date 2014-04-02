@@ -3,4 +3,22 @@
   ol {
     li { margin-bottom: 0.5em; }
   }
+
+  @iterations: 4;
+
+  // helper class, will never show up in resulting css
+  // will be called as long the index is above 0
+  .loopingClass (@index) when (@index > 0) {
+
+    (~".indent-@{index}") {
+      margin-left: @index * 40px;
+      text-indent: -@index * 19px;
+    }
+
+    .loopingClass(@index - 1);
+  }
+  .loopingClass (0) {}
+
+  .loopingClass (@iterations);
+
 }
