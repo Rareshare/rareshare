@@ -8,7 +8,7 @@ class BookingsController < InternalController
     elsif !can?(:book, tool)
       redirect_to back_or_home, flash: { error: "You cannot book your own tool." }
     else
-      @booking = Booking.default(current_user, tool, params.permit(:date))
+      @booking = Booking.default(current_user, tool, params.permit(:date, :subtype))
     end
   end
 

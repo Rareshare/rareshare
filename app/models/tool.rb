@@ -103,7 +103,7 @@ class Tool < ActiveRecord::Base
   end
 
   def tool_price_for(subtype=nil)
-    subtype.blank? ? self.lowest_price : self.tool_prices.where(subtype: subtype)
+    subtype.blank? ? self.lowest_price : self.tool_prices.where(subtype: subtype).first
   end
 
   def lowest_price

@@ -70,7 +70,7 @@ class Booking < ActiveRecord::Base
         b.renter_id  = renter.id
         b.tool_id    = tool.id
         b.deadline   = deadline
-        b.tool_price = tool.tool_price_for(params[:subtype])
+        b.tool_price_id = tool.tool_price_for(params[:subtype]).id
         b.currency   = tool.currency
         b.expedited  = false
         b.samples    = 1
