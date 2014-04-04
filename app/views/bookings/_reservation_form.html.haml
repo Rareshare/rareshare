@@ -26,6 +26,9 @@
         %div.span8
           %div.row
             %div.span5
+              -#= @booking.tool_price.subtype
+              -#= f.input :tool_price, as: :select, collection: @booking.tool.tool_prices,
+              -#label_method: :label, value_method: :id, selected: @booking.tool_price_id,
               = f.input :tool_price, as: :select, input_html: { "data-bind" => "options: tool.toolPriceCollection.toolPrices, optionsText: 'label', value: tool_price" }
 
             %div.span3
