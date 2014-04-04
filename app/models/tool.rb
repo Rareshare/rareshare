@@ -98,6 +98,10 @@ class Tool < ActiveRecord::Base
     user == self.owner
   end
 
+  def currency_symbol
+    ( self.currency.blank? || self.currency == "USD" ) ? "$" : "£"
+  end
+
   def tool_price_for(subtype=nil)
     subtype.blank? ? self.lowest_price : self.tool_prices.where(subtype: subtype)
   end
