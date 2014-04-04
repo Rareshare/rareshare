@@ -33,7 +33,7 @@ class ToolPrice < ActiveRecord::Base
   alias_method :can_expedite, :can_expedite?
 
   def expedite_amount
-    self.base_amount + ( self.base_amount / 2 )
+    base_amount * 1.5
   end
 
   def bookable_by?(deadline)

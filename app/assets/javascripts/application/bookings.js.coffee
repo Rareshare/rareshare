@@ -29,7 +29,7 @@ window.Booking = (input) ->
   # Using a null object might be preferable to this.
   @tool_price_visible  = ko.computed () =>
     @tool_price()? and
-      if @expedited() then @tool_price().expedite_amount() else @tool_price().base_price()
+      if @expedited() then @tool_price().expedite_amount() else @tool_price().base_amount()
 
   @tool_price_subtype  = ko.computed () => @tool_price()? and @tool_price().subtype()
   @tool_price_days     = ko.computed () => @tool_price()? and @tool_price().lead_time_days()
