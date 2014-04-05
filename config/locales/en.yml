@@ -130,7 +130,7 @@ en:
 
   pricing:
     help: |
-      RareShare prices tools on a per-run basis and offers optional expedited and bulk pricing.
+      RareShare prices tools on a per-run basis and offers optional expedited pricing.
       Scheduling is based on the number of days to process a sample once received. If you need
       help determining what the right values should be, please get in touch.
 
