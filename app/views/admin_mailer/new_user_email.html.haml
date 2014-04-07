@@ -1,0 +1,13 @@
+!!!html
+%html{lang: "en"}
+  %head
+    %meta(content='text/html; charset=UTF-8' http-equiv='Content-Type')
+  %body
+    %h1 A new user registered!
+
+    %p
+      #{@user.email} registered.
+      br
+      = link_to "Click here to review and approve his account"
+
+    %p Thanks,

@@ -1,0 +1,22 @@
+!!!html
+%html{lang: "en"}
+  %head
+    %meta(content='text/html; charset=UTF-8' http-equiv='Content-Type')
+  %body
+    %h4 A message from RareShare
+    %h1 Your account has been suspended!
+
+    %p Hi #{@user.first_name},
+
+    %p
+      The admin temporarily disabled your account.
+      Please contact the admin for details.
+
+    %p Thanks,
+
+    %p The RareShare Team
+
+    %small
+      You've received this update because you're subscribed to email
+      notifications of booking changes. To change these settings, please
+      %a{href: profile_url(@user)} edit your profile.

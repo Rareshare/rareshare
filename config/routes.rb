@@ -6,7 +6,8 @@ Rareshare::Application.routes.draw do
   devise_for :users, controllers: {
     omniauth_callbacks: "users/omniauth_callbacks",
     registrations:      "users/registrations",
-    passwords:          "users/passwords"
+    passwords:          "users/passwords",
+    confirmations:      "users/confirmations"
   }
 
   authenticate :user, lambda { |u| u.admin? } do

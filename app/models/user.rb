@@ -22,6 +22,10 @@ class User < ActiveRecord::Base
 
   validates :first_name, :last_name, :email, presence: true
 
+  before_save :notify_approval, if: :admin_approved_changed?
+
+  scope :admin, -> { where(admin: true) }
+
   mount_uploader :avatar, ImageUploader
 
   def new_notifications
@@ -110,5 +114,15 @@ class User < ActiveRecord::Base
 
   def as_json(opts={})
     super opts.merge(methods: %w{display_name})
+  end
+
+  private
+
+  def notify_approval
+    if admin_approved?
+      UserMailer.delay.approval_email(id)
+    else
+      UserMailer.delay.suspension_email(id)
+    end
   end
 end
