@@ -68,10 +68,10 @@ class ApplicationController < ActionController::Base
     is_notifications_path = request.path.include?('notifications')
     is_confirmation_path = request.path.include?('confirmation')
     is_accepted_path = [root_path, new_user_session_path, user_session_path,
-                         user_registration_path, profile_path, destroy_user_session_path,
-                         new_user_registration_path, page_path('learn-more'),
-                         page_path('get-help'), page_path('terms-conditions'),
-                         page_path('privacy-policy'), page_path('cookies')].include?(request.path)
+                        user_registration_path, profile_path, destroy_user_session_path,
+                        new_user_registration_path, welcome_path, page_path('learn-more'),
+                        page_path('get-help'), page_path('terms-conditions'),
+                        page_path('privacy-policy'), page_path('cookies')].include?(request.path)
 
     !(is_accepted_path || is_notifications_path || is_confirmation_path)
   end
