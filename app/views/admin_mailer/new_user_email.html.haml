@@ -8,6 +8,6 @@
     %p
       #{@user.email} registered.
       %br
-      = link_to "Click here to review and approve his account", edit_admin_user_path(@user)
+      = link_to "Click here to review and approve his account", root_url + edit_admin_user_path(@user)
 
     %p Thanks,
