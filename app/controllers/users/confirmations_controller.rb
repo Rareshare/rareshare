@@ -4,7 +4,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     yield resource if block_given?
 
     if resource.errors.empty?
-      set_flash_message(:notice, :confirmed) if is_flashing_format?
+      set_flash_message(:notice, :confirmed) if is_navigational_format?
       AdminMailer.delay.new_user_email(resource.id)
       respond_with_navigational(resource){ redirect_to after_confirmation_path_for(resource_name, resource) }
     else
