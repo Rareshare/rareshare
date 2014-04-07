@@ -974,7 +974,8 @@ CREATE TABLE users (
     admin boolean,
     tos_accepted boolean DEFAULT false,
     can_email_news boolean DEFAULT true,
-    can_email_status boolean DEFAULT true
+    can_email_status boolean DEFAULT true,
+    admin_approved boolean DEFAULT false
 );
 
 
@@ -1681,3 +1682,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140324152138');
 INSERT INTO schema_migrations (version) VALUES ('20140328164623');
 
 INSERT INTO schema_migrations (version) VALUES ('20140328194252');
+
+INSERT INTO schema_migrations (version) VALUES ('20140407202113');

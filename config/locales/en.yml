@@ -141,6 +141,9 @@ en:
   data:
     private: "This information is collected and handled by RareShare subject to the RareShare Privacy Policy and won't be displayed publicly on the site."
 
+  authentication:
+    pending_account: "Please wait until the admin reviews and approves your account. Thank you for your patience."
+
   simple_form:
     labels:
       address:

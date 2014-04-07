@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   layout "external"
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :redirect_to_login, unless: :user_signed_in?
+  before_filter :redirect_to_profile, if: :user_signed_in?
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = exception.message
@@ -48,15 +49,31 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_to_login
-    accepted_paths = [root_path, new_user_session_path,
-                      new_user_registration_path, page_path('learn-more'),
-                      page_path('get-help'), page_path('terms-conditions'),
-                      page_path('privacy-policy'), page_path('cookies')]
-
-    unless accepted_paths.include?(request.path)
+    if is_not_accessible_path
       flash[:notice] = "Please sign up."
       redirect_to new_user_registration_path
     end
+  end
+
+  def redirect_to_profile
+    unless current_user.admin_approved? || request.path == profile_path
+      if is_not_accessible_path
+        flash[:notice] = t('authentication.pending_account')
+        redirect_to profile_path
+      end
+    end
+  end
+
+  def is_not_accessible_path
+    is_notifications_path = request.path.include?('notifications')
+    is_confirmation_path = request.path.include?('confirmation')
+    is_accepted_path = [root_path, new_user_session_path, user_session_path,
+                         user_registration_path, profile_path, destroy_user_session_path,
+                         new_user_registration_path, page_path('learn-more'),
+                         page_path('get-help'), page_path('terms-conditions'),
+                         page_path('privacy-policy'), page_path('cookies')].include?(request.path)
+
+    !(is_accepted_path || is_notifications_path || is_confirmation_path)
   end
 
   def back_or_home
