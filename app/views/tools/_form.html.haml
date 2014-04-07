@@ -191,14 +191,15 @@
       %div.row
         %div.span2
           %p.help-block
-            We keep this information hidden from users until they've confirmed a reservation with you.
+            -#We keep this information hidden from users until they've confirmed a reservation with you.
         %div.span8
           %legend
             %i.icon-map-marker.icon-large
             Physical location
           %div.row
             %div.span8
-              = f.input :facility_id, as: :select, collection: current_user.facilities, label_method: :title, include_blank: "Create a new facility", hint: content_tag(:i, "", class: "icon-lock") + " " + t('data.private'), input_html: { "data-bind" => "value: facility_id" }
+              = f.input :facility_id, as: :select, collection: current_user.facilities, label_method: :title, include_blank: "Create a new facility"
+              -#hint: content_tag(:i, "", class: "icon-lock") + " " + t('data.private'), input_html: { "data-bind" => "value: facility_id" }
           = f.simple_fields_for :facility, Facility.new do |fa|
             %div.facility{data: { bind: "visible: showFacility" }}
               %div.row
