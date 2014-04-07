@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?
   layout "external"
   before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_filter :redirect_to_login, unless: :user_signed_in?
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = exception.message
@@ -44,6 +45,18 @@ class ApplicationController < ActionController::Base
       :postal_code,
       :country
     ]
+  end
+
+  def redirect_to_login
+    accepted_paths = [root_path, new_user_session_path,
+                      new_user_registration_path, page_path('learn-more'),
+                      page_path('get-help'), page_path('terms-conditions'),
+                      page_path('privacy-policy'), page_path('cookies')]
+
+    unless accepted_paths.include?(request.path)
+      flash[:notice] = "Please sign up."
+      redirect_to new_user_registration_path
+    end
   end
 
   def back_or_home
