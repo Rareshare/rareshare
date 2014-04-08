@@ -13,7 +13,7 @@
   crumbs: [:root, Booking, @booking, "Finalize"],
   subtitle: @booking.display_name
 
-= simple_form_for :transaction, url: finalize_booking_path(@booking), html: { class: "payment", "data-bind" => "with: booking", "data-stripe-key" => ENV["STRIPE_PUBLIC_KEY"] } do |f|
+= simple_form_for :transaction, url: finalize_booking_path(@booking), html: { class: "payment", "data-bind" => "with: booking", "data-stripe-key" => @booking.owner.stripe_publishable_key } do |f|
   %div.form-inputs
     %fieldset
       %div.row

@@ -975,7 +975,9 @@ CREATE TABLE users (
     tos_accepted boolean DEFAULT false,
     can_email_news boolean DEFAULT true,
     can_email_status boolean DEFAULT true,
-    admin_approved boolean DEFAULT false
+    admin_approved boolean DEFAULT false,
+    stripe_access_token character varying(255),
+    stripe_publishable_key character varying(255)
 );
 
 
@@ -1684,3 +1686,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140328164623');
 INSERT INTO schema_migrations (version) VALUES ('20140328194252');
 
 INSERT INTO schema_migrations (version) VALUES ('20140407202113');
+
+INSERT INTO schema_migrations (version) VALUES ('20140408024314');
+
+INSERT INTO schema_migrations (version) VALUES ('20140408045114');

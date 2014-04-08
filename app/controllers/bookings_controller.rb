@@ -99,7 +99,12 @@ class BookingsController < InternalController
 
   def finalize
     @booking = Booking.find(params[:id])
-    authorize! :finalize, @booking
+    if @booking.owner.stripe_access_token
+      authorize! :finalize, @booking
+    else
+      flash[:error] = "The owner has not connected with Stripe yet."
+      redirect_to @booking
+    end
   end
 
   def pay

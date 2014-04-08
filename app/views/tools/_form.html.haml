@@ -268,6 +268,14 @@
         = f.button :submit, t('tools.action_type.create_live'), class: "btn btn-success"
       - else
         = f.button :submit, t('tools.action_type.update_sandbox'), class: "btn btn-primary"
-        = f.button :submit, t('tools.action_type.update_live'), class: "btn btn-success"
+        = f.button :submit, t('tools.action_type.update_live'), class: "btn btn-success", disabled: true
 
       = link_to "Cancel", tools_path, class: "btn btn-default"
+
+      - unless current_user.stripe_access_token
+        %br
+        %br
+        = link_to "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=#{ENV['STRIPE_CLIENT_ID']}&scope=read_write",
+          target: "_blank" do
+          = image_tag "stripe-blue.png"
+

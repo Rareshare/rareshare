@@ -55,5 +55,6 @@ Rareshare::Application.routes.draw do
     member { post :reply }
   end
 
+  get "/stripe" => 'stripe#handle_redirect', as: :stripe
   get "/:page" => 'pages#show', as: :page
 end

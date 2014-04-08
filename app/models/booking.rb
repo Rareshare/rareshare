@@ -70,7 +70,7 @@ class Booking < ActiveRecord::Base
         b.renter_id  = renter.id
         b.tool_id    = tool.id
         b.deadline   = deadline
-        b.tool_price_id = tool.tool_price_for(params[:subtype]).id
+        b.tool_price_id = tool.tool_price_for(params[:subtype]).try(:id)
         b.currency   = tool.currency
         b.expedited  = false
         b.samples    = 1
@@ -315,17 +315,23 @@ class Booking < ActiveRecord::Base
   end
 
   def pay!
-    Stripe::Charge.create(
-      amount: self.final_price_in_cents,
-      currency: self.currency,
-      card: self.stripe_token,
-      description: self.display_name + " by " + self.renter.display_name
-    )
+    if owner.stripe_access_token
+      Stripe::Charge.create(
+        { amount: self.final_price_in_cents,
+        currency: self.currency,
+        card: self.stripe_token,
+        description: self.display_name + " by " + self.renter.display_name,
+        application_fee: (self.rareshare_fee * 100).to_i },
+        owner.stripe_access_token
+      )
 
-    self.class.transaction do
-      self.updated_by = renter
-      self.finalize!
-      Transaction.create! booking: self, customer: self.renter, amount: self.final_price
+      self.class.transaction do
+        self.updated_by = renter
+        self.finalize!
+        Transaction.create! booking: self, customer: self.renter, amount: self.final_price
+      end
+    else
+      errors.add :base, "The owner has not connected to Stripe yet."
     end
   rescue Stripe::CardError => e
     errors.add :stripe_token, I18n.t("payment.declined")
