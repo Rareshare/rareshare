@@ -25,6 +25,8 @@ class Tool < ActiveRecord::Base
   accepts_nested_attributes_for :facility,    allow_destroy: true, reject_if: :facility_rejected?
 
   before_save :update_search_document
+  before_save :denormalize_facility_name
+
   after_validation :geocode
   geocoded_by :full_street_address
 
@@ -226,4 +228,7 @@ class Tool < ActiveRecord::Base
     end
   end
 
+  def denormalize_facility_name
+    self.facility_name = facility.name if facility
+  end
 end
