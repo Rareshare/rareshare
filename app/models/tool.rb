@@ -129,7 +129,7 @@ class Tool < ActiveRecord::Base
   end
 
   def resolution_with_unit
-    if resolution.present? && tool.has_resolution?
+    if resolution.present?
       "#{self.resolution} #{self.resolution_unit_name}"
     end
   end
