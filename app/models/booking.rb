@@ -6,6 +6,9 @@ class Booking < ActiveRecord::Base
 
   RARESHARE_FEE_PERCENT = BigDecimal.new("0.10")
 
+  # load translation at compile time
+  I18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
+
   belongs_to :renter, class_name: "User"
   belongs_to :last_updated_by, class_name: "User"
   belongs_to :tool
@@ -88,10 +91,7 @@ class Booking < ActiveRecord::Base
     NONE_REQUIRED  = :none_required
 
     ALL        = [ IN_PERSON, RENTER_SEND, DIGITAL_SEND, NONE_REQUIRED ]
-    puts ALL
-    puts Transit::ALL
-    puts Booking::Transit::ALL
-    COLLECTION = Booking::Transit::ALL.map {|k| [ I18n.t("bookings.sample_transit.#{k}"), k ]}
+    COLLECTION = ALL.map {|k| [ I18n.t("bookings.sample_transit.#{k}"), k ]}
   end
 
   module Disposal
@@ -101,7 +101,7 @@ class Booking < ActiveRecord::Base
     NONE_REQUIRED  = :none_required
 
     ALL        = [ IN_PERSON, OWNER_DISPOSE, NONE_REQUIRED ]
-    COLLECTION = Booking::Disposal::ALL.map {|k| [ I18n.t("bookings.sample_disposal.#{k}"), k ]}
+    COLLECTION = ALL.map {|k| [ I18n.t("bookings.sample_disposal.#{k}"), k ]}
   end
 
   module PackageSize
@@ -112,7 +112,7 @@ class Booking < ActiveRecord::Base
     BOX_LARGE  = "LargeExpressBox"
 
     ALL        = [ ENVELOPE, PAK, BOX_SMALL, BOX_MEDIUM, BOX_LARGE ]
-    COLLECTION = Booking::PackageSize::ALL.map {|k| [ I18n.t("shipping.package_size.#{k}"), k]}
+    COLLECTION = ALL.map {|k| [ I18n.t("shipping.package_size.#{k}"), k]}
   end
 
   state_machine do
