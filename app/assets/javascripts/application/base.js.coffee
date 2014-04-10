@@ -52,3 +52,6 @@ jQuery ->
 
   $("input.tags").each () ->
     $(this).select2 tags: $(this).data("tags").split(",")
+
+  $("#carousel").carousel interval: 3500
+
