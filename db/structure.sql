@@ -203,6 +203,38 @@ ALTER SEQUENCE bookings_id_seq OWNED BY bookings.id;
 
 
 --
+-- Name: carousels; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE carousels (
+    id integer NOT NULL,
+    image character varying(255),
+    resource_type character varying(255),
+    resource_id integer,
+    active boolean DEFAULT true
+);
+
+
+--
+-- Name: carousels_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE carousels_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: carousels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE carousels_id_seq OWNED BY carousels.id;
+
+
+--
 -- Name: executed_searches; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1033,6 +1065,13 @@ ALTER TABLE ONLY bookings ALTER COLUMN id SET DEFAULT nextval('bookings_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY carousels ALTER COLUMN id SET DEFAULT nextval('carousels_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY executed_searches ALTER COLUMN id SET DEFAULT nextval('executed_searches_id_seq'::regclass);
 
 
@@ -1213,6 +1252,14 @@ ALTER TABLE ONLY booking_logs
 
 ALTER TABLE ONLY bookings
     ADD CONSTRAINT bookings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: carousels_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY carousels
+    ADD CONSTRAINT carousels_pkey PRIMARY KEY (id);
 
 
 --
@@ -1693,3 +1740,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140408024314');
 INSERT INTO schema_migrations (version) VALUES ('20140408045114');
 
 INSERT INTO schema_migrations (version) VALUES ('20140409025812');
+
+INSERT INTO schema_migrations (version) VALUES ('20140409130304');

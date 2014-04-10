@@ -81,14 +81,15 @@ group :development do
 end
 
 group :test do
-  gem 'factory_girl'
-  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'rspec-rails', '~> 2.14.2'
   gem 'rspec-given' # Given-when-then for specs
   gem 'no_peeping_toms', require: false # Disable observers during tests.
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'poltergeist'
-  gem 'spork-rails', github: 'sporkrb/spork-rails' # Not happy with Rails 4
+  # gem 'spork-rails', github: 'sporkrb/spork-rails' # Not happy with Rails 4
   gem 'selenium-webdriver'
   gem 'database_cleaner' # Reset database properly for browser specs.
+  gem 'shoulda-matchers'
 end

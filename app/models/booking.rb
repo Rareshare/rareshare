@@ -302,9 +302,11 @@ class Booking < ActiveRecord::Base
   alias_method :use_user_address?, :use_user_address
 
   def as_json(options={})
-    options = options.merge(
-      methods: [:use_user_address, :outgoing_shipment_rates, :currency_symbol, :tool, :tool_price]
-    )
+    unless options[:minimal]
+      options = options.merge(
+        methods: [:use_user_address, :outgoing_shipment_rates, :currency_symbol, :tool, :tool_price]
+      )
+    end
 
     super options
   end

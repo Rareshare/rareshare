@@ -1,15 +1,4 @@
 %div.content.container
-  %div.banner-background
-    %div.photo-credit
-      %small
-        %span Photo credit:
-        %a(href="http://www.flickr.com/photos/dexxus/5791228117/")
-          Bridging Knowledge to Health
-        %span
-          © 2011 Paul Bica, used under a
-        %a(href="http://creativecommons.org/licenses/by-sa/3.0/")
-          Creative Commons Attribution-ShareAlike license
-
   %div.search
     %div.row
       %div.span10.offset1
@@ -18,6 +7,41 @@
     %div.row
       %div.span10.offset1
         = render partial: "searches/form"
+
+  %div.banner-background#carousel.carousel.slide
+    %ol.carousel-indicators
+      %li(class="active" data-slide-to="0" data-target="#carousel")
+      %li(data-slide-to="1" data-target="#carousel" )
+      %li(data-slide-to="2" data-target="#carousel" )
+
+    .carousel-inner
+      - @carousels.each_with_index do |carousel, index|
+        .item(class="#{'active' if index == 0}")
+          .background(style="background-image: url(#{asset_path(carousel.image)})")
+          .contents
+            %h3= link_to carousel.resource.display_name, carousel.resource
+
+    %a(class="carousel-control left" href="#carousel" data-slide="prev") &lsaquo;
+    %a(class="carousel-control right" href="#carousel" data-slide="next") &rsaquo;
+
+
+
+
+  -#%div.photo-credit
+  -#  %small
+  -#    %span Photo credit:
+  -#    %a(href="http://www.flickr.com/photos/dexxus/5791228117/")
+  -#      Bridging Knowledge to Health
+  -#    %span
+  -#      © 2011 Paul Bica, used under a
+  -#    %a(href="http://creativecommons.org/licenses/by-sa/3.0/")
+  -#      Creative Commons Attribution-ShareAlike license
+
+
+
+
+
+
 
 %div.about_us
   %div.container

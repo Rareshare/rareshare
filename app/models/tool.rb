@@ -159,29 +159,33 @@ class Tool < ActiveRecord::Base
   end
 
   def as_json(options={})
-    options = options.merge(
-      methods: [
-        :model_name,
-        :tool_category_name,
-        :manufacturer_name,
-        :images,
-        :documents,
-        :errors,
-        :earliest_bookable_date,
-        :possible_terms_documents
-      ]
-    )
+    if options[:minimal]
+      super(options)
+    else
+      options = options.merge(
+        methods: [
+          :model_name,
+          :tool_category_name,
+          :manufacturer_name,
+          :images,
+          :documents,
+          :errors,
+          :earliest_bookable_date,
+          :possible_terms_documents
+        ]
+      )
 
-    super(options).merge(
-      sample_size: {
-        min: self.sample_size_min,
-        max: self.sample_size_max,
-        unit: self.sample_size_unit,
-        all: SampleSize.all_sizes,
-      },
-      tool_prices: tool_prices_for_json(options[:build]),
-      tool_price_categories: ToolPrice::Subtype::COLLECTION
-    )
+      super(options).merge(
+        sample_size: {
+          min: self.sample_size_min,
+          max: self.sample_size_max,
+          unit: self.sample_size_unit,
+          all: SampleSize.all_sizes,
+        },
+        tool_prices: tool_prices_for_json(options[:build]),
+        tool_price_categories: ToolPrice::Subtype::COLLECTION
+      )
+    end
   end
 
   def sandbox_listing

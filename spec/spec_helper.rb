@@ -1,51 +1,44 @@
-require 'rubygems'
-require 'spork'
+ENV["RAILS_ENV"] ||= 'test'
+require File.expand_path("../../config/environment", __FILE__)
 
-#uncomment the following line to use spork with the debugger
-#require 'spork/ext/ruby-debug'
+require 'rspec/rails'
+# require 'rspec/autorun'
+require 'database_cleaner'
+require 'rake'
+require 'rails/tasks'
+include ActiveSupport
 
-Spork.prefork do
-  ENV["RAILS_ENV"] ||= 'test'
-  require File.expand_path("../../config/environment", __FILE__)
+Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
-  require 'rspec/rails'
-  require 'rspec/autorun'
+OmniAuth.config.test_mode = true
 
-  require 'capybara/rails'
-  require 'capybara/rspec'
-  # require 'capybara-screenshot/rspec'
-  require 'database_cleaner'
-  require 'no_peeping_toms'
-  # require 'capybara/poltergeist'
+RSpec.configure do |config|
+  config.include FactoryGirl::Syntax::Methods
+  config.include Warden::Test::Helpers
+  config.infer_base_class_for_anonymous_controllers = true
+  config.order = "random"
 
-  # Capybara.javascript_driver = :poltergeist
-  OmniAuth.config.test_mode = true
+  Warden.test_mode!
 
-  RSpec.configure do |config|
-    config.include FactoryGirl::Syntax::Methods
-    config.include Warden::Test::Helpers
-    config.infer_base_class_for_anonymous_controllers = true
-    config.order = "random"
-    ActiveRecord::Observer.disable_observers
-    Warden.test_mode!
-
-    config.before(:suite) do
-      DatabaseCleaner.strategy = :transaction
-      # DatabaseCleaner.clean_with(:truncation)
-    end
-
-    config.before(:each) do
-      DatabaseCleaner.start
-    end
-
-    config.after(:each) do
-      DatabaseCleaner.clean
-    end
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    # DatabaseCleaner.clean_with(:truncation)
   end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+
+  # enable one liner syntax for expect syntax
+  config.alias_example_to :expect_it
 end
 
-Spork.each_run do
-  # This code will be run each time you run your specs.
-  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
-  FactoryGirl.find_definitions
+# enable one liner syntax for expect syntax
+RSpec::Core::MemoizedHelpers.module_eval do
+  alias to should
+  alias not_to should_not
 end
