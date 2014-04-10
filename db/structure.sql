@@ -212,9 +212,9 @@ CREATE TABLE carousels (
     resource_type character varying(255),
     resource_id integer,
     active boolean DEFAULT true,
-    external_link character varying(255),
+    external_link_url character varying(255),
     custom_content text,
-    external_link_title character varying(255)
+    external_link_text character varying(255)
 );
 
 
@@ -1749,3 +1749,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140409130304');
 INSERT INTO schema_migrations (version) VALUES ('20140410164933');
 
 INSERT INTO schema_migrations (version) VALUES ('20140410181641');
+
+INSERT INTO schema_migrations (version) VALUES ('20140410191530');

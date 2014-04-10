@@ -3,7 +3,7 @@ class Carousel < ActiveRecord::Base
   mount_uploader :image, ImageUploader
 
   validates_presence_of :image
-  validates_format_of :external_link, with: URI::regexp(%w(http https)), allow_blank: true
+  validates_format_of :external_link_url, with: URI::regexp(%w(http https)), allow_blank: true
   validate :linkable
 
   scope :active, -> { where(active: true) }
@@ -19,7 +19,7 @@ class Carousel < ActiveRecord::Base
   end
 
   def external_link_present?
-    external_link.present? && external_link_title.present?
+    external_link_url.present? && external_link_text.present?
   end
 
   private

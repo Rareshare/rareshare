@@ -13,10 +13,10 @@ describe CarouselDecorator do
     end
 
     context "external link" do
-      let(:carousel) { Carousel.new(external_link: "http://google.com", external_link_title: "Google") }
+      let(:carousel) { Carousel.new(external_link_url: "http://google.com", external_link_text: "Google") }
 
       it "returns the external link" do
-        expect(decorator.link_url).to eql(carousel.external_link)
+        expect(decorator.link_url).to eql(carousel.external_link_url)
       end
     end
 
@@ -41,10 +41,10 @@ describe CarouselDecorator do
     end
 
     context "external link" do
-      let(:carousel) { Carousel.new(external_link: "http://google.com", external_link_title: "Google") }
+      let(:carousel) { Carousel.new(external_link_url: "http://google.com", external_link_text: "Google") }
 
       it "returns the external link" do
-        expect(decorator.link_text).to eql(carousel.external_link_title)
+        expect(decorator.link_text).to eql(carousel.external_link_text)
       end
     end
 
@@ -69,7 +69,7 @@ describe CarouselDecorator do
     end
 
     context "external link" do
-      let(:carousel) { Carousel.new(external_link: "http://google.com", external_link_title: "Google") }
+      let(:carousel) { Carousel.new(external_link_url: "http://google.com", external_link_text: "Google") }
 
       it "returns the external link" do
         expect(decorator.link).to eql(h.link_to(decorator.link_text, decorator.link_url, target: "_blank"))

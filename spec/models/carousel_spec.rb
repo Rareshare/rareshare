@@ -8,8 +8,8 @@ describe Carousel do
     expect_it { to have_db_column(:resource_type).of_type(:string) }
     expect_it { to have_db_column(:resource_id).of_type(:integer) }
     expect_it { to have_db_column(:active).of_type(:boolean) }
-    expect_it { to have_db_column(:external_link).of_type(:string) }
-    expect_it { to have_db_column(:external_link_title).of_type(:string) }
+    expect_it { to have_db_column(:external_link_url).of_type(:string) }
+    expect_it { to have_db_column(:external_link_text).of_type(:string) }
     expect_it { to have_db_column(:custom_content).of_type(:text) }
   end
 
@@ -26,7 +26,7 @@ describe Carousel do
     end
 
     describe "linkable" do
-      context "resource_type, resource_id, external_link, and cusotm_content are nil" do
+      context "resource, external_link, and custom_content are not present" do
         let(:carousel) { Carousel.new() }
 
         it "adds error" do
@@ -35,73 +35,68 @@ describe Carousel do
         end
       end
 
-      context "resource_type and resource_id are present" do
-        let(:carousel) { Carousel.new(resource_type: 'Tool', resource_id: 1) }
+      context "external_link and custom_content are not present" do
+        context "resource is present" do
+          it "does not add error" do
+            expect(carousel).to receive(:resource_present?).and_return(true)
+            carousel.send(:linkable)
+            expect(carousel.errors.full_messages).not_to include("must have linkable content.")
+          end
+        end
 
-        it "does not add erorr" do
-          carousel.send(:linkable)
-          expect(carousel.errors.full_messages).not_to include("must have linkable content.")
+        context "resource is not present" do
+          it "adds error" do
+            expect(carousel).to receive(:resource_present?).and_return(false)
+            carousel.send(:linkable)
+            expect(carousel.errors.full_messages).to include("must have linkable content.")
+          end
         end
       end
 
-      context "only resource_type is present" do
-        let(:carousel) { Carousel.new(resource_type: 'Tool') }
+      context "resource and custom_content are not present" do
+        before(:each) { expect(carousel).to receive(:resource_present?).and_return(false) }
 
-        it "adds error" do
-          carousel.send(:linkable)
-          expect(carousel.errors.full_messages).to include("must have linkable content.")
+        context "external_link is present" do
+          it "does not add error" do
+            expect(carousel).to receive(:external_link_present?).and_return(true)
+            carousel.send(:linkable)
+            expect(carousel.errors.full_messages).not_to include("must have linkable content.")
+          end
+        end
+
+        context "external_link is not present" do
+          it "adds error" do
+            expect(carousel).to receive(:external_link_present?).and_return(false)
+            carousel.send(:linkable)
+            expect(carousel.errors.full_messages).to include("must have linkable content.")
+          end
         end
       end
 
-      context "only resource_id is present" do
-        let(:carousel) { Carousel.new(resource_id: 1) }
+      context "resource and external_link are not present" do
+        context "custom_content is present" do
+          let(:carousel) { Carousel.new(custom_content: "content") }
 
-        it "adds error" do
-          carousel.send(:linkable)
-          expect(carousel.errors.full_messages).to include("must have linkable content.")
+          it "does not add erorr" do
+            carousel.send(:linkable)
+            expect(carousel.errors.full_messages).not_to include("must have linkable content.")
+          end
         end
-      end
 
-      context "external_link and external_link_title are present" do
-        let(:carousel) { Carousel.new(external_link: 'link', external_link_title: 'title') }
+        context "custom_content is not present" do
+          let(:carousel) { Carousel.new() }
 
-        it "does not add erorr" do
-          carousel.send(:linkable)
-          expect(carousel.errors.full_messages).not_to include("must have linkable content.")
-        end
-      end
-
-      context "only external_link is present" do
-        let(:carousel) { Carousel.new(external_link: 'link') }
-
-        it "adds error" do
-          carousel.send(:linkable)
-          expect(carousel.errors.full_messages).to include("must have linkable content.")
-        end
-      end
-
-      context "only external_link_title is present" do
-        let(:carousel) { Carousel.new(external_link_title: "title") }
-
-        it "adds error" do
-          carousel.send(:linkable)
-          expect(carousel.errors.full_messages).to include("must have linkable content.")
-        end
-      end
-
-      context "custom_content is present" do
-        let(:carousel) { Carousel.new(custom_content: "content") }
-
-        it "does not add erorr" do
-          carousel.send(:linkable)
-          expect(carousel.errors.full_messages).not_to include("must have linkable content.")
+          it "does not add erorr" do
+            carousel.send(:linkable)
+            expect(carousel.errors.full_messages).to include("must have linkable content.")
+          end
         end
       end
     end # linkable
 
     describe "external link format validation" do
-      expect_it { to allow_value('http://foo.com', 'http://bar.com/baz').for(:external_link) }
-      expect_it { not_to allow_value('asdfjkl').for(:external_link) }
+      expect_it { to allow_value('http://foo.com', 'http://bar.com/baz').for(:external_link_url) }
+      expect_it { not_to allow_value('asdfjkl').for(:external_link_url) }
     end
   end # Validations
 
@@ -133,6 +128,54 @@ describe Carousel do
         carousel.save(validate: false)
         expect(carousel.resource).to eql(carousel.tool)
       end
+    end
+  end
+
+  describe "resource_present?" do
+    let(:subject) { carousel.resource_present? }
+
+    context "resource_type and resource_id are present" do
+      let(:carousel) { build(:carousel) }
+      expect_it { to be_true }
+    end
+
+    context "only resource_type is present" do
+      let(:carousel) { build(:carousel, resource_id: nil) }
+      expect_it { to be_false }
+    end
+
+    context "only resource_id is present" do
+      let(:carousel) { build(:carousel, resource_type: nil) }
+      expect_it { to be_false }
+    end
+
+    context "both resource_type and resource_id are not present" do
+      let(:carousel) { build(:carousel, resource_type: nil, resource_id: nil) }
+      expect_it { to be_false }
+    end
+  end
+
+  describe "external_link_present?" do
+    let(:subject) { carousel.external_link_present? }
+
+    context "external_link_url and external_link_text are present" do
+      let(:carousel) { build(:carousel, external_link_url: "l", external_link_text: "t") }
+      expect_it { to be_true }
+    end
+
+    context "only external_link_url is present" do
+      let(:carousel) { build(:carousel, external_link_url: "l") }
+      expect_it { to be_false }
+    end
+
+    context "only external_link_text is present" do
+      let(:carousel) { build(:carousel, external_link_text: 't') }
+      expect_it { to be_false }
+    end
+
+    context "both external_link_url and external_link_text are not present" do
+      let(:carousel) { build(:carousel) }
+      expect_it { to be_false }
     end
   end
 end

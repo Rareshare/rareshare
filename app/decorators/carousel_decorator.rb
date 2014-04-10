@@ -5,7 +5,7 @@ class CarouselDecorator < Draper::Decorator
     if resource_present?
       h.send("#{resource_type.downcase}_path".to_sym, resource_id)
     elsif external_link_present?
-      external_link
+      external_link_url
     elsif custom_content.present?
       "#carousel-modal"
     end
@@ -15,7 +15,7 @@ class CarouselDecorator < Draper::Decorator
     if resource_present?
       resource.display_name
     elsif external_link_present?
-      external_link_title
+      external_link_text
     elsif custom_content.present?
       "About this image"
     end
