@@ -19,7 +19,7 @@
         .item(class="#{'active' if index == 0}")
           .background(style="background-image: url(#{asset_path(carousel.image)})")
           .contents
-            %h3= link_to carousel.resource.display_name, carousel.resource
+            %h5= link_to carousel.resource.display_name, carousel.resource
 
     %a(class="carousel-control left" href="#carousel" data-slide="prev") &lsaquo;
     %a(class="carousel-control right" href="#carousel" data-slide="next") &rsaquo;
