@@ -16,9 +16,9 @@
         = f.input :resource_id, as: :select,
         input_html: { "data-bind" => "options: window.carousel.availableResources, optionsText: 'label', optionsValue: 'id'" }
       %li.input
-        = f.input :external_link
+        = f.input :external_link_url
       %li.input
-        = f.input :external_link_title
+        = f.input :external_link_text
       %li.input
         = f.input :custom_content
       %li.input

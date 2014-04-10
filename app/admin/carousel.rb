@@ -2,8 +2,8 @@ ActiveAdmin.register Carousel do
   index do
     column :resource_type
     column :resource_id
-    column :external_link
-    column :external_link_title
+    column :external_link_url
+    column :external_link_text
     column :custom_content
     column :image
     column :active
