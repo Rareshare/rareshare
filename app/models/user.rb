@@ -5,16 +5,16 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :omniauthable, :async
 
-  has_many :tools, foreign_key: :owner_id
-  has_many :received_messages, foreign_key: :receiver_id, class_name: "UserMessage"
-  has_many :sent_messages, foreign_key: :sender_id, class_name: "UserMessage"
-  has_one :address, as: :addressable
-  has_many :facilities
-  has_many :notifications
-  has_many :terms_documents
+  has_many :tools, foreign_key: :owner_id, dependent: :destroy
+  has_many :received_messages, foreign_key: :receiver_id, class_name: "UserMessage", dependent: :destroy
+  has_many :sent_messages, foreign_key: :sender_id, class_name: "UserMessage", dependent: :destroy
+  has_one :address, as: :addressable, dependent: :destroy
+  has_many :facilities, dependent: :destroy
+  has_many :notifications, dependent: :destroy
+  has_many :terms_documents, dependent: :destroy
 
-  has_many :requested_bookings, class_name: "Booking", foreign_key: :renter_id
-  has_many :owned_bookings, through: :tools, source: :bookings
+  has_many :requested_bookings, class_name: "Booking", foreign_key: :renter_id, dependent: :destroy
+  has_many :owned_bookings, through: :tools, source: :bookings, dependent: :destroy
 
   has_and_belongs_to_many :skills
 
