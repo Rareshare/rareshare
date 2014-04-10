@@ -16,5 +16,7 @@
         = f.input :resource_id, as: :select, input_html: { "data-bind" => "options: window.carousel.availableResources, optionsText: 'label', optionsValue: 'id'" }
       %li.input
         = f.input :image, as: :file
+      %li.input
+        = f.input :active
 
   = f.submit
