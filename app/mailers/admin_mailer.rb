@@ -3,6 +3,6 @@ class AdminMailer < ActionMailer::Base
 
   def new_user_email(user_id)
     @user = User.find(user_id)
-    mail to: User.admin.map(&:email).join(', '), subject: "New user registered"
+    mail to: "admin@rare-share.com, warris.bokhari@rare-share.com, adam.betts@rare-share.com", subject: "New user registered"
   end
 end
