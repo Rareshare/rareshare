@@ -11,9 +11,16 @@
   %fieldset.inputs
     %ol
       %li.input
-        = f.input :resource_type, as: :radio_buttons, collection: ['Tool'], checked: 'Tool'
+        = f.input :resource_type, as: :select, collection: ['Tool'], include_blank: true
       %li.input
-        = f.input :resource_id, as: :select, input_html: { "data-bind" => "options: window.carousel.availableResources, optionsText: 'label', optionsValue: 'id'" }
+        = f.input :resource_id, as: :select,
+        input_html: { "data-bind" => "options: window.carousel.availableResources, optionsText: 'label', optionsValue: 'id'" }
+      %li.input
+        = f.input :external_link
+      %li.input
+        = f.input :external_link_title
+      %li.input
+        = f.input :custom_content
       %li.input
         = f.input :image, as: :file
       %li.input

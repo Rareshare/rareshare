@@ -19,13 +19,20 @@
         .item(class="#{'active' if index == 0}")
           .background(style="background-image: url(#{asset_path(carousel.image)})")
           .contents
-            %h5= link_to carousel.resource.display_name, carousel.resource
+            %h5= carousel.link
+
+          - if carousel.link_text == 'About this image'
+            #carousel-modal.modal.hide.fade
+              .modal-header
+                %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
+                %h3 About this image
+              .modal-body
+                %p= simple_format(carousel.custom_content)
+              .modal-footer
+                %a.btn{href: "", "data-dismiss" => "modal"} Close
 
     %a(class="carousel-control left" href="#carousel" data-slide="prev") &lsaquo;
     %a(class="carousel-control right" href="#carousel" data-slide="next") &rsaquo;
-
-
-
 
   -#%div.photo-credit
   -#  %small
@@ -36,12 +43,6 @@
   -#      © 2011 Paul Bica, used under a
   -#    %a(href="http://creativecommons.org/licenses/by-sa/3.0/")
   -#      Creative Commons Attribution-ShareAlike license
-
-
-
-
-
-
 
 %div.about_us
   %div.container

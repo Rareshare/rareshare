@@ -48,6 +48,7 @@ gem 'kaminari' # ARec pagination
 gem 'friendly_id', github: 'norman/friendly_id' # Standard slugged ID management
 # gem 'ruby-units' # Definitions for standard and scientific units.
 gem 'country_select', git: "git://github.com/stefanpenner/country_select.git" # Use ISO codes.
+gem 'draper' # Decorator pattern
 
 # Shipping and payment
 gem 'easypost'

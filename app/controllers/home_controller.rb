@@ -2,6 +2,6 @@ class HomeController < ApplicationController
   layout "home"
 
   def index
-    @carousels = Carousel.active
+    @carousels = Carousel.active.decorate
   end
 end

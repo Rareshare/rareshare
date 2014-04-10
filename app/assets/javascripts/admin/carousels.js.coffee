@@ -11,6 +11,8 @@ jQuery ->
       url: '/admin/carousels/get_tools.json'
       dataType: 'json'
       success: (data) ->
+        window.availableTools.push("")
+        window.carousel.availableResources.push("")
         for tool in data
           window.availableTools.push(new Resource(tool.display_name, tool.id))
           window.carousel.availableResources.push(new Resource(tool.display_name, tool.id))
