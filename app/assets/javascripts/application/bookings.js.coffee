@@ -23,8 +23,9 @@ window.Booking = (input) ->
     ko.computed () =>
       accounting.formatMoney(valueAccessor(), @currency_symbol()) if valueAccessor()?
 
-
-  if input.tool_price? then @tool_price(new window.ToolPrice(input.tool_price))
+  if input.tool_price?
+    @default_selected_tool_price = input.tool_price
+    @tool_price(new window.ToolPrice(input.tool_price))
 
   # Using a null object might be preferable to this.
   @tool_price_visible  = ko.computed () =>
@@ -42,6 +43,7 @@ window.Booking = (input) ->
   # NOTE: This is used only for display purposes, and never used to charge the user.
   @final_price = ko.computed () =>
     ( parseFloat(@tool_price_visible()) * parseFloat(@samples()) ) + parseFloat(@tool_price_setup()) + parseFloat(@shipping_rate()) + parseFloat(@rareshare_fee())
+
 
   this
 
@@ -78,3 +80,7 @@ $ ->
       console.log "observable", observable, "currency", currency
 
       $(element).text accounting.formatMoney(observable, currency)
+
+
+
+

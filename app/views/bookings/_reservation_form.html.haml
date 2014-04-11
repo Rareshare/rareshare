@@ -5,6 +5,20 @@
     $(function() {
       window.booking = new Booking(#{@booking.to_json});
       ko.applyBindings({ booking: booking }, $("form.#{action}_booking")[0]);
+
+      if($("#booking_tool_price")[0]){
+        options = $("#booking_tool_price")[0].options
+
+        for(var i = 0; i < options.length; i++) {
+          if(options[i].label == window.booking.default_selected_tool_price.label) {
+            console.log("setting to " + options[i].label);
+            $(options[i]).prop('selected', true)
+            window.booking.tool_price(new window.ToolPrice(window.booking.default_selected_tool_price));
+          } else {
+            options[i].selected = false;
+          }
+        }
+      }
     });
 
 = page_header "New Booking",
@@ -29,7 +43,8 @@
               -#= @booking.tool_price.subtype
               -#= f.input :tool_price, as: :select, collection: @booking.tool.tool_prices,
               -#label_method: :label, value_method: :id, selected: @booking.tool_price_id,
-              = f.input :tool_price, as: :select, input_html: { "data-bind" => "options: tool.toolPriceCollection.toolPrices, optionsText: 'label', value: tool_price" }
+              = f.input :tool_price, as: :select,
+              input_html: { "data-bind" => "options: tool.toolPriceCollection.toolPrices, optionsText: 'label', value: tool_price" }
 
             %div.span3
               = f.input :samples, input_html: { "data-bind" => "value: samples", min: 1 }
@@ -158,3 +173,8 @@
         = f.submit t('bookings.action_type.draft'), class: "btn btn-primary"
         = f.submit t('bookings.action_type.reserve'), class: "btn btn-success", "data-bind" => "enable: canSubmit"
         = link_to "Cancel", :back, class: "btn"
+
+:javascript
+  $(function() {
+
+  });
