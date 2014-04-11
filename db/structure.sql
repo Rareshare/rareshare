@@ -845,7 +845,7 @@ CREATE TABLE tools (
     price_type character varying(255),
     terms_document_id integer,
     online boolean DEFAULT true,
-    key_words character varying(255)[] DEFAULT '{}'::character varying[],
+    keywords character varying(255)[] DEFAULT '{}'::character varying[],
     facility_name character varying(255)
 );
 
@@ -1751,3 +1751,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140410164933');
 INSERT INTO schema_migrations (version) VALUES ('20140410181641');
 
 INSERT INTO schema_migrations (version) VALUES ('20140410191530');
+
+INSERT INTO schema_migrations (version) VALUES ('20140411015833');

@@ -13,6 +13,7 @@ window.Tool = (input) ->
   @images = ko.observableArray(input.images)
   @documents = ko.observableArray(input.documents)
   @possible_terms_documents = ko.observableArray(input.possible_terms_documents)
+  @keywords = ko.observableArray(input.keywords)
   @sampleSize = new SampleSize(input.sample_size)
 
   @showFacility = ko.computed () =>
@@ -149,3 +150,4 @@ $ ->
         done: (e, data) ->
           console.log "done", data
           val()(data.result)
+

@@ -166,7 +166,6 @@ class ToolsController < InternalController
       end
 
       if params[:key_words].present?
-        puts "splitting!!!!!!!!!!!!!!!!!!!"
         params[:key_words] = params[:key_words].split(", ")
       end
     end

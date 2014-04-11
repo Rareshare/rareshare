@@ -38,9 +38,15 @@
 
             %div.span2
               = f.input :year_manufactured, as: :select, collection: @tool.possible_years, prompt: "Unknown", include_blank: true
+          %br
           %div.row
-            %div.span8
-              = f.input :key_words, label: "Keywords", input_html: { value: @tool.key_words.empty? ? "" : @tool.key_words.join(", ") }
+            %div.span6
+              = label_tag :enter_keywords
+              = text_field_tag :enter_keywords, nil, placeholder: "Type a skeyword and hit enter"
+              #keyword-save.btn Save
+
+              -#= f.input :keywords, label: "Keywords", input_html: { value: @tool.keywords.empty? ? "" : @tool.keywords.join(", ") }
+          %br
           %div.row
             %div.span8
               = f.input :description
