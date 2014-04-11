@@ -23,8 +23,8 @@ describe CarouselDecorator do
     context "custom content" do
       let(:carousel) { Carousel.new(custom_content: "Good content") }
 
-      it "returns '#carousel-modal'" do
-        expect(decorator.link_url).to eql('#carousel-modal')
+      it "returns the div id of modal" do
+        expect(decorator.link_url).to eql("#carousel-modal-#{carousel.id}")
       end
     end
   end

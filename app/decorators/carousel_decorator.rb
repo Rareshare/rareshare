@@ -7,7 +7,7 @@ class CarouselDecorator < Draper::Decorator
     elsif external_link_present?
       external_link_url
     elsif custom_content.present?
-      "#carousel-modal"
+      "#carousel-modal-#{id}"
     end
   end
 

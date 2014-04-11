@@ -22,7 +22,7 @@
             %h5= carousel.link
 
           - if carousel.link_text == 'About this image'
-            #carousel-modal.modal.hide.fade
+            .modal.hide.fade{id: "carousel-modal-#{carousel.id}"}
               .modal-header
                 %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
                 %h3 About this image
