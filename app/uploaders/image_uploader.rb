@@ -31,6 +31,10 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   EXTENSIONS = %w(jpg jpeg gif png)
 
+  def store_dir
+    "photos/#{model.class.to_s.underscore}"
+  end
+
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_white_list
     EXTENSIONS
