@@ -42,10 +42,19 @@
           %div.row
             %div.span6
               = label_tag :enter_keywords
-              = text_field_tag :enter_keywords, nil, placeholder: "Type a skeyword and hit enter"
-              #keyword-save.btn Save
+              = text_field_tag :enter_keyword, nil, placeholder: "Type a keyword and hit enter"
+              #keyword-save.btn{ data: { bind: "click: saveKeyword" } } Save
+              = f.input :keywords, as: :hidden, input_html: { data: { bind: "value: keywords().join(', ')" } }
 
-              -#= f.input :keywords, label: "Keywords", input_html: { value: @tool.keywords.empty? ? "" : @tool.keywords.join(", ") }
+          %ul#keywords{ data: { bind: "foreach: keywords()" } }
+            %li
+              .btn
+                %span.remove{ data: { bind: "click: $parent.removeKeyword.bind($data)" } } x
+                %span.edit{ data: { bind: "text: $data, click: $parent.editKeyword.bind($data)" } }
+
+
+
+            -#= f.input :keywords, label: "Keywords", input_html: { value: @tool.keywords.empty? ? "" : @tool.keywords.join(", ") }
           %br
           %div.row
             %div.span8
