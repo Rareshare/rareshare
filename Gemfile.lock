@@ -186,6 +186,10 @@ GEM
       rubyzip
     heroku-api (0.3.8)
       excon (~> 0.16.10)
+    heroku_san (4.3.2)
+      heroku-api (>= 0.1.2)
+      json
+      rake
     hike (1.2.3)
     honeybadger (1.7.0)
       json
@@ -441,6 +445,7 @@ DEPENDENCIES
   geocoder
   haml-rails
   heroku
+  heroku_san
   honeybadger
   jquery-fileupload-rails
   jquery-rails
