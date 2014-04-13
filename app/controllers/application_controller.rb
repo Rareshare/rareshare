@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
   def is_not_accessible_path
     is_notifications_path = request.path.include?('notifications')
     is_confirmation_path = request.path.include?('confirmation')
-    is_third_party_auth_path = request.path.include?('auth/provider')
+    is_third_party_auth_path = request.path.include?('users/auth')
     is_accepted_path = [root_path, new_user_session_path, user_session_path,
                         user_registration_path, profile_path, destroy_user_session_path,
                         new_user_registration_path, welcome_path, page_path('learn-more'),
