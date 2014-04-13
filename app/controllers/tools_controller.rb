@@ -104,7 +104,7 @@ class ToolsController < InternalController
       :year_manufactured,
       :serial_number,
       :model_id,
-      :key_words,
+      :keywords,
       :description,
       :resolution,
       :resolution_unit_id,
@@ -165,8 +165,8 @@ class ToolsController < InternalController
         params[:facility_attributes][:user_id] = current_user.id
       end
 
-      if params[:key_words].present?
-        params[:key_words] = params[:key_words].split(", ")
+      if params[:keywords].present?
+        params[:keywords] = params[:keywords].split(", ")
       end
     end
   end

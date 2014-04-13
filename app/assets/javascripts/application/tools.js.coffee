@@ -10,10 +10,19 @@ window.SampleSize = (input) ->
 window.Tool = (input) ->
   this[k] = ko.observable(v) for k, v of input
 
+  @keywordField = $("#enter_keyword")
+
   @images = ko.observableArray(input.images)
   @documents = ko.observableArray(input.documents)
   @possible_terms_documents = ko.observableArray(input.possible_terms_documents)
+#  @keywords = ko.observableArray()
+#  for keyword in input.keywords
+#    @keywords.push(new Keyword(keyword))
   @keywords = ko.observableArray(input.keywords)
+#  @keywordsToString = @keywords.join(", ")
+  @currentKeyword = undefined
+
+
   @sampleSize = new SampleSize(input.sample_size)
 
   @showFacility = ko.computed () =>
@@ -36,11 +45,36 @@ window.Tool = (input) ->
     root.addClass("hide")
     root.find("input.destroyed").val("1")
 
-#  @samples_in_bulk_run = ko.computed () =>
-#    [ runs, samples_per_run ] = [ @bulk_runs(), @samples_per_run() ]
-#    unless ( runs? and samples_per_run? ) then return null
-#
-#    runs * samples_per_run
+  @saveKeyword = () =>
+    keyword = @keywordField.val()
+
+    unless keyword.trim() == ""
+      # if it's a new word
+      if @keywords().indexOf(keyword) == -1
+        if @currentKeyword
+          console.log 'here'
+          console.log keyword
+          @keywords.replace(@currentKeyword, keyword)
+          @currentKeyword = undefined
+        else
+          @keywords.push(keyword)
+
+      @keywordField.val("")
+      @keywordField.trigger('focus')
+
+  @editKeyword = (keyword) =>
+    @keywordField.val(keyword)
+    @keywordField.trigger('focus')
+    @currentKeyword = keyword
+
+  @removeKeyword = (keyword) =>
+    @keywords.remove(keyword)
+
+  #  @samples_in_bulk_run = ko.computed () =>
+  #    [ runs, samples_per_run ] = [ @bulk_runs(), @samples_per_run() ]
+  #    unless ( runs? and samples_per_run? ) then return null
+  #
+  #    runs * samples_per_run
 
   @updateTermsDocuments = (doc) =>
     @possible_terms_documents.push doc
@@ -58,6 +92,17 @@ window.Tool = (input) ->
   @toolPriceCollection = new ToolPriceCollection(input)
 
   this
+
+#window.Keyword = (input) ->
+#  console.log input
+#  @textValue = ko.observable(input)
+#
+#  @editKeyword = () =>
+#    textField = $("#enter_keywords")
+#    textField.val(@textValue())
+#    textField.trigger('focus')
+#
+#  this
 
 window.ToolPriceCollection = (input) ->
   @toolPrices  = ko.observableArray()
@@ -151,3 +196,11 @@ $ ->
           console.log "done", data
           val()(data.result)
 
+  $("#enter_keyword").keydown (event) ->
+    if event.keyCode == 13
+      event.preventDefault()
+
+  $("#enter_keyword").keyup (event) ->
+    if event.keyCode == 13
+      event.preventDefault()
+      $("#keyword-save").click()
