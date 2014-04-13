@@ -8,6 +8,10 @@ class PdfUploader < CarrierWave::Uploader::Base
 
   EXTENSIONS = %w(pdf)
 
+  def store_dir
+    "docs/#{model.class.to_s.underscore}"
+  end
+
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_white_list
     EXTENSIONS
