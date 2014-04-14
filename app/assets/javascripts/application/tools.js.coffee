@@ -21,7 +21,6 @@ window.Tool = (input) ->
   @keywords = ko.observableArray(input.keywords)
   @currentKeyword = undefined
 
-
   @sampleSize = new SampleSize(input.sample_size)
 
   @showFacility = ko.computed () =>
@@ -39,10 +38,10 @@ window.Tool = (input) ->
   @promptFileUpload = (tool, evt) ->
     $(evt.target).next("input[type=file]").click()
 
-#  @removeFile = (image, evt) =>
-#    root = $(evt.currentTarget).closest("li")
-#    root.addClass("hide")
-#    root.find("input.destroyed").val("1")
+  @removeFile = (image, evt) =>
+    root = $(evt.currentTarget).closest("li")
+    root.addClass("hide")
+    root.find("input.destroyed").val("1")
 
   @saveKeyword = () =>
     keyword = @keywordField.val()
@@ -86,7 +85,7 @@ window.Tool = (input) ->
 
   @updateDocumentList = (file) =>
     console.log "uploaded doc", file
-    @documents.push(file_id: file.id, name: file.name, url: file.file.url, id: null)
+    @documents.push(_delete: 0, file_id: file.id, name: file.name, url: file.file.url, id: null)
 
   @removeDocument = (file) =>
     newFile = file
