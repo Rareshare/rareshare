@@ -156,7 +156,7 @@
             %div.span8
               - Tool::PriceType::COLLECTION.each do |price_type|
                 %label.radio
-                  = f.radio_button :price_type, price_type[0], disabled: price_type[1] == 'time'
+                  = f.radio_button :price_type, price_type[0], checked: price_type[1] == 'sample', disabled: price_type[1] == 'time'
                   = price_type[0]
 
               -#= f.input :price_type, as: :radio_buttons, collection: Tool::PriceType::COLLECTION

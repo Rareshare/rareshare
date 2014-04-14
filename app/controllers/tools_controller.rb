@@ -53,7 +53,7 @@ class ToolsController < InternalController
     else
       if current_user.stripe_access_token
         if @tool.go_live_with_listing
-          redirect_to edit_tools_path, flash: { notify: "Tool created." }
+          redirect_to edit_tools_path(@tool), flash: { notify: "Tool created." }
         else
           render 'tools/new'
         end
