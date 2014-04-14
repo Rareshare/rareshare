@@ -70,13 +70,14 @@
               %i.icon-file
               Specifications
             %ul.unstyled{data: { bind: "foreach: documents" }}
-              %li
+              %li{ data: { bind: "visible: _delete == 0"}}
+                %i.icon-trash{ data: { bind: "click: window.tool.removeDocument.bind($data)" } }
                 %i.icon-file-alt
-                %a{data: { bind: "text: name, attr: { href: url }" }}
+                %a{data: { bind: "text: name, attr: { href: url }" }, target: "_blank"}
                 = i.hidden_field :id,       data: { bind: "value: id" }
                 = i.hidden_field :file_id,  data: { bind: "value: file_id" }
                 = i.hidden_field :position, data: { bind: "value: $index" }
-                = i.hidden_field :_destroy, class: "destroyed", data: { bind: "value: $data._destroy" }
+                = i.hidden_field :_destroy, class: "deleted", data: { bind: "value: $data._delete" }
                 = i.hidden_field :category, value: FileAttachment::Categories::DOCUMENT
             %span.upload
               %a.btn.btn-success.add-file{data: { bind: "click: addFile" }}

@@ -13,7 +13,10 @@ window.Tool = (input) ->
   @keywordField = $("#enter_keyword")
 
   @images = ko.observableArray(input.images)
-  @documents = ko.observableArray(input.documents)
+  @documents = ko.observableArray()
+  for file in input.documents
+    @documents.push(_delete: 0, file_id: file.id, name: file.file_name, url: file.file_url, id: file.id)
+
   @possible_terms_documents = ko.observableArray(input.possible_terms_documents)
   @keywords = ko.observableArray(input.keywords)
   @currentKeyword = undefined
@@ -36,10 +39,10 @@ window.Tool = (input) ->
   @promptFileUpload = (tool, evt) ->
     $(evt.target).next("input[type=file]").click()
 
-  @removeFile = (image, evt) =>
-    root = $(evt.currentTarget).closest("li")
-    root.addClass("hide")
-    root.find("input.destroyed").val("1")
+#  @removeFile = (image, evt) =>
+#    root = $(evt.currentTarget).closest("li")
+#    root.addClass("hide")
+#    root.find("input.destroyed").val("1")
 
   @saveKeyword = () =>
     keyword = @keywordField.val()
@@ -83,7 +86,13 @@ window.Tool = (input) ->
 
   @updateDocumentList = (file) =>
     console.log "uploaded doc", file
-    @documents.push(file_id: file.id, filename: file.name, url: file.file.url, id: null)
+    @documents.push(file_id: file.id, name: file.name, url: file.file.url, id: null)
+
+  @removeDocument = (file) =>
+    newFile = file
+    newFile._delete = 1
+    @documents.remove(file)
+    @documents.push(newFile)
 
   @toolPriceCollection = new ToolPriceCollection(input)
 
