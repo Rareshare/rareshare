@@ -3,7 +3,7 @@ class Tool < ActiveRecord::Base
 
   BULK_DISCOUNT = BigDecimal.new("0.80")
 
-  has_many :bookings
+  has_many :bookings, dependent: :destroy
 
   belongs_to :model
   belongs_to :manufacturer
@@ -12,9 +12,11 @@ class Tool < ActiveRecord::Base
   belongs_to :facility
   belongs_to :resolution_unit, class_name: "Unit"
 
-  has_many :user_messages, as: :topic
-  has_many :images, -> { where(category: FileAttachment::Categories::IMAGE) }, class_name: "FileAttachment", as: :attachable
-  has_many :documents, -> { where(category: FileAttachment::Categories::DOCUMENT) }, class_name: "FileAttachment", as: :attachable
+  has_many :user_messages, as: :topic, dependent: :destroy
+  has_many :images, -> { where(category: FileAttachment::Categories::IMAGE) },
+           class_name: "FileAttachment", as: :attachable, dependent: :destroy
+  has_many :documents, -> { where(category: FileAttachment::Categories::DOCUMENT) },
+           class_name: "FileAttachment", as: :attachable, dependent: :destroy
   has_many :tool_prices, dependent: :destroy, inverse_of: :tool
 
   belongs_to :terms_document
