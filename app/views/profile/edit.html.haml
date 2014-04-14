@@ -1,8 +1,10 @@
+
+
 - opts = current_user.avatar.present? ? { avatar: current_user.avatar.url(:thumb) } : { icon: "user" }
 
 = page_header "Edit Profile", opts.merge(crumbs: [:root, current_user], updated_at: current_user.updated_at)
 
-= simple_form_for current_user, url: profile_path, :html => {:multipart => true} do |f|
+= simple_form_for current_user, url: profile_path, html: { data: { bind: "with: profile" }, multipart: true } do |f|
   %div.form-inputs
     %fieldset
       %div.row
@@ -35,7 +37,19 @@
           %div.row
             %div.span8= f.input :education
           %div.row
-            %div.span8= f.input :skills_tags, input_html: { class: "tags", value: f.object.skills_tags.join(","), data: { tags: Skill.all.order(:name).join(",") }}
+            %div.span6
+              = label_tag :enter_skill, "Your Skills"
+              = text_field_tag :enter_skill, nil, class: 'dynamic-text-field', placeholder: "Type a skill and hit enter"
+              .dynamic-save-button.btn{ data: { bind: "click: saveSkill" } } Save
+
+              = f.input :skills_tags, as: :hidden, input_html: { data: { bind: "value: skillsTags().join(', ')" } }
+
+          %ul#skillsTags.xable-tags{ data: { bind: "foreach: skillsTags()" } }
+            %li
+              .btn
+                %span.remove{ data: { bind: "click: $parent.removeSkill.bind($data)" } } x
+                %span.edit{ data: { bind: "text: $data, click: $parent.editSkill.bind($data)" } }
+
           = f.input :qualifications
 
       %fieldset
@@ -66,3 +80,10 @@
       = f.button :submit, value: "Save", class: "btn btn-primary"
       = link_to "Cancel", profile_path, class: "btn btn-default"
 
+
+
+:javascript
+  $(function() {
+    window.profile = new Profile(#{current_user.to_json});
+    ko.applyBindings({ profile: profile }, $("form.edit_user")[0]);
+  });

@@ -18,7 +18,7 @@ ActiveAdmin.register User do
       f.input :email
       f.input :admin, hint: "Is user admin? Handle with care."
       f.input :confirmed_at, as: :datetime, hint: "Override this to allow users access without email confirmation."
-      f.input :admin_approved
+      f.input :admin_approve
     end
 
     f.inputs "Bio" do
