@@ -13,17 +13,19 @@ class PdfUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    unless model.class.to_s == "TermsDocument"
-      if model.name
-        if PdfFile.find_by(name: model.name)
-          new_name = "#{model.created_at.to_s}_#{model.name}"
-          model.name = new_name
-          new_name
-        else
-          model.name
+    @filename ||= proc {
+      unless model.class.to_s == "TermsDocument"
+        if model.name
+          if PdfFile.find_by(name: model.name)
+            new_name = "#{model.created_at.to_s}_#{model.name}"
+            model.name = new_name
+            new_name
+          else
+            model.name
+          end
         end
       end
-    end
+    }
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
