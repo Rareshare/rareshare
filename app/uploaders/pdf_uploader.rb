@@ -16,7 +16,9 @@ class PdfUploader < CarrierWave::Uploader::Base
     unless model.class.to_s == "TermsDocument"
       if model.name
         if PdfFile.find_by(name: model.name)
-          "#{model.created_at.to_s}_#{model.name}"
+          new_name = "#{model.created_at.to_s}_#{model.name}"
+          model.name = new_name
+          new_name
         else
           model.name
         end
