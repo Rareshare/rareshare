@@ -38,7 +38,9 @@ class ImageFileUploader < CarrierWave::Uploader::Base
   def filename
     if model.name
       if ImageFile.find_by(name: model.name)
-        "#{model.created_at.to_s}_#{model.name}"
+        new_name = "#{model.created_at.to_s}_#{model.name}"
+        model.name = new_name
+        new_name
       else
         model.name
       end
