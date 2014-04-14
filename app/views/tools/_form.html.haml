@@ -69,7 +69,7 @@
             %legend
               %i.icon-file
               Specifications
-            %ul.unstyled{data: { bind: "foreach: documents" }}
+            %ul.unstyled#documents{data: { bind: "foreach: documents" }}
               %li{ data: { bind: "visible: _delete == 0"}}
                 %i.icon-trash{ data: { bind: "click: window.tool.removeDocument.bind($data)" } }
                 %i.icon-file-alt
@@ -295,3 +295,10 @@
           target: "_blank" do
           = image_tag "stripe-blue.png"
 
+
+#loadingModal.modal.hide{"data-backdrop" => "static", "data-keyboard" => "false"}
+  .modal-header
+    %h1 Processing...
+  .modal-body
+    .progress.progress-striped.active
+      .bar{style: "width: 100%;"}

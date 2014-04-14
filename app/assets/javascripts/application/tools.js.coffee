@@ -190,15 +190,20 @@ $ ->
 
   ko.bindingHandlers.fileupload =
     init: (elt, val, all, vm) ->
+      loadingModal = $("#loadingModal")
       $(elt).fileupload
         dataType: "json"
         submit: (e, data) ->
           console.log "submit", data
           data.formData = {}
 
+          loadingModal.show()
+
         done: (e, data) ->
+          loadingModal.hide()
           console.log "done", data
           val()(data.result)
+
 
   $("#enter_keyword").keydown (event) ->
     if event.keyCode == 13
