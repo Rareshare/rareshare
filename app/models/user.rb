@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :terms_documents, dependent: :destroy
 
   has_many :requested_bookings, class_name: "Booking", foreign_key: :renter_id, dependent: :destroy
-  has_many :owned_bookings, through: :tools, source: :bookings, dependent: :destroy
+  has_many :owned_bookings, through: :tools, source: :bookings
 
   has_and_belongs_to_many :skills
 
