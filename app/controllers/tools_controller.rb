@@ -32,12 +32,18 @@ class ToolsController < InternalController
 
     if params[:commit] == t('tools.action_type.update_sandbox')
       @tool.sandbox_listing
-      redirect_to edit_tool_path(@tool), flash: { notify: "Tool updated."}
+      redirect_to @tool, flash: { notify: "Tool updated."}
     else
-      if @tool.go_live_with_listing
-        redirect_to edit_tool_path(@tool), flash: { notify: "Tool updated."}
+      if current_user.stripe_access_token
+        if @tool.go_live_with_listing
+          redirect_to @tool, flash: { notify: "Tool updated."}
+        else
+          render 'tools/edit'
+        end
       else
-        render 'tools/edit'
+        @tool.sandbox_listing
+        flash[:error] = "You need to connect with Stripe in order to go live with your tools."
+        redirect_to edit_tool_path(@tool), flash: { notify: "Tool created."}
       end
     end
   end
@@ -49,11 +55,11 @@ class ToolsController < InternalController
 
     if params[:commit] == t('tools.action_type.create_sandbox')
       @tool.sandbox_listing
-      redirect_to edit_tool_path(@tool), flash: { notify: "Tool created."}
+      redirect_to @tool, flash: { notify: "Tool created."}
     else
       if current_user.stripe_access_token
         if @tool.go_live_with_listing
-          redirect_to edit_tool_path(@tool), flash: { notify: "Tool created." }
+          redirect_to @tool, flash: { notify: "Tool created." }
         else
           render 'tools/new'
         end
