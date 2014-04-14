@@ -12,7 +12,7 @@ class Tool < ActiveRecord::Base
   belongs_to :facility
   belongs_to :resolution_unit, class_name: "Unit"
 
-  has_many :user_messages, as: :topic, dependent: :destroy
+  has_many :user_messages, dependent: :destroy
   has_many :images, -> { where(category: FileAttachment::Categories::IMAGE) },
            class_name: "FileAttachment", as: :attachable, dependent: :destroy
   has_many :documents, -> { where(category: FileAttachment::Categories::DOCUMENT) },
