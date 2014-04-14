@@ -36,11 +36,11 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    if original_filename
-      if ImageFile.find_by(name: original_filename)
-        "#{model.created_at.to_s}_#{model.name}_#{File.extname(original_filename).downcase}"
+    if model.name
+      if ImageFile.find_by(name: model.name)
+        "#{model.created_at.to_s}_#{model.name}"
       else
-        "#{model.name}_#{File.extname(original_filename).downcase}"
+        model.name
       end
     end
   end

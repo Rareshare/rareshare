@@ -15,11 +15,7 @@ window.Tool = (input) ->
   @images = ko.observableArray(input.images)
   @documents = ko.observableArray(input.documents)
   @possible_terms_documents = ko.observableArray(input.possible_terms_documents)
-#  @keywords = ko.observableArray()
-#  for keyword in input.keywords
-#    @keywords.push(new Keyword(keyword))
   @keywords = ko.observableArray(input.keywords)
-#  @keywordsToString = @keywords.join(", ")
   @currentKeyword = undefined
 
 
