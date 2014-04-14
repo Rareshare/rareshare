@@ -25,6 +25,8 @@
 
 # Image uploads in dev mode.
 /public/uploads
+/public/docs
+/public/photos
 
 # rbenv Ruby version.
 /.ruby-version
@@ -38,5 +40,11 @@
 # Ignore files for running zeus in Rubymine
 /script/start_zeus
 /script/rspec_runner.rb
+
+# DB restore file
+/latest.dump
+
+# Certifications and keys
+/certs
 
 .DS_Store
