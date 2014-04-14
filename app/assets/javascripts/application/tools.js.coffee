@@ -13,11 +13,13 @@ window.Tool = (input) ->
   @keywordField = $("#enter_keyword")
 
   @images = ko.observableArray(input.images)
-  @documents = ko.observableArray(input.documents)
+  @documents = ko.observableArray()
+  for file in input.documents
+    @documents.push(_delete: 0, file_id: file.id, name: file.file_name, url: file.file_url, id: file.id)
+
   @possible_terms_documents = ko.observableArray(input.possible_terms_documents)
   @keywords = ko.observableArray(input.keywords)
   @currentKeyword = undefined
-
 
   @sampleSize = new SampleSize(input.sample_size)
 
@@ -83,7 +85,13 @@ window.Tool = (input) ->
 
   @updateDocumentList = (file) =>
     console.log "uploaded doc", file
-    @documents.push(file_id: file.id, filename: file.name, url: file.file.url, id: null)
+    @documents.push(_delete: 0, file_id: file.id, name: file.name, url: file.file.url, id: null)
+
+  @removeDocument = (file) =>
+    newFile = file
+    newFile._delete = 1
+    @documents.remove(file)
+    @documents.push(newFile)
 
   @toolPriceCollection = new ToolPriceCollection(input)
 
@@ -182,15 +190,20 @@ $ ->
 
   ko.bindingHandlers.fileupload =
     init: (elt, val, all, vm) ->
+      loadingModal = $("#loadingModal")
       $(elt).fileupload
         dataType: "json"
         submit: (e, data) ->
           console.log "submit", data
           data.formData = {}
 
+          loadingModal.show()
+
         done: (e, data) ->
+          loadingModal.hide()
           console.log "done", data
           val()(data.result)
+
 
   $("#enter_keyword").keydown (event) ->
     if event.keyCode == 13

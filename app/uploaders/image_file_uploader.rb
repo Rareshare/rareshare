@@ -36,17 +36,21 @@ class ImageFileUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    if model.name
-      if ImageFile.find_by(name: model.name)
-        new_name = "#{model.created_at.to_s}_#{model.name}"
-        model.name = new_name
-        new_name
-      else
-        model.name
+    @filename ||= proc {
+      if model.name
+        puts model.name
+        if ImageFile.find_by(name: model.name)
+          unless model.new_record?
+            new_name = "#{model.created_at.to_s}_#{model.name}"
+            model.name = new_name
+            new_name
+          end
+        else
+          model.name
+        end
       end
-    end
+    }
   end
-
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_white_list
     EXTENSIONS
