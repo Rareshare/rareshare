@@ -1,14 +1,27 @@
-%div{id: "gallery", data: { toggle: "modal-gallery", target: "#images" }}
+%div{id: "gallery"}
   - images.each do |image|
-    %a{href: image.url, data: { gallery: "gallery" } }
+    %a{href: image.url }
       %img{src: image.thumbnail}
 
-%div#images.modal.modal-gallery.hide.fade{tabindex: -1}
-  = modal_header do
-    %h3#imagesLabel Images
-  = modal_body do
-    %div.modal-image
-  = modal_footer do
-    %a.btn.btn-info.modal-prev= glyph_text :arrow_left, "Previous"
-    %a.btn.btn-primary.modal-next= glyph_text "Next", :arrow_right
-    %a.btn.btn-success.modal-play.modal-slideshow{"data-slideshow" => 5000}= glyph_text :play, "Slideshow"
+
+#blueimp-gallery.blueimp-gallery.blueimp-gallery-controls
+  .slides
+  %h3.title
+  %a.prev ‹
+  %a.next ›
+  %a.close ×
+  %a.play-pause
+  %ol.indicator
+
+:javascript
+  document.getElementById('gallery').onclick = function (event) {
+      event = event || window.event;
+      var target = event.target || event.srcElement,
+          link = target.src ? target.parentNode : target,
+          options = {index: link, event: event},
+          links = this.getElementsByTagName('a');
+      blueimp.Gallery(links, options);
+  };
+
+
+
