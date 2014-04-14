@@ -1,5 +1,5 @@
 class ImageFile < StoredFile
-  mount_uploader :file, ImageUploader
+  mount_uploader :file, ImageFileUploader
 
   def url
     self.file.url
