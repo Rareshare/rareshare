@@ -72,7 +72,7 @@
             %ul.unstyled{data: { bind: "foreach: documents" }}
               %li
                 %i.icon-file-alt
-                %a{data: { bind: "text: filename, attr: { href: url }" }}
+                %a{data: { bind: "text: name, attr: { href: url }" }}
                 = i.hidden_field :id,       data: { bind: "value: id" }
                 = i.hidden_field :file_id,  data: { bind: "value: file_id" }
                 = i.hidden_field :position, data: { bind: "value: $index" }
@@ -244,7 +244,7 @@
                 %span.fileupload
                   %a.btn.btn-success{data: { bind: "click: promptFileUpload" }}
                     %i.icon-upload
-                    Upload new terms sheet
+                    Upload new terms document
                   %input#terms-upload.hide{type: "file", name: "terms_document[pdf]", data: { bind: "fileupload: updateTermsDocuments", url: terms_documents_path }}
 
 
