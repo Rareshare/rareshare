@@ -45,7 +45,11 @@ class ProfileController < InternalController
       :tos_accepted,
       :skills_tags,
       :address_attributes => address_attributes
-    )
+    ).tap do |params|
+      if params[:skills_tags].present?
+        params[:skills_tags] = params[:skills_tags].split(", ")
+      end
+    end
   end
 
 end

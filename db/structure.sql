@@ -1013,7 +1013,8 @@ CREATE TABLE users (
     can_email_status boolean DEFAULT true,
     admin_approved boolean DEFAULT false,
     stripe_access_token character varying(255),
-    stripe_publishable_key character varying(255)
+    stripe_publishable_key character varying(255),
+    skills_tags character varying(255)[] DEFAULT '{}'::character varying[]
 );
 
 
@@ -1753,3 +1754,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140410181641');
 INSERT INTO schema_migrations (version) VALUES ('20140410191530');
 
 INSERT INTO schema_migrations (version) VALUES ('20140411015833');
+
+INSERT INTO schema_migrations (version) VALUES ('20140414084440');

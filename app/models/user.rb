@@ -61,21 +61,6 @@ class User < ActiveRecord::Base
     ( owned_bookings.non_draft.recent + requested_bookings.recent ).sort_by(&:updated_at).reverse
   end
 
-  def skills_tags=(skills)
-    skills = skills.split(",") if skills.is_a? String
-    skills = skills.compact
-
-    existing_skills = Skill.where(name: skills)
-    new_skills = skills - existing_skills.map(&:name)
-    new_skills = new_skills.map {|s| Skill.create(name: s)}
-
-    self.skills = new_skills + existing_skills
-  end
-
-  def skills_tags
-    self.skills.map &:name
-  end
-
   SUPPORT_EMAIL = "support@rare-share.com"
 
   def self.administrative

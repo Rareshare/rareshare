@@ -10,7 +10,7 @@ window.SampleSize = (input) ->
 window.Tool = (input) ->
   this[k] = ko.observable(v) for k, v of input
 
-  @keywordField = $("#enter_keyword")
+  @keywordField = $(".dynamic-text-field")
 
   @images = ko.observableArray(input.images)
   @documents = ko.observableArray()
@@ -50,8 +50,6 @@ window.Tool = (input) ->
       # if it's a new word
       if @keywords().indexOf(keyword) == -1
         if @currentKeyword
-          console.log 'here'
-          console.log keyword
           @keywords.replace(@currentKeyword, keyword)
           @currentKeyword = undefined
         else
@@ -204,12 +202,3 @@ $ ->
           console.log "done", data
           val()(data.result)
 
-
-  $("#enter_keyword").keydown (event) ->
-    if event.keyCode == 13
-      event.preventDefault()
-
-  $("#enter_keyword").keyup (event) ->
-    if event.keyCode == 13
-      event.preventDefault()
-      $("#keyword-save").click()
