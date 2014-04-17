@@ -88,12 +88,15 @@ class User < ActiveRecord::Base
         uid: auth.uid,
         email: auth.info.email,
         password: Devise.friendly_token[0,20],
-        avatar: { tempfile: open(auth.info.image), filename: "#{auth.uid}.png" },
+        avatar: { tempfile: try(:open, auth.info.image), filename: "#{auth.uid}.png" },
         linkedin_profile_url: auth.info.urls.public_profile
       )
+      user.skip_confirmation!
+      send_admin_approval_email = true
     end
 
     user.save
+    AdminMailer.delay.new_user_email(user.id) if send_admin_approval_email
     user
   end
 
