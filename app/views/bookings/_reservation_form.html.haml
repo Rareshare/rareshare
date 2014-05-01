@@ -157,7 +157,9 @@
           %small Review the pricing and read the terms and conditions.
         %div.span8
           - if @booking.tool.terms_document.blank?
-            %div.terms_and_conditions= terms_and_conditions
+            %div.terms_and_conditions
+              %iframe{src: Page.find_by(title: "Terms & Conditions").pdf, width: "100%", height: "600px" }
+              -#= terms_and_conditions
           - else
             %p The owner of this tool has supplied their own terms for all bookings.
             %p
