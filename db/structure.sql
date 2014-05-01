@@ -520,7 +520,8 @@ CREATE TABLE pages (
     id integer NOT NULL,
     title character varying(255),
     slug character varying(255),
-    content text
+    content text,
+    pdf text
 );
 
 
@@ -1756,3 +1757,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140410191530');
 INSERT INTO schema_migrations (version) VALUES ('20140411015833');
 
 INSERT INTO schema_migrations (version) VALUES ('20140414084440');
+
+INSERT INTO schema_migrations (version) VALUES ('20140501202658');

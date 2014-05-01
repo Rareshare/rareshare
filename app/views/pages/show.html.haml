@@ -4,4 +4,7 @@
 
 %div.row{class: @page.slug}
   %div.span10.offset1
-    = @page.html_content
+    - if @page.pdf.present?
+      %iframe{src: @page.pdf, width: "100%", height: "600px" }
+    - else
+      = @page.html_content
