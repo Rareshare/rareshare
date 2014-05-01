@@ -2,6 +2,7 @@ ActiveAdmin.register Page do
   index do
     column :title
     column :slug
+    column :pdf
     default_actions
   end
 
@@ -10,6 +11,7 @@ ActiveAdmin.register Page do
       f.input :title
       f.input :slug, hint: "Optional - will be generated as needed"
       f.input :content, as: :text
+      f.input :pdf, as: :file
     end
     f.actions
   end
