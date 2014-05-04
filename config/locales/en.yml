@@ -83,7 +83,7 @@ en:
       fair: "Fair"
       poor: "Poor"
     price_type:
-      time:   "By unit of time (coming soon)"
+      time:   "By unit of time"
       sample: "By number of samples processed"
     action_type:
       create_sandbox: "Create Tool and sandbox Listing"
@@ -101,6 +101,9 @@ en:
       iso_9000:       "ISO 9000 (Quality management)"
       iso_13485:      "ISO 13485 (Quality management, medical devices)"
       iso_14000:      "ISO 14000 (Environmental management)"
+    time_unit:
+      hour: "Hour"
+      day: "Day"
 
   shipping:
     rates:

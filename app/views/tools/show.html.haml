@@ -97,29 +97,41 @@
             %small on a per-#{@tool.price_type} basis
           %td
             %ul.unstyled
-              - @tool.tool_prices.each do |price|
-                %li{style: "margin-bottom: 0.5em"}
-                  %strong= t "tool_prices.subtype.#{price.subtype}"
+              - if @tool.price_type == 'sample'
+                - @tool.per_sample_tool_prices.each do |price|
+                  %li{style: "margin-bottom: 0.5em"}
+                    %strong= t "tool_prices.subtype.#{price.subtype}"
+                    - if price.requires_setup?
+                      %div
+                        %span{style: "color: #A34E4E"}= number_to_currency(price.setup_amount, unit: currency_for(@tool))
+                        %span.muted required one-time setup fee
+                    %div
+                      %span{style: "color: #A34E4E"}= number_to_currency(price.base_amount, unit: currency_for(@tool))
+                      %span.muted
+                        to reserve later than
+                        = pluralize(price.lead_time_days, "day")
+                        from today
+
+                    - if price.can_expedite?
+                      %div
+                        %span{style: "color: #A34E4E"}= number_to_currency(price.expedite_amount, unit: currency_for(@tool))
+                        %span.muted
+                          to reserve between
+                          = pluralize(price.expedite_time_days, "day")
+                          and
+                          = pluralize(price.lead_time_days, "day")
+                          from today
+              - else
+                - @tool.per_time_tool_price.tap do |price|
                   - if price.requires_setup?
                     %div
                       %span{style: "color: #A34E4E"}= number_to_currency(price.setup_amount, unit: currency_for(@tool))
                       %span.muted required one-time setup fee
                   %div
-                    %span{style: "color: #A34E4E"}= number_to_currency(price.base_amount, unit: currency_for(@tool))
+                    %span{style: "color: #A34E4E"}= number_to_currency(price.amount_per_time_unit, unit: currency_for(@tool))
                     %span.muted
-                      to reserve later than
-                      = pluralize(price.lead_time_days, "day")
-                      from today
+                      = "per #{price.time_unit}"
 
-                  - if price.can_expedite?
-                    %div
-                      %span{style: "color: #A34E4E"}= number_to_currency(price.expedite_amount, unit: currency_for(@tool))
-                      %span.muted
-                        to reserve between
-                        = pluralize(price.expedite_time_days, "day")
-                        and
-                        = pluralize(price.lead_time_days, "day")
-                        from today
         %tr
           %th Sample size
           %td

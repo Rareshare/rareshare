@@ -1,4 +1,4 @@
-class ToolPrice < ActiveRecord::Base
+class PerSampleToolPrice < ActiveRecord::Base
   module Subtype
     BENCH_STANDARD = "bench_standard"
     GMP            = "gmp"
@@ -12,12 +12,12 @@ class ToolPrice < ActiveRecord::Base
     COLLECTION = ALL.map {|k| [ I18n.t("tool_prices.subtype.#{k}"), k ]}
   end
 
-  belongs_to :tool, inverse_of: :tool_prices
+  belongs_to :tool, inverse_of: :per_sample_tool_prices
   validates_presence_of :tool
 
   validates :subtype, :base_amount, :lead_time_days, presence: true
   validates :tool_id, uniqueness: { scope: [:subtype] }
-  validates :subtype, inclusion: { in: ToolPrice::Subtype::ALL }
+  validates :subtype, inclusion: { in: PerSampleToolPrice::Subtype::ALL }
   validates_numericality_of :expedite_time_days, less_than_or_equal_to: :lead_time_days, message: "must be less than lead time days"
 
   ZERO = BigDecimal.new('0.0')

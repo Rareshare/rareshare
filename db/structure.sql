@@ -545,6 +545,77 @@ ALTER SEQUENCE pages_id_seq OWNED BY pages.id;
 
 
 --
+-- Name: per_sample_tool_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE per_sample_tool_prices (
+    id integer NOT NULL,
+    tool_id integer,
+    subtype character varying(255),
+    base_amount money DEFAULT 0.0,
+    setup_amount money DEFAULT 0.0,
+    lead_time_days integer,
+    expedite_time_days integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: per_sample_tool_prices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE per_sample_tool_prices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: per_sample_tool_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE per_sample_tool_prices_id_seq OWNED BY per_sample_tool_prices.id;
+
+
+--
+-- Name: per_time_tool_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE per_time_tool_prices (
+    id integer NOT NULL,
+    tool_id integer,
+    subtype character varying(255),
+    time_unit character varying(255),
+    setup_amount money DEFAULT 0.0,
+    amount_per_time_unit money DEFAULT 0.0,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: per_time_tool_prices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE per_time_tool_prices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: per_time_tool_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE per_time_tool_prices_id_seq OWNED BY per_time_tool_prices.id;
+
+
+--
 -- Name: question_responses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -772,42 +843,6 @@ CREATE SEQUENCE tool_categories_id_seq
 --
 
 ALTER SEQUENCE tool_categories_id_seq OWNED BY tool_categories.id;
-
-
---
--- Name: tool_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE tool_prices (
-    id integer NOT NULL,
-    tool_id integer,
-    subtype character varying(255),
-    base_amount money DEFAULT 0.0,
-    setup_amount money DEFAULT 0.0,
-    lead_time_days integer,
-    expedite_time_days integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: tool_prices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE tool_prices_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: tool_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE tool_prices_id_seq OWNED BY tool_prices.id;
 
 
 --
@@ -1140,6 +1175,20 @@ ALTER TABLE ONLY pages ALTER COLUMN id SET DEFAULT nextval('pages_id_seq'::regcl
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY per_sample_tool_prices ALTER COLUMN id SET DEFAULT nextval('per_sample_tool_prices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY per_time_tool_prices ALTER COLUMN id SET DEFAULT nextval('per_time_tool_prices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY question_responses ALTER COLUMN id SET DEFAULT nextval('question_responses_id_seq'::regclass);
 
 
@@ -1183,13 +1232,6 @@ ALTER TABLE ONLY terms_documents ALTER COLUMN id SET DEFAULT nextval('terms_docu
 --
 
 ALTER TABLE ONLY tool_categories ALTER COLUMN id SET DEFAULT nextval('tool_categories_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY tool_prices ALTER COLUMN id SET DEFAULT nextval('tool_prices_id_seq'::regclass);
 
 
 --
@@ -1340,6 +1382,14 @@ ALTER TABLE ONLY pages
 
 
 --
+-- Name: per_time_tool_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY per_time_tool_prices
+    ADD CONSTRAINT per_time_tool_prices_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: question_responses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1399,7 +1449,7 @@ ALTER TABLE ONLY tool_categories
 -- Name: tool_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY tool_prices
+ALTER TABLE ONLY per_sample_tool_prices
     ADD CONSTRAINT tool_prices_pkey PRIMARY KEY (id);
 
 
@@ -1521,17 +1571,24 @@ CREATE INDEX index_notifications_on_user_id_and_seen_at ON notifications USING b
 
 
 --
+-- Name: index_per_sample_tool_prices_on_tool_id_and_subtype; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_per_sample_tool_prices_on_tool_id_and_subtype ON per_sample_tool_prices USING btree (tool_id, subtype);
+
+
+--
+-- Name: index_per_time_tool_prices_on_tool_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_per_time_tool_prices_on_tool_id ON per_time_tool_prices USING btree (tool_id);
+
+
+--
 -- Name: index_terms_documents_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_terms_documents_on_user_id ON terms_documents USING btree (user_id);
-
-
---
--- Name: index_tool_prices_on_tool_id_and_subtype; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_tool_prices_on_tool_id_and_subtype ON tool_prices USING btree (tool_id, subtype);
 
 
 --
@@ -1759,3 +1816,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140411015833');
 INSERT INTO schema_migrations (version) VALUES ('20140414084440');
 
 INSERT INTO schema_migrations (version) VALUES ('20140501202658');
+
+INSERT INTO schema_migrations (version) VALUES ('20140502023217');
+
+INSERT INTO schema_migrations (version) VALUES ('20140502023236');

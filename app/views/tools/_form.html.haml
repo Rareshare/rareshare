@@ -154,7 +154,7 @@
             %div.span8
               - Tool::PriceType::COLLECTION.each do |price_type|
                 %label.radio
-                  = f.radio_button :price_type, price_type[0], checked: price_type[1] == 'sample', disabled: price_type[1] == 'time'
+                  = f.radio_button :price_type, price_type[1], data: { bind: "checked: price_type" }
                   = price_type[0]
 
               -#= f.input :price_type, as: :radio_buttons, collection: Tool::PriceType::COLLECTION
@@ -166,39 +166,64 @@
                 = f.radio_button :currency, "USD", data: { bind: "checked: currency" }
                 in USD ($)
 
-              = f.simple_fields_for :tool_prices_attributes, index: nil do |p|
-                %table.table{data: { bind: "with: toolPriceCollection" }}
-                  %thead
-                    %tr
-                      %th
-                        Sample type
-                        %small Standard of work
-                      %th{style: "min-width: 200px"}
-                        Price
-                        %small Each sample / One-time setup
-                      %th{style: "min-width: 200px"}
-                        Lead time
-                        %small Days / Days to expedite
-                      %th
-                        %a.has-tooltip.add-price{title: "Add price", data: { bind: "click: appendPrice, btnEnable: canAddPrice" }}
-                          %i.icon-plus
+          = f.simple_fields_for :per_time_tool_price_attributes do |p|
+            %table.table{data: { bind: "with: perTimeToolPrice, visible: tool.price_type() == 'time'" } }
+              %thead
+                %tr
+                  %th
+                    Time unit
+                  %th{style: "min-width: 200px"}
+                    Price /
+                    %span{ data: { bind: "text: time_unit" } }
+                  %th{style: "min-width: 200px"}
+                    Setup Price
 
-                  %tbody{data: { bind: "foreach: toolPrices" }}
-                    %tr
-                      %td
-                        = p.input_field :subtype, as: :select, collection: ToolPrice::Subtype::COLLECTION, data: { bind: "value: subtype, options: selectablePriceTypes, optionsValue: 'id', optionsText: 'label'" }
-                      %td
-                        = p.input_field :base_amount, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: base_amount" }
-                        %div.pull-left{style: "line-height: 25px; width: 20px; text-align: center"} /
-                        = p.input_field :setup_amount, type: "number", min: "0", style: "width: 60px; float: left", data: { bind: "value: setup_amount" }
-                      %td
-                        = p.input_field :lead_time_days, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: lead_time_days" }
-                        %div.pull-left{style: "line-height: 25px; width: 20px; text-align: center"} /
-                        = p.input_field :expedite_time_days, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: expedite_time_days" }
-                      %td
-                        = p.input_field :id, type: "hidden", data: { bind: "value: id" }
-                        %a.rm-price{title: "Remove price", style: "line-height: 30px;", data: { bind: "click: $parent.removePrice($data)" }}
-                          %i.icon-trash
+              %tbody
+                %tr
+                  %td
+                    - PerTimeToolPrice::TimeUnit::COLLECTION.each do |time_unit|
+                      %label.radio.inline
+                        = p.radio_button :time_unit, time_unit[1], data: { bind: "checked: time_unit" }
+                        = time_unit[0]
+
+                  %td
+                    = p.input_field :amount_per_time_unit, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: amount_per_time_unit" }
+                  %td
+                    = p.input_field :setup_amount, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: setup_amount" }
+
+          = f.simple_fields_for :per_sample_tool_prices_attributes, index: nil do |p|
+            %table.table{data: { bind: "with: perSampleToolPriceCollection, visible: tool.price_type() == 'sample'" }}
+              %thead
+                %tr
+                  %th
+                    Sample type
+                    %small Standard of work
+                  %th{style: "min-width: 200px"}
+                    Price
+                    %small Each sample / One-time setup
+                  %th{style: "min-width: 200px"}
+                    Lead time
+                    %small Days / Days to expedite
+                  %th
+                    %a.has-tooltip.add-price{title: "Add price", data: { bind: "click: appendPrice, btnEnable: canAddPrice" }}
+                      %i.icon-plus
+
+              %tbody{data: { bind: "foreach: toolPrices" }}
+                %tr
+                  %td
+                    = p.input_field :subtype, as: :select, collection: PerSampleToolPrice::Subtype::COLLECTION, data: { bind: "value: subtype, options: selectablePriceTypes, optionsValue: 'id', optionsText: 'label'" }
+                  %td
+                    = p.input_field :base_amount, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: base_amount" }
+                    %div.pull-left{style: "line-height: 25px; width: 20px; text-align: center"} /
+                    = p.input_field :setup_amount, type: "number", min: "0", style: "width: 60px; float: left", data: { bind: "value: setup_amount" }
+                  %td
+                    = p.input_field :lead_time_days, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: lead_time_days" }
+                    %div.pull-left{style: "line-height: 25px; width: 20px; text-align: center"} /
+                    = p.input_field :expedite_time_days, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: expedite_time_days" }
+                  %td
+                    = p.input_field :id, type: "hidden", data: { bind: "value: id" }
+                    %a.rm-price{title: "Remove price", style: "line-height: 30px;", data: { bind: "click: $parent.removePrice($data)" }}
+                      %i.icon-trash
 
     %fieldset
       %div.row

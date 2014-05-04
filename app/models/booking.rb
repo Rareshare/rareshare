@@ -12,7 +12,7 @@ class Booking < ActiveRecord::Base
   belongs_to :renter, class_name: "User"
   belongs_to :last_updated_by, class_name: "User"
   belongs_to :tool
-  belongs_to :tool_price
+  belongs_to :per_sample_tool_price
   belongs_to :address
   has_one    :owner, through: :tool
   has_many   :booking_logs

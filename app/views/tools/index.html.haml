@@ -25,7 +25,19 @@
                     - else
                       = link_to("Set facility", edit_tool_path(t))
                 %td= link_to t.display_name.blank? ? "Tool #{t.id}" : t.display_name, tool_path(t)
-                %td= t.tool_prices.map {|tp| format_tool_price(tp, t) }.join("<br/>").html_safe
+                - if t.price_type == 'sample'
+                  %td= t.per_sample_tool_prices.map {|tp| format_per_sample_tool_price(tp, t) }.join("<br/>").html_safe
+                - else
+                  %td
+                    - t.per_time_tool_price.tap do |price|
+                      - if price.requires_setup?
+                        %div
+                          %span= number_to_currency(price.setup_amount, unit: currency_for(t))
+                          %span required one-time setup fee
+                      %div
+                        %span= number_to_currency(price.amount_per_time_unit, unit: currency_for(t))
+                        %span
+                          = "per #{price.time_unit}"
                 %td= t.current_renter.try(:display_name)
                 %td= t.status
                 %td

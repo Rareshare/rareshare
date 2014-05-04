@@ -77,12 +77,10 @@ window.Tool = (input) ->
     @terms_document_id doc.id
 
   @updateImageThumbs = (file) =>
-    console.log "uploaded image", file
     if @images().map((i) -> i.file_id).indexOf(file.id) is -1
       @images.push(file_id: file.id, thumbnail: file.thumbnail, id: null)
 
   @updateDocumentList = (file) =>
-    console.log "uploaded doc", file
     @documents.push(_delete: 0, file_id: file.id, name: file.name, url: file.file.url, id: null)
 
   @removeDocument = (file) =>
@@ -91,25 +89,15 @@ window.Tool = (input) ->
     @documents.remove(file)
     @documents.push(newFile)
 
-  @toolPriceCollection = new ToolPriceCollection(input)
+  @perSampleToolPriceCollection = new PerSampleToolPriceCollection(input)
+  @perTimeToolPrice = new PerTimeToolPrice(input.per_time_tool_price)
 
   this
 
-#window.Keyword = (input) ->
-#  console.log input
-#  @textValue = ko.observable(input)
-#
-#  @editKeyword = () =>
-#    textField = $("#enter_keywords")
-#    textField.val(@textValue())
-#    textField.trigger('focus')
-#
-#  this
-
-window.ToolPriceCollection = (input) ->
+window.PerSampleToolPriceCollection = (input) ->
   @toolPrices  = ko.observableArray()
 
-  emptyToolPrice = input.tool_prices[input.tool_prices.length - 1]
+  emptyToolPrice = input.per_sample_tool_prices[input.per_sample_tool_prices.length - 1]
 
   @appendPrice = ()      => if @canAddPrice() then @toolPrices.push(new ToolPrice(emptyToolPrice, this))
   @removePrice = (price) => () => @toolPrices.destroy(price)
@@ -124,12 +112,28 @@ window.ToolPriceCollection = (input) ->
   @selectedPrices = ko.computed () =>
     toolPrice.subtype() for toolPrice in @toolPrices()
 
-  for price in input.tool_prices
-    @toolPrices.push(new ToolPrice(price, this))
+  for price in input.per_sample_tool_prices
+    @toolPrices.push(new PerSampleToolPrice(price, this))
 
   this
 
-window.ToolPrice = (input, collection) ->
+window.PerTimeToolPrice = (input) ->
+  this[k] = ko.observable(v) for k, v of input
+
+  @selectablePriceTypes = ko.computed () =>
+    if !collection? then return []
+
+    for price in collection.priceTypes()
+      [ label, id ] = price
+      if collection.selectedPrices().indexOf(id) >= 0 and id isnt @subtype() then continue
+      { label: price[0], id: price[1] }
+
+  @isValid = ko.computed () =>
+    @amount_per_time_unit()? and @time_unit()?
+
+  this
+
+window.PerSampleToolPrice = (input, collection) ->
   this[k] = ko.observable(v) for k, v of input
 
   @selectablePriceTypes = ko.computed () =>

@@ -157,14 +157,17 @@ class ToolsController < InternalController
         :category,
         :_destroy
       ],
-      :tool_prices_attributes => [
+      :per_sample_tool_prices_attributes => [
         :id,
         :subtype,
-        :base_amount,
+        :base_amount  ,
         :setup_amount,
         :lead_time_days,
         :expedite_time_days,
         :_destroy
+      ],
+      :per_time_tool_price_attributes => [
+        :time_unit, :amount_per_time_unit, :setup_amount, :id
       ]
     ).tap do |params|
       if params[:facility_attributes].present?

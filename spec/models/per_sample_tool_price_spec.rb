@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ToolPrice do
+describe PerSampleToolPrice do
   context "when checking for bookability" do
     Given(:price) { create :tool_price, lead_time_days: 7 }
 

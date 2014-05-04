@@ -17,13 +17,15 @@ class Tool < ActiveRecord::Base
            class_name: "FileAttachment", as: :attachable, dependent: :destroy
   has_many :documents, -> { where(category: FileAttachment::Categories::DOCUMENT) },
            class_name: "FileAttachment", as: :attachable, dependent: :destroy
-  has_many :tool_prices, dependent: :destroy, inverse_of: :tool
+  has_many :per_sample_tool_prices, dependent: :destroy, inverse_of: :tool
+  has_one :per_time_tool_price, dependent: :destroy, inverse_of: :tool
 
   belongs_to :terms_document
 
   accepts_nested_attributes_for :images,      allow_destroy: true
   accepts_nested_attributes_for :documents,   allow_destroy: true
-  accepts_nested_attributes_for :tool_prices, allow_destroy: true, reject_if: :tool_price_rejected?
+  accepts_nested_attributes_for :per_sample_tool_prices, allow_destroy: true, reject_if: :per_sample_price_rejected?
+  accepts_nested_attributes_for :per_time_tool_price, allow_destroy: true, reject_if: :per_time_price_rejected?
   accepts_nested_attributes_for :facility,    allow_destroy: true, reject_if: :facility_rejected?
 
   before_save :update_search_document
@@ -111,7 +113,7 @@ class Tool < ActiveRecord::Base
   end
 
   def lowest_price
-    self.tool_prices.min {|p| p.base_amount}
+    self.per_sample_tool_prices.min {|p| p.base_amount}
   end
 
   def price_for(deadline, samples, subtype=nil)
@@ -140,11 +142,19 @@ class Tool < ActiveRecord::Base
     lowest_price.try(:earliest_bookable_date)
   end
 
-  def tool_prices_for_json(build)
+  def per_sample_tool_prices_for_json(build)
     if build
-      self.tool_prices.build; self.tool_prices
+      self.per_sample_tool_prices.build; self.per_sample_tool_prices
     else
-      self.tool_prices
+      self.per_sample_tool_prices
+    end
+  end
+
+  def per_time_tool_price_for_json(build)
+    if build
+      self.per_time_tool_price || PerTimeToolPrice.new
+    else
+      self.per_time_tool_price
     end
   end
 
@@ -184,8 +194,9 @@ class Tool < ActiveRecord::Base
           unit: self.sample_size_unit,
           all: SampleSize.all_sizes,
         },
-        tool_prices: tool_prices_for_json(options[:build]),
-        tool_price_categories: ToolPrice::Subtype::COLLECTION
+        per_sample_tool_prices: per_sample_tool_prices_for_json(options[:build]),
+        per_time_tool_price: per_time_tool_price_for_json(options[:build]),
+        tool_price_categories: PerSampleToolPrice::Subtype::COLLECTION
       )
     end
   end
@@ -224,12 +235,16 @@ class Tool < ActiveRecord::Base
     attrs[:address_attributes][:address_line_1].blank?
   end
 
-  def tool_price_rejected?(attrs)
+  def per_sample_price_rejected?(attrs)
     attrs[:subtype].blank? || attrs[:base_amount].blank? || attrs[:lead_time_days].blank?
   end
 
+  def per_time_price_rejected?(attrs)
+    attrs[:time_unit].blank? || attrs[:amount_per_time_unit].blank?
+  end
+
   def has_at_least_one_tool_price
-    if tool_prices.empty?
+    if per_sample_tool_prices.empty? && per_time_tool_price.nil?
       errors.add(:base, 'You must fill out the pricing info.')
     end
   end
