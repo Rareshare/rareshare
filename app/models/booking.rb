@@ -37,10 +37,10 @@ class Booking < ActiveRecord::Base
             :sample_transit,
             :sample_disposal,
             :updated_by,
-            :samples,
+            :units,
             presence: true
 
-  validates :samples,
+  validates :units,
             numericality: { greater_than: 0, allow_nil: false }
 
   validates_inclusion_of :tos_accepted, in: [ "1", 1, true ], message: "Please accept the Terms of Service."
@@ -168,7 +168,7 @@ class Booking < ActiveRecord::Base
   def save_draft(renter)
     self.renter     = renter
     self.updated_by = renter
-    self.price      = tool_price.revised_price_for(samples, expedited: expedited)
+    self.price      = tool_price.revised_price_for(units, expedited: expedited)
     self.currency   = tool.currency
     self.deadline   = expedited ? tool_price.earliest_expedite_date : tool_price.earliest_bookable_date
     save(validate: false)
@@ -178,7 +178,7 @@ class Booking < ActiveRecord::Base
     self.state      = "pending"
     self.renter     = renter
     self.updated_by = renter
-    self.price      = tool_price.revised_price_for(samples, expedited: expedited)
+    self.price      = tool_price.revised_price_for(units, expedited: expedited)
     self.currency   = tool.currency
     self.deadline   = expedited ? tool_price.earliest_expedite_date : tool_price.earliest_bookable_date
 

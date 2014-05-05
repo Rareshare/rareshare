@@ -44,8 +44,9 @@
                 -#= @booking.tool_price.subtype
                 -#= f.input :tool_price, as: :select, collection: @booking.tool.tool_prices,
                 -#label_method: :label, value_method: :id, selected: @booking.tool_price_id,
+                = f.input :tool_price_type, as: :hidden, value: "PerSampleToolPrice"
                 = f.input :tool_price, as: :select,
-                input_html: { "data-bind" => "options: tool.perSampleToolPriceCollection.toolPrices, optionsText: 'label', value: tool_price" }
+                input_html: { "data-bind" => "options: tool.perSampleToolPriceCollection.toolPrices, optionsText: 'label', value: tool_price()" }
 
               %div.span3
                 = f.input :units, label: "Samples",input_html: { "data-bind" => "value: units", min: 1 }
@@ -58,6 +59,7 @@
           - else
             %div.row
               - @booking.tool.per_time_tool_price.tap do |tool_price|
+                = f.input :tool_price, as: :hidden, value: tool_price
                 %div.span8
                   = f.input :units, label: tool_price.time_unit.pluralize.titleize, input_html: { "data-bind" => "value: units", min: 1 }
 

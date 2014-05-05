@@ -73,9 +73,9 @@ class PerSampleToolPrice < ActiveRecord::Base
      base_price_for(deadline, samples) + setup_price
   end
 
-  def revised_price_for(samples, opts={})
+  def revised_price_for(units, opts={})
     price   = opts[:expedited] ? expedite_amount : base_amount
-    setup_price + ( price * samples )
+    setup_price + ( price * units )
   end
 
   def minimum_future_lead_time

@@ -130,6 +130,8 @@ window.PerTimeToolPrice = (input) ->
 window.PerSampleToolPrice = (input, collection) ->
   this[k] = ko.observable(v) for k, v of input
 
+  console.log "base" + @base_amount()
+
   @selectablePriceTypes = ko.computed () =>
     if !collection? then return []
 

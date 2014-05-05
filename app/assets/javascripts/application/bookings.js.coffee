@@ -23,9 +23,9 @@ window.Booking = (input) ->
     @default_selected_tool_price = input.tool_price
 
     if input.tool.price_type == 'sample'
-      @tool_price(new PerSampleToolPrice(input.tool_price))
+      @tool_price(new window.PerSampleToolPrice(input.tool_price))
     else
-      @tool_price(new PerTimeToolPrice(input.tool_price))
+      @tool_price(new window.PerTimeToolPrice(input.tool_price))
 
   @tool = new window.Tool(input.tool)
 

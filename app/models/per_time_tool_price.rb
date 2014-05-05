@@ -27,6 +27,10 @@ class PerTimeToolPrice < ActiveRecord::Base
 
   end
 
+  def revised_price_for(units, opts={})
+    setup_price + ( amount_per_time_unit * units )
+  end
+
   def setup_price
     self.setup_amount || ZERO
   end

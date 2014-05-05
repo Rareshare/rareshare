@@ -128,6 +128,7 @@ class BookingsController < InternalController
     params.require(:booking).permit(
       :tool_id,
       :tool_price_id,
+      :tool_price_type,
       :expedited,
       :deadline,
       :tos_accepted,
@@ -139,7 +140,7 @@ class BookingsController < InternalController
       :address_id,
       :use_user_address,
       :shipping_package_size,
-      :samples,
+      :units,
       :address_attributes => address_attributes
     )
   end
