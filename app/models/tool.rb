@@ -240,7 +240,7 @@ class Tool < ActiveRecord::Base
   end
 
   def per_sample_price_rejected?(attrs)
-    attrs[:subtype].blank? || attrs[:base_amount].blank? || attrs[:lead_time_days].blank?
+    attrs[:subtype].blank? || attrs[:base_amount].blank?
   end
 
   def per_time_price_rejected?(attrs)

@@ -160,7 +160,7 @@ class ToolsController < InternalController
       :per_sample_tool_prices_attributes => [
         :id,
         :subtype,
-        :base_amount  ,
+        :base_amount,
         :setup_amount,
         :lead_time_days,
         :expedite_time_days,
