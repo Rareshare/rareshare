@@ -19,30 +19,42 @@ window.Booking = (input) ->
 
   @deadline = ko.observable new Date(input.deadline)
 
+  if input.tool_price?
+    @default_selected_tool_price = input.tool_price
+
+    if input.tool.price_type == 'sample'
+      @tool_price = new PerSampleToolPrice(input.tool_price)
+    else
+      @tool_price = new PerTimeToolPrice(input.tool_price)
+
+  @tool = new window.Tool(input.tool)
+
+  # Using a null object might be preferable to this.
+  @tool_price_visible  = ko.computed () =>
+    if @tool_price?
+      if @tool.price_type() == 'sample'
+        if @expedited() then @tool_price.expedite_amount() else @tool_price.base_amount()
+      else
+        @tool_price.amount_per_time_unit()
+
   @money = (valueAccessor) =>
     ko.computed () =>
       accounting.formatMoney(valueAccessor(), @currency_symbol()) if valueAccessor()?
 
-  if input.tool_price?
-    @default_selected_tool_price = input.tool_price
-    @tool_price(new window.ToolPrice(input.tool_price))
+  if input.tool.price_type == 'sample'
+    @tool_price_subtype  = ko.computed () => @tool_price? and @tool_price.subtype()
+    @tool_price_days     = ko.computed () => @tool_price? and @tool_price.lead_time_days()
+    @tool_price_expedite = ko.computed () => @tool_price? and @tool_price.can_expedite()
 
-  # Using a null object might be preferable to this.
-  @tool_price_visible  = ko.computed () =>
-    @tool_price()? and
-      if @expedited() then @tool_price().expedite_amount() else @tool_price().base_amount()
+  @tool_price_id       = ko.computed () => @tool_price? and @tool_price.id()
+  @tool_price_setup    = ko.computed () => @tool_price? and @tool_price.setup_price()
 
-  @tool_price_subtype  = ko.computed () => @tool_price()? and @tool_price().subtype()
-  @tool_price_days     = ko.computed () => @tool_price()? and @tool_price().lead_time_days()
-  @tool_price_id       = ko.computed () => @tool_price()? and @tool_price().id()
-  @tool_price_setup    = ko.computed () => @tool_price()? and @tool_price().setup_price()
-  @tool_price_expedite = ko.computed () => @tool_price()? and @tool_price().can_expedite()
 
-  @tool = new window.Tool(input.tool)
+
 
   # NOTE: This is used only for display purposes, and never used to charge the user.
   @final_price = ko.computed () =>
-    ( parseFloat(@tool_price_visible()) * parseFloat(@samples()) ) + parseFloat(@tool_price_setup()) + parseFloat(@shipping_rate()) + parseFloat(@rareshare_fee())
+    ( parseFloat(@tool_price_visible()) * parseFloat(@units()) ) + parseFloat(@tool_price_setup()) + parseFloat(@shipping_rate()) + parseFloat(@rareshare_fee())
 
 
   this

@@ -14,6 +14,8 @@ class PerTimeToolPrice < ActiveRecord::Base
   after_initialize :set_default_values
 
   belongs_to :tool, inverse_of: :per_time_tool_price
+  has_many :bookings, as: :tool_price
+  
   validates_presence_of :tool
   validates_presence_of :time_unit
 
@@ -21,8 +23,25 @@ class PerTimeToolPrice < ActiveRecord::Base
     self.time_unit      ||= PerTimeToolPrice::TimeUnit::DEFAULT
   end
 
+  def price_for
+
+  end
+
+  def setup_price
+    self.setup_amount || ZERO
+  end
+
   def requires_setup?
     self.setup_amount.present? && self.setup_amount > ZERO
   end
   alias_method :requires_setup, :requires_setup?
+
+
+  def as_json(options={})
+    super options.merge(
+            methods: [
+              :setup_price,
+            ]
+          )
+  end
 end

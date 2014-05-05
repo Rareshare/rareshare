@@ -12,7 +12,7 @@ class Booking < ActiveRecord::Base
   belongs_to :renter, class_name: "User"
   belongs_to :last_updated_by, class_name: "User"
   belongs_to :tool
-  belongs_to :per_sample_tool_price
+  belongs_to :tool_price, polymorphic: true
   belongs_to :address
   has_one    :owner, through: :tool
   has_many   :booking_logs
@@ -74,9 +74,10 @@ class Booking < ActiveRecord::Base
         b.tool_id    = tool.id
         b.deadline   = deadline
         b.tool_price_id = tool.tool_price_for(params[:subtype]).try(:id)
+        b.tool_price_type = tool.tool_price_for().class.name
         b.currency   = tool.currency
         b.expedited  = false
-        b.samples    = 1
+        b.units    = 1
         b.use_user_address = renter.address.present?
         b.build_address
       end

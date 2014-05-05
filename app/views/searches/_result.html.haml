@@ -18,7 +18,10 @@
         %div.price{style: "font-size: 120%"}
           = number_to_currency result.price_for(@query.by, 1), unit: currency_for(result)
         / %div.samples= pluralize result.samples_per_run, "sample"
-        %span.muted= t "tool_prices.subtype.#{result.lowest_price.subtype}"
+        - if result.price_type == 'sample'
+          %span.muted= t "tool_prices.subtype.#{result.lowest_price.subtype}"
+        - else
+          %span.muted= "per #{result.per_time_tool_price.time_unit}"
         - if user_signed_in?
           %div{style: "padding-top: 10px;"}
             - if result.owned_by?(current_user)

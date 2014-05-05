@@ -39,18 +39,30 @@
           %input{type: "hidden", name: "tool_id", value: @tool.id}
           %input{type: "hidden", name: "subtype", data: { bind: "value: tool_price_subtype" }}
           %div.row
-            %div.span4
-              %div.control-group
-                %div.input
-                  %select{data: { bind: "value: booking.tool_price, options: booking.tool.toolPriceCollection.toolPrices, optionsText: 'label'" } }}
-            %div.span2{style: "line-height: 32px"}
-              %span{data: { bind: "text: money(tool_price_visible)" }}
-              \/
-              %span
-                %span{data: { bind: "text: tool_price_days" }}
-                days
-            %div.span1
-              %input.btn.btn-primary.btn-success{type: "submit", value: "Reserve Now"}
+            - if @tool.price_type == 'sample'
+              %div.span4
+                %div.control-group
+                  %div.input
+                    %select{data: { bind: "value: booking.tool_price, options: booking.tool.perSampleToolPriceCollection.toolPrices, optionsText: 'label'" } }}
+              %div.span2{style: "line-height: 32px"}
+                %span{data: { bind: "text: money(tool_price_visible)" }}
+                \/
+                %span
+                  %span{data: { bind: "text: tool_price_days" }}
+                  days
+              %div.span1
+                %input.btn.btn-primary.btn-success{type: "submit", value: "Reserve Now"}
+            - else
+              %div.span4
+                %div.control-group
+                  %div.input
+                    = number_to_currency(@tool.per_time_tool_price.amount_per_time_unit, unit: currency_for(@tool))
+                    %span= "per #{@tool.per_time_tool_price.time_unit}"
+              %div.span2{style: "line-height: 32px"}
+              %div.span1{style: "margin-bottom: 10px"}
+                %input.btn.btn-primary.btn-success{type: "submit", value: "Reserve Now"}
+
+
 
 
     %h3 Overview

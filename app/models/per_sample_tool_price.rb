@@ -13,6 +13,7 @@ class PerSampleToolPrice < ActiveRecord::Base
   end
 
   belongs_to :tool, inverse_of: :per_sample_tool_prices
+  has_many :bookings, as: :tool_price
   validates_presence_of :tool
 
   validates :subtype, :base_amount, :lead_time_days, presence: true

@@ -13,7 +13,7 @@
           if(options[i].label == window.booking.default_selected_tool_price.label) {
             console.log("setting to " + options[i].label);
             $(options[i]).prop('selected', true)
-            window.booking.tool_price(new window.ToolPrice(window.booking.default_selected_tool_price));
+            window.booking.tool_price(new window.PerSampleToolPrice(window.booking.default_selected_tool_price));
           } else {
             options[i].selected = false;
           }
@@ -38,22 +38,28 @@
             What do you need, and when do you need it?
 
         %div.span8
-          %div.row
-            %div.span5
-              -#= @booking.tool_price.subtype
-              -#= f.input :tool_price, as: :select, collection: @booking.tool.tool_prices,
-              -#label_method: :label, value_method: :id, selected: @booking.tool_price_id,
-              = f.input :tool_price, as: :select,
-              input_html: { "data-bind" => "options: tool.toolPriceCollection.toolPrices, optionsText: 'label', value: tool_price" }
+          - if @booking.tool.price_type == 'sample'
+            %div.row
+              %div.span5
+                -#= @booking.tool_price.subtype
+                -#= f.input :tool_price, as: :select, collection: @booking.tool.tool_prices,
+                -#label_method: :label, value_method: :id, selected: @booking.tool_price_id,
+                = f.input :tool_price, as: :select,
+                input_html: { "data-bind" => "options: tool.perSampleToolPriceCollection.toolPrices, optionsText: 'label', value: tool_price" }
 
-            %div.span3
-              = f.input :samples, input_html: { "data-bind" => "value: samples", min: 1 }
+              %div.span3
+                = f.input :units, label: "Samples",input_html: { "data-bind" => "value: units", min: 1 }
 
-          %div.row{data: { bind: "with: tool_price" }}
-            %div.span8{data: { bind: "visible: can_expedite"}}
-              %div.control-group.boolean.optional.booking_expedited
-                %div.controls
-                  = f.input :expedited, label: false, inline_label: true, input_html: { "data-bind" => "checked: $parent.expedited" }
+            %div.row{data: { bind: "with: tool_price" }}
+              %div.span8{data: { bind: "visible: can_expedite"}}
+                %div.control-group.boolean.optional.booking_expedited
+                  %div.controls
+                    = f.input :expedited, label: false, inline_label: true, input_html: { "data-bind" => "checked: $parent.expedited" }
+          - else
+            %div.row
+              - @booking.tool.per_time_tool_price.tap do |tool_price|
+                %div.span8
+                  = f.input :units, label: tool_price.time_unit.pluralize.titleize, input_html: { "data-bind" => "value: units", min: 1 }
 
           %div.row
             %div.span8
@@ -62,20 +68,34 @@
             %div.span8
               = f.input :sample_deliverable, input_html: { "data-bind" => "wysihtml5: sample_deliverable" }
 
+
         %div.span2
           %div.pricing{data: { spy: "affix", "offset-top" => "252" }}
             %h4 Subtotal Pricing
             %small Shipping not included.
-            %dl
-              %dt Price per sample
-              %dd{data: { bind: "text: money(tool_price_visible)"}}
-              %dt Samples
-              %dd{data: { bind: "text: booking.samples" }}
-              %dt Setup price
-              %dd{data: { bind: "text: money(tool_price().setup_price)"}}
-              %dt.total_price Total price
-              %dd.total_price{data: { bind: "text: money(final_price)" }}
-            %span.label.label-warning{data: { bind: "visible: expedited" }} Expedited
+
+            - if @booking.tool.price_type == 'sample'
+              %dl
+                %dt Price per sample
+                %dd{data: { bind: "text: money(tool_price_visible)"}}
+                %dt Samples
+                %dd{data: { bind: "text: booking.units" }}
+                %dt Setup price
+                %dd{data: { bind: "text: money(tool_price_setup)"}}
+                %dt.total_price Total price
+                %dd.total_price{data: { bind: "text: money(final_price)" }}
+              %span.label.label-warning{data: { bind: "visible: expedited" }} Expedited
+            - else
+              - @booking.tool.per_time_tool_price.tap do |tool_price|
+                %dl
+                  %dt= "Price per #{tool_price.time_unit}"
+                  %dd{data: { bind: "text: money(tool_price_visible)"}}
+                  %dt= tool_price.time_unit.pluralize.titleize
+                  %dd{data: { bind: "text: booking.units" }}
+                  %dt Setup price
+                  %dd{data: { bind: "text: money(tool_price_setup)"}}
+                  %dt.total_price Total price
+                  %dd.total_price{data: { bind: "text: money(final_price)" }}
 
       %div.row.step{ "data-bind" => "css: { complete: stepTwoComplete }"}
         %div.span12.border

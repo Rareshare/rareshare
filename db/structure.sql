@@ -177,9 +177,10 @@ CREATE TABLE bookings (
     shipping_price money DEFAULT 0.0,
     rareshare_fee money DEFAULT 0.0,
     shipping_service character varying(255),
-    samples integer,
+    units integer,
     tool_price_id integer,
-    expedited boolean DEFAULT false
+    expedited boolean DEFAULT false,
+    tool_price_type character varying(255)
 );
 
 
@@ -1820,3 +1821,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140501202658');
 INSERT INTO schema_migrations (version) VALUES ('20140502023217');
 
 INSERT INTO schema_migrations (version) VALUES ('20140502023236');
+
+INSERT INTO schema_migrations (version) VALUES ('20140504230657');
+
+INSERT INTO schema_migrations (version) VALUES ('20140505054039');

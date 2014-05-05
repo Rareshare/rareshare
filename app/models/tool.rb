@@ -109,7 +109,11 @@ class Tool < ActiveRecord::Base
   end
 
   def tool_price_for(subtype=nil)
-    subtype.blank? ? self.lowest_price : self.tool_prices.where(subtype: subtype).first
+    if price_type == 'sample'
+      subtype.blank? ? self.lowest_price : self.per_sample_tool_prices.where(subtype: subtype).first
+    elsif price_type == 'time'
+      per_time_tool_price
+    end
   end
 
   def lowest_price
@@ -117,7 +121,11 @@ class Tool < ActiveRecord::Base
   end
 
   def price_for(deadline, samples, subtype=nil)
-    self.tool_price_for(subtype).price_for(deadline, samples)
+    if price_type == 'sample'
+      self.tool_price_for(subtype).price_for(deadline, samples)
+    elsif price_type == 'time'
+      self.tool_price_for(subtype).setup_amount
+    end
   end
 
   def sample_size_unit
@@ -151,11 +159,7 @@ class Tool < ActiveRecord::Base
   end
 
   def per_time_tool_price_for_json(build)
-    if build
-      self.per_time_tool_price || PerTimeToolPrice.new
-    else
-      self.per_time_tool_price
-    end
+    self.per_time_tool_price || PerTimeToolPrice.new
   end
 
   def possible_terms_documents
