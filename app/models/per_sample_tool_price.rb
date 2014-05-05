@@ -16,7 +16,7 @@ class PerSampleToolPrice < ActiveRecord::Base
   has_many :bookings, as: :tool_price
   validates_presence_of :tool
 
-  validates :subtype, :base_amount, :lead_time_days, presence: true
+  validates :subtype, :base_amount, presence: true
   validates :tool_id, uniqueness: { scope: [:subtype] }
   validates :subtype, inclusion: { in: PerSampleToolPrice::Subtype::ALL }
   validates_numericality_of :expedite_time_days, less_than_or_equal_to: :lead_time_days, message: "must be less than lead time days"

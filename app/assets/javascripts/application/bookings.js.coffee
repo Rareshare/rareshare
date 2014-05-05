@@ -35,7 +35,7 @@ window.Booking = (input) ->
       if @tool.price_type() == 'sample'
         if @expedited() then @tool_price().expedite_amount() else @tool_price().base_amount()
       else
-        @tool_price().amount_per_time_unit()
+        if @expedited() then @tool_price().expedite_amount() else @tool_price().amount_per_time_unit()
 
   @money = (valueAccessor) =>
     ko.computed () =>
@@ -44,8 +44,8 @@ window.Booking = (input) ->
   if input.tool.price_type == 'sample'
     @tool_price_subtype  = ko.computed () => @tool_price? and @tool_price().subtype()
     @tool_price_days     = ko.computed () => @tool_price? and @tool_price().lead_time_days()
-    @tool_price_expedite = ko.computed () => @tool_price? and @tool_price().can_expedite()
 
+  @tool_price_expedite = ko.computed () => @tool_price? and @tool_price().can_expedite()
   @tool_price_id       = ko.computed () => @tool_price? and @tool_price().id()
   @tool_price_setup    = ko.computed () => @tool_price? and @tool_price().setup_price()
 

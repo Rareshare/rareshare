@@ -172,11 +172,17 @@
                 %tr
                   %th
                     Time unit
+                    %small Day or Hour
                   %th{style: "min-width: 200px"}
-                    Price /
-                    %span{ data: { bind: "text: time_unit" } }
+                    Price
+
+                    %small
+                      Per
+                      %span{ data: { bind: "text: time_unit" } }
+                      \/ One-time setup
                   %th{style: "min-width: 200px"}
-                    Setup Price
+                    Lead time
+                    %small Days / Days to expedite
 
               %tbody
                 %tr
@@ -188,8 +194,12 @@
 
                   %td
                     = p.input_field :amount_per_time_unit, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: amount_per_time_unit" }
-                  %td
+                    %div.pull-left{style: "line-height: 25px; width: 20px; text-align: center"} /
                     = p.input_field :setup_amount, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: setup_amount" }
+                  %td
+                    = p.input_field :lead_time_days, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: lead_time_days" }
+                    %div.pull-left{style: "line-height: 25px; width: 20px; text-align: center"} /
+                    = p.input_field :expedite_time_days, type: "number", min: "1", style: "width: 60px; float: left", data: { bind: "value: expedite_time_days" }
 
           = f.simple_fields_for :per_sample_tool_prices_attributes, index: nil do |p|
             %table.table{data: { bind: "with: perSampleToolPriceCollection, visible: tool.price_type() == 'sample'" }}

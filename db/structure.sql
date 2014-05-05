@@ -593,7 +593,9 @@ CREATE TABLE per_time_tool_prices (
     setup_amount money DEFAULT 0.0,
     amount_per_time_unit money DEFAULT 0.0,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    lead_time_days integer,
+    expedite_time_days integer
 );
 
 
@@ -1825,3 +1827,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140502023236');
 INSERT INTO schema_migrations (version) VALUES ('20140504230657');
 
 INSERT INTO schema_migrations (version) VALUES ('20140505054039');
+
+INSERT INTO schema_migrations (version) VALUES ('20140505164358');

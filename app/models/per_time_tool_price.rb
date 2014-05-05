@@ -16,8 +16,8 @@ class PerTimeToolPrice < ActiveRecord::Base
   belongs_to :tool, inverse_of: :per_time_tool_price
   has_many :bookings, as: :tool_price
   
-  validates_presence_of :tool
-  validates_presence_of :time_unit
+  validates_presence_of :tool, :time_unit, :amount_per_time_unit
+  validates_numericality_of :expedite_time_days, less_than_or_equal_to: :lead_time_days, allow_blank: true, message: "must be less than lead time days"
 
   def set_default_values
     self.time_unit      ||= PerTimeToolPrice::TimeUnit::DEFAULT
@@ -28,7 +28,8 @@ class PerTimeToolPrice < ActiveRecord::Base
   end
 
   def revised_price_for(units, opts={})
-    setup_price + ( amount_per_time_unit * units )
+    price   = opts[:expedited] ? expedite_amount : amount_per_time_unit
+    setup_price + ( price * units )
   end
 
   def setup_price
@@ -40,11 +41,31 @@ class PerTimeToolPrice < ActiveRecord::Base
   end
   alias_method :requires_setup, :requires_setup?
 
+  def can_expedite?
+    !!(self.expedite_time_days.present? && self.expedite_time_days.nonzero?)
+  end
+  alias_method :can_expedite, :can_expedite?
+
+  def earliest_bookable_date
+    ( lead_time_days || 0 ).days.from_now.to_date
+  end
+
+  def earliest_expedite_date
+    ( expedite_time_days || 0 ).days.from_now.to_date if can_expedite?
+  end
+
+  def expedite_amount
+    amount_per_time_unit * 1.5
+  end
+
 
   def as_json(options={})
     super options.merge(
             methods: [
               :setup_price,
+              :expedite_price,
+              :can_expedite,
+              :expedite_amount
             ]
           )
   end

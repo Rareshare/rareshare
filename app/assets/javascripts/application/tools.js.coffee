@@ -125,6 +125,8 @@ window.PerTimeToolPrice = (input) ->
   @isValid = ko.computed () =>
     @amount_per_time_unit()? and @time_unit()?
 
+  @should_expedite = ko.observable(false)
+
   this
 
 window.PerSampleToolPrice = (input, collection) ->
