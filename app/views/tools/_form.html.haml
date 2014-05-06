@@ -1,7 +1,10 @@
 - content_for :head do
+  - current_user.facilities.build
   :javascript
     $(function() {
       window.tool = new Tool(#{@tool.to_json_for_build});
+      window.facilities = new FacilityCollection(#{current_user.facilities.to_json}, '#{@tool.facility_id}');
+      window.delivery_facilities = new FacilityCollection(#{current_user.facilities.to_json}, '#{@tool.sample_delivery_address_id}');
       ko.applyBindings({ tool: tool }, $("form.new_tool, form.edit_tool")[0]);
     });
 
@@ -246,22 +249,69 @@
             Physical location
           %div.row
             %div.span8
-              = f.input :facility_id, as: :select, collection: current_user.facilities, label_method: :title, include_blank: "Create a new facility"
+              %label Facility
+              %select{data: { bind: "value: selected_facility, options: facilities.facilities, optionsText: 'name'" } }}
+              = f.hidden_field :facility_id, data: { bind: "value: selected_facility().id"}
+              -#= f.input :facility_id, as: :select, collection: current_user.facilities, label_method: :title, include_blank: "Create a new facility",
+              -#input_html: { data: { bind: "value: facility" } }
               -#hint: content_tag(:i, "", class: "icon-lock") + " " + t('data.private'), input_html: { "data-bind" => "value: facility_id" }
-          = f.simple_fields_for :facility, Facility.new do |fa|
-            %div.facility{data: { bind: "visible: showFacility" }}
+
+
+          = f.simple_fields_for :facility_attributes do |fa|
+            %div.facility{data: { bind: "visible: true" }}
               %div.row
                 %div.span8
-                  = fa.input :name
-              = fa.simple_fields_for :address, fa.object.build_address do |a|
-                = a.hidden_field :id
-                = render partial: 'addresses/form', object: a
+                  = fa.hidden_field :id, data: { bind: "value: tool.selected_facility().id" }
+                  = fa.input :name, input_html: { data: { bind: "value: tool.selected_facility().name" } }
+              = fa.simple_fields_for :address_attributes do |a|
+                = a.hidden_field :id, data: { bind: "value: tool.selected_facility().address().id" }
+                / = render partial: 'addresses/form', object: a
+                %div.row
+                  %div.span5= a.input :address_line_1, input_html: { data: { bind: "value: tool.selected_facility().address().address_line_1" } }
+                  %div.span3= a.input :country, collection: [["United States", "us"], ["United Kingdom", "gb"]], input_html: { data: { bind: "value: tool.selected_facility().address().country" } }
+                %div.row
+                  %div.span5= a.input :address_line_2, required: false, input_html: { data: { bind: "value: tool.selected_facility().address().address_line_2" } }
+                %div.row
+                  %div.span4= a.input :city, input_html: { data: { bind: "value: tool.selected_facility().address().city" } }
+                  %div.span2= a.input :state, required: false, input_html: { data: { bind: "value: tool.selected_facility().address().state" } }
+                  %div.span2= a.input :postal_code, input_html: { data: { bind: "value: tool.selected_facility().address().postal_code" } }
+
 
           %div.row
             %div.span8
               = f.input :access_type, collection: Tool::AccessType::COLLECTION, label: "Physical access to tool", input_html: { data: { bind: "value: access_type" } }
               %div{data: { bind: "visible: requiresAccessNotes" }}
                 = f.input :access_type_notes, label: "What kind of access is allowed?"
+      %div.row
+        %div.span2
+          %p.help-block
+        %div.span8
+          %legend
+            %i.icon-map-marker.icon-large
+              Sample delivery address
+          %div.row
+            %div.span8
+              %label Facility
+              %select{data: { bind: "value: selected_delivery_facility, options: delivery_facilities.facilities, optionsText: 'name'" } }}
+              = f.hidden_field :sample_delivery_address_id, data: { bind: "value: tool.selected_delivery_facility().id"}
+          = f.simple_fields_for :sample_delivery_address_attributes do |fa|
+            %div.facility{data: { bind: "visible: true" }}
+              %div.row
+                %div.span8
+                  = fa.hidden_field :id, data: { bind: "value: tool.selected_delivery_facility().id" }
+                  = fa.input :name, input_html: { data: { bind: "value: tool.selected_delivery_facility().name" } }
+              = fa.simple_fields_for :address_attributes do |a|
+                = a.hidden_field :id, data: { bind: "value: tool.selected_delivery_facility().address().id" }
+                / = render partial: 'addresses/form', object: a
+                %div.row
+                  %div.span5= a.input :address_line_1, input_html: { data: { bind: "value: tool.selected_delivery_facility().address().address_line_1" } }
+                  %div.span3= a.input :country, collection: [["United States", "us"], ["United Kingdom", "gb"]], input_html: { data: { bind: "value: tool.selected_delivery_facility().address().country" } }
+                %div.row
+                  %div.span5= a.input :address_line_2, required: false, input_html: { data: { bind: "value: tool.selected_delivery_facility().address().address_line_2" } }
+                %div.row
+                  %div.span4= a.input :city, input_html: { data: { bind: "value: tool.selected_delivery_facility().address().city" } }
+                  %div.span2= a.input :state, required: false, input_html: { data: { bind: "value: tool.selected_delivery_facility().address().state" } }
+                  %div.span2= a.input :postal_code, input_html: { data: { bind: "value: tool.selected_delivery_facility().address().postal_code" } }
 
       %fieldset
         %div.row

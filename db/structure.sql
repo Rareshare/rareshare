@@ -885,7 +885,8 @@ CREATE TABLE tools (
     terms_document_id integer,
     online boolean DEFAULT true,
     keywords character varying(255)[] DEFAULT '{}'::character varying[],
-    facility_name character varying(255)
+    facility_name character varying(255),
+    sample_delivery_address_id integer
 );
 
 
@@ -1829,3 +1830,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140504230657');
 INSERT INTO schema_migrations (version) VALUES ('20140505054039');
 
 INSERT INTO schema_migrations (version) VALUES ('20140505164358');
+
+INSERT INTO schema_migrations (version) VALUES ('20140505192310');

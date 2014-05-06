@@ -28,22 +28,24 @@ class ToolsController < InternalController
 
     authorize! :update, @tool
 
-    @tool.assign_attributes(tool_params)
+    Tool.transaction do
+      @tool.assign_attributes(tool_params)
 
-    if params[:commit] == t('tools.action_type.update_sandbox')
-      @tool.sandbox_listing
-      redirect_to @tool, flash: { notify: "Tool updated."}
-    else
-      if current_user.stripe_access_token
-        if @tool.go_live_with_listing
-          redirect_to @tool, flash: { notify: "Tool updated."}
-        else
-          render 'tools/edit'
-        end
-      else
+      if params[:commit] == t('tools.action_type.update_sandbox')
         @tool.sandbox_listing
-        flash[:error] = "You need to connect with Stripe in order to go live with your tools."
-        redirect_to edit_tool_path(@tool), flash: { notify: "Tool created."}
+        redirect_to @tool, flash: { notify: "Tool updated."}
+      else
+        if current_user.stripe_access_token
+          if @tool.go_live_with_listing
+            redirect_to @tool, flash: { notify: "Tool updated."}
+          else
+            render 'tools/edit'
+          end
+        else
+          @tool.sandbox_listing
+          flash[:error] = "You need to connect with Stripe in order to go live with your tools."
+          redirect_to edit_tool_path(@tool), flash: { notify: "Tool created."}
+        end
       end
     end
   end
@@ -131,6 +133,7 @@ class ToolsController < InternalController
       :model_name,
       :address_id,
       :facility_id,
+      :sample_delivery_address_id,
       :access_type,
       :access_type_notes,
       :calibrated,
@@ -140,7 +143,11 @@ class ToolsController < InternalController
       :has_resolution,
       :terms_document_id,
       :facility_attributes => [
-        :name,
+        :name, :id,
+        { :address_attributes => address_attributes }
+      ],
+      :sample_delivery_address_attributes => [
+        :name, :id,
         { :address_attributes => address_attributes }
       ],
       :images_attributes => [
@@ -177,6 +184,10 @@ class ToolsController < InternalController
     ).tap do |params|
       if params[:facility_attributes].present?
         params[:facility_attributes][:user_id] = current_user.id
+      end
+
+      if params[:sample_delivery_address_attributes].present?
+        params[:sample_delivery_address_attributes][:user_id] = current_user.id
       end
 
       if params[:keywords].present?

@@ -85,8 +85,41 @@ window.Tool = (input) ->
 
   @perSampleToolPriceCollection = new PerSampleToolPriceCollection(input)
   @perTimeToolPrice = new PerTimeToolPrice(input.per_time_tool_price)
+  @sample_delivery_address(input.sample_delivery_address)
+
+#  @facility(input.facility)
+
+#  @selected_facility = ko.computed () =>
+#    @facility()
+#
+  @selected_facility = ko.observable()
+  @selected_delivery_facility = ko.observable()
 
   this
+
+window.FacilityCollection = (input, default_id) ->
+  @facilities = ko.observableArray()
+
+  for facility in input
+    facility_id = if facility.id then facility.id.toString() else ""
+
+    if facility_id == default_id
+      @facilities.unshift(new Facility(facility))
+    else
+      @facilities.push(new Facility(facility))
+
+  this
+
+
+window.Facility = (input) ->
+  this[k] = ko.observable(v) for k, v of input
+
+  @name = "New facility" if @name() == null
+#  @address = new Address() if @address() == null
+  this
+
+window.Address = () ->
+
 
 window.PerSampleToolPriceCollection = (input) ->
   @toolPrices  = ko.observableArray()

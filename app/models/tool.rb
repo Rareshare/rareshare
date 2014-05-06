@@ -10,6 +10,7 @@ class Tool < ActiveRecord::Base
   belongs_to :tool_category
   belongs_to :owner, counter_cache: true, class_name: "User"
   belongs_to :facility
+  belongs_to :sample_delivery_address, class_name: "Facility"
   belongs_to :resolution_unit, class_name: "Unit"
 
   has_many :user_messages, foreign_key: :messageable_id, dependent: :destroy
@@ -21,12 +22,6 @@ class Tool < ActiveRecord::Base
   has_one :per_time_tool_price, dependent: :destroy, inverse_of: :tool
 
   belongs_to :terms_document
-
-  accepts_nested_attributes_for :images,      allow_destroy: true
-  accepts_nested_attributes_for :documents,   allow_destroy: true
-  accepts_nested_attributes_for :per_sample_tool_prices, allow_destroy: true, reject_if: :per_sample_price_rejected?
-  accepts_nested_attributes_for :per_time_tool_price, allow_destroy: true, reject_if: :per_time_price_rejected?
-  accepts_nested_attributes_for :facility,    allow_destroy: true, reject_if: :facility_rejected?
 
   before_save :update_search_document
   before_save :denormalize_facility_name
@@ -43,6 +38,15 @@ class Tool < ActiveRecord::Base
             presence: true
 
   validate :has_at_least_one_tool_price
+
+  accepts_nested_attributes_for :images,      allow_destroy: true
+  accepts_nested_attributes_for :documents,   allow_destroy: true
+  accepts_nested_attributes_for :per_sample_tool_prices, allow_destroy: true, reject_if: :per_sample_price_rejected?
+  accepts_nested_attributes_for :per_time_tool_price, allow_destroy: true, reject_if: :per_time_price_rejected?
+  accepts_nested_attributes_for :facility,    allow_destroy: true, reject_if: :facility_rejected?
+  accepts_nested_attributes_for :sample_delivery_address, allow_destroy: true, reject_if: :sample_delivery_address_rejected?
+
+
 
   DEFAULT_SAMPLE_SIZE = [ -4, 4 ]
 
@@ -200,7 +204,9 @@ class Tool < ActiveRecord::Base
         },
         per_sample_tool_prices: per_sample_tool_prices_for_json(options[:build]),
         per_time_tool_price: per_time_tool_price_for_json(options[:build]),
-        tool_price_categories: PerSampleToolPrice::Subtype::COLLECTION
+        tool_price_categories: PerSampleToolPrice::Subtype::COLLECTION,
+        facility: facility,
+        sample_delivery_address: sample_delivery_address
       )
     end
   end
@@ -236,6 +242,10 @@ class Tool < ActiveRecord::Base
   end
 
   def facility_rejected?(attrs)
+    attrs[:address_attributes][:address_line_1].blank?
+  end
+
+  def sample_delivery_address_rejected?(attrs)
     attrs[:address_attributes][:address_line_1].blank?
   end
 
