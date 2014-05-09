@@ -7,6 +7,7 @@ class Ability
 
     bookings user
     booking_edits user
+    booking_edit_requests user
     tools    user
     messages user
   end
@@ -65,6 +66,16 @@ class Ability
     end
 
     can :respond, BookingEdit do |b|
+      b.booking.renter?(user) && b.pending?
+    end
+  end
+
+  def booking_edit_requests(user)
+    can :manage, BookingEditRequest do |b|
+      b.booking.owner?(user) && b.pending?
+    end
+
+    can :respond, BookingEditRequest do |b|
       b.booking.renter?(user) && b.pending?
     end
   end

@@ -5,9 +5,13 @@ class BookingEditRequestsController < ApplicationController
   def new
     @booking = Booking.find(params[:booking_id])
     @booking_edit_request = BookingEditRequest.new(booking_id: @booking.id)
+
+    authorize! :request_edit, @booking
   end
 
   def create
+    authorize! :request_edit, @booking
+
     if @booking_edit_request.save
       flash[:success] = "Successfully made the edit request"
 
@@ -23,9 +27,11 @@ class BookingEditRequestsController < ApplicationController
   end
 
   def edit
+    authorize! :manage, @booking_edit_request
   end
 
   def update
+    authorize! :manage, @booking_edit_request
     if @booking_edit_request.update_attributes(booking_edit_request_params)
       flash[:success] = "Succesfully updated your edit request."
     else
@@ -36,9 +42,12 @@ class BookingEditRequestsController < ApplicationController
   end
 
   def check
+    authorize! :respond, @booking_edit_request
   end
 
   def accept
+    authorize! :respond, @booking_edit_request
+
     if @booking_edit_request.update_attributes(booking_edit_request_params)
       flash[:success] = "Succesfully accepted the edit request."
       @booking_edit_request.accept!
@@ -56,6 +65,8 @@ class BookingEditRequestsController < ApplicationController
   end
 
   def decline
+    authorize! :respond, @booking_edit_request
+
     @booking_edit_request.decline!
     @booking.updated_by = current_user
     @booking.renter_respond_to_edit_request!
@@ -64,7 +75,16 @@ class BookingEditRequestsController < ApplicationController
   end
 
   def destroy
+    authorize! :respond, @booking_edit_request
 
+    @booking_edit_request.destroy
+    flash[:success] = "Successfully canceled the edit request."
+    if @booking.booking_edit_requests.pending.empty?
+      @booking.updated_by = current_user
+      @booking.cancel_edit_request!
+    end
+
+    redirect_to @booking
   end
 
   private

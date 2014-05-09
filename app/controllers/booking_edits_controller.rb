@@ -67,7 +67,7 @@ class BookingEditsController < InternalController
     flash[:success] = "Successfully canceled the edit."
     if @booking.booking_edits.pending.empty?
       @booking.updated_by = current_user
-      @booking.owner_edit_cancel!
+      @booking.cancel_owner_edit!
     end
     redirect_to @booking
   end

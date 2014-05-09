@@ -142,8 +142,12 @@ class Booking < ActiveRecord::Base
       transitions from: :pending, to: :edited_by_owner
     end
 
-    event :owner_edit_cancel do
+    event :cancel_owner_edit do
       transitions from: :edited_by_owner, to: :pending
+    end
+
+    event :cancel_edit_request do
+      transitions from: :edit_requested, to: :pending
     end
 
     event :request_edit do
