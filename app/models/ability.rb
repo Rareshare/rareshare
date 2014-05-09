@@ -41,6 +41,10 @@ class Ability
       b.owner?(user) && b.can_owner_edit? && b.booking_edits.pending.empty?
     end
 
+    can :request_edit, Booking do |b|
+      b.owner?(user) && b.can_request_edit? && b.booking_edit_requests.pending.empty?
+    end
+
     can :finalize, Booking do |b|
       b.renter?(user) && b.can_finalize?
     end

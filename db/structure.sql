@@ -118,6 +118,40 @@ ALTER SEQUENCE addresses_id_seq OWNED BY addresses.id;
 
 
 --
+-- Name: booking_edit_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE booking_edit_requests (
+    id integer NOT NULL,
+    memo character varying(255),
+    booking_id integer,
+    adjustment integer,
+    state character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: booking_edit_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE booking_edit_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: booking_edit_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE booking_edit_requests_id_seq OWNED BY booking_edit_requests.id;
+
+
+--
 -- Name: booking_edits; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1129,6 +1163,13 @@ ALTER TABLE ONLY addresses ALTER COLUMN id SET DEFAULT nextval('addresses_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY booking_edit_requests ALTER COLUMN id SET DEFAULT nextval('booking_edit_requests_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY booking_edits ALTER COLUMN id SET DEFAULT nextval('booking_edits_id_seq'::regclass);
 
 
@@ -1328,6 +1369,14 @@ ALTER TABLE ONLY addresses
 
 ALTER TABLE ONLY active_admin_comments
     ADD CONSTRAINT admin_notes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: booking_edit_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY booking_edit_requests
+    ADD CONSTRAINT booking_edit_requests_pkey PRIMARY KEY (id);
 
 
 --
@@ -1887,3 +1936,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140506142632');
 INSERT INTO schema_migrations (version) VALUES ('20140508202514');
 
 INSERT INTO schema_migrations (version) VALUES ('20140509072639');
+
+INSERT INTO schema_migrations (version) VALUES ('20140509074709');

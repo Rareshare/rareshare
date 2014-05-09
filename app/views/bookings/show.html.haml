@@ -20,15 +20,64 @@
     %div.well.well-small
       %p= @booking.state_summary_for(current_user)
       = render partial: 'bookings/actions', locals: { booking: @booking }
+
       %br
 
+      #edit_requests
+        - if @booking.owner?(current_user)
+          - if @booking.booking_edit_requests.any?
+            %table#booking_edit_requests
+              %tbody
+                %tr
+                  %b Your previous edit requests
+                %tr
+                  %td.span2= "Adjusted #{@booking.tool.unit.pluralize}"
+                  %td.span6 Memo
+                  %td.span3 Status/Action
+
+                - @booking.booking_edit_requests.reverse.each do |edit_request|
+                  %tr
+                    %td= edit_request.adjustment
+                    %td= edit_request.memo
+                    - if edit_request.accepted?
+                      %td Accepted
+                    - elsif edit_request.declined?
+                      %td Declined
+                    - else
+                      %td
+                        = link_to "Edit", edit_booking_edit_request_path(edit_request), remote: true, class: 'btn btn-success'
+                        = link_to "Cancel", booking_edit_request_path(edit_request), method: :delete, class: "btn btn-danger"
+        - elsif @booking.booking_edit_requests.any?
+          %table#booking_edit_requests
+            %tbody
+              %tr
+                %b Previous edit requests
+              %tr
+                %td.span2= "Adjusted #{@booking.tool.unit.pluralize}"
+                %td.span6 Memo
+                %td.span3 Status/Action
+
+              - @booking.booking_edit_requests.reverse.each do |edit_request|
+                %tr
+                  %td= edit_request.adjustment
+                  %td= edit_request.memo
+                  - if edit_request.accepted?
+                    %td Accepted
+                  - elsif edit_request.declined?
+                    %td Declined
+                  - else
+                    %td
+                      = link_to "Accept", check_booking_edit_request_path(edit_request), remote: :true, class: 'btn btn-success'
+                      = link_to "Decline", decline_booking_edit_request_path(edit_request), method: :patch, class: "btn btn-danger"
+      %br
       #edits
         - if @booking.owner?(current_user)
-          - if @booking.booking_edits
+          - if @booking.booking_edits.any?
             %table#booking_edits
               %tbody
                 %tr
-                  %td Your previous edits
+                  %td
+                    %b Your previous edits
                 %tr
                   %td.span3 Adjusted price
                   %td.span6 Memo
@@ -52,7 +101,8 @@
           %table#booking_edits
             %tbody
               %tr
-                %td Previous edits
+                %td
+                  %b Previous edits
               %tr
                 %td.span2 Adjusted price
                 %td.span6 Memo

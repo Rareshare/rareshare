@@ -120,6 +120,14 @@ class Tool < ActiveRecord::Base
     end
   end
 
+  def unit
+    if price_type == 'sample'
+      'sample'
+    else
+      per_time_tool_price.time_unit
+    end
+  end
+
   def lowest_price
     self.per_sample_tool_prices.min {|p| p.base_amount}
   end

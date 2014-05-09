@@ -1,6 +1,7 @@
 class BookingEditsController < InternalController
   before_action :find_booking_edit, only: [:create, :edit, :update, :confirm, :decline, :destroy]
-  before_action :find_booking, only: [:create, :destroy, :confirm, :decline]
+  before_action :find_booking, only: [:create, :update, :destroy, :confirm, :decline]
+
   def new
     @booking = Booking.find(params[:booking_id])
     @booking_edit = BookingEdit.new(booking_id: @booking.id)

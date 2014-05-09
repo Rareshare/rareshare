@@ -14,6 +14,7 @@ class Booking < ActiveRecord::Base
   belongs_to :tool
   belongs_to :tool_price, polymorphic: true
   belongs_to :address
+
   has_one    :owner, through: :tool
   has_many   :booking_logs
   has_many   :notifications, as: :notifiable
@@ -22,7 +23,7 @@ class Booking < ActiveRecord::Base
   has_many   :question_responses, through: :questions
   has_many   :answer_notifications, through: :question_responses
   has_many   :booking_edits, dependent: :destroy
-
+  has_many   :booking_edit_requests, dependent: :destroy
 
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :ignores_address?
 
@@ -145,11 +146,11 @@ class Booking < ActiveRecord::Base
       transitions from: :edited_by_owner, to: :pending
     end
 
-    event :edit_requested do
+    event :request_edit do
       transitions from: :pending, to: :edit_requested
     end
 
-    event :renter_edit do
+    event :renter_respond_to_edit_request do
       transitions from: :edit_requested, to: :pending
     end
 
@@ -343,6 +344,21 @@ class Booking < ActiveRecord::Base
 
   def final_price_in_cents
     ( self.final_price * 100 ).to_i
+  end
+
+  def price_per_unit
+    if tool.price_type == 'sample'
+      expedited? ? tool_price.expedited_amount : tool_price.base_amount
+    else
+      expedited? ? tool_price.expedite_amount : tool_price.amount_per_time_unit
+    end
+  end
+
+  def apply_adjustment(adjustment)
+    update_columns(
+      units: units + adjustment,
+      price: price + adjustment * price_per_unit
+    )
   end
 
   def pay!
