@@ -1,0 +1,12 @@
+.modal.fade#booking_edit_form
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
+        %h4.modal-title Edit your booking
+      .modal-body
+        = simple_form_for booking_edit do |f|
+          = f.input :booking_id, as: :hidden
+          = f.input :change_amount, type: "number", value: booking_edit.change_amount, label: "Add or subtract price (#{currency_for(booking)})"
+          = f.input :memo, as: :text
+          = f.button :submit, value: "Update", class: "btn btn-success"

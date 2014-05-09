@@ -20,6 +20,31 @@
     %div.well.well-small
       %p= @booking.state_summary_for(current_user)
       = render partial: 'bookings/actions', locals: { booking: @booking }
+      %br
+
+      #edits
+        - unless can? :owner_edit, @booking
+          %table#booking_edits
+            %tbody
+              %tr
+                %th Your previous edits
+              %tr
+                %td.span3 Adjusted price
+                %td.span6 Memo
+                %td.span3 Status/Action
+
+
+
+              - @booking.booking_edits.each do |edit|
+                %tr
+                  %td= number_to_currency(edit.change_amount, unit: currency_for(@booking))
+                  %td= edit.memo
+                  - if edit.confirmed?
+                    %td Confirmed
+                  - else
+                    %td
+                      = link_to "Edit", edit_booking_edit_path(edit), remote: true, class: 'btn btn-success'
+                      = link_to "Cancel", booking_edit_path(edit), method: :delete, class: "btn btn-danger"
 
     %h3 Booking Information
     = render partial: "summary", locals: { booking: @booking }

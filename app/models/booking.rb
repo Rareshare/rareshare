@@ -21,6 +21,8 @@ class Booking < ActiveRecord::Base
   has_many   :question_notifications, through: :questions
   has_many   :question_responses, through: :questions
   has_many   :answer_notifications, through: :question_responses
+  has_many   :booking_edits, dependent: :destroy
+
 
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :ignores_address?
 
@@ -119,6 +121,9 @@ class Booking < ActiveRecord::Base
   state_machine do
     state :draft
     state :pending
+    state :edited_by_owner
+    state :edit_requested
+    state :edited_by_renter
     state :confirmed
     state :denied
     state :cancelled
@@ -130,6 +135,22 @@ class Booking < ActiveRecord::Base
 
     event :confirm do
       transitions from: :pending, to: :confirmed
+    end
+
+    event :owner_edit do
+      transitions from: :pending, to: :edited_by_owner
+    end
+
+    event :edit_requested do
+      transitions from: :pending, to: :edit_requested
+    end
+
+    event :renter_edit do
+      transitions from: :edit_requested, to: :pending
+    end
+
+    event :renter_accept do
+      transitions from: :edited_by_owner, to: :pending
     end
 
     event :cancel do
@@ -363,6 +384,11 @@ class Booking < ActiveRecord::Base
         )
       end
     end
+  end
+
+  def owner_edit(params={})
+    booking_edits.create(params)
+    self.owner_edit!
   end
 
   def pending_answer_notifications

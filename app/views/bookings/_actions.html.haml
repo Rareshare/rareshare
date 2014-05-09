@@ -12,8 +12,15 @@
     = f.button :submit, value: "Begin processing", class: "btn btn-success #{btn_size}", data: { toggle: "confirm", title: "Begin Booking" }
   - if can? :complete, booking
     = f.button :submit, value: "Complete processing", class: "btn btn-success #{btn_size}", data: { toggle: "confirm", title: "Complete Booking" }
+
   - if can? :cancel, booking
     - if booking.finalized? || booking.processing? || booking.overdue?
       = link_to "Cancel", cancel_booking_path(booking), class: "btn btn-danger #{btn_size}"
     - else
       = f.button :submit, value: "Cancel", class: "btn btn-danger #{btn_size}", data: { toggle: "confirm", title: "Cancel Booking" }
+
+
+  //show page only
+  - unless btn_size == 'small'
+    - if can? :owner_edit, booking
+      = link_to "Edit", new_booking_edit_path(booking_id: booking.id), remote: true, class: "btn btn-success #{btn_size}"

@@ -118,6 +118,40 @@ ALTER SEQUENCE addresses_id_seq OWNED BY addresses.id;
 
 
 --
+-- Name: booking_edits; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE booking_edits (
+    id integer NOT NULL,
+    booking_id integer,
+    change_amount money,
+    memo character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    confirmed boolean DEFAULT false
+);
+
+
+--
+-- Name: booking_edits_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE booking_edits_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: booking_edits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE booking_edits_id_seq OWNED BY booking_edits.id;
+
+
+--
 -- Name: booking_logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1095,6 +1129,13 @@ ALTER TABLE ONLY addresses ALTER COLUMN id SET DEFAULT nextval('addresses_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY booking_edits ALTER COLUMN id SET DEFAULT nextval('booking_edits_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY booking_logs ALTER COLUMN id SET DEFAULT nextval('booking_logs_id_seq'::regclass);
 
 
@@ -1287,6 +1328,14 @@ ALTER TABLE ONLY addresses
 
 ALTER TABLE ONLY active_admin_comments
     ADD CONSTRAINT admin_notes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: booking_edits_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY booking_edits
+    ADD CONSTRAINT booking_edits_pkey PRIMARY KEY (id);
 
 
 --
@@ -1832,3 +1881,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140505054039');
 INSERT INTO schema_migrations (version) VALUES ('20140505164358');
 
 INSERT INTO schema_migrations (version) VALUES ('20140505192310');
+
+INSERT INTO schema_migrations (version) VALUES ('20140506142632');
+
+INSERT INTO schema_migrations (version) VALUES ('20140508202514');

@@ -76,6 +76,10 @@ class BookingsController < InternalController
       authorize! :deny, @booking
       @booking.deny!
       redirect_to booking_path(@booking), notice: "Booking was denied."
+    when /owner_edit/i
+      authorize! :owner_edit, @booking
+      @booking.owner_edit!
+      redirect_to booking_path(@booking), notice: "Successfully edited booking."
     when /cancel/i
       authorize! :cancel, @booking
       @booking.cancel!
