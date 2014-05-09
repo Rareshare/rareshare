@@ -45,7 +45,12 @@ Rareshare::Application.routes.draw do
     end
   end
 
-  resources :booking_edits, except: [:show, :index]
+  resources :booking_edits, except: [:show, :index] do
+    member do
+      patch 'confirm'
+      patch 'decline'
+    end
+  end
 
   get "/users/skills" => "users#skills"
   resources :users, only: :show

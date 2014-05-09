@@ -23,28 +23,53 @@
       %br
 
       #edits
-        - unless can? :owner_edit, @booking
+        - if @booking.owner?(current_user)
+          - if @booking.booking_edits
+            %table#booking_edits
+              %tbody
+                %tr
+                  %td Your previous edits
+                %tr
+                  %td.span3 Adjusted price
+                  %td.span6 Memo
+                  %td.span3 Status/Action
+
+                - @booking.booking_edits.reverse.each do |edit|
+                  %tr
+                    %td= number_to_currency(edit.change_amount, unit: currency_for(@booking))
+                    %td= edit.memo
+                    - if edit.confirmed?
+                      %td Confirmed
+                    - elsif edit.declined?
+                      %td Declined
+                    - else
+
+                      %td
+                        = link_to "Edit", edit_booking_edit_path(edit), remote: true, class: 'btn btn-success'
+                        = link_to "Cancel", booking_edit_path(edit), method: :delete, class: "btn btn-danger"
+                        
+        - elsif @booking.booking_edits
           %table#booking_edits
             %tbody
               %tr
-                %th Your previous edits
+                %td Previous edits
               %tr
-                %td.span3 Adjusted price
+                %td.span2 Adjusted price
                 %td.span6 Memo
                 %td.span3 Status/Action
 
-
-
-              - @booking.booking_edits.each do |edit|
+              - @booking.booking_edits.reverse.each do |edit|
                 %tr
                   %td= number_to_currency(edit.change_amount, unit: currency_for(@booking))
                   %td= edit.memo
                   - if edit.confirmed?
                     %td Confirmed
+                  - elsif edit.declined?
+                    %td Declined
                   - else
                     %td
-                      = link_to "Edit", edit_booking_edit_path(edit), remote: true, class: 'btn btn-success'
-                      = link_to "Cancel", booking_edit_path(edit), method: :delete, class: "btn btn-danger"
+                      = link_to "Confirm", confirm_booking_edit_path(edit), method: :patch, class: 'btn btn-success'
+                      = link_to "Decline", decline_booking_edit_path(edit), method: :patch, class: "btn btn-danger"
 
     %h3 Booking Information
     = render partial: "summary", locals: { booking: @booking }

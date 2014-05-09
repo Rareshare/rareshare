@@ -141,6 +141,10 @@ class Booking < ActiveRecord::Base
       transitions from: :pending, to: :edited_by_owner
     end
 
+    event :owner_edit_cancel do
+      transitions from: :edited_by_owner, to: :pending
+    end
+
     event :edit_requested do
       transitions from: :pending, to: :edit_requested
     end
@@ -149,7 +153,7 @@ class Booking < ActiveRecord::Base
       transitions from: :edit_requested, to: :pending
     end
 
-    event :renter_accept do
+    event :renter_respond_to_edit do
       transitions from: :edited_by_owner, to: :pending
     end
 
@@ -384,11 +388,6 @@ class Booking < ActiveRecord::Base
         )
       end
     end
-  end
-
-  def owner_edit(params={})
-    booking_edits.create(params)
-    self.owner_edit!
   end
 
   def pending_answer_notifications

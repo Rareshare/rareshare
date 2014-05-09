@@ -8,6 +8,8 @@ en:
     notify:
       pending: |
         You've received a booking request for <strong>%{tool_name}</strong>.
+      edited_by_owner: |
+        The owner has adjusted price for <strong>%{tool_name}</strong>.
       confirmed: |
         Congratulations! Your request to reserve <strong>%{tool_name}</strong> has been approved.
       cancelled: |
@@ -55,6 +57,7 @@ en:
     state:
       owner:
         pending:   "You have not yet responded to this request."
+        edited_by_owner: "The renter has to accept your edit."
         confirmed: "You have approved this booking."
         denied:    "You have declined this booking."
         finalized: "The renter has finalized the booking and is waiting for you to fulfill the booking."
@@ -62,6 +65,7 @@ en:
         expired:   "This booking has expired."
       renter:
         draft:     "You still need to finish the booking request."
+        edited_by_owner: "Please confirm or decline the adjusted price."
         pending:   "The owner of this tool has not yet responded to this request."
         confirmed: "The owner of the tool has agreed to this booking."
         denied:    "The owner of the tool has declined this booking."

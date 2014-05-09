@@ -38,7 +38,7 @@ class Ability
     end
 
     can :owner_edit, Booking do |b|
-      b.owner?(user) && b.can_owner_edit? && b.booking_edits.unconfirmed.empty?
+      b.owner?(user) && b.can_owner_edit? && b.booking_edits.pending.empty?
     end
 
     can :finalize, Booking do |b|

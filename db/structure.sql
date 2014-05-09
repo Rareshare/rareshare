@@ -128,7 +128,7 @@ CREATE TABLE booking_edits (
     memo character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    confirmed boolean DEFAULT false
+    state character varying(255)
 );
 
 
@@ -1885,3 +1885,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140505192310');
 INSERT INTO schema_migrations (version) VALUES ('20140506142632');
 
 INSERT INTO schema_migrations (version) VALUES ('20140508202514');
+
+INSERT INTO schema_migrations (version) VALUES ('20140509072639');
