@@ -6,6 +6,7 @@ class Ability
     alias_action :create, :read, :update, :destroy, :to => :crud
 
     bookings user
+    booking_edits user
     tools    user
     messages user
   end
@@ -55,6 +56,16 @@ class Ability
 
     can :complete, Booking do |b|
       b.owner?(user) && b.can_complete?
+    end
+  end
+
+  def booking_edits(user)
+    can :manage, BookingEdit do |b|
+      b.booking.owner?(user) && b.pending?
+    end
+
+    can :respond, BookingEdit do |b|
+      b.booking.renter?(user) && b.pending?
     end
   end
 
