@@ -1,35 +1,7 @@
 = page_header "Edit Facility",
   icon: "building",
-  crumbs: [:root, Tool, "Facilities", @facility],
+  crumbs: [:root, Facility, @facility],
   updated_at: @facility.updated_at
 
-= simple_form_for @facility do |f|
-  = f.error_notification
-  %div.form-inputs
-    %fieldset
-      %div.row
-        %span.offset2.span10
-          %legend About the facility
+= render 'form'
 
-          %div.row
-            %div.span6= f.input :name
-
-          %div.row
-            %div.span6= f.input :department
-
-          %div.row
-            %div.span6= f.input :description
-
-    %fieldset
-      %div.row
-        %span.offset2.span10
-          %legend Address
-
-          = f.simple_fields_for :address, @facility.address || @facility.build_address do |a|
-            = a.hidden_field :id
-            = render partial: 'addresses/form', object: a
-
-      %div.row
-        %span.offset2.span8
-          = f.button :submit, class: "btn btn-primary"
-          = link_to "Cancel", tools_path, class: "btn btn-default"

@@ -5,6 +5,7 @@
       = nav_link "Find a Tool", search_path, icon: "search", controller: "searches"
       = nav_link "My Tools", share_a_tool_path, icon: "cogs", controller: "tools"
       = nav_link "Bookings", bookings_path, icon: "time"
+      = nav_link "Facilities", facilities_path, icon: "building"
       %li{class: current_page?(messages_path) ? "active" : ""}
         = link_to messages_path do
           %i.icon-inbox

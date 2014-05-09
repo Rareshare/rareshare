@@ -10,6 +10,7 @@ class Ability
     booking_edit_requests user
     tools    user
     messages user
+    facilities user
   end
 
   private
@@ -105,6 +106,12 @@ class Ability
   def messages(user)
     can :read, UserMessage do |m|
       m.sender == user || m.receiver == user
+    end
+  end
+
+  def facilities(user)
+    can :manage, Facility do |f|
+      f.user == user
     end
   end
 end

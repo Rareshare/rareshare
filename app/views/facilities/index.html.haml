@@ -1,0 +1,26 @@
+= page_header "Facilities",
+  icon: "building",
+  crumbs: [:root, Facility]
+
+%div.row
+  %div.span2.sidebar
+    = link_to glyph_text(:plus, "Add facility"), new_facility_path, class: "btn btn-info"
+  %div.span10
+    %h3 Facilities
+    - if current_user.facilities.empty?
+      %p You have not registered any facilities.
+    - else
+      %table.table.table-hover.table-bordered
+        %thead
+          %tr
+            %th Name
+            %th Address
+            %th
+        %tbody
+          - @facilities.each do |facility|
+            %tr
+              %td= facility.name
+              %td= facility.address.full_street_address
+              %td
+                = link_to "Edit", edit_facility_path(facility), class: "btn btn-success btn-mini"
+                = link_to "Delete", facility_path(facility), method: :delete, class: "btn btn-danger btn-mini"
