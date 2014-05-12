@@ -18,6 +18,9 @@ class Facility < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super(options).merge(address: address || Address.new)
+    super(options).merge(
+      address: address || Address.new,
+      title: title
+    )
   end
 end

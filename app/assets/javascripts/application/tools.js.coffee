@@ -100,13 +100,15 @@ window.Tool = (input) ->
 window.FacilityCollection = (input, default_id) ->
   @facilities = ko.observableArray()
 
+  console.log "woo" + input.length
   for facility in input
-    facility_id = if facility.id then facility.id.toString() else ""
+    if facility.id
+      facility_id = facility.id.toString()
 
-    if facility_id == default_id
-      @facilities.unshift(new Facility(facility))
-    else
-      @facilities.push(new Facility(facility))
+      if facility_id == default_id
+        @facilities.unshift(new Facility(facility))
+      else
+        @facilities.push(new Facility(facility))
 
   this
 

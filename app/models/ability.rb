@@ -6,8 +6,11 @@ class Ability
     alias_action :create, :read, :update, :destroy, :to => :crud
 
     bookings user
+    booking_edits user
+    booking_edit_requests user
     tools    user
     messages user
+    facilities user
   end
 
   private
@@ -58,6 +61,26 @@ class Ability
     end
   end
 
+  def booking_edits(user)
+    can :manage, BookingEdit do |b|
+      b.booking.owner?(user) && b.pending?
+    end
+
+    can :respond, BookingEdit do |b|
+      b.booking.renter?(user) && b.pending?
+    end
+  end
+
+  def booking_edit_requests(user)
+    can :manage, BookingEditRequest do |b|
+      b.booking.owner?(user) && b.pending?
+    end
+
+    can :respond, BookingEditRequest do |b|
+      b.booking.renter?(user) && b.pending?
+    end
+  end
+
   def tools(user)
     can :crud, Tool do |t|
       t.owned_by?(user)
@@ -83,6 +106,12 @@ class Ability
   def messages(user)
     can :read, UserMessage do |m|
       m.sender == user || m.receiver == user
+    end
+  end
+
+  def facilities(user)
+    can :manage, Facility do |f|
+      f.user == user
     end
   end
 end

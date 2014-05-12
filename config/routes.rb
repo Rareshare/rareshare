@@ -60,10 +60,11 @@ Rareshare::Application.routes.draw do
     end
   end
 
+
   get "/users/skills" => "users#skills"
   resources :users, only: :show
   resources :units, only: :show
-  resources :facilities, only: [:edit, :update]
+  resources :facilities
   resources :notifications, only: [:index, :show]
 
   resources :messages do

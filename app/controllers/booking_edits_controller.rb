@@ -5,9 +5,12 @@ class BookingEditsController < InternalController
   def new
     @booking = Booking.find(params[:booking_id])
     @booking_edit = BookingEdit.new(booking_id: @booking.id)
+    authorize! :owner_edit, @booking
   end
 
   def create
+    authorize! :owner_edit, @booking
+
     if @booking_edit.save
       flash[:success] = "Successfully edited booking"
 
@@ -23,9 +26,12 @@ class BookingEditsController < InternalController
   end
 
   def edit
+    authorize! :maanage, @booking_edit
   end
 
   def update
+    authorize! :manage, @booking_edit
+
     if @booking_edit.update_attributes(booking_edit_params)
       flash[:success] = "Successfully updated your edit request."
     else
@@ -36,6 +42,7 @@ class BookingEditsController < InternalController
   end
 
   def confirm
+    authorize! :respond, @booking_edit
     @booking_edit.confirm!
     @booking.update_column(:price, @booking.price + @booking_edit.change_amount)
     @booking.updated_by = current_user
@@ -45,6 +52,7 @@ class BookingEditsController < InternalController
   end
 
   def decline
+    authorize! :respond, @booking_edit
     @booking_edit.decline!
     @booking.updated_by = current_user
     @booking.renter_respond_to_edit!
@@ -53,11 +61,13 @@ class BookingEditsController < InternalController
   end
 
   def destroy
+    authorize! :manage, @booking_edit
+
     @booking_edit.destroy
     flash[:success] = "Successfully canceled the edit."
-    if @booking.booking_edits.empty?
+    if @booking.booking_edits.pending.empty?
       @booking.updated_by = current_user
-      @booking.owner_edit_cancel!
+      @booking.cancel_owner_edit!
     end
     redirect_to @booking
   end
