@@ -150,13 +150,13 @@
         %tr
           %th Resolution
           %td= @booking.tool.resolution
-        %tr
-          %th Sample size
-          %td
-            10
-            %sup= @booking.tool.sample_size_min
-            to 10
-            %sup= @booking.tool.sample_size_max
+        -#%tr
+        -#  %th Sample size
+        -#  %td
+        -#    10
+        -#    %sup= @booking.tool.sample_size_min
+        -#    to 10
+        -#    %sup= @booking.tool.sample_size_max
 
     - if @booking.tool.images.any?
       = render partial: "tools/images", object: @booking.tool.images
