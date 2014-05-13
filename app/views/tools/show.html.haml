@@ -144,13 +144,13 @@
                     %span.muted
                       = "per #{price.time_unit}"
 
-        %tr
-          %th Sample size
-          %td
-            10
-            %sup= @tool.sample_size_min
-            to 10
-            %sup= @tool.sample_size_max
+        -#%tr
+        -#  %th Sample size
+        -#  %td
+        -#    10
+        -#    %sup= @tool.sample_size_min
+        -#    to 10
+        -#    %sup= @tool.sample_size_max
 
     %h3 Description
     - if @tool.description.blank?

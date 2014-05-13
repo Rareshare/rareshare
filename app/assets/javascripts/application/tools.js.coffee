@@ -15,7 +15,7 @@ window.Tool = (input) ->
   @images = ko.observableArray(input.images)
   @documents = ko.observableArray()
   for file in input.documents
-    @documents.push(_delete: 0, file_id: file.id, name: file.file_name, url: file.file_url, id: file.id)
+    @documents.push(_delete: 0, file_id: file.file_id, name: file.file_name, url: file.file_url, id: file.id)
 
   @possible_terms_documents = ko.observableArray(input.possible_terms_documents)
   @keywords = ko.observableArray(input.keywords)
