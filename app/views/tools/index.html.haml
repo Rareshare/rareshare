@@ -30,14 +30,15 @@
                 - else
                   %td
                     - t.per_time_tool_price.tap do |price|
-                      - if price.requires_setup?
+                      - if price
+                        - if price.requires_setup?
+                          %div
+                            %span= number_to_currency(price.setup_amount, unit: currency_for(t))
+                            %span required one-time setup fee
                         %div
-                          %span= number_to_currency(price.setup_amount, unit: currency_for(t))
-                          %span required one-time setup fee
-                      %div
-                        %span= number_to_currency(price.amount_per_time_unit, unit: currency_for(t))
-                        %span
-                          = "per #{price.time_unit}"
+                          %span= number_to_currency(price.amount_per_time_unit, unit: currency_for(t))
+                          %span
+                            = "per #{price.time_unit}"
                 %td= t.current_renter.try(:display_name)
                 %td= t.status
                 %td
