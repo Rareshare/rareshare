@@ -1,21 +1,25 @@
 %table.table.table-hover.table-bordered
   %thead
     %tr
+      %th
       %th State
       %th Deadline
       %th Tool
       %th Cost
-      %th
       %th Provider
       %th Renter
   %tbody
     - list.each do |b|
       %tr{class: classes_for_booking_row(b)}
         %td
+          - if can? :read, b
+            = link_to "View", booking_path(b), class: 'btn btn-success btn-mini'
+          - else
+            &nbsp;
+        %td
           = booking_state b
         %td= link_to b.deadline.to_date.to_s(:simple), booking_path(b)
         %td= link_to b.display_name, booking_path(b)
         %td= number_to_currency b.price, unit: currency_for(b)
-        %td= render partial: "bookings/actions", locals: { booking: b, btn_size: "btn-mini" }
         %td= b.owner.try(:display_name)
         %td= b.renter.try(:display_name)
