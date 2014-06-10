@@ -1,5 +1,4 @@
 class SearchesController < ApplicationController
-  helper :tools
   after_filter :track_search_results, only: :show
 
   layout :layout_for_current_user

@@ -10,9 +10,7 @@
     = csrf_meta_tags
 
     - unless current_user.stripe_access_token
-      = link_to "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=#{ENV['STRIPE_CLIENT_ID']}&scope=read_write",
-        target: "_blank" do
-        = image_tag "stripe-blue.png", class: 'stripe'
+      = link_to image_tag('stripe-blue.png', class: 'stripe'), stripe_connect_url
 
   %div.span10.profile-main
     %h3 Recent booking history

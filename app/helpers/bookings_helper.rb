@@ -34,4 +34,14 @@ module BookingsHelper
     )
   end
 
+
+  def stripe_connect_url
+    base = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=#{ENV['STRIPE_CLIENT_ID']}&scope=read_write"
+    if Rails.env.development? && ENV['STRIPE_CONNECT_REDIRECT'].present?
+      "#{base}&redirect_uri=#{ENV['STRIPE_CONNECT_REDIRECT']}"
+    else
+      base
+    end
+  end
+
 end

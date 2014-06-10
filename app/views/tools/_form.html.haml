@@ -330,9 +330,7 @@
       - unless current_user.stripe_access_token
         %br
         %br
-        = link_to "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=#{ENV['STRIPE_CLIENT_ID']}&scope=read_write",
-          target: "_blank" do
-          = image_tag "stripe-blue.png"
+        = link_to image_tag('stripe-blue.png'), stripe_connect_url
 
 
 #loadingModal.modal.hide{"data-backdrop" => "static", "data-keyboard" => "false"}

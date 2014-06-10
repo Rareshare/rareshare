@@ -48,3 +48,6 @@
 /certs
 
 .DS_Store
+
+# local config vars for pow development server
+.powenv
