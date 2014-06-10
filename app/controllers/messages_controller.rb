@@ -6,17 +6,9 @@ class MessagesController < InternalController
 
   def show
     @message = UserMessage.find(params[:id])
-
-    if can? :read, @message
-      current_user.acknowledge_message!(@message)
-
-      if @message.messageable.present?
-        redirect_to @message.messageable
-      elsif !@message.first?
-        redirect_to message_path(@message.originating_message_id, anchor: "message-#{@message.id}")
-      end
-    else
-      redirect_to :back, flash: { error: "You do not have permission to read this message." }
+    authorize! :read, @message
+    unless @message.first?
+      redirect_to message_path(@message.originating_message_id, anchor: "message-#{@message.id}")
     end
   end
 
