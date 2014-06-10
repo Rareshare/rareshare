@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery.ui.sortable
 //= require jquery.ui.slider
+//= require moment
 //= require twitter/bootstrap
 //= require twitter/bootstrap_ujs
 //= require jquery-fileupload/basic

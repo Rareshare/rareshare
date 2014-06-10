@@ -238,6 +238,8 @@ GEM
     mini_magick (3.5.0)
       subexec (~> 0.2.1)
     minitest (4.7.5)
+    momentjs-rails (2.6.0)
+      railties (>= 3.1)
     multi_json (1.9.2)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
@@ -455,6 +457,7 @@ DEPENDENCIES
   mailcatcher
   mime-types
   mini_magick
+  momentjs-rails
   newrelic_rpm
   no_peeping_toms
   omniauth

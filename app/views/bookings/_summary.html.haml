@@ -43,5 +43,5 @@
         - booking.booking_logs.each do |log|
           %p
             = link_to glyph_text(:user, log.updated_by.display_name), user_path(log.updated_by)
-            = log.state_transition_description
-            = "on #{log.created_at.to_s(:long)}."
+            #{log.state_transition_description} on
+            %span{'data-date-utc' => log.created_at.to_s(:db)}= log.created_at

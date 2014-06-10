@@ -60,6 +60,9 @@ window.Booking = (input) ->
   this
 
 $ ->
+  $('span[data-date-utc]').each ->
+    $(this).text "#{moment.utc($(this).data('date-utc')).local().format('MMMM D, YYYY h:mm a')} #{jstz.determine().name()}"
+
   ko.bindingHandlers.wysihtml5 =
     init: (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) ->
       editor = $(element).data("wysihtml5").editor
@@ -92,7 +95,3 @@ $ ->
       console.log "observable", observable, "currency", currency
 
       $(element).text accounting.formatMoney(observable, currency)
-
-
-
-
