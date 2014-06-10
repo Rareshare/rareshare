@@ -54,7 +54,7 @@ window.Booking = (input) ->
 
   # NOTE: This is used only for display purposes, and never used to charge the user.
   @final_price = ko.computed () =>
-    ( parseFloat(@tool_price_visible()) * parseFloat(@units()) ) + parseFloat(@tool_price_setup()) + parseFloat(@shipping_rate()) + parseFloat(@rareshare_fee())
+    ( parseFloat(@tool_price_visible()) * parseFloat(@units()) ) + parseFloat(@tool_price_setup()) + parseFloat(@shipping_rate()) + parseFloat(@rareshare_fee()) + parseFloat(@payment_fee())
 
 
   this

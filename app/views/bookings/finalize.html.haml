@@ -25,7 +25,6 @@
         %fieldset
           %div.row
             %span.offset2.span8
-
               %legend Shipping
               %p You've selected outgoing shipping. Please indicate the type of shipping you'd like:
               = f.input :shipping_service, as: :select, input_html: { "data-bind" => "value: shipping_service, options: outgoing_shipment_rates, optionsText: 'display_name', optionsCaption: \"Never mind; I'll provide shipping myself\"" }
@@ -47,14 +46,17 @@
                   %th.span3 Base price
                   %td.span5{data: { bind: "text: money(price)" }}= @booking.price
                 %tr
-                  %th RareShare fee
-                  %td{data: { bind: "text: money(rareshare_fee)" }}= @booking.rareshare_fee
-                %tr
                   %th Shipping
                   %td{data: { bind: "text: money(shipping_rate)" }}= @booking.shipping_price
                 %tr
+                  %th RareShare fee
+                  %td{data: { bind: "text: money(rareshare_fee)" }}= @booking.rareshare_fee
+                %tr
+                  %th Payment fee
+                  %td{data: {bind: "text: money(payment_fee)" }}= @booking.payment_fee
+                %tr
                   %th Final Price
-                  %td{data: { bind: "text: money(final_price)" }}= @booking.final_price
+                  %td{data: { bind: "text: money(final_price)" }}= @booking.price_with_all_fees
 
           %div.row
             %div.span4

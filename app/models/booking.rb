@@ -335,7 +335,7 @@ class Booking < ActiveRecord::Base
   def as_json(options={})
     unless options[:minimal]
       options = options.merge(
-        methods: [:use_user_address, :outgoing_shipment_rates, :currency_symbol, :tool, :tool_price]
+        methods: [:use_user_address, :outgoing_shipment_rates, :currency_symbol, :tool, :tool_price, :payment_fee]
       )
     end
 
@@ -343,11 +343,25 @@ class Booking < ActiveRecord::Base
   end
 
   def final_price
-    self.price + self.shipping_price + self.rareshare_fee
+    price + shipping_price + rareshare_fee
   end
 
   def final_price_in_cents
-    ( self.final_price * 100 ).to_i
+    ( final_price * 100 ).to_i
+  end
+
+  def price_with_all_fees
+    final_price + payment_fee
+  end
+
+  def payment_fee
+    if currency_symbol == '$'
+      # based on Stripe's fee of 2.9% + $0.30
+      (final_price * 0.029) + 0.3
+    else
+      # based on Stripe's fee of 2.4% + £0.20
+      (final_price * 0.024) + 0.2
+    end
   end
 
   def price_per_unit

@@ -20,6 +20,6 @@
           = booking_state b
         %td= link_to b.deadline.to_date.to_s(:simple), booking_path(b)
         %td= link_to b.display_name, booking_path(b)
-        %td= number_to_currency b.price, unit: currency_for(b)
+        %td= number_to_currency b.price_with_all_fees, unit: currency_for(b)
         %td= b.owner.try(:display_name)
         %td= b.renter.try(:display_name)

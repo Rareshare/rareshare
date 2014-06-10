@@ -8,8 +8,8 @@
       %th.span3 Tool
       %td.span5= link_to booking.tool.display_name, tool_path(booking.tool)
     %tr
-      %th Price
-      %td= number_to_currency booking.price, unit: currency_for(booking)
+      %th Price (including all fees)
+      %td= number_to_currency booking.price_with_all_fees, unit: currency_for(booking)
     %tr
       %th Location
       %td= booking.tool.partial_address
