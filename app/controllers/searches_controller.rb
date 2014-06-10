@@ -9,12 +9,12 @@ class SearchesController < ApplicationController
   end
 
   def create_request
-    request = RequestedSearch.create(
+    request = RequestedSearch.new(
       request: params[:requested_search][:request],
       user: current_user
     )
 
-    if request.valid?
+    if request.save
       render json: { text: "Thanks for the suggestion!" }
     else
       head 422

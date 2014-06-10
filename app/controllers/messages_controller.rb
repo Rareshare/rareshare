@@ -22,13 +22,13 @@ class MessagesController < InternalController
 
   def create
     @message = UserMessage.new(
-      messageable: self.messageable,
-      sender: self.current_user,
-      receiver: self.messageable.owner,
+      messageable: messageable,
+      sender: current_user,
+      receiver: messageable.owner,
       body: message_params[:body]
     )
 
-    if @message.valid?
+    if @message.save
       redirect_to polymorphic_path(@message.messageable), flash: { notice: "Message sent." }
     else
       render :new
@@ -36,7 +36,7 @@ class MessagesController < InternalController
   end
 
   def new
-    @message = UserMessage.new(messageable: self.messageable)
+    @message = UserMessage.new(messageable: messageable)
   end
 
   def reply

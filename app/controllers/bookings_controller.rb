@@ -163,9 +163,7 @@ class BookingsController < InternalController
         @booking.save_draft(current_user)
         redirect_to booking_path(@booking), flash: { notice: "Booking draft saved!" }
       else
-        @booking.reserve(current_user)
-
-        if @booking.valid?
+        if @booking.reserve(current_user)
           redirect_to booking_path(@booking), flash: { notice: "Booking requested!" }
         else
           flash[:error] = @booking.errors.full_messages
