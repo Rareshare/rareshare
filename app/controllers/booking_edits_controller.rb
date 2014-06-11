@@ -44,7 +44,6 @@ class BookingEditsController < InternalController
   def confirm
     authorize! :respond, @booking_edit
     @booking_edit.confirm!
-    @booking.update_column(:price, @booking.price + @booking_edit.change_amount)
     @booking.updated_by = current_user
     @booking.renter_respond_to_edit!
 

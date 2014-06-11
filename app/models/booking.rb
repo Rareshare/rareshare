@@ -335,7 +335,15 @@ class Booking < ActiveRecord::Base
   def as_json(options={})
     unless options[:minimal]
       options = options.merge(
-        methods: [:use_user_address, :outgoing_shipment_rates, :currency_symbol, :tool, :tool_price, :payment_fee]
+        methods: [
+          :use_user_address,
+          :outgoing_shipment_rates,
+          :currency_symbol,
+          :tool,
+          :tool_price,
+          :edits_price,
+          :payment_fee
+        ]
       )
     end
 
@@ -343,11 +351,15 @@ class Booking < ActiveRecord::Base
   end
 
   def final_price
-    price + shipping_price + rareshare_fee
+    price + edits_price + shipping_price + rareshare_fee
   end
 
   def final_price_in_cents
     ( final_price * 100 ).to_i
+  end
+
+  def edits_price
+    booking_edits.confirmed.sum :change_amount
   end
 
   def price_with_all_fees
@@ -366,7 +378,7 @@ class Booking < ActiveRecord::Base
 
   def price_per_unit
     if tool.price_type == 'sample'
-      expedited? ? tool_price.expedited_amount : tool_price.base_amount
+      expedited? ? tool_price.expedite_amount : tool_price.base_amount
     else
       expedited? ? tool_price.expedite_amount : tool_price.amount_per_time_unit
     end

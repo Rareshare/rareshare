@@ -4,6 +4,7 @@ class BookingEdit < ActiveRecord::Base
 
   validates_presence_of :change_amount
   validates_length_of :memo, maximum: 100
+  validate :change_amount_within_base_price
 
   state_machine do
     state :pending
@@ -22,4 +23,14 @@ class BookingEdit < ActiveRecord::Base
   state_machine.states.each do |state|
     scope state.name, lambda { where(state: state.name) }
   end
+
+  def change_amount_within_base_price
+    other_edits = booking.booking_edits.where("state <> 'declined'")
+    other_edits.where!("id <> ?", id) if persisted?
+    previous_base = booking.price + other_edits.sum(:change_amount)
+    if (previous_base + change_amount) < 0
+      errors.add :change_amount, 'cannot be greater than the base price'
+    end
+  end
+
 end
