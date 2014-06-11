@@ -1,5 +1,6 @@
 ActiveAdmin.register Booking do
   index do
+    selectable_column
     column :id
     column :owner
     column :renter
@@ -24,7 +25,7 @@ ActiveAdmin.register Booking do
 
   filter :id
   filter :state
-  
+
   # See permitted parameters documentation:
   # https://github.com/gregbell/active_admin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -37,5 +38,5 @@ ActiveAdmin.register Booking do
   #  permitted << :other if resource.something?
   #  permitted
   # end
-  
+
 end

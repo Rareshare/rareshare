@@ -7,13 +7,15 @@ class NotificationsController < InternalController
     respond_to do |f|
       f.json do
         collection = @notifications.map do |n|
-          views = n.notifiable.class.model_name.collection
-          n.as_json.merge(
-            html: render_to_string(partial: "#{views}/notification.html", object: n),
-            seen: n.seen?,
-            path: notification_path(n)
-          )
-        end
+          unless n.notifiable.nil?
+            views = n.notifiable.class.model_name.collection
+            n.as_json.merge(
+              html: render_to_string(partial: "#{views}/notification.html", object: n),
+              seen: n.seen?,
+              path: notification_path(n)
+            )
+          end
+        end.compact
 
         render json: {
           notifications: collection,

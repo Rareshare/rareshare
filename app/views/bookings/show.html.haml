@@ -12,114 +12,70 @@
   crumbs: [:root, Booking, @booking],
   subtitle: @booking.display_name
 
-%div.row
-  %div.span2.header-avatar
+.row
+  .span2.header-avatar
     = avatar_of @booking.opposite_party_to(current_user)
 
-  %div.span8
-    %div.well.well-small
+  .span8
+    .well.well-small
       %p= @booking.state_summary_for(current_user)
       = render partial: 'bookings/actions', locals: { booking: @booking }
 
-      %br
-
       #edit_requests
-        - if @booking.owner?(current_user)
-          - if @booking.booking_edit_requests.any?
-            %table#booking_edit_requests
-              %tbody
-                %tr
-                  %b Your previous edit requests
-                %tr
-                  %td.span2= "Adjusted #{@booking.tool.unit.pluralize}"
-                  %td.span6 Memo
-                  %td.span3 Status/Action
-
-                - @booking.booking_edit_requests.reverse.each do |edit_request|
-                  %tr
-                    %td= edit_request.adjustment
-                    %td= edit_request.memo
-                    - if edit_request.accepted?
-                      %td Accepted
-                    - elsif edit_request.declined?
-                      %td Declined
-                    - else
-                      %td
-                        = link_to "Edit", edit_booking_edit_request_path(edit_request), remote: true, class: 'btn btn-success'
-                        = link_to "Cancel", booking_edit_request_path(edit_request), method: :delete, class: "btn btn-danger"
-        - elsif @booking.booking_edit_requests.any?
+        - if @booking.booking_edit_requests.any?
+          %h4 #{@booking.tool.unit.titleize} Adjustments
           %table#booking_edit_requests
+            %thead
+              %tr
+                %th.span3 Status/Action
+                %th.span6 Description
+                %th.span2 Adjustment
             %tbody
-              %tr
-                %b Previous edit requests
-              %tr
-                %td.span2= "Adjusted #{@booking.tool.unit.pluralize}"
-                %td.span6 Memo
-                %td.span3 Status/Action
-
               - @booking.booking_edit_requests.reverse.each do |edit_request|
                 %tr
-                  %td= edit_request.adjustment
-                  %td= edit_request.memo
-                  - if edit_request.accepted?
-                    %td Accepted
-                  - elsif edit_request.declined?
-                    %td Declined
-                  - else
-                    %td
+                  %td
+                    - if edit_request.accepted?
+                      Accepted
+                    - elsif edit_request.declined?
+                      Declined
+                    - elsif @booking.owner?(current_user)
+                      = link_to 'Edit', edit_booking_edit_request_path(edit_request), remote: true, class: 'btn btn-success'
+                      = link_to 'Cancel', booking_edit_request_path(edit_request), method: :delete, class: 'btn btn-danger'
+                    - else
                       = link_to "Accept", check_booking_edit_request_path(edit_request), remote: :true, class: 'btn btn-success'
                       = link_to "Decline", decline_booking_edit_request_path(edit_request), method: :patch, class: "btn btn-danger"
-      %br
+                  %td= edit_request.memo
+                  %td= edit_request.adjustment
+
       #edits
-        - if @booking.owner?(current_user)
-          - if @booking.booking_edits.any?
-            %table#booking_edits
-              %tbody
-                %tr
-                  %td
-                    %b Your previous edits
-                %tr
-                  %td.span3 Adjusted price
-                  %td.span6 Memo
-                  %td.span3 Status/Action
-
-                - @booking.booking_edits.reverse.each do |edit|
-                  %tr
-                    %td= number_to_currency(edit.change_amount, unit: currency_for(@booking))
-                    %td= edit.memo
-                    - if edit.confirmed?
-                      %td Confirmed
-                    - elsif edit.declined?
-                      %td Declined
-                    - else
-
-                      %td
-                        = link_to "Edit", edit_booking_edit_path(edit), remote: true, class: 'btn btn-success'
-                        = link_to "Cancel", booking_edit_path(edit), method: :delete, class: "btn btn-danger"
-                        
-        - elsif @booking.booking_edits
+        - if @booking.booking_edits.any?
+          %h4 Price Adjustments
           %table#booking_edits
+            %thead
+              %tr
+                %th.span3 Status/Action
+                %th.span6 Description
+                %th.span3 Adjustment
             %tbody
-              %tr
-                %td
-                  %b Previous edits
-              %tr
-                %td.span2 Adjusted price
-                %td.span6 Memo
-                %td.span3 Status/Action
-
               - @booking.booking_edits.reverse.each do |edit|
                 %tr
-                  %td= number_to_currency(edit.change_amount, unit: currency_for(@booking))
-                  %td= edit.memo
-                  - if edit.confirmed?
-                    %td Confirmed
-                  - elsif edit.declined?
-                    %td Declined
-                  - else
-                    %td
+                  %td
+                    - if edit.confirmed?
+                      Confirmed
+                    - elsif edit.declined?
+                      Declined
+                    - elsif @booking.owner?(current_user)
+                      = link_to "Edit", edit_booking_edit_path(edit), remote: true, class: 'btn btn-success'
+                      = link_to "Cancel", booking_edit_path(edit), method: :delete, class: "btn btn-danger"
+                    - else
                       = link_to "Confirm", confirm_booking_edit_path(edit), method: :patch, class: 'btn btn-success'
                       = link_to "Decline", decline_booking_edit_path(edit), method: :patch, class: "btn btn-danger"
+                  %td= edit.memo
+                  %td= number_to_currency(edit.change_amount, unit: currency_for(@booking))
+              %tr.summary
+                %td(colspan=3)
+                  Confirmed subtotal:
+                  = number_to_currency @booking.booking_edits.confirmed.sum(:change_amount), unit: currency_for(@booking)
 
     %h3 Booking Information
     = render partial: "summary", locals: { booking: @booking }
