@@ -1,0 +1,23 @@
+!!!html
+%html(lang="en")
+  %head
+    %meta(content='text/html; charset=UTF-8' http-equiv='Content-Type')
+  %body
+    %h4 Hi #{@user.first_name},
+
+    %p #{@other_user.display_name} has cancelled the booking for #{@notification.tool_name}.
+
+    %p We're sorry it didn't work out on this occasion.
+
+    %p
+      Let us know if there is antyhing we can help with by
+      emailing us at #{mail_to 'admin@rareshare.io', 'admin@rareshare.io'}
+
+    %p Thank you,
+
+    %p The RareShare Team
+
+    %small
+      You've received this update because you're subscribed to email
+      notifications of booking changes. To change these settings, please
+      #{link_to 'edit your profile.', profile_url(@user)}

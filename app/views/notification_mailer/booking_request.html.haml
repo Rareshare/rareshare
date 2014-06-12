@@ -1,0 +1,28 @@
+!!!html
+%html(lang="en")
+  %head
+    %meta(content='text/html; charset=UTF-8' http-equiv='Content-Type')
+  %body
+    %h4 Hi #{@user.first_name},
+
+    %p You have received a request to book #{@notification.tool_name} by #{@other_user.display_name}.
+
+    %p
+      #{link_to 'View booking details here', @url} to respond to the request and ask any questions you have
+      before moving forward. If that link does not work, copy and paste the following address into your browser:
+
+    %p= @url
+
+    %p
+      This is your opportunity to ask questions needed to clarify what is expected by #{@other_user.display_name}.
+      Remember to ask any questions you have about safety, delivery of any samples (where applicable), timeliness,
+      or intellectual property.
+
+    %p Thank you,
+
+    %p The RareShare Team,
+
+    %small
+      You've received this update because you're subscribed to email
+      notifications of booking changes. To change these settings, please
+      #{link_to 'edit your profile.', profile_url(@user)}

@@ -1,0 +1,21 @@
+!!!html
+%html(lang="en")
+  %head
+    %meta(content='text/html; charset=UTF-8' http-equiv='Content-Type')
+  %body
+    %h4 Hi #{@user.first_name},
+
+    %p Your request to book #{@notification.tool_name} has been confirmed by #{@other_user.display_name}.
+
+    %p #{link_to 'Follow this link to view booking details', @url} or copy and paste the following address into a browser:
+
+    %p= @url
+
+    %p Thank you,
+
+    %p The RareShare Team
+
+    %small
+      You've received this update because you're subscribed to email
+      notifications of booking changes. To change these settings, please
+      #{link_to 'edit your profile.', profile_url(@user)}

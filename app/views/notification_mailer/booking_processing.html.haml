@@ -1,0 +1,23 @@
+!!!html
+%html(lang="en")
+  %head
+    %meta(content='text/html; charset=UTF-8' http-equiv='Content-Type')
+  %body
+    %h4 Hi #{@user.first_name},
+
+    %p
+      #{@other_user.display_name} wanted to let you know that they have begun
+      work on your project.
+
+    %p
+      Be sure to keep in touch as the project progresses and let us know if there are
+      any problems by emailing us at #{mail_to 'admin@rareshare.io', 'admin@rareshare.io'}
+
+    %p Thank you,
+
+    %p The RareShare Team
+
+    %small
+      You've received this update because you're subscribed to email
+      notifications of booking changes. To change these settings, please
+      #{link_to 'edit your profile.', profile_url(@user)}
