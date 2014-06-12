@@ -7,7 +7,7 @@ ActiveAdmin.register Booking do
     column :state
     column :deadline
     column :price
-    default_actions
+    actions
   end
 
   show do

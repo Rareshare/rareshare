@@ -3,7 +3,7 @@ ActiveAdmin.register Page do
     column :title
     column :slug
     column :pdf
-    default_actions
+    actions
   end
 
   form do |f|

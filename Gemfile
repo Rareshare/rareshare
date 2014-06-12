@@ -2,13 +2,13 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 # Basic infrastructure
-gem 'rails', '~> 4.0.0'
+gem 'rails', '4.0.5'
 gem 'pg' # Basic Postgres driver.
 gem 'therubyracer' # Javascript integration from within Ruby
 gem 'uglifier' # JS asset compression
 gem 'unicorn' # High-performance Ruby web server
 gem 'seed-fu' # Seed test data
-gem 'redis-rails', github: 'jodosha/redis-store' # Store sessions in Redis
+gem 'redis-rails' # Store sessions in Redis
 gem 'rails-observers' # Add in support for ActiveRecord observers.
 
 # Background jobs
@@ -43,7 +43,7 @@ gem 'omniauth-linkedin' # Integrate Linkedin specifically.
 gem 'active_attr' # Treat basic Ruby objects like models
 gem 'transitions', :require => ["transitions", "active_model/transitions"]
 gem 'geocoder' # Geocoding support
-gem 'simple_form', '~> 3.0.0rc' # Easy form builder.
+gem 'simple_form', '~> 3.0' # Easy form builder.
 gem 'kaminari' # ARec pagination
 gem 'friendly_id', github: 'norman/friendly_id' # Standard slugged ID management
 # gem 'ruby-units' # Definitions for standard and scientific units.
@@ -58,7 +58,7 @@ gem 'stripe'
 # Rendering and style
 gem 'haml-rails'
 gem 'coffee-rails'
-gem 'sass-rails'
+gem 'sass-rails', '>= 4.0.3'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'momentjs-rails'

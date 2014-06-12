@@ -2,7 +2,7 @@ ActiveAdmin.register ToolCategory do
   index do
     column :id
     column :name
-    default_actions
+    actions
   end
 
   form do |f|

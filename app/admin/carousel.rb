@@ -7,7 +7,7 @@ ActiveAdmin.register Carousel do
     column :custom_content
     column :image
     column :active
-    default_actions
+    actions
   end
 
   form :partial => "form"
