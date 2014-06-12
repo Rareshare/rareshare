@@ -13,7 +13,7 @@ FactoryGirl.define do
     online true
 
     before(:create) do |tool|
-      create(:tool_price, tool: tool)
+      tool.per_sample_tool_prices << create(:per_sample_tool_price, tool: tool)
     end
   end
 end

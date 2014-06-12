@@ -6,7 +6,7 @@ describe Booking do
   Given(:booking) { create :booking }
 
   context "with no changes" do
-    Then { expect(booking.state).to eq "pending" }
+    Then { expect(booking.state).to eq "draft" }
     And  { expect(booking).to be_valid }
   end
 
@@ -59,10 +59,10 @@ describe Booking do
   end
 
   context "upon reserving" do
-    Given(:price)    { create(:tool_price, lead_time_days: 5) }
-    Given(:tool)     { price.tool }
+    Given(:tool)     { create :tool }
+    Given(:price)    { tool.per_sample_tool_prices.first }
     Given(:owner)    { tool.owner }
-    Given(:renter)   { create(:user) }
+    Given(:renter)   { create :user }
     Given(:deadline) { 7.days.from_now }
     Given(:params)   {
       attributes_for(:booking)
@@ -72,10 +72,16 @@ describe Booking do
           :sample_transit,
           :sample_disposal,
           :tos_accepted
-        ).merge(tool_id: tool.id, deadline: deadline, samples: 1, tool_price_id: price.id)
+        ).merge(
+          tool_id: tool.id,
+          deadline: deadline,
+          units: 1,
+          tool_price_type: 'PerSampleToolPrice',
+          tool_price_id: price.id
+        )
     }
 
-    Given(:booking) { Booking.reserve renter, params }
+    Given(:booking) { described_class.create(params).tap { |b| b.reserve renter } }
     Then { expect(booking).to be_valid }
     And  { expect(booking.currency).to eq tool.currency }
     And  { expect(booking.renter).to eq renter }
@@ -93,7 +99,7 @@ describe Booking do
       end
 
       context "and the user's address has been requested" do
-        Given(:an_address) { build :address }
+        Given(:an_address) { create :address }
         When { renter.address = an_address }
         When { params[:use_user_address] = true }
         When { params[:sample_transit] = Booking::Transit::RARESHARE_SEND }

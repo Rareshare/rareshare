@@ -214,7 +214,7 @@ class Booking < ActiveRecord::Base
 
     if ignores_address?
       self.address = nil
-    elsif b.use_user_address?
+    elsif use_user_address?
       self.address = renter.address
     end
 
@@ -326,11 +326,10 @@ class Booking < ActiveRecord::Base
     @use_user_address = val
   end
 
-  def use_user_address
-    defined?(@use_user_address) ? @use_user_address : true
+  def use_user_address?
+    @use_user_address || @use_user_address.nil?
   end
-
-  alias_method :use_user_address?, :use_user_address
+  alias_method :use_user_address, :use_user_address?
 
   def as_json(options={})
     unless options[:minimal]

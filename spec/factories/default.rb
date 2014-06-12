@@ -43,6 +43,6 @@ FactoryGirl.define do
     rareshare_fee BigDecimal.new("1000.00")
     deadline { 2.weeks.from_now }
     updated_by { create(:user) }
-    samples 1
+    units 1
   end
 end

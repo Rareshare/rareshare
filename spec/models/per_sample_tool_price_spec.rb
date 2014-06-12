@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe PerSampleToolPrice do
+  let(:tool) { build :tool }
   context "when checking for bookability" do
-    Given(:price) { create :tool_price, lead_time_days: 7 }
+    Given(:price) { create :per_sample_tool_price, lead_time_days: 7, expedite_time_days: nil, tool: tool }
 
     context "with standard deadlines" do
       Then { expect(price).to_not be_bookable_by(5.days.from_now) }
@@ -20,7 +21,7 @@ describe PerSampleToolPrice do
   end
 
   context "when checking for expeditability" do
-    Given(:price) { create :tool_price, lead_time_days: 7 }
+    Given(:price) { create :per_sample_tool_price, lead_time_days: 7, tool: tool }
 
     context "with standard deadlines" do
       When { price.expedite_time_days = nil }
@@ -39,7 +40,7 @@ describe PerSampleToolPrice do
   end
 
   context "when calculating price" do
-    Given(:price) { create :tool_price, base_amount: BigDecimal.new("10.00") }
+    Given(:price) { create :per_sample_tool_price, base_amount: BigDecimal.new("10.00"), tool: tool }
 
     context "without expediting" do
       When { price.lead_time_days = 7 }
