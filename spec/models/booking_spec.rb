@@ -12,8 +12,9 @@ describe Booking do
 
   context "when updating price" do
     context "directly" do
-      When { booking.price = BigDecimal("10.0") }
-      Then { expect(booking.rareshare_fee).to eq BigDecimal('1.0') }
+      When { booking.price = BigDecimal("250.0") }
+      Then { expect(booking.rareshare_fee).to eq BigDecimal('25.0') }
+      Then { expect(booking.payment_fee).to eq BigDecimal('8.28') }
     end
     context 'through apply_adjustment' do
       Given { booking.tool_price = booking.tool.per_sample_tool_prices.first }

@@ -368,17 +368,18 @@ class Booking < ActiveRecord::Base
   end
 
   def calculated_rareshare_fee
-    (price + edits_price) * RARESHARE_FEE_PERCENT
+    round_fee((price + edits_price) * RARESHARE_FEE_PERCENT)
   end
 
   def payment_fee
-    if currency_symbol == '$'
+    fee = if currency_symbol == '$'
       # based on Stripe's fee of 2.9% + $0.30
       (final_price * 0.029) + 0.3
     else
       # based on Stripe's fee of 2.4% + £0.20
       (final_price * 0.024) + 0.2
     end
+    round_fee fee
   end
 
   def price_per_unit
@@ -496,5 +497,11 @@ class Booking < ActiveRecord::Base
         }
       )
     end
+  end
+
+  private
+
+  def round_fee(fee)
+    BigDecimal(fee).round(2)
   end
 end
