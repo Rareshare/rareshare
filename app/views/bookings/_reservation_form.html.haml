@@ -42,9 +42,6 @@
             = f.input :tool_price_type, as: :hidden, value: "PerSampleToolPrice"
             %div.row
               %div.span5
-                -#= @booking.tool_price.subtype
-                -#= f.input :tool_price, as: :select, collection: @booking.tool.tool_prices,
-                -#label_method: :label, value_method: :id, selected: @booking.tool_price_id,
                 = f.input :tool_price, as: :select,
                 input_html: { "data-bind" => "options: tool.perSampleToolPriceCollection.toolPrices, optionsText: 'label', value: tool_price" }
 
@@ -63,7 +60,7 @@
             %div.span8{data: { bind: "visible: can_expedite"}}
               %div.control-group.boolean.optional.booking_expedited
                 %div.controls
-                  = f.input :expedited, label: false, inline_label: true, input_html: { "data-bind" => "checked: $parent.expedited" }
+                  = f.input :expedited, label: false, inline_label: t('simple_form.labels.booking.expedited').html_safe, input_html: { "data-bind" => "checked: $parent.expedited" }
           %div.row
             %div.span8
               = f.input :sample_description, input_html: { "data-bind" => "wysihtml5: sample_description" }
@@ -86,7 +83,7 @@
                 %dt Setup price
                 %dd{data: { bind: "text: money(tool_price_setup)"}}
                 %dt.total_price Total price
-                %dd.total_price{data: { bind: "text: money(final_price)" }}
+                %dd.total_price{data: { bind: "text: money(price_units_only)" }}
               %span.label.label-warning{data: { bind: "visible: expedited" }} Expedited
             - else
               - @booking.tool.per_time_tool_price.tap do |tool_price|
@@ -98,7 +95,8 @@
                   %dt Setup price
                   %dd{data: { bind: "text: money(tool_price_setup)"}}
                   %dt.total_price Total price
-                  %dd.total_price{data: { bind: "text: money(final_price)" }}
+                  %dd.total_price{data: { bind: "text: money(price_units_only)" }}
+                %span.label.label-warning{data: { bind: "visible: expedited" }} Expedited
 
       %div.row.step{ "data-bind" => "css: { complete: stepTwoComplete }"}
         %div.span12.border

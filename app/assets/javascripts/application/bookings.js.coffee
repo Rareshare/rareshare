@@ -49,13 +49,11 @@ window.Booking = (input) ->
   @tool_price_id       = ko.computed () => @tool_price? and @tool_price().id()
   @tool_price_setup    = ko.computed () => @tool_price? and @tool_price().setup_price()
 
-
-
-
+  @price_units_only = ko.computed () =>
+    ( parseFloat(@tool_price_visible()) * parseFloat(@units()) ) + parseFloat(@tool_price_setup())
   # NOTE: This is used only for display purposes, and never used to charge the user.
   @final_price = ko.computed () =>
-    ( parseFloat(@tool_price_visible()) * parseFloat(@units()) ) + parseFloat(@tool_price_setup()) + parseFloat(@shipping_rate()) + parseFloat(@rareshare_fee()) + parseFloat(@payment_fee()) + parseFloat(@edits_price())
-
+    @price_units_only() + parseFloat(@edits_price()) + parseFloat(@shipping_rate()) + parseFloat(@rareshare_fee()) + parseFloat(@payment_fee())
 
   this
 
