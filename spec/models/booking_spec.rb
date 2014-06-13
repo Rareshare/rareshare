@@ -10,6 +10,18 @@ describe Booking do
     And  { expect(booking).to be_valid }
   end
 
+  context "when updating price" do
+    context "directly" do
+      When { booking.price = BigDecimal("10.0") }
+      Then { expect(booking.rareshare_fee).to eq BigDecimal('1.0') }
+    end
+    context 'through apply_adjustment' do
+      Given { booking.tool_price = booking.tool.per_sample_tool_prices.first }
+      When { booking.apply_adjustment 1 }
+      Then { expect(booking.rareshare_fee).to eq BigDecimal('1001.0') }
+    end
+  end
+
   context "when performing updates to the booking" do
     Given(:reloaded_booking) { Booking.find(booking.id) }
 

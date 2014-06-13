@@ -40,7 +40,6 @@ FactoryGirl.define do
     tos_accepted true
     currency "USD"
     price BigDecimal.new("10000.00")
-    rareshare_fee BigDecimal.new("1000.00")
     deadline { 2.weeks.from_now }
     updated_by { create(:user) }
     units 1

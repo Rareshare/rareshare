@@ -218,8 +218,6 @@ class Booking < ActiveRecord::Base
       self.address = renter.address
     end
 
-    self.rareshare_fee = price * RARESHARE_FEE_PERCENT
-
     save
   end
 
@@ -365,6 +363,14 @@ class Booking < ActiveRecord::Base
     final_price + payment_fee
   end
 
+  def rareshare_fee
+    (self[:rareshare_fee].nil? || self[:rareshare_fee] == 0.0) ? calculated_rareshare_fee : self[:rareshare_fee]
+  end
+
+  def calculated_rareshare_fee
+    (price + edits_price) * RARESHARE_FEE_PERCENT
+  end
+
   def payment_fee
     if currency_symbol == '$'
       # based on Stripe's fee of 2.9% + $0.30
@@ -392,19 +398,21 @@ class Booking < ActiveRecord::Base
 
   def pay!
     if owner.stripe_access_token
+      rareshare_fee = calculated_rareshare_fee
+      update_column :rareshare_fee, rareshare_fee
       Stripe::Charge.create(
-        { amount: self.final_price_in_cents,
-        currency: self.currency,
-        card: self.stripe_token,
-        description: self.display_name + " by " + self.renter.display_name,
-        application_fee: (self.rareshare_fee * 100).to_i },
+        { amount: final_price_in_cents,
+        currency: currency,
+        card: stripe_token,
+        description: display_name + " by " + renter.display_name,
+        application_fee: (rareshare_fee * 100).to_i },
         owner.stripe_access_token
       )
 
       self.class.transaction do
         self.updated_by = renter
-        self.finalize!
-        Transaction.create! booking: self, customer: self.renter, amount: self.final_price
+        finalize!
+        Transaction.create! booking: self, customer: renter, amount: final_price
       end
     else
       errors.add :base, "The owner has not connected to Stripe yet."
