@@ -249,10 +249,6 @@ class Booking < ActiveRecord::Base
     user == self.renter
   end
 
-  def cancellable_by?(user)
-    renter?(user) || ( owner?(user) && ( confirmed? || finalized? ) )
-  end
-
   def opposite_party_to(user)
     renter?(user) ? self.owner : self.renter
   end

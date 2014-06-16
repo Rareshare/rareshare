@@ -6,6 +6,8 @@ class BookingEdit < ActiveRecord::Base
   validates_length_of :memo, maximum: 100
   validate :change_amount_within_base_price
 
+  delegate :owner?, :renter?, to: :booking, prefix: true
+
   state_machine do
     state :pending
     state :confirmed

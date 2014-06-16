@@ -4,6 +4,8 @@ class BookingEditRequest < ActiveRecord::Base
 
   validates_length_of :memo, maximum: 100
 
+  delegate :owner?, :renter?, to: :booking, prefix: true
+
   state_machine do
     state :pending
     state :accepted
