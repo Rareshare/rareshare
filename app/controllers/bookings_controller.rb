@@ -60,11 +60,7 @@ class BookingsController < InternalController
     @booking.updated_by = current_user
 
     case params[:commit]
-    when /save/i
-      authorize! :update_draft, @booking
-      @booking.assign_attributes(booking_params)
-      save_draft_or_reserve
-    when /reserve/i
+    when /save/i, /reserve/i
       authorize! :update_draft, @booking
       @booking.assign_attributes(booking_params)
       save_draft_or_reserve

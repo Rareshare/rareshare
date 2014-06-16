@@ -78,7 +78,6 @@ end
 group :development do
   gem 'foreman'
   gem 'heroku_san'
-  gem 'heroku'
   gem 'zeus'
   gem 'mailcatcher'
 end

@@ -176,12 +176,6 @@ GEM
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
     hashie (2.1.1)
-    heroku (3.8.3)
-      heroku-api (~> 0.3.17)
-      launchy (>= 0.3.2)
-      netrc (~> 0.7.7)
-      rest-client (~> 1.6.1)
-      rubyzip
     heroku-api (0.3.18)
       excon (~> 0.27)
       multi_json (~> 1.8)
@@ -243,7 +237,6 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
-    netrc (0.7.7)
     newrelic_rpm (3.8.1.221)
     no_peeping_toms (2.1.3)
       activerecord (>= 3.0.0)
@@ -466,7 +459,6 @@ DEPENDENCIES
   friendly_id!
   geocoder
   haml-rails
-  heroku
   heroku_san
   honeybadger
   jquery-fileupload-rails
