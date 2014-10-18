@@ -74,7 +74,7 @@
                   %td= number_to_currency(edit.change_amount, unit: currency_for(@booking))
               %tr.summary
                 %td(colspan=3)
-                  Confirmed subtotal:
+                  net price adjustment:
                   = number_to_currency @booking.booking_edits.confirmed.sum(:change_amount), unit: currency_for(@booking)
 
     %h3 Booking Information
