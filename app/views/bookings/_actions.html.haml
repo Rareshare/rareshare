@@ -23,6 +23,6 @@
   //show page only
   - unless btn_size == 'btn-mini'
     - if can? :owner_edit, booking
-      = link_to "Edit", new_booking_edit_path(booking_id: booking.id), remote: true, class: "btn btn-success #{btn_size}"
+      = link_to "Edit Price", new_booking_edit_path(booking_id: booking.id), remote: true, class: "btn btn-success #{btn_size}"
     - if can? :request_edit, booking
-      = link_to "Request Edit", new_booking_edit_request_path(booking_id: booking.id), remote: true, class: "btn btn-success #{btn_size}"
+      = link_to "Edit Services", new_booking_edit_request_path(booking_id: booking.id), remote: true, class: "btn btn-success #{btn_size}"
