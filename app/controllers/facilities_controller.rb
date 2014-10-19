@@ -60,7 +60,7 @@ class FacilitiesController < InternalController
       :name,
       :description,
       :department,
-      :address_attributes => address_attributes
+      :address_attributes => address_attributes | [:id]
     )
   end
 
