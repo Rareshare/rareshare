@@ -12,7 +12,7 @@ class Question < ActiveRecord::Base
     IP      = "ip"
     OTHER   = "other"
 
-    ALL = [ TRANSIT, SAFETY, PRICING, IP, OTHER ]
+    ALL = [ SAFETY, PRICING, OTHER ]
     COLLECTION = ALL.map {|k| [ I18n.t("questions.topic.#{k}"), k ]}
   end
 
