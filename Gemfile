@@ -82,6 +82,12 @@ group :development do
   gem 'mailcatcher'
 end
 
+group :development, :test do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'pry-rails'
+end
+
 group :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails', '~> 2.14.2'
