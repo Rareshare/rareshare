@@ -166,3 +166,8 @@
                 %div.row
                   %div.span6= f.input :body, label: false, as: :string, input_html: { placeholder: "Reply", data: { bind: "value: body, valueUpdate: 'afterkeydown'" }}
                   %div.span1= f.button :submit, value: "Reply", data: { bind: "enable: valid" }
+
+%div.row
+  %div.span8.offset2
+    %h3 Terms and Conditions
+    = render partial: 'bookings/ts_and_cs', locals: { booking: @booking }
