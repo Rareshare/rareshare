@@ -1,0 +1,10 @@
+- if booking.tool.terms_document.blank?
+  %div.terms_and_conditions
+    %iframe{src: Page.find_by(title: "Terms & Conditions").pdf, width: "100%", height: "600px" }
+- else
+  %p The owner of this tool has supplied their own terms for all bookings.
+  %p
+    %a{href: booking.tool.terms_document.pdf.url, target: "_blank", download: true}
+      %i.icon-download
+      = booking.tool.terms_document.title
+  %embed{src: booking.tool.terms_document.pdf.url, width: 600, height: 300, style: "border: 1px solid #ddd; margin-bottom: 10px"}
