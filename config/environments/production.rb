@@ -80,7 +80,7 @@ end
 
 Rareshare::Application.config.middleware.use ExceptionNotification::Rack,
   :email => {
-    :email_prefix => "[Rareshare #{Rails.env}] ",
+    :email_prefix => "[Rareshare #{ENV["APP_HOST_NAME"].split('.').first}] ",
     :sender_address => %{"exception notifier" <exception_notifier@rareshare.io>},
     :exception_recipients => ENV["EXCEPTION_RECIPIENTS"].split
   }
