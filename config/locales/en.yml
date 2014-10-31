@@ -98,6 +98,10 @@ en:
       create_live:    "Create Tool and go-live with Listing"
       update_sandbox: "Update Tool and sandbox Listing"
       update_live:    "Update Tool and go-live with Listing"
+    question:
+      asked: |
+        You've been asked a question about <strong>%{tool_name}</strong>:
+        <blockquote>%{question}</blockquote>
 
 
   tool_prices:

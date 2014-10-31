@@ -3,8 +3,10 @@ class UserMessage < ActiveRecord::Base
   belongs_to :sender, class_name: "User"
   belongs_to :receiver, class_name: "User"
   belongs_to :messageable, polymorphic: true
+  has_many :notifications, as: :notifiable
 
   after_create :make_self_originator_if_first
+  after_create :notify
 
   def first?
     self.originating_message_id == self.id
@@ -40,4 +42,19 @@ class UserMessage < ActiveRecord::Base
     save!
   end
 
+  private
+  def notify
+    if messageable.is_a?(Tool)
+      self.notifications.create(
+        user: receiver,
+        notifiable: self,
+        properties: {
+          key: "tools.question.asked",
+          question: body.truncate(100),
+          tool_id: messageable_id,
+          tool_name: messageable.display_name
+        }
+      )
+    end
+  end
 end

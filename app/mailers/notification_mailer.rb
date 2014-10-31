@@ -73,6 +73,16 @@ class NotificationMailer < ActionMailer::Base
     end
   end
 
+  def tool_question_asked(notification_id)
+    load_common_models notification_id
+
+    @other_user = @notification.notifiable.sender
+
+    if @user.can_email_status?
+      mail to: @user.email, subject: "New Question about #{@notification.tool_name}", template_name: :question_asked
+    end
+  end
+
   private
 
   def load_common_models(notification_id)
@@ -81,7 +91,8 @@ class NotificationMailer < ActionMailer::Base
     @body = @notification.body
     @user = @notification.user
 
-    @url  = polymorphic_url(@notification.notifiable)
+    #TODO: This url calculation is stinky and not DRY (duplicated in the NotificationsController)... must fix!
+    @url = @notification.notifiable.is_a?(UserMessage) ? message_url(@notification.notifiable) : polymorphic_url(@notification.notifiable)
 
     if tool_id = @notification.properties["tool_id"]
       @tool = Tool.find tool_id
@@ -91,6 +102,7 @@ class NotificationMailer < ActionMailer::Base
       @booking = Booking.find booking_id
       @other_user = @booking.opposite_party_to @user
     end
+
   end
 
 end

@@ -30,7 +30,9 @@ class NotificationsController < InternalController
   def show
     notification = Notification.find(params[:id])
     notification.seen!
-    redirect_to polymorphic_path(notification.notifiable)
+    #TODO: This path calculation is stinky and not DRY (duplicated in the NotificationMailer)... must fix!
+    path = notification.notifiable.is_a?(UserMessage) ? message_path(notification.notifiable) : polymorphic_path(notification.notifiable)
+    redirect_to path
   end
 
 end
