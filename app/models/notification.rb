@@ -3,7 +3,7 @@ class Notification < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :user
   default_scope { order("notifications.created_at DESC") }
-  after_commit :send_email
+  after_create :send_email
 
   scope :questions, -> { where("properties -> :key LIKE :value", key: 'key', value: "%asked%") }
   scope :answers, -> { where("properties -> :key LIKE :value", key: 'key', value: "%replied%") }
