@@ -73,6 +73,7 @@ gem 'newrelic_rpm'
 
 group :production do
   gem 'rails_12factor'
+  gem 'exception_notification'
 end
 
 group :development do
