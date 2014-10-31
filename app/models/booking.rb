@@ -433,7 +433,8 @@ class Booking < ActiveRecord::Base
           properties: {
             key: "bookings.notify.asked",
             tool_name: self.tool.display_name,
-            question: question.body.truncate(100)
+            question: question.body.truncate(100),
+            booking_id: id
           }
         )
       end
