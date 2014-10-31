@@ -132,6 +132,7 @@ en:
       safety: "Safety"
       pricing: "Pricing"
       ip: "Intellectual Property"
+      provider_ts_and_cs: "Provider's Terms and Conditions of Service"
       other: "Other"
     notify:
       replied: |
