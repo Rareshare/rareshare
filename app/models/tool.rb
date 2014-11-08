@@ -136,7 +136,7 @@ class Tool < ActiveRecord::Base
     if price_type == 'sample'
       self.tool_price_for(subtype).price_for(deadline, samples)
     elsif price_type == 'time'
-      self.tool_price_for(subtype).setup_amount
+      self.tool_price_for(subtype).amount_per_time_unit
     end
   end
 
