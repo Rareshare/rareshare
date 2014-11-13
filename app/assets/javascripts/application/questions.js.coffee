@@ -16,7 +16,7 @@ window.Questions = (input) ->
         req = $.post form.attr("action"), form.serialize()
 
         req.done (question) =>
-          collection.push question
+          collection.push $.extend question, new NewResponse(question)
           @clear()
 
     @clear = () =>
@@ -48,11 +48,16 @@ window.Questions = (input) ->
 
     return this
 
+
+  NewResponse = (question) ->
+    @newResponse = new QuestionResponse(question)
+    @question_responses = ko.observableArray(question.question_responses)
+    return this
+
+
   @newQuestion = new Question()
   rawCollection = for question in (input.questions || [])
-    $.extend question,
-      newResponse: new QuestionResponse(question),
-      question_responses: ko.observableArray(question.question_responses)
+    $.extend question, new NewResponse(question)
 
   @collection = collection = ko.observableArray(rawCollection)
   console.log rawCollection

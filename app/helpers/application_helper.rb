@@ -81,7 +81,7 @@ module ApplicationHelper
   def ko_avatar_of(user_key)
     content_tag :a, "data-bind" => "attr: { href: '/users/' + #{user_key}.id }" do
       image = content_tag :div, "data-bind" => "if: #{user_key}.avatar.thumb.url" do
-        content_tag :img, nil, "data-bind" => "attr: { src: #{user_key}.avatar.thumb.url"
+        content_tag :img, nil, "data-bind" => "attr: { src: #{user_key}.avatar.thumb.url }"
       end
 
       icon = content_tag :div, "data-bind" => "ifnot: #{user_key}.avatar.thumb.url" do
