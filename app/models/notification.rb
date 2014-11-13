@@ -59,6 +59,8 @@ class Notification < ActiveRecord::Base
       NotificationMailer.delay.booking_completed id
     when 'tools.question.asked'
       NotificationMailer.delay.tool_question_asked id
+    when 'tools.question.replied'
+      NotificationMailer.delay.tool_question_replied id
     else
       NotificationMailer.delay.email id
     end

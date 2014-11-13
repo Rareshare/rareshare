@@ -83,6 +83,16 @@ class NotificationMailer < ActionMailer::Base
     end
   end
 
+  def tool_question_replied(notification_id)
+    load_common_models notification_id
+
+    @other_user = @notification.notifiable.sender
+
+    if @user.can_email_status?
+      mail to: @user.email, subject: "New reply to question thread", template_name: :question_replied
+    end
+  end
+
   private
 
   def load_common_models(notification_id)
