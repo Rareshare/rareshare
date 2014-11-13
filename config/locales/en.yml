@@ -102,6 +102,9 @@ en:
       asked: |
         You've been asked a question about <strong>%{tool_name}</strong>:
         <blockquote>%{question}</blockquote>
+      replied: |
+        You've received a reply to your question about <strong>%{tool_name}</strong>:
+        <blockquote>%{question}</blockquote>
 
 
   tool_prices:

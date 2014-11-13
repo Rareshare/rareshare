@@ -1,0 +1,23 @@
+!!!html
+%html(lang="en")
+  %head
+    %meta(content='text/html; charset=UTF-8' http-equiv='Content-Type')
+  %body
+    %h4 Hi #{@user.first_name},
+
+    %p #{@other_user.display_name} has asked replied to a question related to the booking of #{@notification.tool_name};
+
+    %blockquote= @notification.properties['question']
+
+    %p #{link_to 'Answer them here', @url} or copy and paste the below address:
+
+    %p= @url
+
+    %p Thank you,
+
+    %p The RareShare Team
+
+    %small
+      You've received this update because you're subscribed to email
+      notifications of booking changes. To change these settings, please
+      #{link_to 'edit your profile.', profile_url(@user)}
