@@ -3,7 +3,7 @@ class Notification < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :user
   default_scope { order("notifications.created_at DESC") }
-  after_commit :send_email
+  after_create :send_email
 
   scope :questions, -> { where("properties -> :key LIKE :value", key: 'key', value: "%asked%") }
   scope :answers, -> { where("properties -> :key LIKE :value", key: 'key', value: "%replied%") }
@@ -57,6 +57,10 @@ class Notification < ActiveRecord::Base
       NotificationMailer.delay.booking_processing id
     when 'bookings.notify.completed'
       NotificationMailer.delay.booking_completed id
+    when 'tools.question.asked'
+      NotificationMailer.delay.tool_question_asked id
+    when 'tools.question.replied'
+      NotificationMailer.delay.tool_question_replied id
     else
       NotificationMailer.delay.email id
     end

@@ -29,7 +29,7 @@
               %tr
                 %th.span3 Status/Action
                 %th.span6 Description
-                %th.span2 Adjustment
+                %th.span3 Adjustment
             %tbody
               - @booking.booking_edit_requests.reverse.each do |edit_request|
                 %tr
@@ -74,7 +74,7 @@
                   %td= number_to_currency(edit.change_amount, unit: currency_for(@booking))
               %tr.summary
                 %td(colspan=3)
-                  Confirmed subtotal:
+                  net price adjustment:
                   = number_to_currency @booking.booking_edits.confirmed.sum(:change_amount), unit: currency_for(@booking)
 
     %h3 Booking Information
@@ -117,14 +117,6 @@
     - if @booking.tool.images.any?
       = render partial: "tools/images", object: @booking.tool.images
 
-%div.row
-  %div.span8.offset2
-    %h3 Address
-    %h4.address
-      %strong
-        = @booking.public_address
-    %iframe{width: "100%", height: "350", frameborder: "0", scrolling: "no", marginheight: "0", marginwidth: "0", src: google_maps_address_for(@booking.public_address)}
-
 %div#questions.row{data: { bind: "with: questions" }}
   %div.span8.offset2
     %h3 Ask a question
@@ -166,3 +158,16 @@
                 %div.row
                   %div.span6= f.input :body, label: false, as: :string, input_html: { placeholder: "Reply", data: { bind: "value: body, valueUpdate: 'afterkeydown'" }}
                   %div.span1= f.button :submit, value: "Reply", data: { bind: "enable: valid" }
+
+%div.row
+  %div.span8.offset2
+    %h3 Address
+    %h4.address
+      %strong
+        = @booking.public_address
+    %iframe{width: "100%", height: "350", frameborder: "0", scrolling: "no", marginheight: "0", marginwidth: "0", src: google_maps_address_for(@booking.public_address)}
+
+%div.row
+  %div.span8.offset2
+    %h3 Terms and Conditions
+    = render partial: 'bookings/ts_and_cs', locals: { booking: @booking }

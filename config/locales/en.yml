@@ -70,7 +70,7 @@ en:
         draft:     "You still need to finish the booking request."
         edited_by_owner: "Please confirm or decline the adjusted price."
         edit_requested: "Please accept or decline the edit request."
-        pending:   "The owner of this tool has not yet responded to this request."
+        pending:   "The owner of this tool has not yet confirmed this request."
         confirmed: "The owner of the tool has agreed to this booking."
         denied:    "The owner of the tool has declined this booking."
         finalized: "You have finalized this booking and the owner of the tool has not yet fulfilled it."
@@ -98,6 +98,13 @@ en:
       create_live:    "Create Tool and go-live with Listing"
       update_sandbox: "Update Tool and sandbox Listing"
       update_live:    "Update Tool and go-live with Listing"
+    question:
+      asked: |
+        You've been asked a question about <strong>%{tool_name}</strong>:
+        <blockquote>%{question}</blockquote>
+      replied: |
+        You've received a reply to your question about <strong>%{tool_name}</strong>:
+        <blockquote>%{question}</blockquote>
 
 
   tool_prices:
@@ -132,6 +139,7 @@ en:
       safety: "Safety"
       pricing: "Pricing"
       ip: "Intellectual Property"
+      provider_ts_and_cs: "Provider's Terms and Conditions of Service"
       other: "Other"
     notify:
       replied: |
