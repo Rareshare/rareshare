@@ -158,7 +158,7 @@ ALTER SEQUENCE booking_edit_requests_id_seq OWNED BY booking_edit_requests.id;
 CREATE TABLE booking_edits (
     id integer NOT NULL,
     booking_id integer,
-    change_amount money,
+    change_amount numeric(8,2),
     memo character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -226,7 +226,7 @@ CREATE TABLE bookings (
     id integer NOT NULL,
     renter_id integer,
     tool_id integer,
-    price money DEFAULT 0.0,
+    price numeric(8,2) DEFAULT 0.0,
     deadline date,
     sample_description text,
     state character varying(255),
@@ -242,8 +242,8 @@ CREATE TABLE bookings (
     currency character varying(3),
     shipping_package_size character varying(255),
     shipping_weight numeric,
-    shipping_price money DEFAULT 0.0,
-    rareshare_fee money DEFAULT 0.0,
+    shipping_price numeric(8,2) DEFAULT 0.0,
+    rareshare_fee numeric(8,2) DEFAULT 0.0,
     shipping_service character varying(255),
     units integer,
     tool_price_id integer,
@@ -581,8 +581,8 @@ CREATE TABLE per_sample_tool_prices (
     id integer NOT NULL,
     tool_id integer,
     subtype character varying(255),
-    base_amount money DEFAULT 0.0,
-    setup_amount money DEFAULT 0.0,
+    base_amount numeric(8,2) DEFAULT 0.0,
+    setup_amount numeric(8,2) DEFAULT 0.0,
     lead_time_days integer,
     expedite_time_days integer,
     created_at timestamp without time zone,
@@ -618,8 +618,8 @@ CREATE TABLE per_time_tool_prices (
     tool_id integer,
     subtype character varying(255),
     time_unit character varying(255),
-    setup_amount money DEFAULT 0.0,
-    amount_per_time_unit money DEFAULT 0.0,
+    setup_amount numeric(8,2) DEFAULT 0.0,
+    amount_per_time_unit numeric(8,2) DEFAULT 0.0,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     lead_time_days integer,
@@ -944,7 +944,7 @@ ALTER SEQUENCE tools_id_seq OWNED BY tools.id;
 CREATE TABLE transactions (
     id integer NOT NULL,
     booking_id integer NOT NULL,
-    amount money NOT NULL,
+    amount numeric(8,2) NOT NULL,
     customer_id integer NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
@@ -1883,3 +1883,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140508202514');
 INSERT INTO schema_migrations (version) VALUES ('20140509072639');
 
 INSERT INTO schema_migrations (version) VALUES ('20140509074709');
+
+INSERT INTO schema_migrations (version) VALUES ('20141023115945');
