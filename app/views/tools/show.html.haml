@@ -46,10 +46,10 @@
                     %select{data: { bind: "value: booking.tool_price, options: booking.tool.perSampleToolPriceCollection.toolPrices, optionsText: 'label'" } }}
               %div.span2{style: "line-height: 32px"}
                 %span{data: { bind: "text: money(tool_price_visible)" }}
-                \/
                 %span
-                  %span{data: { bind: "text: tool_price_days" }}
-                  days
+                  per sample
+                  / %span{data: { bind: "text: tool_price_days" }}
+                  / days
               %div.span2.pull-right
                 %input.btn.btn-primary.btn-success.pull-right{type: "submit", value: "Proceed to Booking"}
             - else
