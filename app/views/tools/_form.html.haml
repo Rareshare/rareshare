@@ -151,7 +151,7 @@
       %div.row
         %div.span2
           %p.help-block= t 'pricing.help'
-        %div.span8
+        %div.span8{class: ("control-group error" if @tool.errors.include?(:pricing))}
           %legend Pricing
           %div.row
             %div.span8

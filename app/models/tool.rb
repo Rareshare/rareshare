@@ -267,7 +267,7 @@ class Tool < ActiveRecord::Base
 
   def has_at_least_one_tool_price
     if (price_type == "sample" && per_sample_tool_prices.empty?) || (price_type == "time" && per_time_tool_price.nil?)
-      errors.add(:base, 'You must fill out the pricing info.')
+      errors.add(:pricing, "info must be filled out." )
     end
   end
 
