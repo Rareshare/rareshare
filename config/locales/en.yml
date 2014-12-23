@@ -116,6 +116,7 @@ en:
       iso_9000:       "ISO 9000 (Quality management)"
       iso_13485:      "ISO 13485 (Quality management, medical devices)"
       iso_14000:      "ISO 14000 (Environmental management)"
+      other:          "Other"
     time_unit:
       hour: "Hour"
       day: "Day"

@@ -7,8 +7,9 @@ class PerSampleToolPrice < ActiveRecord::Base
     ISO9000        = "iso_9000"
     ISO13485       = "iso_13485"
     ISO14000       = "iso_14000"
+    OTHER          = "other"
 
-    ALL = [ BENCH_STANDARD, GMP, GLP, CLIA, ISO9000, ISO13485, ISO14000 ]
+    ALL = [ BENCH_STANDARD, GMP, GLP, CLIA, ISO9000, ISO13485, ISO14000, OTHER ]
     COLLECTION = ALL.map {|k| [ I18n.t("tool_prices.subtype.#{k}"), k ]}
   end
 
