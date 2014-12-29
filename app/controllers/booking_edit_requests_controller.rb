@@ -58,7 +58,7 @@ class BookingEditRequestsController < ApplicationController
       @booking.updated_by = current_user
       @booking.renter_respond_to_edit_request!
     else
-      flash[:error] = @booking_edit_request.errros.full_messages
+      flash[:error] = @booking_edit_request.errors.full_messages
     end
 
     redirect_to @booking
