@@ -378,6 +378,10 @@ class Booking < ActiveRecord::Base
     round_fee fee
   end
 
+  def combined_fees
+    rareshare_fee + payment_fee
+  end
+
   def price_per_unit
     if tool.price_type == 'sample'
       expedited? ? tool_price.expedite_amount : tool_price.base_amount

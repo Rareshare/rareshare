@@ -1,0 +1,32 @@
+%h4 Price Summary
+%table
+  %thead
+    %tr
+      %th.span9 Description
+      %th.span3 Price
+  %tbody
+    %tr
+      %td
+        = pluralize(@booking.units, @booking.tool.unit)
+        @
+        = number_to_currency(@booking.price_per_unit, unit: currency_for(@booking))
+
+        - if @booking.tool_price.setup_amount > 0
+          , and setup of
+          = number_to_currency(@booking.tool_price.setup_amount, unit: currency_for(@booking))
+
+      %td
+        = number_to_currency(@booking.price, unit: currency_for(@booking))
+
+    - if @booking.shipping_price > 0
+      %tr
+        %td
+          shipping
+        %td
+          = number_to_currency(@booking.shipping_price, unit: currency_for(@booking))
+
+    %tr
+      %td
+        fees
+      %td
+        = number_to_currency(@booking.combined_fees, unit: currency_for(@booking))

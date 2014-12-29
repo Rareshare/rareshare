@@ -21,6 +21,9 @@
       %p= @booking.state_summary_for(current_user)
       = render partial: 'bookings/actions', locals: { booking: @booking }
 
+      #price_summary
+        = render partial: 'bookings/price_summary', locals: { booking: @booking }
+
       #edit_requests
         - if @booking.booking_edit_requests.any?
           %h4 #{@booking.tool.unit.titleize} Adjustments
