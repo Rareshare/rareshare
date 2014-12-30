@@ -114,8 +114,6 @@ class ToolsController < InternalController
       :model_id,
       :keywords,
       :description,
-      :resolution,
-      :resolution_unit_id,
       :sample_size_min,
       :sample_size_max,
       :sample_size_unit_id,
@@ -140,7 +138,6 @@ class ToolsController < InternalController
       :last_calibrated_at,
       :condition,
       :condition_notes,
-      :has_resolution,
       :terms_document_id,
       :facility_attributes => [
         :name, :id,

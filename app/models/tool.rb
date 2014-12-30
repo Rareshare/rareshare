@@ -11,7 +11,6 @@ class Tool < ActiveRecord::Base
   belongs_to :owner, counter_cache: true, class_name: "User"
   belongs_to :facility
   belongs_to :sample_delivery_address, class_name: "Facility"
-  belongs_to :resolution_unit, class_name: "Unit"
 
   has_many :user_messages, foreign_key: :messageable_id, dependent: :destroy
   has_many :images, -> { where(category: FileAttachment::Categories::IMAGE) },
@@ -146,16 +145,6 @@ class Tool < ActiveRecord::Base
 
   def sample_size_unit_name
     sample_size_unit.try :name
-  end
-
-  def resolution_unit_name
-    resolution_unit.try :name
-  end
-
-  def resolution_with_unit
-    if resolution.present?
-      "#{self.resolution} #{self.resolution_unit_name}"
-    end
   end
 
   def earliest_bookable_date

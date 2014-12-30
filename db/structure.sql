@@ -54,8 +54,8 @@ CREATE TABLE active_admin_comments (
     author_id integer,
     author_type character varying(255),
     body text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     namespace character varying(255)
 );
 
@@ -92,8 +92,8 @@ CREATE TABLE addresses (
     postal_code character varying(255),
     addressable_type character varying(255),
     addressable_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     country character varying(255)
 );
 
@@ -194,8 +194,8 @@ CREATE TABLE booking_logs (
     state character varying(255),
     booking_id integer,
     updated_by_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -231,8 +231,8 @@ CREATE TABLE bookings (
     sample_description text,
     state character varying(255),
     tos_accepted boolean,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     sample_deliverable text,
     sample_transit character varying(255),
     last_updated_by_id integer,
@@ -315,8 +315,8 @@ CREATE TABLE executed_searches (
     user_id integer,
     search_params hstore,
     results_count integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -347,8 +347,8 @@ CREATE TABLE facilities (
     id integer NOT NULL,
     user_id integer,
     name character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     description text,
     department character varying(255)
 );
@@ -417,8 +417,8 @@ CREATE TABLE files (
     content_type character varying(255),
     url character varying(255),
     user_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     file character varying(255),
     type character varying(255)
 );
@@ -450,8 +450,8 @@ ALTER SEQUENCE files_id_seq OWNED BY files.id;
 CREATE TABLE manufacturers (
     id integer NOT NULL,
     name character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -482,8 +482,8 @@ CREATE TABLE models (
     id integer NOT NULL,
     name character varying(255),
     manufacturer_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -852,8 +852,8 @@ ALTER SEQUENCE terms_documents_id_seq OWNED BY terms_documents.id;
 CREATE TABLE tool_categories (
     id integer NOT NULL,
     name character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -884,8 +884,8 @@ CREATE TABLE tools (
     id integer NOT NULL,
     owner_id integer,
     model_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     description text,
     manufacturer_id integer,
     sample_size_min integer,
@@ -896,17 +896,14 @@ CREATE TABLE tools (
     document text,
     latitude double precision,
     longitude double precision,
-    resolution integer,
     currency character varying(3),
     facility_id integer,
     samples_per_run integer DEFAULT 1,
     sample_size_unit_id integer,
-    resolution_unit_id integer,
     calibrated boolean,
     last_calibrated_at timestamp without time zone,
     condition character varying(255),
     condition_notes text,
-    has_resolution boolean,
     access_type character varying(255),
     access_type_notes text,
     price_type character varying(255),
@@ -946,8 +943,8 @@ CREATE TABLE transactions (
     booking_id integer NOT NULL,
     amount numeric(8,2) NOT NULL,
     customer_id integer NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1011,8 +1008,8 @@ CREATE TABLE user_messages (
     sender_id integer,
     receiver_id integer,
     body text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     originating_message_id integer,
     messageable_id integer,
     messageable_type character varying(255)
@@ -1060,8 +1057,8 @@ CREATE TABLE users (
     confirmed_at timestamp without time zone,
     confirmation_sent_at timestamp without time zone,
     unconfirmed_email character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     provider character varying(255),
     uid character varying(255),
     image_url character varying(255),
@@ -1555,10 +1552,10 @@ CREATE INDEX index_active_admin_comments_on_namespace ON active_admin_comments U
 
 
 --
--- Name: index_active_admin_comments_on_resource_type_and_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_admin_notes_on_resource_type_and_resource_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_active_admin_comments_on_resource_type_and_resource_id ON active_admin_comments USING btree (resource_type, resource_id);
+CREATE INDEX index_admin_notes_on_resource_type_and_resource_id ON active_admin_comments USING btree (resource_type, resource_id);
 
 
 --
@@ -1885,3 +1882,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140509072639');
 INSERT INTO schema_migrations (version) VALUES ('20140509074709');
 
 INSERT INTO schema_migrations (version) VALUES ('20141023115945');
+
+INSERT INTO schema_migrations (version) VALUES ('20141230081657');
