@@ -15,9 +15,9 @@ module ToolsHelper
   end
 
   def format_per_sample_tool_price(tp, t)
-    base = "%s: #{t.currency_symbol}%0.02f/%d days" % [ tp.label, tp.base_price, tp.lead_time_days || 0 ]
+    base = "%s: #{t.currency_symbol}%0.02f per sample" % [ tp.label, tp.base_price ]
     if tp.can_expedite?
-      base << ", #{t.currency_symbol}%0.02f/%d days" % [ tp.expedite_price, tp.expedite_time_days || 0 ]
+      base << ", #{t.currency_symbol}%0.02f per sample" % [ tp.expedite_price]
     end
     base
   end
