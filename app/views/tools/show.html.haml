@@ -114,8 +114,10 @@
                     %div
                       %span{style: "color: #A34E4E"}= number_to_currency(price.base_amount, unit: currency_for(@tool))
                       %span.muted
-                        to reserve later than
-                        = pluralize(price.lead_time_days, "day")
+                        to reserve
+                        - unless price.lead_time_days.to_i.zero?
+                          later than
+                          = pluralize(price.lead_time_days, "day")
                         from today
 
                     - if price.can_expedite?
