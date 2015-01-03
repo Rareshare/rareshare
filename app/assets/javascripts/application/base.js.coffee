@@ -2,6 +2,11 @@ jQuery ->
   $("a[rel~=popover], .has-popover").popover()
   $("a[rel~=tooltip], .has-tooltip").tooltip()
   $(".tip").tooltip().click (evt) -> evt.preventDefault()
+  setTimeout ->
+      # force a mouseover to show the 'add standard of work' tooltip when the page loads - but due to other DOM manipulation (Knockout.js), delay it to ensure the tooltip appears in the correct location
+      $(".add-price").mouseenter()
+    , 500
+
 
   $("input.date").each () ->
     elt = $(this)
