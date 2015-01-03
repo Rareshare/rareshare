@@ -47,10 +47,17 @@
                   %td.span5{data: { bind: "text: money(price)" }}= @booking.price
                 %tr
                   %th.span3 Adjustments
-                  %td.span5{data: { bind: "text: money(edits_price)" }}= @booking.edits_price
-                %tr
-                  %th Shipping
-                  %td{data: { bind: "text: money(shipping_rate)" }}= @booking.shipping_price
+                  %td.span5
+                    - if @booking.booking_edits.confirmed.any?
+                      %table#finalize_edits
+                        - @booking.booking_edits.confirmed.each do |edit|
+                          %tr
+                            %td
+                              = number_to_currency(edit.change_amount, unit: currency_for(@booking))
+                            %td
+                              = edit.memo
+                    - else
+                      none
                 %tr
                   %th RareShare fee
                   %td{data: { bind: "text: money(rareshare_fee)" }}= @booking.rareshare_fee

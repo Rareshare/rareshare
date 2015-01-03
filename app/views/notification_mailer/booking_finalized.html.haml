@@ -52,10 +52,20 @@
           %td= number_to_currency @booking.price, unit: @currency
         %tr
           %th Adjustments
-          %td= number_to_currency @booking.edits_price, unit: @currency
-        %tr
-          %th Shipping
-          %td= number_to_currency @booking.shipping_price, unit: @currency
+          %td
+            - if @booking.booking_edits.confirmed.any?
+              %table#finalize_edits
+                - @booking.booking_edits.confirmed.each do |edit|
+                  %tr
+                    %td
+                      = number_to_currency(edit.change_amount, unit: currency_for(@booking))
+                    %td
+                      &ndash;
+                    %td
+                      = edit.memo
+            - else
+              none
+
         %tr
           %th RareShare fee
           %td= number_to_currency @booking.rareshare_fee, unit: @currency

@@ -429,6 +429,15 @@ class Booking < ActiveRecord::Base
     false
   end
 
+  # def pay!
+  #   ## overloading the pay! method to bypass stripe
+  #   self.class.transaction do
+  #     self.updated_by = renter
+  #     finalize!
+  #     Transaction.create! booking: self, customer: renter, amount: final_price
+  #   end
+  # end
+
   def ask_question(params={})
     self.questions.create(params).tap do |question|
       if question.valid?

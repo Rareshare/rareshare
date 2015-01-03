@@ -30,7 +30,8 @@ $ ->
       Stripe.createToken formToStripe(), (status, response) ->
         console.log response
         if (error = response.error)?
-          if error.param.match(/exp/)
+          console.log(error)
+          if error.param && error.param.match(/exp/)
             error.param = "exp"
             error.message = "You must provide a valid card expiration date."
 

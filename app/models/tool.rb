@@ -167,6 +167,10 @@ class Tool < ActiveRecord::Base
     self.owner.terms_documents
   end
 
+  def chosen_terms_document
+    @chosen_terms_document ||= (terms_document || Page.find_by(title: "Terms & Conditions"))
+  end
+
   def current_renter
     bookings.rented.first.try(:renter)
   end

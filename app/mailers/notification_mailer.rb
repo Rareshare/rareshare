@@ -44,7 +44,7 @@ class NotificationMailer < ActionMailer::Base
     @currency = @tool.currency
 
     if @user.can_email_status?
-      attachments['terms.pdf'] = @tool.terms_document.pdf.file.read
+      attachments['terms.pdf'] = @tool.chosen_terms_document.pdf.file.read if @tool.chosen_terms_document
       mail to: @user.email, subject: "#{@buyside ? 'Your' : 'The'} Booking for #{@notification.tool_name} is Final"
     end
   end
