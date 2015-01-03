@@ -128,7 +128,7 @@ window.PerSampleToolPriceCollection = (input) ->
 
   emptyToolPrice = input.per_sample_tool_prices[input.per_sample_tool_prices.length - 1]
 
-  @appendPrice = ()      => if @canAddPrice() then @toolPrices.push(new ToolPrice(emptyToolPrice, this))
+  @appendPrice = ()      => if @canAddPrice() then @toolPrices.push(new PerSampleToolPrice(emptyToolPrice, this))
   @removePrice = (price) => () => @toolPrices.destroy(price)
   @priceTypes  = ko.observableArray(input.tool_price_categories)
 
@@ -178,7 +178,8 @@ window.PerSampleToolPrice = (input, collection) ->
       { label: price[0], id: price[1] }
 
   @isValid = ko.computed () =>
-    @subtype()? and @subtype() != "" and @base_amount()? and @lead_time_days()?
+    base_amount_greater_than_zero = @base_amount() > 0
+    @subtype()? and @subtype() != "" and base_amount_greater_than_zero
 
   @should_expedite = ko.observable(false)
 
