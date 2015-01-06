@@ -77,7 +77,7 @@
             - if @booking.tool.price_type == 'sample'
               %dl
                 %dt Price per sample
-                %dd{data: { bind: "text: money(tool_price_visible)"}}
+                %dd{data: { bind: "text: money(tool_price_value)"}}
                 %dt Samples
                 %dd{data: { bind: "text: booking.units" }}
                 %dt Setup price
@@ -89,7 +89,7 @@
               - @booking.tool.per_time_tool_price.tap do |tool_price|
                 %dl
                   %dt= "Price per #{tool_price.time_unit}"
-                  %dd{data: { bind: "text: money(tool_price_visible)"}}
+                  %dd{data: { bind: "text: money(tool_price_value)"}}
                   %dt= tool_price.time_unit.pluralize.titleize
                   %dd{data: { bind: "text: booking.units" }}
                   %dt Setup price

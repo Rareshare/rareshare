@@ -45,11 +45,10 @@
                   %div.input
                     %select{data: { bind: "value: booking.tool_price, options: booking.tool.perSampleToolPriceCollection.toolPrices, optionsText: 'label'" } }}
               %div.span2{style: "line-height: 32px"}
-                %span{data: { bind: "text: money(tool_price_visible)" }}
-                %span
-                  per sample
+                %span{data: { bind: "text: tool_price_visible" }}
                   / %span{data: { bind: "text: tool_price_days" }}
                   / days
+
               %div.span2.pull-right
                 %input.btn.btn-primary.btn-success.pull-right{type: "submit", value: "Proceed to Booking"}
             - else
@@ -58,6 +57,13 @@
                   %div.input
                     = number_to_currency(@tool.per_time_tool_price.amount_per_time_unit, unit: currency_for(@tool))
                     %span= "per #{@tool.per_time_tool_price.time_unit}"
+
+                    - if @tool.per_time_tool_price.requires_setup?
+                      %span
+                        ,
+                        = number_to_currency(@tool.per_time_tool_price.setup_amount, unit: currency_for(@tool))
+                        setup fee
+
               %div.span3.pull-right{style: "margin-bottom: 10px"}
                 %input.btn.btn-primary.btn-success.pull-right{type: "submit", value: "Proceed to Booking"}
 

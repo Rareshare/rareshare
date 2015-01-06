@@ -29,28 +29,42 @@ window.Booking = (input) ->
 
   @tool = new window.Tool(input.tool)
 
-  # Using a null object might be preferable to this.
-  @tool_price_visible  = ko.computed () =>
-    if @tool_price?
-      if @tool.price_type() == 'sample'
-        if @expedited() then @tool_price().expedite_amount() else @tool_price().base_amount()
-      else
-        if @expedited() then @tool_price().expedite_amount() else @tool_price().amount_per_time_unit()
-
   @money = (valueAccessor) =>
     ko.computed () =>
       accounting.formatMoney(valueAccessor(), @currency_symbol()) if valueAccessor()?
 
+  @tool_price_value = ko.computed () =>
+    if @tool_price?
+      if @expedited()
+        @tool_price().expedite_amount()
+      else
+        if @tool.price_type() == 'sample'
+           @tool_price().base_amount()
+        else
+          @tool_price().amount_per_time_unit()
+
+  @tool_price_setup_value = ko.computed () =>
+    if @tool_price? and @tool_price().requires_setup and @tool_price().requires_setup()
+      @tool_price().setup_price()
+
+  @tool_price_visible  = ko.computed () =>
+    returnValue = @money(@tool_price_value)() + ' per sample'
+    if @tool_price_setup_value()?
+      returnValue += ', ' + @money(@tool_price_setup_value)() + ' setup fee'
+    returnValue
+
   if input.tool.price_type == 'sample'
     @tool_price_subtype  = ko.computed () => @tool_price? and @tool_price().subtype()
     @tool_price_days     = ko.computed () => @tool_price? and @tool_price().lead_time_days()
+  else
+    @tool_price_subtype = undefined
 
   @tool_price_expedite = ko.computed () => @tool_price? and @tool_price().can_expedite()
   @tool_price_id       = ko.computed () => @tool_price? and @tool_price().id()
   @tool_price_setup    = ko.computed () => @tool_price? and @tool_price().setup_price()
 
   @price_units_only = ko.computed () =>
-    ( parseFloat(@tool_price_visible()) * parseFloat(@units()) ) + parseFloat(@tool_price_setup())
+    ( parseFloat(@tool_price_value()) * parseFloat(@units()) ) + parseFloat(@tool_price_setup())
   # NOTE: This is used only for display purposes, and never used to charge the user.
   @final_price = ko.computed () =>
     @price_units_only() + parseFloat(@edits_price()) + parseFloat(@shipping_rate()) + parseFloat(@rareshare_fee()) + parseFloat(@payment_fee())
