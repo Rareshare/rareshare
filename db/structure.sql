@@ -242,7 +242,6 @@ CREATE TABLE bookings (
     currency character varying(3),
     shipping_package_size character varying(255),
     shipping_weight numeric,
-    shipping_price numeric(8,2) DEFAULT 0.0,
     rareshare_fee numeric(8,2) DEFAULT 0.0,
     shipping_service character varying(255),
     units integer,
@@ -1884,3 +1883,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140509074709');
 INSERT INTO schema_migrations (version) VALUES ('20141023115945');
 
 INSERT INTO schema_migrations (version) VALUES ('20141230081657');
+
+INSERT INTO schema_migrations (version) VALUES ('20150118110823');

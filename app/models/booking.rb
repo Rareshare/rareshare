@@ -344,7 +344,7 @@ class Booking < ActiveRecord::Base
   end
 
   def final_price
-    price + edits_price + shipping_price + rareshare_fee
+    price + edits_price + rareshare_fee
   end
 
   def final_price_in_cents

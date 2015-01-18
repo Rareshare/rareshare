@@ -18,13 +18,6 @@
       %td
         = number_to_currency(@booking.price, unit: currency_for(@booking))
 
-    - if @booking.shipping_price > 0
-      %tr
-        %td
-          shipping
-        %td
-          = number_to_currency(@booking.shipping_price, unit: currency_for(@booking))
-
     %tr
       %td
         fees
