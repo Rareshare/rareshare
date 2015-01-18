@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   before_filter :redirect_to_login, unless: :user_signed_in?
   before_filter :redirect_to_profile, if: :user_signed_in?
 
+  class TestError < StandardError; end
+
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = exception.message
     redirect_to profile_path

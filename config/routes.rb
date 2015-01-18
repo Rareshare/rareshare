@@ -2,6 +2,7 @@ require 'sidekiq/web'
 
 Rareshare::Application.routes.draw do
   root to: "home#index"
+  get '/test_error', to: "home#test_error" # route to allow testing of exception notifications
 
   devise_for :users, controllers: {
     omniauth_callbacks: "users/omniauth_callbacks",
