@@ -406,7 +406,7 @@ class Booking < ActiveRecord::Base
         currency: currency,
         card: stripe_token,
         description: display_name + " by " + renter.display_name,
-        application_fee: (rareshare_fee * 100).to_i },
+        application_fee: ((rareshare_fee + payment_fee) * 100).to_i },
         owner.stripe_access_token
       )
 
