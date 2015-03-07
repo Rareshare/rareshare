@@ -359,6 +359,10 @@ class Booking < ActiveRecord::Base
     final_price + payment_fee
   end
 
+  def price_with_all_fees_in_cents
+    ( price_with_all_fees * 100 ).to_i
+  end
+
   def rareshare_fee
     (self[:rareshare_fee].nil? || self[:rareshare_fee] == 0.0) ? calculated_rareshare_fee : self[:rareshare_fee]
   end
@@ -402,11 +406,11 @@ class Booking < ActiveRecord::Base
       rareshare_fee = calculated_rareshare_fee
       update_column :rareshare_fee, rareshare_fee
       Stripe::Charge.create(
-        { amount: final_price_in_cents,
+        { amount: price_with_all_fees_in_cents,
         currency: currency,
         card: stripe_token,
         description: display_name + " by " + renter.display_name,
-        application_fee: ((rareshare_fee + payment_fee) * 100).to_i },
+        application_fee: (rareshare_fee * 100).to_i },
         owner.stripe_access_token
       )
 
